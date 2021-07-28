@@ -26,7 +26,5 @@ class CouponsTest extends TestCase
         $response = $this->get('coupons');
         $response->assertOk();
         $response->assertViewIs('coupons.index');
-        $agencies = Agencies::select('id as code','name','assigned_user_id')->where('deleted', 0)->orderBy('name')->get();
-        $response->assertViewHas('agencies',json_encode($agencies));
     }
 }
