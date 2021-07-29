@@ -17,6 +17,7 @@ class LandingPages extends Migration
             $table->id();
             $table->text('name', 100)->nullable();
             $table->integer('medio')->nullable();
+            $table->text('campaign', 100)->nullable();
             $table->json('properties_form')->nullable();
             $table->text('user_login', 20)->nullable();
             $table->text('business_line_id', 100)->nullable();

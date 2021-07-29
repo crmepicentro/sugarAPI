@@ -18,6 +18,7 @@ class LandingPages extends Model
         'business_line_id',
         'type_transaction',
         'user_assigned_position',
+        'campaign'
     ];
 
     protected $casts = [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CallNotAnswerRequest;
 use App\Http\Requests\TicketCallRequest;
+use App\Models\LandingPages;
 use App\Services\CallClass;
 use App\Services\ContactClass;
 use App\Services\InteraccionClass;
@@ -892,6 +893,62 @@ class TicketsController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($call, new CallTransformer)->setStatusCode(200);
+        }catch(Throwable $e){
+            \DB::connection(get_connection())->rollBack();
+            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
+        }
+    }
+
+    public function landingTicket(TicketLandingRequest $request)
+    {
+        \DB::connection(get_connection())->beginTransaction();
+        try {
+            $user_auth = Auth::user();
+
+            $ws_logs = WsLog::storeBefore($request, 'api/landing_ticket');
+            $landingPage = LandingPages::where('name', $request->datosSugarCRM["formulario"]);
+
+            $concesionario = $request->datosSugarCRM["concesionario"];
+
+            switch ($concesionario) {
+                case 'Santo Domingo (Casabaca)':
+                    $id_usuario = DatTicket::asignarRoundRobin('8e8f518c-d327-11e9-bdfe-000c297d72b1', $linea, $dias, $fuente);
+                    break;
+                case 'El Coca (Casabaca)':
+                    $id_usuario = DatTicket::asignarRoundRobin('1b7640c4-2e36-11ea-8448-000c297d72b1', $linea, $dias, $fuente);
+                    break;
+                default:
+                    $id_usuario = DatTicket::asignarRoundRobinLineaSoloUIO($linea, $dias, $fuente);
+                    break;
+            }
+            $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
+
+            $type_filter = 'numero_identificacion';
+            $user = Users::get_user($request->datosSugarCRM['user_name']);
+
+            /*
+                $positionBC = 6;
+                $pastDays= 2;
+                $userRandom = Users::getRandomAsesor($positionBC, $pastDays)[0];
+                $user = Users::find($userRandom->id);
+            */
+
+            $dataTicket = $this->cleanDataTicket($user, $user_auth, $validateRequest);
+            $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
+
+            $dataUpdateWS = [
+                "response" => json_encode($this->response->item($ticket, new TicketCallTransformer)),
+                "ticket_id" => $ticket->id,
+                "environment" => get_connection(),
+                "source" => $user_auth->fuente,
+                "interaccion_id" => null,
+            ];
+
+            WsLog::storeAfter($ws_logs, $dataUpdateWS);
+
+            \DB::connection(get_connection())->commit();
+
+            return $this->response->item($ticket, new TicketCallTransformer)->setStatusCode(200);
         }catch(Throwable $e){
             \DB::connection(get_connection())->rollBack();
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
