@@ -127,10 +127,10 @@ function getMarcaModelo($marca, $modelo)
 
 function getLineaNegocio($lineaNegocio){
     $lineasNegocio = [
-            "1" => "Postventa",
-            "2" => "Nuevos",
-            "3" => "Seminuevos",
-            "4" => "Exonerados"
+            "1" => "POSTVENTA",
+            "2" => "NUEVOS",
+            "3" => "SEMINUEVOS",
+            "4" => "EXONERADOS"
     ];
 
     if(isset($lineasNegocio[$lineaNegocio])) {

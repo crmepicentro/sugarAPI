@@ -34,10 +34,11 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.telefono' => 'numeric',
             'datosSugarCRM.email' => 'required|email:rfc,dns',
             'datosSugarCRM.concesionario' => 'required',
-            'datosSugarCRM.id_interaccion_inconcert' => 'required',
-            'datosSugarCRM.porcentaje_discapacidad' => 'in:30_49,50_74,75_84,85_100',
+            'datosSugarCRM.porcentaje_discapacidad' => 'required|in:30_49,50_74,75_84,85_100',
             'datosSugarCRM.formulario' => 'in:Exonerados'
         ];
+
+
     }
 
     public function messages()
