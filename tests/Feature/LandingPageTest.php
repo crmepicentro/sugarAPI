@@ -32,7 +32,38 @@ class LandingPageTest extends TestCase
             "name" => "Exonerados",
             "medio" => "18",
             "autorizador" => "autorizadorTesting@gmail.com",
-            "properties_form" => ["tipo_discapacidad","porc_discapacidad","modelo","version","concesionario","direccion"],
+            "properties_form" =>
+                [
+                    ["label" => "Tipo de discapacidad",
+                        "value" => "tipo_discapacidad",
+                        "validations" => "required"
+                    ],
+                    ["label" => "Porcentaje de discapacidad",
+                        "value" => "porc_discapacidad",
+                        "validations" => "required"
+                    ],
+                    ["label" => "Vehiculo",
+                        "value" => "modelo",
+                        "validations" => "required"
+                    ],
+                    ["label" => "Version",
+                        "value" => "version",
+                        "validations" => "required"
+                    ],
+                    ["label" => "Concesionario",
+                        "value" => "concesionario",
+                        "validations" => "required"
+                    ],
+                    ["label" => "Direccion",
+                        "value" => "direccion"
+                    ],
+                    ["label" => "Tipo de Exoneración",
+                        "value" => "plan"
+                    ],
+                    ["label" => "Fecha",
+                        "value" => "fecha_creacion"
+                    ]
+                ],
             "business_line_id" => "f417e1ae-a81b-11e9-ab2c-000c297d72b1",
             "user_login" => "api_sugar_tde",
             "type_transaction" => "1",

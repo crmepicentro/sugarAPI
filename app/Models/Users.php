@@ -72,6 +72,38 @@ class Users extends Model
         ');
     }
 
+    public static function getRandomAsesorByAgency($agency_id, $line_id, $position, $dias, $medio = 'all')
+    {
+        return \DB::connection(get_connection())->select('
+        SELECT t.usuario as id,t.user_name,t.cuantos
+        FROM (SELECT u.id  usuario,u.user_name, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos
+        FROM users u
+        INNER JOIN users_cstm uc ON u.id=uc.id_c
+        INNER JOIN cb_lineanegocio_users_c lu ON u.id=lu.cb_lineanegocio_usersusers_idb
+        u.status="Active" AND lu.deleted = 0 AND u.deleted= 0  AND uc.cargo_c= '. $position .' AND uc.cb_agencias_id_c = "'. $agency_id .'"
+        AND lu.cb_lineanegocio_userscb_lineanegocio_ida="'. $line_id .'")  AS t
+        ORDER BY t.cuantos ASC
+        LIMIT 1
+        ');
+    }
+
+    public static function getRandomAsesorUIO($line_id, $position, $dias, $medio = 'all')
+    {
+        return \DB::connection(get_connection())->select('
+        SELECT t.usuario,t.cuantos FROM (
+        SELECT u.id  usuario, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos FROM users u
+        INNER JOIN users_cstm uc ON u.id=uc.id_c
+        INNER JOIN cb_lineanegocio_users_c lu ON u.id=lu.cb_lineanegocio_usersusers_idb
+        WHERE
+        u.status="Active" AND lu.deleted= 0  AND u.deleted= 0 AND uc.cargo_c='. $position .'
+        AND lu.cb_lineanegocio_userscb_lineanegocio_ida="'. $line_id .'"
+        AND uc.cb_agencias_id_c NOT IN ("8e8f518c-d327-11e9-bdfe-000c297d72b1","1b7640c4-2e36-11ea-8448-000c297d72b1")
+         )  AS t
+        ORDER BY t.cuantos ASC
+        LIMIT 1
+        ');
+    }
+
     public static function get_comercial_users($withEmail = true, $withBussinessLine = true, $medio = null)
     {
         $usersBlocked = [];
@@ -131,7 +163,7 @@ class Users extends Model
             ->pluck('name', 'id');
     }
 
-    public static function getByAgencyLineaNegocio($idAgencia,$idLinea)
+    public static function getByAgencyLineaNegocio($idAgencia, $idLinea)
     {
         return self::select('users.id as code', DB::raw("CONCAT(users.first_name,' ',users.last_name) AS name"))
             ->where('status', 'Active')

@@ -17,7 +17,7 @@ toc_footers:
 # Info
 
 Welcome to the generated API reference.
-[Get Postman Collection](http://api-sugarcrm.casabaca.com/docs/collection.json)
+[Get Postman Collection](http://api.epicentro-digital.com/docs/collection.json)
 
 <!-- END_INFO -->
 
@@ -32,7 +32,7 @@ Api para Obtener asesores
 
 ```bash
 curl -X GET \
-    -G "https://api-sugarcrm.casabaca.com/api/asesores" \
+    -G "https://api.epicentro-digital.com/api/asesores" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -42,7 +42,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/asesores"
+    "https://api.epicentro-digital.com/api/asesores"
 );
 
 let headers = {
@@ -68,7 +68,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://api-sugarcrm.casabaca.com/api/asesores',
+    'https://api.epicentro-digital.com/api/asesores',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -143,7 +143,7 @@ APIs para gestión de tokens
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/register" \
+    "https://api.epicentro-digital.com/api/register" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -153,7 +153,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/register"
+    "https://api.epicentro-digital.com/api/register"
 );
 
 let headers = {
@@ -185,7 +185,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/register',
+    'https://api.epicentro-digital.com/api/register',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -247,7 +247,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/login" \
+    "https://api.epicentro-digital.com/api/login" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -257,7 +257,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/login"
+    "https://api.epicentro-digital.com/api/login"
 );
 
 let headers = {
@@ -284,7 +284,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/login',
+    'https://api.epicentro-digital.com/api/login',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -338,7 +338,7 @@ Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly
 
 ```bash
 curl -X GET \
-    -G "https://api-sugarcrm.casabaca.com/api/logout" \
+    -G "https://api.epicentro-digital.com/api/logout" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}"
@@ -346,7 +346,7 @@ curl -X GET \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/logout"
+    "https://api.epicentro-digital.com/api/logout"
 );
 
 let headers = {
@@ -367,7 +367,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->get(
-    'https://api-sugarcrm.casabaca.com/api/logout',
+    'https://api.epicentro-digital.com/api/logout',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -404,6 +404,129 @@ print_r(json_decode((string) $body));
 
 <!-- END_00e7e21641f05de650dbe13f242c6f2c -->
 
+#Landing Pages
+
+
+API para crear, actualizar landing pages
+<!-- START_f24644e7d8f231a4b87c73b05b64be4e -->
+## Landing Pages
+
+> Example request:
+
+```bash
+curl -X POST \
+    "https://api.epicentro-digital.com/api/create_landing_page" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"datosSugarCRM":{"name":"Exonerados","medio":"18","properties_form":"[{\"label\": \"Tipo de discapacidad\",\"value\": \"tipo_discapacidad\",\"validations\": \"required\" } ]","autorizador":"autorizador@gmail.com","campaign":"RODRIGUEZ 0626c2b0-1ad2-11ea-830b-000c297d72b1","business_line_id":"f417e1ae-a81b-11e9-ab2c-000c297d72b1","user_login":"tde","type_transaction":"1","user_assigned_position":"2"}}'
+
+```
+
+```javascript
+const url = new URL(
+    "https://api.epicentro-digital.com/api/create_landing_page"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "datosSugarCRM": {
+        "name": "Exonerados",
+        "medio": "18",
+        "properties_form": "[{\"label\": \"Tipo de discapacidad\",\"value\": \"tipo_discapacidad\",\"validations\": \"required\" } ]",
+        "autorizador": "autorizador@gmail.com",
+        "campaign": "RODRIGUEZ 0626c2b0-1ad2-11ea-830b-000c297d72b1",
+        "business_line_id": "f417e1ae-a81b-11e9-ab2c-000c297d72b1",
+        "user_login": "tde",
+        "type_transaction": "1",
+        "user_assigned_position": "2"
+    }
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->post(
+    'https://api.epicentro-digital.com/api/create_landing_page',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+        'json' => [
+            'datosSugarCRM' => [
+                'name' => 'Exonerados',
+                'medio' => '18',
+                'properties_form' => '[{"label": "Tipo de discapacidad","value": "tipo_discapacidad","validations": "required" } ]',
+                'autorizador' => 'autorizador@gmail.com',
+                'campaign' => 'RODRIGUEZ 0626c2b0-1ad2-11ea-830b-000c297d72b1',
+                'business_line_id' => 'f417e1ae-a81b-11e9-ab2c-000c297d72b1',
+                'user_login' => 'tde',
+                'type_transaction' => '1',
+                'user_assigned_position' => '2',
+            ],
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "data": {
+        "status_code": "200",
+        "messsage": "Landing Page creada correctamente"
+    }
+}
+```
+> Example response (200):
+
+```json
+{
+    "data": {
+        "status_code": "400",
+        "messsage": "Revise que sus datos sean correctos"
+    }
+}
+```
+
+### HTTP Request
+`POST api/create_landing_page`
+
+#### Body Parameters
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    `datosSugarCRM.name` | string |  required  | Nombre del Formulario
+        `datosSugarCRM.medio` | numeric |  required  | ID del medio.
+        `datosSugarCRM.properties_form` | array |  required  | Propiedades Extras del Formulario
+        `datosSugarCRM.autorizador` | string |  required  | Email del autorizador.
+        `datosSugarCRM.campaign` | string |  required  | Código de Campaña.
+        `datosSugarCRM.business_line_id` | string |  required  | Código de linea de negocio.
+        `datosSugarCRM.user_login` | numeric |  required  | Celular del cliente.
+        `datosSugarCRM.type_transaction` | numeric |  optional  | Tipo de Trasnsacción Valores válidos: 1 (Ventas),2 (Tomas),3 (Quejas),4 (Info General)
+        `datosSugarCRM.user_assigned_position` | numeric |  required  | Cargo del usuario para asignación
+    
+<!-- END_f24644e7d8f231a4b87c73b05b64be4e -->
+
 #Prospección
 
 
@@ -415,7 +538,7 @@ APIs para creación de prospectos, reagendamiento de citas, cierre de prospectos
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/quotation" \
+    "https://api.epicentro-digital.com/api/quotation" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -425,7 +548,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/quotation"
+    "https://api.epicentro-digital.com/api/quotation"
 );
 
 let headers = {
@@ -472,7 +595,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/quotation',
+    'https://api.epicentro-digital.com/api/quotation',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -575,7 +698,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/call_quotation" \
+    "https://api.epicentro-digital.com/api/call_quotation" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -585,7 +708,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/call_quotation"
+    "https://api.epicentro-digital.com/api/call_quotation"
 );
 
 let headers = {
@@ -636,7 +759,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/call_quotation',
+    'https://api.epicentro-digital.com/api/call_quotation',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -748,7 +871,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/calls_prospeccion" \
+    "https://api.epicentro-digital.com/api/calls_prospeccion" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -758,7 +881,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/calls_prospeccion"
+    "https://api.epicentro-digital.com/api/calls_prospeccion"
 );
 
 let headers = {
@@ -823,7 +946,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/calls_prospeccion',
+    'https://api.epicentro-digital.com/api/calls_prospeccion',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -979,7 +1102,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
+    "https://api.epicentro-digital.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -989,7 +1112,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3"
+    "https://api.epicentro-digital.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3"
 );
 
 let headers = {
@@ -1017,7 +1140,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3',
+    'https://api.epicentro-digital.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -1099,7 +1222,7 @@ Api para crear Llamada - Cita - Prospección
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/calls" \
+    "https://api.epicentro-digital.com/api/calls" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -1109,7 +1232,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/calls"
+    "https://api.epicentro-digital.com/api/calls"
 );
 
 let headers = {
@@ -1181,7 +1304,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/calls',
+    'https://api.epicentro-digital.com/api/calls',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -1336,7 +1459,7 @@ APIs para crear, actualizar tickets y crear interacciones
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/tickets" \
+    "https://api.epicentro-digital.com/api/tickets" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -1346,7 +1469,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/tickets"
+    "https://api.epicentro-digital.com/api/tickets"
 );
 
 let headers = {
@@ -1419,7 +1542,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/tickets',
+    'https://api.epicentro-digital.com/api/tickets',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -1577,7 +1700,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/call_ticket" \
+    "https://api.epicentro-digital.com/api/call_ticket" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -1587,7 +1710,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/call_ticket"
+    "https://api.epicentro-digital.com/api/call_ticket"
 );
 
 let headers = {
@@ -1644,7 +1767,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/call_ticket',
+    'https://api.epicentro-digital.com/api/call_ticket',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -1765,6 +1888,136 @@ Parameter | Type | Status | Description
     
 <!-- END_c199d38571334fe663cb31edce93371f -->
 
+<!-- START_15589e516beeb193362ba03d6d3905b3 -->
+## Ticket - Landing Pages
+
+> Example request:
+
+```bash
+curl -X POST \
+    "https://api.epicentro-digital.com/api/landing_ticket" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"datosSugarCRM":{"formulario":"Exonerados","numero_identificacion":"1719932079","tipo_identificacion":"C","nombres":"FREDDY ROBERTO","apellidos":"RODRIGUEZ VARGAS","email":"mart@hotmail.com","celular":"0987519882","concesionario":"Santo Domingo (Casabaca)"}}'
+
+```
+
+```javascript
+const url = new URL(
+    "https://api.epicentro-digital.com/api/landing_ticket"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "datosSugarCRM": {
+        "formulario": "Exonerados",
+        "numero_identificacion": "1719932079",
+        "tipo_identificacion": "C",
+        "nombres": "FREDDY ROBERTO",
+        "apellidos": "RODRIGUEZ VARGAS",
+        "email": "mart@hotmail.com",
+        "celular": "0987519882",
+        "concesionario": "Santo Domingo (Casabaca)"
+    }
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->post(
+    'https://api.epicentro-digital.com/api/landing_ticket',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+        'json' => [
+            'datosSugarCRM' => [
+                'formulario' => 'Exonerados',
+                'numero_identificacion' => '1719932079',
+                'tipo_identificacion' => 'C',
+                'nombres' => 'FREDDY ROBERTO',
+                'apellidos' => 'RODRIGUEZ VARGAS',
+                'email' => 'mart@hotmail.com',
+                'celular' => '0987519882',
+                'concesionario' => 'Santo Domingo (Casabaca)',
+            ],
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "data": {
+        "ticket_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+        "ticket_name": "TCK-463587",
+        "interaction_id": "1042eae5-0c94-1f7f-ef16-602e98cbd391",
+        "ticket_url": "https:\/\/sugarcrm.casabaca.com\/#cbt_Tickets\/e06279dc-5629-5b20-6ebf-61081a41553a"
+    }
+}
+```
+> Example response (422):
+
+```json
+{
+    "errors": {
+        "numero_identificacion": [
+            "Identificación es requerida"
+        ],
+        "nombres": [
+            "Nombres son requeridos"
+        ]
+    }
+}
+```
+> Example response (500):
+
+```json
+{
+    "message": "Unauthenticated.",
+    "status_code": 500
+}
+```
+
+### HTTP Request
+`POST api/landing_ticket`
+
+#### Body Parameters
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    `datosSugarCRM.formulario` | string |  required  | Nombre del Formulario
+        `datosSugarCRM.numero_identificacion` | string |  required  | ID del client.
+        `datosSugarCRM.tipo_identificacion` | string |  required  | Valores válidos: C(Cedula),P(Pasaporte), R(RUC)
+        `datosSugarCRM.nombres` | string |  required  | Nombres del cliente.
+        `datosSugarCRM.apellidos` | string |  required  | Apellidos del cliente.
+        `datosSugarCRM.email` | email |  required  | Email válido del cliente.
+        `datosSugarCRM.celular` | numeric |  required  | Celular del cliente.
+        `datosSugarCRM.concesionario` | string |  required  | Nombre de la Agencia-Concesionario
+    
+<!-- END_15589e516beeb193362ba03d6d3905b3 -->
+
 <!-- START_1af19642c94c90ceb55d8a80bdb33cd6 -->
 ## Ticket Interacción No Contesta
 
@@ -1772,7 +2025,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a" \
+    "https://api.epicentro-digital.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}"
@@ -1780,7 +2033,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a"
+    "https://api.epicentro-digital.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a"
 );
 
 let headers = {
@@ -1801,7 +2054,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a',
+    'https://api.epicentro-digital.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -1859,7 +2112,7 @@ Parameter | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/not_answer_call" \
+    "https://api.epicentro-digital.com/api/not_answer_call" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -1869,7 +2122,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/not_answer_call"
+    "https://api.epicentro-digital.com/api/not_answer_call"
 );
 
 let headers = {
@@ -1914,7 +2167,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/not_answer_call',
+    'https://api.epicentro-digital.com/api/not_answer_call',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -2010,7 +2263,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
+    "https://api.epicentro-digital.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -2020,7 +2273,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3"
+    "https://api.epicentro-digital.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3"
 );
 
 let headers = {
@@ -2048,7 +2301,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3',
+    'https://api.epicentro-digital.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3',
     [
         'headers' => [
             'Content-Type' => 'application/json',
@@ -2126,7 +2379,7 @@ Parameter | Type | Status | Description
 
 ```bash
 curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158" \
+    "https://api.epicentro-digital.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
@@ -2136,7 +2389,7 @@ curl -X POST \
 
 ```javascript
 const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158"
+    "https://api.epicentro-digital.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158"
 );
 
 let headers = {
@@ -2166,7 +2419,7 @@ fetch(url, {
 
 $client = new \GuzzleHttp\Client();
 $response = $client->post(
-    'https://api-sugarcrm.casabaca.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158',
+    'https://api.epicentro-digital.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158',
     [
         'headers' => [
             'Content-Type' => 'application/json',

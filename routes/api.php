@@ -30,6 +30,7 @@ $api->version('v1', ['middleware' => [EnsureUserIsValid::class, 'auth:sanctum']]
 $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' => 200, 'expires' => 5], function ($api) {
     $api->post('tickets', 'App\Http\Controllers\TicketsController@store');
     $api->post('call_ticket', 'App\Http\Controllers\TicketsController@callTicket');
+    $api->post('landing_ticket', 'App\Http\Controllers\TicketsController@landingTicket');
     $api->post('not_answer_ticket/{id}', 'App\Http\Controllers\TicketsController@notAnswerTicket');
     $api->post('not_answer_call', 'App\Http\Controllers\TicketsController@notAnswerCall');
     $api->post('close_ticket/{id}', 'App\Http\Controllers\TicketsController@closeTicket');

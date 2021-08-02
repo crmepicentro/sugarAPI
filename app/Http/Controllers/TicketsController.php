@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CallNotAnswerRequest;
 use App\Http\Requests\TicketCallRequest;
+use App\Http\Requests\TicketLandingRequest;
+use App\Models\AgenciesLandingPages;
+use App\Models\LandingPages;
+use App\Models\Medio;
 use App\Services\CallClass;
 use App\Services\ContactClass;
 use App\Services\InteraccionClass;
@@ -215,6 +219,56 @@ class TicketsController extends BaseController
             "combustible_c" =>  $dataRequest["combustible"],
             "medio_c" =>  $dataRequest["medio"],
             "campaign_id_c" =>  $dataRequest["campania"]
+        ];
+    }
+
+    public function cleanDataLandingTicket($comercialUser, $user_token, $dataRequest, $landingPage)
+    {
+        $medio = Medio::find($landingPage->medio);
+        $comentario = $dataRequest["comentarios"] ?? null;
+
+        $properties = $landingPage->properties_form;
+        foreach ($properties as $property) {
+            $comentario .= " ".$property["label"] . ": " . $dataRequest[$property["value"]];
+        }
+
+        return [
+            "estado" => 1,
+            "team_id" => 1,
+            "team_set_id" => 1,
+            "created_by" => $comercialUser,
+            "numero_identificacion" => $dataRequest['numero_identificacion'],
+            "tipo_identificacion" => $dataRequest['tipo_identificacion'],
+            "brinda_identificacion" => 1,
+            "nombres" => $dataRequest['nombres'],
+            "apellidos" => $dataRequest['apellidos'],
+            "celular" => $dataRequest['celular'],
+            "telefono" => $dataRequest['telefono'],
+            "email" => $dataRequest['email'],
+            "linea_negocio" => $landingPage->business_line_id,
+            "fuente" =>  $medio->fuente_id,
+            "assigned_user_id" =>  $comercialUser,
+            "description" =>  $comentario,
+            "user_id_c" => $comercialUser,
+            "flag_estados_c" => 1,
+            "equipo_c" =>  null,
+            "marca_c" =>  $dataRequest["marca"],
+            "modelo_c" =>  $dataRequest["modelo"],
+            "placa_c" =>  $dataRequest["placa"],
+            "anio_c" =>  $dataRequest["anio"],
+            "kilometraje_c" =>  $dataRequest["kilometraje"],
+            "color_c" =>  $dataRequest["color"],
+            "tipo_transaccion_c" =>  $landingPage->type_transaction,
+            "comentario_cliente_c" =>  $dataRequest["comentarios"] ?? null,
+            "porcentaje_discapacidad_c" =>  $dataRequest["porcentaje_discapacidad"],
+            "medio_c" =>  $landingPage->medio,
+            "campaign_id_c" =>  $landingPage->campaign,
+            "asunto_c" =>  null,
+            "id_interaccion_inconcert_c" =>  null,
+            "precio_c" =>  null,
+            "anio_min_c" =>  null,
+            "anio_max_c" =>  null,
+            "combustible_c" =>  null
         ];
     }
 
@@ -892,6 +946,97 @@ class TicketsController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($call, new CallTransformer)->setStatusCode(200);
+        }catch(Throwable $e){
+            \DB::connection(get_connection())->rollBack();
+            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
+        }
+    }
+
+    /**
+     * Ticket - Landing Pages
+     *
+     * @bodyParam  datosSugarCRM.formulario string required Nombre del Formulario Example: Exonerados
+     * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
+     * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
+     * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: FREDDY ROBERTO
+     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente. Example: RODRIGUEZ VARGAS
+     * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
+     * @bodyParam  datosSugarCRM.celular numeric required Celular del cliente. Example: 0987519882
+     * @bodyParam  datosSugarCRM.concesionario string required Nombre de la Agencia-Concesionario Example: Santo Domingo (Casabaca)
+     *
+     * @response  {
+     *  "data": {
+     *      "ticket_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+     *      "ticket_name": "TCK-463587",
+     *      "interaction_id": "1042eae5-0c94-1f7f-ef16-602e98cbd391",
+     *      "ticket_url": "https://sugarcrm.casabaca.com/#cbt_Tickets/e06279dc-5629-5b20-6ebf-61081a41553a"
+     *  }
+     * }
+     *@response 422 {
+     *  "errors": {
+     *      "numero_identificacion": [
+     *          "Identificación es requerida"
+     *      ],
+     *  "nombres": [
+     *      "Nombres son requeridos"
+     *  ]
+     *  }
+     * }
+     *
+     * @response 500 {
+     *  "message": "Unauthenticated.",
+     *  "status_code": 500
+     * }
+     */
+
+    public function landingTicket(TicketLandingRequest $request)
+    {
+        \DB::connection(get_connection())->beginTransaction();
+        try {
+            $user_auth = Auth::user();
+
+            $dias = 1;
+            $ws_logs = WsLog::storeBefore($request, 'api/landing_ticket');
+
+            $landingPage = LandingPages::where('name', $request->datosSugarCRM["formulario"])->first();
+
+            $concesionario = $request->datosSugarCRM["concesionario"];
+            $line = $landingPage->business_line_id;
+            $agency = AgenciesLandingPages::where('name', $concesionario)->where('id_form', $landingPage->id)->first();
+            $positionComercial = 2;
+
+            if($agency) {
+                $comercialUser = Users::getRandomAsesorByAgency($agency->id_sugar, $line, $positionComercial, $dias, $landingPage->medio);
+            }else{
+                $comercialUser = Users::getRandomAsesorUIO($line, $positionComercial, $dias, $landingPage->medio);
+            }
+
+            $type_filter = 'numero_identificacion';
+            $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
+
+            $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
+            $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
+
+            $userAssigned = Users::where('id', $comercialUser[0]->usuario)->first();
+            $dataTicket["linea_negocio"] = getIdLineaNegocioToWebServiceID($line);
+
+            $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $userAssigned->usersCstm->cb_agencias_id_c);
+            $interaction = $interactionClass->create($ticket);
+            $ticket->id_interaction = $interaction->id;
+
+            $dataUpdateWS = [
+                "response" => json_encode($this->response->item($ticket, new TicketsTransformer)),
+                "ticket_id" => $ticket->id,
+                "environment" => get_connection(),
+                "source" => $user_auth->fuente,
+                "interaccion_id" => $ticket->id_interaction,
+            ];
+
+            WsLog::storeAfter($ws_logs, $dataUpdateWS);
+
+            \DB::connection(get_connection())->commit();
+
+            return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
         }catch(Throwable $e){
             \DB::connection(get_connection())->rollBack();
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
