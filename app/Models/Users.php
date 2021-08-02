@@ -72,11 +72,11 @@ class Users extends Model
         ');
     }
 
-    public static function getRandomAsesorByAgency($agency_id, $line_id, $position, $dias, $fuente = 'all')
+    public static function getRandomAsesorByAgency($agency_id, $line_id, $position, $dias, $medio = 'all')
     {
         return \DB::connection(get_connection())->select('
         SELECT t.usuario as id,t.user_name,t.cuantos
-        FROM (SELECT u.id  usuario,u.user_name, countInteraccionesAsigFuente(u.id, '. $dias .', \''. $fuente. '\') cuantos
+        FROM (SELECT u.id  usuario,u.user_name, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos
         FROM users u
         INNER JOIN users_cstm uc ON u.id=uc.id_c
         INNER JOIN cb_lineanegocio_users_c lu ON u.id=lu.cb_lineanegocio_usersusers_idb
@@ -87,11 +87,11 @@ class Users extends Model
         ');
     }
 
-    public static function getRandomAsesorUIO($line_id, $position, $dias, $fuente = 'all')
+    public static function getRandomAsesorUIO($line_id, $position, $dias, $medio = 'all')
     {
         return \DB::connection(get_connection())->select('
         SELECT t.usuario,t.cuantos FROM (
-        SELECT u.id  usuario, countInteraccionesAsigFuente(u.id, '. $dias .', \''. $fuente. '\') cuantos FROM users u
+        SELECT u.id  usuario, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos FROM users u
         INNER JOIN users_cstm uc ON u.id=uc.id_c
         INNER JOIN cb_lineanegocio_users_c lu ON u.id=lu.cb_lineanegocio_usersusers_idb
         WHERE

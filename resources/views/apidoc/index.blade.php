@@ -43,8 +43,8 @@
       <div class="content">
           <!-- START_INFO -->
           <h1>Info</h1>
-          <p>Bienvenido a la documentación del API de SUGAR CASABACA.</p>
-<!-- END_INFO -->
+          <p>Bienvenido a la documentación del API SUGAR EPICENTRO DIGITAL.</p>
+          <!-- END_INFO -->
 <h1>Asesores</h1>
 <p>Api para Obtener asesores</p>
 <!-- START_00dbeb8940289d032b92cdc45e9b945e -->
@@ -53,14 +53,14 @@
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api-sugarcrm.casabaca.com/api/asesores" \
+    -G "https://api.epicentro-digital.com/api/asesores" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"medio":"11"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/asesores"
+    "https://api.epicentro-digital.com/api/asesores"
 );
 
 let headers = {
@@ -83,7 +83,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api-sugarcrm.casabaca.com/api/asesores',
+    'https://api.epicentro-digital.com/api/asesores',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -161,14 +161,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/register" \
+    "https://api.epicentro-digital.com/api/register" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"name":"Maria","email":"mart@hotmail.com","password":"Hol@MunD0","fuente":"inconcert","fuente_id":"2","medios":"2,3,5","compania":"1"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/register"
+    "https://api.epicentro-digital.com/api/register"
 );
 
 let headers = {
@@ -197,7 +197,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/register',
+    'https://api.epicentro-digital.com/api/register',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -293,14 +293,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/login" \
+    "https://api.epicentro-digital.com/api/login" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"email":"mart@hotmail.com","password":"Hol@MunD0"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/login"
+    "https://api.epicentro-digital.com/api/login"
 );
 
 let headers = {
@@ -324,7 +324,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/login',
+    'https://api.epicentro-digital.com/api/login',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -387,12 +387,12 @@ Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly</p>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X GET \
-    -G "https://api-sugarcrm.casabaca.com/api/logout" \
+    -G "https://api.epicentro-digital.com/api/logout" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/logout"
+    "https://api.epicentro-digital.com/api/logout"
 );
 
 let headers = {
@@ -410,7 +410,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;get(
-    'https://api-sugarcrm.casabaca.com/api/logout',
+    'https://api.epicentro-digital.com/api/logout',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -438,6 +438,166 @@ print_r(json_decode((string) $body));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/logout</code></p>
 <!-- END_00e7e21641f05de650dbe13f242c6f2c -->
+<h1>Landing Pages</h1>
+<p>API para crear, actualizar landing pages</p>
+<!-- START_f24644e7d8f231a4b87c73b05b64be4e -->
+<h2>Landing Pages</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "https://api.epicentro-digital.com/api/create_landing_page" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"datosSugarCRM":{"name":"Exonerados","medio":"18","properties_form":"[{\"label\": \"Tipo de discapacidad\",\"value\": \"tipo_discapacidad\",\"validations\": \"required\" } ]","autorizador":"autorizador@gmail.com","campaign":"RODRIGUEZ 0626c2b0-1ad2-11ea-830b-000c297d72b1","business_line_id":"f417e1ae-a81b-11e9-ab2c-000c297d72b1","user_login":"tde","type_transaction":"1","user_assigned_position":"2"}}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "https://api.epicentro-digital.com/api/create_landing_page"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "datosSugarCRM": {
+        "name": "Exonerados",
+        "medio": "18",
+        "properties_form": "[{\"label\": \"Tipo de discapacidad\",\"value\": \"tipo_discapacidad\",\"validations\": \"required\" } ]",
+        "autorizador": "autorizador@gmail.com",
+        "campaign": "RODRIGUEZ 0626c2b0-1ad2-11ea-830b-000c297d72b1",
+        "business_line_id": "f417e1ae-a81b-11e9-ab2c-000c297d72b1",
+        "user_login": "tde",
+        "type_transaction": "1",
+        "user_assigned_position": "2"
+    }
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://api.epicentro-digital.com/api/create_landing_page',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+        'json' =&gt; [
+            'datosSugarCRM' =&gt; [
+                'name' =&gt; 'Exonerados',
+                'medio' =&gt; '18',
+                'properties_form' =&gt; '[{"label": "Tipo de discapacidad","value": "tipo_discapacidad","validations": "required" } ]',
+                'autorizador' =&gt; 'autorizador@gmail.com',
+                'campaign' =&gt; 'RODRIGUEZ 0626c2b0-1ad2-11ea-830b-000c297d72b1',
+                'business_line_id' =&gt; 'f417e1ae-a81b-11e9-ab2c-000c297d72b1',
+                'user_login' =&gt; 'tde',
+                'type_transaction' =&gt; '1',
+                'user_assigned_position' =&gt; '2',
+            ],
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": {
+        "status_code": "200",
+        "messsage": "Landing Page creada correctamente"
+    }
+}</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": {
+        "status_code": "400",
+        "messsage": "Revise que sus datos sean correctos"
+    }
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/create_landing_page</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>datosSugarCRM.name</code></td>
+<td>string</td>
+<td>required</td>
+<td>Nombre del Formulario</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.medio</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>ID del medio.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.properties_form</code></td>
+<td>array</td>
+<td>required</td>
+<td>Propiedades Extras del Formulario</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.autorizador</code></td>
+<td>string</td>
+<td>required</td>
+<td>Email del autorizador.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.campaign</code></td>
+<td>string</td>
+<td>required</td>
+<td>Código de Campaña.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.business_line_id</code></td>
+<td>string</td>
+<td>required</td>
+<td>Código de linea de negocio.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.user_login</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>Celular del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.type_transaction</code></td>
+<td>numeric</td>
+<td>optional</td>
+<td>Tipo de Trasnsacción Valores válidos: 1 (Ventas),2 (Tomas),3 (Quejas),4 (Info General)</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.user_assigned_position</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>Cargo del usuario para asignación</td>
+</tr>
+</tbody>
+</table>
+<!-- END_f24644e7d8f231a4b87c73b05b64be4e -->
 <h1>Prospección</h1>
 <p>APIs para creación de prospectos, reagendamiento de citas, cierre de prospectos</p>
 <!-- START_5675906540fb61185904594cc17d7875 -->
@@ -446,14 +606,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/quotation" \
+    "https://api.epicentro-digital.com/api/quotation" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"user_name_call_center":"CG_RAMOS","ticket_id":"10438baf-0d83-9533-4fb3-602ea326288b","comments":"El cliente se acerca a la agencia...","modelo":"Hilux 4X4 2021 color rojo","medio":"10","campania":"5e686580-ee19-11ea-97ea-000c297d72b1","client":{"tipo_identificacion":"C","numero_identificacion":"1719932079","gender":"M","names":"Roberto Daniel","surnames":"J\u00e1come Rodriguez","phone_home":"022072845","cellphone_number":"0987512224","email":"mart2021@hotmail.com"}},"datos_adicionales":{"anyproperty1":"anyData1","anyproperty1N":"anyData2"}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/quotation"
+    "https://api.epicentro-digital.com/api/quotation"
 );
 
 let headers = {
@@ -497,7 +657,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/quotation',
+    'https://api.epicentro-digital.com/api/quotation',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -679,14 +839,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/call_quotation" \
+    "https://api.epicentro-digital.com/api/call_quotation" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"user_name_call_center":"CG_RAMOS","date_start":"2021-10-02 19:59","duration_hours":"0","duration_minutes":"10","direction":"Inbound","type":"seguimiento","ticket_id":"10438baf-0d83-9533-4fb3-602ea326288b","comments":"El cliente se acerca a la agencia...","modelo":"Hilux 4X4 2021 color rojo","medio":"13","client":{"tipo_identificacion":"C","numero_identificacion":"1719932079","gender":"M","names":"Roberto Daniel","surnames":"J\u00e1come Rodriguez","phone_home":"022072845","cellphone_number":"0987512224","email":"mart2021@hotmail.com"}},"datos_adicionales":{"anyproperty1":"anyData1","anyproperty1N":"anyData2"}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/call_quotation"
+    "https://api.epicentro-digital.com/api/call_quotation"
 );
 
 let headers = {
@@ -734,7 +894,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/call_quotation',
+    'https://api.epicentro-digital.com/api/call_quotation',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -945,14 +1105,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/calls_prospeccion" \
+    "https://api.epicentro-digital.com/api/calls_prospeccion" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"user_name_asesor":"CG_RAMOS","user_name_call_center":"JA_AGUIRRE","date_start":"2021-10-02 19:59","duration_hours":"0","duration_minutes":"10","status":"Held","direction":"Inbound","type":"cita","category":"2","notes":"Llamar lunes","prospeccion_id":"769cb57f-a32d-0ad0-3f0d-60c8e1d1658f","meeting":{"date":"2021-10-02 19:59","duration_hours":"0","duration_minutes":"2","subject":"Prueba de Manejo","comments":"El cliente se acerca a la agencia...","location":"Agencia los Chillos","type":"1","visit_type":"1","linea_negocio":"1","marca":"1","modelo":"2","client":{"tipo_identificacion":"C","numero_identificacion":"1719932079","gender":"M","names":"Freddy Roberto","surnames":"Vargas Rodriguez","phone_home":"022072845","cellphone_number":"0987512224","email":"mart2021@hotmail.com"}}},"datos_adicionales":{"anyproperty1":"anyData1","anyproperty1N":"anyData2"}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/calls_prospeccion"
+    "https://api.epicentro-digital.com/api/calls_prospeccion"
 );
 
 let headers = {
@@ -1014,7 +1174,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/calls_prospeccion',
+    'https://api.epicentro-digital.com/api/calls_prospeccion',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -1327,14 +1487,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
+    "https://api.epicentro-digital.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"motivo_cierre":"1"}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3"
+    "https://api.epicentro-digital.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3"
 );
 
 let headers = {
@@ -1359,7 +1519,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3',
+    'https://api.epicentro-digital.com/api/close_prospeccion/7c093743-5b5d-01ec-f0b4-604a99b319d3',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -1454,14 +1614,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/calls" \
+    "https://api.epicentro-digital.com/api/calls" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"user_name_asesor":"CG_RAMOS","user_name_call_center":"CG_RAMOS","date_start":"2021-10-02 19:59","duration_hours":"0","duration_minutes":"10","status":"Held","direction":"Inbound","type":"cita","category":"2","medio":"10","campania":"5e686580-ee19-11ea-97ea-000c297d72b1","notes":"Llamar lunes","ticket":{"id":"10438baf-0d83-9533-4fb3-602ea326288b","is_closed":true,"motivo_cierre":"solo_informacion"},"meeting":{"status":"Held","date":"2021-10-02 19:59","duration_hours":"0","duration_minutes":"2","subject":"Prueba de Manejo","comments":"El cliente se acerca a la agencia...","location":"Agencia los Chillos","type":"1","visit_type":"1","linea_negocio":"1","marca":"1","modelo":"2","client":{"tipo_identificacion":"C","numero_identificacion":"1719932079","gender":"M","names":"Freddy Roberto","surnames":"Vargas Rodriguez","phone_home":"022072845","cellphone_number":"0987512224","email":"mart2021@hotmail.com"}}},"datos_adicionales":{"anyproperty1":"anyData1","anyproperty1N":"anyData2"}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/calls"
+    "https://api.epicentro-digital.com/api/calls"
 );
 
 let headers = {
@@ -1530,7 +1690,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/calls',
+    'https://api.epicentro-digital.com/api/calls',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -1867,14 +2027,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/tickets" \
+    "https://api.epicentro-digital.com/api/tickets" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"numero_identificacion":"1719932079","tipo_identificacion":"C","email":"mart@hotmail.com","user_name":"CG_RAMOS","nombres":"FREDDY ROBERTO","apellidos":"RODRIGUEZ VARGAS","celular":"0987519882","telefono":"022072827","linea_negocio":"1","tipo_transaccion":"1","anio":"2020","placa":"PCY-7933","medio":"13","campania":"5e686580-ee19-11ea-97ea-000c297d72b1","asunto":"Mantenimiento","comentario_cliente":"Necesita una cita para mantenimiento","id_interaccion_inconcert":"id_inconcert","description":"El cliente requiere una cotizacion urgente","porcentaje_discapacidad":"50_74","marca":"1","modelo":"2","precio":"25000","color":"negro","anioMin":"2018","anioMax":"2020","kilometraje":"25000","combustible":"gasolina"},"datos_adicionales":{"title":"Titulo del Formulario","pageUrl":"https:\/\/www.toyota.com.ec\/formulariox.html","thankyouPageUrl":"https:\/\/www.toyota.com.ec\/graciasFormularioX.html","fields":[{"key":"Nombres","nombre":"Maria"},{"key":"Apellidos","nombre":"Rodriguez"},{"key":"Cedula","nombre":"171999999"}]}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/tickets"
+    "https://api.epicentro-digital.com/api/tickets"
 );
 
 let headers = {
@@ -1944,7 +2104,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/tickets',
+    'https://api.epicentro-digital.com/api/tickets',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -2285,14 +2445,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/call_ticket" \
+    "https://api.epicentro-digital.com/api/call_ticket" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"numero_identificacion":"1719932079","tipo_identificacion":"C","email":"mart@hotmail.com","user_name":"CG_RAMOS","nombres":"FREDDY ROBERTO","apellidos":"RODRIGUEZ VARGAS","celular":"0987519882","telefono":"022072827","linea_negocio":"1","tipo_transaccion":"1","medio":"13","campania":"5e686580-ee19-11ea-97ea-000c297d72b1","id_interaccion_inconcert":"id_inconcert","marca":"1","modelo":"2","comentario_cliente":"Necesita una cita para mantenimiento","description":"El cliente requiere una cotizacion urgente","porcentaje_discapacidad":"50_74"},"datos_adicionales":{"fields":[{"key":"Estado Civil","nombre":"Soltero"},{"key":"Fecha de Nacimiento","nombre":"10 Diciembre de 1970"}]}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/call_ticket"
+    "https://api.epicentro-digital.com/api/call_ticket"
 );
 
 let headers = {
@@ -2346,7 +2506,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/call_ticket',
+    'https://api.epicentro-digital.com/api/call_ticket',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -2581,18 +2741,181 @@ print_r(json_decode((string) $body));</code></pre>
 </tbody>
 </table>
 <!-- END_c199d38571334fe663cb31edce93371f -->
+<!-- START_15589e516beeb193362ba03d6d3905b3 -->
+<h2>Ticket - Landing Pages</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "https://api.epicentro-digital.com/api/landing_ticket" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"datosSugarCRM":{"formulario":"Exonerados","numero_identificacion":"1719932079","tipo_identificacion":"C","nombres":"FREDDY ROBERTO","apellidos":"RODRIGUEZ VARGAS","email":"mart@hotmail.com","celular":"0987519882","concesionario":"Santo Domingo (Casabaca)"}}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "https://api.epicentro-digital.com/api/landing_ticket"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "datosSugarCRM": {
+        "formulario": "Exonerados",
+        "numero_identificacion": "1719932079",
+        "tipo_identificacion": "C",
+        "nombres": "FREDDY ROBERTO",
+        "apellidos": "RODRIGUEZ VARGAS",
+        "email": "mart@hotmail.com",
+        "celular": "0987519882",
+        "concesionario": "Santo Domingo (Casabaca)"
+    }
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://api.epicentro-digital.com/api/landing_ticket',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+        'json' =&gt; [
+            'datosSugarCRM' =&gt; [
+                'formulario' =&gt; 'Exonerados',
+                'numero_identificacion' =&gt; '1719932079',
+                'tipo_identificacion' =&gt; 'C',
+                'nombres' =&gt; 'FREDDY ROBERTO',
+                'apellidos' =&gt; 'RODRIGUEZ VARGAS',
+                'email' =&gt; 'mart@hotmail.com',
+                'celular' =&gt; '0987519882',
+                'concesionario' =&gt; 'Santo Domingo (Casabaca)',
+            ],
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": {
+        "ticket_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+        "ticket_name": "TCK-463587",
+        "interaction_id": "1042eae5-0c94-1f7f-ef16-602e98cbd391",
+        "ticket_url": "https:\/\/sugarcrm.casabaca.com\/#cbt_Tickets\/e06279dc-5629-5b20-6ebf-61081a41553a"
+    }
+}</code></pre>
+<blockquote>
+<p>Example response (422):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "errors": {
+        "numero_identificacion": [
+            "Identificación es requerida"
+        ],
+        "nombres": [
+            "Nombres son requeridos"
+        ]
+    }
+}</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated.",
+    "status_code": 500
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/landing_ticket</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>datosSugarCRM.formulario</code></td>
+<td>string</td>
+<td>required</td>
+<td>Nombre del Formulario</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.numero_identificacion</code></td>
+<td>string</td>
+<td>required</td>
+<td>ID del client.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.tipo_identificacion</code></td>
+<td>string</td>
+<td>required</td>
+<td>Valores válidos: C(Cedula),P(Pasaporte), R(RUC)</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.nombres</code></td>
+<td>string</td>
+<td>required</td>
+<td>Nombres del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.apellidos</code></td>
+<td>string</td>
+<td>required</td>
+<td>Apellidos del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.email</code></td>
+<td>email</td>
+<td>required</td>
+<td>Email válido del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.celular</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>Celular del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.concesionario</code></td>
+<td>string</td>
+<td>required</td>
+<td>Nombre de la Agencia-Concesionario</td>
+</tr>
+</tbody>
+</table>
+<!-- END_15589e516beeb193362ba03d6d3905b3 -->
 <!-- START_1af19642c94c90ceb55d8a80bdb33cd6 -->
 <h2>Ticket Interacción No Contesta</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a" \
+    "https://api.epicentro-digital.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}"</code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a"
+    "https://api.epicentro-digital.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a"
 );
 
 let headers = {
@@ -2610,7 +2933,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a',
+    'https://api.epicentro-digital.com/api/not_answer_ticket/d9bf5143-daa6-d9ca-7d04-60df4f47f51a',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -2669,14 +2992,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/not_answer_call" \
+    "https://api.epicentro-digital.com/api/not_answer_call" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"user_name_call_center":"CG_RAMOS","date_start":"2021-10-02 19:59","duration_hours":"0","duration_minutes":"10","direction":"Inbound","ticket_id":"10438baf-0d83-9533-4fb3-602ea326288b"},"datos_adicionales":{"fields":[{"key":"Estado Civil","nombre":"Soltero"},{"key":"Fecha de Nacimiento","nombre":"10 Diciembre de 1970"}]}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/not_answer_call"
+    "https://api.epicentro-digital.com/api/not_answer_call"
 );
 
 let headers = {
@@ -2718,7 +3041,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/not_answer_call',
+    'https://api.epicentro-digital.com/api/not_answer_call',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -2868,14 +3191,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
+    "https://api.epicentro-digital.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"motivo_cierre":"solo_informacion"}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3"
+    "https://api.epicentro-digital.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3"
 );
 
 let headers = {
@@ -2900,7 +3223,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3',
+    'https://api.epicentro-digital.com/api/close_ticket/7c093743-5b5d-01ec-f0b4-604a99b319d3',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',
@@ -2993,14 +3316,14 @@ print_r(json_decode((string) $body));</code></pre>
 <p>Example request:</p>
 </blockquote>
 <pre><code class="language-bash">curl -X POST \
-    "https://api-sugarcrm.casabaca.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158" \
+    "https://api.epicentro-digital.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
     -d '{"datosSugarCRM":{"notes":"El cliente se encuentra interesado en un RAV4","interaction":"edc861f5-95ec-dc21-d6ff-608842e5f11c","prospeccion":"85fce850-bf1a-25ba-cbc3-60a547b5b9f3"}}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
-    "https://api-sugarcrm.casabaca.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158"
+    "https://api.epicentro-digital.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158"
 );
 
 let headers = {
@@ -3027,7 +3350,7 @@ fetch(url, {
 <pre><code class="language-php">
 $client = new \GuzzleHttp\Client();
 $response = $client-&gt;post(
-    'https://api-sugarcrm.casabaca.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158',
+    'https://api.epicentro-digital.com/api/ticket/addNotes/3aa93559-44b6-9527-8803-6079d0401158',
     [
         'headers' =&gt; [
             'Content-Type' =&gt; 'application/json',

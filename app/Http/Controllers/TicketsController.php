@@ -6,7 +6,6 @@ use App\Http\Requests\CallNotAnswerRequest;
 use App\Http\Requests\TicketCallRequest;
 use App\Http\Requests\TicketLandingRequest;
 use App\Models\AgenciesLandingPages;
-use App\Models\BusinessLine;
 use App\Models\LandingPages;
 use App\Models\Medio;
 use App\Services\CallClass;
@@ -229,13 +228,8 @@ class TicketsController extends BaseController
         $comentario = $dataRequest["comentarios"] ?? null;
 
         $properties = $landingPage->properties_form;
-
-        foreach($properties as $key => $value)
-        {
-            if(isset($dataRequest[$value]))
-            {
-                $comentario.= " ". $key .": ". $dataRequest[$value];
-            }
+        foreach ($properties as $property) {
+            $comentario .= " ".$property["label"] . ": " . $dataRequest[$property["value"]];
         }
 
         return [
@@ -958,6 +952,43 @@ class TicketsController extends BaseController
         }
     }
 
+    /**
+     * Ticket - Landing Pages
+     *
+     * @bodyParam  datosSugarCRM.formulario string required Nombre del Formulario Example: Exonerados
+     * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
+     * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
+     * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: FREDDY ROBERTO
+     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente. Example: RODRIGUEZ VARGAS
+     * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
+     * @bodyParam  datosSugarCRM.celular numeric required Celular del cliente. Example: 0987519882
+     * @bodyParam  datosSugarCRM.concesionario string required Nombre de la Agencia-Concesionario Example: Santo Domingo (Casabaca)
+     *
+     * @response  {
+     *  "data": {
+     *      "ticket_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+     *      "ticket_name": "TCK-463587",
+     *      "interaction_id": "1042eae5-0c94-1f7f-ef16-602e98cbd391",
+     *      "ticket_url": "https://sugarcrm.casabaca.com/#cbt_Tickets/e06279dc-5629-5b20-6ebf-61081a41553a"
+     *  }
+     * }
+     *@response 422 {
+     *  "errors": {
+     *      "numero_identificacion": [
+     *          "Identificación es requerida"
+     *      ],
+     *  "nombres": [
+     *      "Nombres son requeridos"
+     *  ]
+     *  }
+     * }
+     *
+     * @response 500 {
+     *  "message": "Unauthenticated.",
+     *  "status_code": 500
+     * }
+     */
+
     public function landingTicket(TicketLandingRequest $request)
     {
         \DB::connection(get_connection())->beginTransaction();
@@ -968,8 +999,6 @@ class TicketsController extends BaseController
             $ws_logs = WsLog::storeBefore($request, 'api/landing_ticket');
 
             $landingPage = LandingPages::where('name', $request->datosSugarCRM["formulario"])->first();
-
-            //VALIDAR campos adicionales
 
             $concesionario = $request->datosSugarCRM["concesionario"];
             $line = $landingPage->business_line_id;
@@ -1000,7 +1029,7 @@ class TicketsController extends BaseController
                 "ticket_id" => $ticket->id,
                 "environment" => get_connection(),
                 "source" => $user_auth->fuente,
-                "interaccion_id" => null,
+                "interaccion_id" => $ticket->id_interaction,
             ];
 
             WsLog::storeAfter($ws_logs, $dataUpdateWS);
