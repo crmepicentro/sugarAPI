@@ -127,7 +127,7 @@ class TicketsController extends BaseController
             $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
             $type_filter = $request->datosSugarCRM['numero_identificacion'] ? 'numero_identificacion' : 'ticket_id';
 
-            if(in_array($user_auth->fuente, $this->sourcesOmniChannel)) {
+            if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"] )) {
                 $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
 
@@ -217,8 +217,8 @@ class TicketsController extends BaseController
             "anio_min_c" =>  $dataRequest["anioMin"],
             "anio_max_c" =>  $dataRequest["anioMax"],
             "combustible_c" =>  $dataRequest["combustible"],
-            "medio_c" =>  $dataRequest["medio"],
-            "campaign_id_c" =>  $dataRequest["campania"]
+            "medio_c" =>  $dataRequest["medio"] ?? null,
+            "campaign_id_c" =>  $dataRequest["campania"] ?? null
         ];
     }
 
@@ -229,7 +229,9 @@ class TicketsController extends BaseController
 
         $properties = $landingPage->properties_form;
         foreach ($properties as $property) {
-            $comentario .= " ".$property["label"] . ": " . $dataRequest[$property["value"]];
+            if(isset($dataRequest[$property["value"]])){
+                $comentario .= " ".$property["label"] . ": " . $dataRequest[$property["value"]];
+            }
         }
 
         return [

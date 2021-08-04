@@ -23,6 +23,8 @@ class LandingPages extends Migration
             $table->text('business_line_id', 100)->nullable();
             $table->integer('type_transaction')->nullable();
             $table->text('user_assigned_position')->nullable();
+            $table->boolean('ticket')->nullable();
+            $table->boolean('prospect')->nullable();
             $table->timestamps();
         });
     }
