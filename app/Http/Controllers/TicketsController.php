@@ -229,7 +229,9 @@ class TicketsController extends BaseController
 
         $properties = $landingPage->properties_form;
         foreach ($properties as $property) {
-            $comentario .= " ".$property["label"] . ": " . $dataRequest[$property["value"]];
+            if(isset($dataRequest[$property["value"]])){
+                $comentario .= " ".$property["label"] . ": " . $dataRequest[$property["value"]];
+            }
         }
 
         return [
