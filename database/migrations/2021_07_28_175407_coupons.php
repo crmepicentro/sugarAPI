@@ -15,7 +15,7 @@ class Coupons extends Migration
     {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
-            $table->text('code')->unique();
+            $table->text('code', 10)->unique();
             $table->text('invoice');
             $table->text('status_coupon');
             $table->text('status_email');
