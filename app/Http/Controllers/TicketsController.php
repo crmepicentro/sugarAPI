@@ -217,8 +217,8 @@ class TicketsController extends BaseController
             "anio_min_c" =>  $dataRequest["anioMin"],
             "anio_max_c" =>  $dataRequest["anioMax"],
             "combustible_c" =>  $dataRequest["combustible"],
-            "medio_c" =>  $dataRequest["medio"],
-            "campaign_id_c" =>  $dataRequest["campania"]
+            "medio_c" =>  $dataRequest["medio"] ?? null,
+            "campaign_id_c" =>  $dataRequest["campania"] ?? null
         ];
     }
 
