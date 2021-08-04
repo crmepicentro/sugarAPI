@@ -74,7 +74,8 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.email.email' => 'Email debe ser un email válido',
             'datosSugarCRM.celular.required' => 'Celular es requerido',
             'datosSugarCRM.celular.numeric' => 'Celular debe ser numérico',
-            'datosSugarCRM.telefono.numeric' => 'Telefono debe ser numérico'
+            'datosSugarCRM.telefono.numeric' => 'Telefono debe ser numérico',
+            'datosSugarCRM.porcentaje_discapacidad.in' => 'Porcentaje_discapacidad no contiene un valor válido, valores válidos: 30_49 (Del 30% al 49%),50_74 (Del 50% al 74%),75_84 (Del 75% al 84%),85_100(Del 85% al 100%)'
         ];
     }
 
