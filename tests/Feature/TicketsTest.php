@@ -51,7 +51,7 @@ class TicketsTest extends TestCase
         $this->assertEquals($interaction->nombre, $this->dataTicket['datosSugarCRM']['nombres']);
         $this->assertEquals($interaction->nombre, $this->dataTicket['datosSugarCRM']['nombres']);
         $this->assertEquals($interaction->cb_lineanegocio_id_c, 'd8365338-9206-11e9-a7c3-000c297d72b1');
-        $this->assertEquals("Nuevos", $interaction->linea_negocio);
+        $this->assertEquals("NUEVOS", $interaction->linea_negocio);
         $interactionCstm = $interaction->interaccionesCstm()->first();
         $this->assertEquals($interactionCstm->medio_c, $this->dataTicket['datosSugarCRM']['medio']);
         $this->assertEquals($interactionCstm->campaign_id_c, $this->dataTicket['datosSugarCRM']['campania']);

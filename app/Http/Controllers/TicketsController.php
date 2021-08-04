@@ -127,7 +127,7 @@ class TicketsController extends BaseController
             $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
             $type_filter = $request->datosSugarCRM['numero_identificacion'] ? 'numero_identificacion' : 'ticket_id';
 
-            if(in_array($user_auth->fuente, $this->sourcesOmniChannel)) {
+            if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"] )) {
                 $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
 
