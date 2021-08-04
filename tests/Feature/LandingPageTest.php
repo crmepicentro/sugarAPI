@@ -32,6 +32,7 @@ class LandingPageTest extends TestCase
             "name" => "Exonerados",
             "medio" => "18",
             "autorizador" => "autorizadorTesting@gmail.com",
+            "campaign" => "0626c2b0-1ad2-11ea-830b-000c297d72b1",
             "properties_form" =>
                 [
                     ["label" => "Tipo de discapacidad",
@@ -72,6 +73,7 @@ class LandingPageTest extends TestCase
 
         $response = $this->json('POST', $this->baseUrl . "create_landing_page", $data);
         $content = json_decode($response->content());
+
         $this->assertEquals('200', $content->status_code);
         $this->assertEquals("Landing Page creada correctamente", $content->messsage);
         $response->assertStatus(200);
