@@ -43,7 +43,11 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('close_prospeccion/{id}', 'App\Http\Controllers\ProspeccionController@closeProspeccion');
 });
 
-
+$api->version('v1', function ($api) {
+    $api->get('sumate', 'App\Http\Controllers\FormsToyotaGoController@sumateForm');
+    $api->get('destinos', 'App\Http\Controllers\FormsToyotaGoController@destinosForm');
+    $api->get('negocios', 'App\Http\Controllers\FormsToyotaGoController@negociosForm');
+});
 
 // Accept: application/vnd.apisugarcrm.v2+json -> Agregar en los headers para llamar a la v2
 /*$api->version('v2', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' => 200, 'expires' => 5], function ($api) {
