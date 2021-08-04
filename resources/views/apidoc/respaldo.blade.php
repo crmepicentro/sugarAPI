@@ -43,7 +43,7 @@
     <div class="content">
         <!-- START_INFO -->
         <h1>Info</h1>
-        <p>Bienvenido a la documentación del API de SUGAR CASABACA.</p>
+        <p>Bienvenido a la documentación del API SUGAR EPICENTRO DIGITAL</p>
         <!-- END_INFO -->
         <h1>Asesores</h1>
         <p>Api para Obtener asesores</p>
