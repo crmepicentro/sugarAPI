@@ -73,4 +73,13 @@ class getAsesoresTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /** @test */
+    public function getAllAsesores()
+    {
+        echo date('Y-m-d H:i:s')."----";
+        $response = $this->json('GET', $this->baseUrl . 'asesores');
+        $response->assertStatus(200);
+        echo date('Y-m-d H:i:s')."----";
+    }
 }
