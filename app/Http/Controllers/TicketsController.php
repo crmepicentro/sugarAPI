@@ -829,13 +829,18 @@ class TicketsController extends BaseController
 
         try {
             $user_auth = Auth::user();
+<<<<<<< Updated upstream
 
             if(in_array($user_auth->fuente, $this->sourcesOmniChannel)) {
+=======
+            $ws_logs = WsLog::storeBefore($request, 'api/call_ticket');
+            $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
+            
+            if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"])) {
+>>>>>>> Stashed changes
                 $request->datosSugarCRM["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
 
-            $ws_logs = WsLog::storeBefore($request, 'api/call_ticket');
-            $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
 
             $type_filter = 'numero_identificacion';
             $user = Users::get_user($request->datosSugarCRM['user_name']);
