@@ -830,7 +830,7 @@ class TicketsController extends BaseController
         try {
             $user_auth = Auth::user();
 
-            if(in_array($user_auth->fuente, $this->sourcesOmniChannel)) {
+            if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"])) {
                 $request->datosSugarCRM["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
 
