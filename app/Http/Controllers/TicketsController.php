@@ -830,12 +830,12 @@ class TicketsController extends BaseController
         try {
             $user_auth = Auth::user();
             $ws_logs = WsLog::storeBefore($request, 'api/call_ticket');
+
             $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
 
-            if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"])) {
-                $request->datosSugarCRM["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
+            if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"] )) {
+                $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
-
 
             $type_filter = 'numero_identificacion';
             $user = Users::get_user($request->datosSugarCRM['user_name']);
