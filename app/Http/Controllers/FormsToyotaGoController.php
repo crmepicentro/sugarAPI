@@ -36,7 +36,7 @@ class FormsToyotaGoController extends Controller
             'Year' => $request->anio
         ];
 
-        $sendData = $this->sendFormDataToActon($this->urlSumateForm, $dataPost);
+        $sendData = $this->sendFormDataToActon(env('urlSumateForm'), $dataPost);
 
         return '<div id="gform_confirmation_message_2" class="gform_confirmation_message_2 gform_confirmation_message" data-gtm-vis-recent-on-screen-47109072_11="5116" data-gtm-vis-first-on-screen-47109072_11="5116" data-gtm-vis-total-visible-time-47109072_11="100" data-gtm-vis-has-fired-47109072_11="1">¡Gracias por contactar con nosotros! Nos pondremos en contacto contigo muy pronto.</div>';
 
@@ -60,7 +60,7 @@ class FormsToyotaGoController extends Controller
             'Cedula' => $request->cedula
         ];
 
-        $sendData = $this->sendFormDataToActon($this->urlDestinosForm, $dataPost);
+        $sendData = $this->sendFormDataToActon(env('urlDestinosForm'), $dataPost);
 
         return response()->json([
             'status_code' => 200,
@@ -86,7 +86,7 @@ class FormsToyotaGoController extends Controller
             'Cedula' => $request->cedula,
         ];
 
-        $sendData = $this->sendFormDataToActon($this->urlNegociosForm, $dataPost);
+        $sendData = $this->sendFormDataToActon(env('urlNegociosForm'), $dataPost);
 
         return response()->json([
             'status_code' => 200,
