@@ -69,6 +69,11 @@ class ProspeccionClass {
       $prospeccionCstm->user_id_c = $dataProspeccion["assigned_user_id"];
     }
 
+    $prospeccionCstm->hora_entrega_inmediata_c = $dataProspeccion['hora_entrega_inmediata_c'] ?? null;
+    $prospeccionCstm->interesado_renovacion_c = $dataProspeccion['interesado_renovacion_c'] ?? null;
+    $prospeccionCstm->correo_asesor_servicio_c = $dataProspeccion['correo_asesor_servicio_c'] ?? null;
+    $prospeccionCstm->nombre_asesor_servicio_c = $dataProspeccion['nombre_asesor_servicio_c'] ?? null;
+    $prospeccionCstm->tienetoyota_c = $dataProspeccion['tienetoyota_c'] ?? null;
     $prospeccionCstm->modelo_c = $dataProspeccion['modelo_c'] ?? null;
     $prospeccionCstm->medio_c = $dataProspeccion['medio'];
     $prospeccionCstm->save();

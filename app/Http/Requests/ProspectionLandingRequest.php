@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Agencies;
 use App\Models\LandingPages;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\Auth;
 
-class TicketLandingRequest extends FormRequest
+class ProspectionLandingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,9 +21,20 @@ class TicketLandingRequest extends FormRequest
         return true;
     }
 
-    public function getForms(){
+    public function getS3SFuentes(){
         $user_auth = Auth::user();
-        $landingPage = LandingPages::where('user_login', $user_auth->fuente)->pluck('name')->toArray();
+        $landingPage = LandingPages::where('user_login', $user_auth->fuente)->where('prospect', 1)->pluck('fuente_s3s')->toArray();
+        return implode(",", $landingPage);
+    }
+
+    public function getS3SAgencies(){
+        $agencias = Agencies::where('deleted', '0')->pluck('s3s_id')->toArray();
+        return implode(",", $agencias);
+    }
+
+    public function getNameForms(){
+        $user_auth = Auth::user();
+        $landingPage = LandingPages::where('user_login', $user_auth->fuente)->where('prospect', 1)->pluck('name')->toArray();
         return implode(",", $landingPage);
     }
     /**
@@ -32,29 +44,37 @@ class TicketLandingRequest extends FormRequest
      */
     public function rules()
     {
-        $user_auth = Auth::user();
-        $content = json_decode(request()->content);
-
         $requestValidations =  [
+            'datosSugarCRM.formulario' => 'in:'.$this->getNameForms(),
             'datosSugarCRM.numero_identificacion' => 'required',
             'datosSugarCRM.tipo_identificacion' => 'required|in:C,P,R',
             'datosSugarCRM.nombres' => 'required',
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
+            'datosSugarCRM.telefono' => 'numeric',
             'datosSugarCRM.email' => 'required|email:rfc,dns',
-            'datosSugarCRM.concesionario' => 'required',
-            'datosSugarCRM.formulario' => 'required|in:'. $this->getForms()
+            'datosSugarCRM.agencia' => 'required'
         ];
 
+        $user_auth = Auth::user();
+        $content = json_decode(request()->content);
+
         $landingPageSelected = LandingPages::where('user_login', $user_auth->fuente)
-            ->where('name', $content->datosSugarCRM->formulario)
+            ->where('fuente_s3s', $content->datosSugarCRM->fuente)
             ->first();
+
+        if($user_auth->fuente === 'APP_TALLER'){
+            $validations['datosSugarCRM.fuente'] = 'required|in:'.$this->getS3SFuentes();
+            $validations['datosSugarCRM.agencia'] = 'required|in:'.$this->getS3SAgencies();
+        }
+
         if(isset($landingPageSelected->properties_form)){
             $properties = $landingPageSelected->properties_form;
             foreach ($properties as $property) {
                 if(isset($property["validations"])){
                     $objetoSugar = "datosSugarCRM.".$property["value"];
                     $requestValidations[$objetoSugar] = $property["validations"];
+
                 }
             }
         }
@@ -75,8 +95,15 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.celular.required' => 'Celular es requerido',
             'datosSugarCRM.celular.numeric' => 'Celular debe ser numérico',
             'datosSugarCRM.telefono.numeric' => 'Telefono debe ser numérico',
-            'datosSugarCRM.formulario.in' => 'Formulario inválido, valores válidos'. $this->getForms(),
-            'datosSugarCRM.porcentaje_discapacidad.in' => 'Porcentaje_discapacidad no contiene un valor válido, valores válidos: 30_49 (Del 30% al 49%),50_74 (Del 50% al 74%),75_84 (Del 75% al 84%),85_100(Del 85% al 100%)'
+            'datosSugarCRM.fuente.in' => 'Fuente inválida, valores válidos'. $this->getS3SFuentes(),
+            'datosSugarCRM.formulario.in' => 'Formulario inválido, valores válidos'. $this->getNameForms(),
+            'datosSugarCRM.modelo.required' => 'modelo es requerido',
+            'datosSugarCRM.tienetoyota.required' => 'tienetoyota es requerido',
+            'datosSugarCRM.interesadorenovacion.required' => 'interesadorenovacion es requerido',
+            'datosSugarCRM.horaentregainmediata.required' => 'horaentregainmediata es requerido',
+            'datosSugarCRM.asesorcorreo.required' => 'asesorcorreo es requerido',
+            'datosSugarCRM.asesornombre.required' => 'asesornombre es requerido',
+            'datosSugarCRM.agencia.required' => 'agencia es requerida'
         ];
     }
 

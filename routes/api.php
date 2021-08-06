@@ -41,6 +41,7 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('call_quotation', 'App\Http\Controllers\ProspeccionController@storeCallProspeccion');
     $api->post('calls_prospeccion', 'App\Http\Controllers\ProspeccionController@storeCall');
     $api->post('close_prospeccion/{id}', 'App\Http\Controllers\ProspeccionController@closeProspeccion');
+    $api->post('landing_prospeccion', 'App\Http\Controllers\ProspeccionController@landingProspeccion');
 });
 
 $api->version('v1', function ($api) {
