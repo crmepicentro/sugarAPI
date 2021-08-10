@@ -63,9 +63,9 @@ class ProspectionLandingRequest extends FormRequest
             ->where('fuente_s3s', $content->datosSugarCRM->fuente)
             ->first();
 
-        if($user_auth->fuente === 'APP_TALLER'){
-            $validations['datosSugarCRM.fuente'] = 'required|in:'.$this->getS3SFuentes();
-            $validations['datosSugarCRM.agencia'] = 'required|in:'.$this->getS3SAgencies();
+        if($user_auth->fuente === 'app_taller'){
+            $requestValidations['datosSugarCRM.fuente'] = 'required|in:'.$this->getS3SFuentes();
+            $requestValidations['datosSugarCRM.agencia'] = 'required|in:'.$this->getS3SAgencies();
         }
 
         if(isset($landingPageSelected->properties_form)){
@@ -101,6 +101,7 @@ class ProspectionLandingRequest extends FormRequest
             'datosSugarCRM.tienetoyota.required' => 'tienetoyota es requerido',
             'datosSugarCRM.interesadorenovacion.required' => 'interesadorenovacion es requerido',
             'datosSugarCRM.horaentregainmediata.required' => 'horaentregainmediata es requerido',
+            'datosSugarCRM.horaentregainmediata.date_format' => 'horaentregainmediata debe tener el siguiente formato Y-m-d hh:mm:ss',
             'datosSugarCRM.asesorcorreo.required' => 'asesorcorreo es requerido',
             'datosSugarCRM.asesornombre.required' => 'asesornombre es requerido',
             'datosSugarCRM.agencia.required' => 'agencia es requerida'

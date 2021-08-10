@@ -60,7 +60,8 @@ class ProspectionLandingTest extends TestCase
                         "validations" => "in:1,0"
                     ],
                     ["label" => "Hora Entrega Inmediata",
-                        "value" => "horaentregainmediata"
+                        "value" => "horaentregainmediata",
+                        "validations" => "date_format:Y-m-d H:i:s"
                     ],
                     ["label" => "Asesor Nombre",
                         "value" => "asesornombre"
@@ -108,7 +109,7 @@ class ProspectionLandingTest extends TestCase
     {
         Prospeccion::where('numero_identificacion', $this->dataLanding['datosSugarCRM']['numero_identificacion'])->update(["estado" => 4]);
 
-        $response = $this->json('POST', $this->baseUrl . 'landing_prospeccion', $this->dataLanding);
+        $response = $this->json('POST', $this->baseUrl . 'forms_prospeccion', $this->dataLanding);
         $content = json_decode($response->content());
         $response->assertStatus(200);
         $this->assertNotNull($content->data->prospeccion_id);
@@ -174,7 +175,7 @@ class ProspectionLandingTest extends TestCase
 
     public function createWsLogLandingPage($prospeccion_id)
     {
-        $wsLogs = Ws_logs::where('route', 'api/landing_prospeccion')->where('prospeccion_id', $prospeccion_id)->first();
+        $wsLogs = Ws_logs::where('route', 'api/forms_prospeccion')->where('prospeccion_id', $prospeccion_id)->first();
         $this->assertJson(json_encode($this->dataLanding), $wsLogs->datos_sugar_crm);
         $this->assertEquals('sugar_dev', $wsLogs->environment);
         $this->assertEquals('tests_source', $wsLogs->source);
@@ -184,11 +185,12 @@ class ProspectionLandingTest extends TestCase
     {
         $data = [
             'datosSugarCRM' => [
-                'fuente' => '17'
+                'fuente' => '17',
+                "horaentregainmediata" => "14:00:00",
             ]
         ];
 
-        $response = $this->json('POST', $this->baseUrl . 'landing_prospeccion', $data);
+        $response = $this->json('POST', $this->baseUrl . 'forms_prospeccion', $data);
         $content = json_decode($response->content());
 
         $err_numero_identificacion = 'datosSugarCRM.numero_identificacion';
@@ -200,6 +202,7 @@ class ProspectionLandingTest extends TestCase
         $err_agencia = 'datosSugarCRM.agencia';
         $err_modelo = 'datosSugarCRM.modelo';
         $err_tienetoyota = 'datosSugarCRM.tienetoyota';
+        $err_horaentregainmediata = 'datosSugarCRM.horaentregainmediata';
 
         $response->assertStatus(422);
 
@@ -210,7 +213,8 @@ class ProspectionLandingTest extends TestCase
         $this->assertEquals($content->errors->$err_celular[0], 'Celular es requerido');
         $this->assertEquals($content->errors->$err_email[0], 'Email es requerido');
         $this->assertEquals($content->errors->$err_agencia[0], 'agencia es requerida');
-         $this->assertEquals($content->errors->$err_modelo[0], 'modelo es requerido');
+        $this->assertEquals($content->errors->$err_modelo[0], 'modelo es requerido');
         $this->assertEquals($content->errors->$err_tienetoyota[0], 'tienetoyota es requerido');
+        $this->assertEquals($content->errors->$err_horaentregainmediata[0], 'horaentregainmediata debe tener el siguiente formato Y-m-d hh:mm:ss');
     }
 }

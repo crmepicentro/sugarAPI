@@ -549,13 +549,58 @@ class ProspeccionController extends BaseController
         return $contact->create();
     }
 
-    public function landingProspeccion(ProspectionLandingRequest $request){
+
+    /**
+     * Prospección - APP Talleres
+     *
+     * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
+     * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
+     * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: Marta Patricia
+     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente. Example: Andrade Torres
+     * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
+     * @bodyParam  datosSugarCRM.celular numeric required Celular del cliente. Example: 0987519882
+     * @bodyParam  datosSugarCRM.agencia numeric required ID S3S de la Agencia Example: 20
+     * @bodyParam  datosSugarCRM.fuente numeric required Fuente Permitida 17(APP Talleres) Example: 17
+     * @bodyParam  datosSugarCRM.modelo string required Nombre del Modelo Example: NEW HILUX 2.7 CD 4X2
+     * @bodyParam  datosSugarCRM.comentarios string Comentario test Example: Comentario Test
+     * @bodyParam  datosSugarCRM.tienetoyota numeric Tiene Toyota? 1(SI), 0(NO) Example: 1
+     * @bodyParam  datosSugarCRM.tienetoyota numeric Tiene Toyota? 1(SI), 0(NO) Example: 1
+     * @bodyParam  datosSugarCRM.interesadorenovacion numeric Interesado en Renovación 1(SI), 0(NO) Example: 1
+     * @bodyParam  datosSugarCRM.horaentregainmediata dateTime Fecha y Hora de entrega Formato Y-m-d hh:mm:ss Example: 2021-08-31 14:00:00
+     * @bodyParam  datosSugarCRM.asesorcorreo mail Correo del asesor Example: asesor@casabaca.com
+     * @bodyParam  datosSugarCRM.asesornombre string Nombre del asesor Example: Pepito Martinez
+     * @bodyParam  datosSugarCRM.asesornombre string Nombre del asesor Example: Pepito Martinez
+     *
+     * @response  {
+     *  "data": {
+     *      "prospeccion_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+     *      "ticket_url": "https://sugarcrm.casabaca.com/#cbp_Prospeccion/e06279dc-5629-5b20-6ebf-61081a41553a"
+     *  }
+     * }
+     *@response 422 {
+     *  "errors": {
+     *      "numero_identificacion": [
+     *          "Identificación es requerida"
+     *      ],
+     *  "nombres": [
+     *      "Nombres son requeridos"
+     *  ]
+     *  }
+     * }
+     *
+     * @response 500 {
+     *  "message": "Unauthenticated.",
+     *  "status_code": 500
+     * }
+     */
+
+    public function formsProspeccion(ProspectionLandingRequest $request){
         \DB::connection(get_connection())->beginTransaction();
         try {
             $user_auth = Auth::user();
 
             $dias = 1;
-            $ws_logs = WsLog::storeBefore($request, 'api/landing_prospeccion');
+            $ws_logs = WsLog::storeBefore($request, 'api/forms_prospeccion');
 
             $landingPage = LandingPages::where('fuente_s3s', $request->datosSugarCRM["fuente"])->first();
 
@@ -564,7 +609,7 @@ class ProspeccionController extends BaseController
             $concesionario = Agencies::getForS3SId($request->datosSugarCRM["agencia"]);
 
             $agency = AgenciesLandingPages::where('name', $concesionario->id)->where('id_form', $landingPage->id)->first();
-            $positionComercial = 2;
+            $positionComercial = $landingPage->user_assigned_position;
 
             if($agency) {
                 $comercialUser = Users::getRandomAsesorProspectoByAgency($agency->id_sugar, $line, $positionComercial, $dias);
@@ -590,7 +635,7 @@ class ProspeccionController extends BaseController
                 "names" => $request->datosSugarCRM["nombres"],
                 "surnames" => $request->datosSugarCRM["apellidos"],
                 "cellphone_number" => $request->datosSugarCRM["celular"],
-                "phone_home" => $request->datosSugarCRM["telefono"],
+                "phone_home" => $request->datosSugarCRM["telefono"] ?? null,
                 "email" => $request->datosSugarCRM["email"],
                 "cb_lineanegocio_id_c" => $landingPage->business_line_id,
                 "assigned_user_id" => $comercialUser,

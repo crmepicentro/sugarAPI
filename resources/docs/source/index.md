@@ -1211,6 +1211,155 @@ Parameter | Type | Status | Description
     
 <!-- END_ee43d68a55417a9e9a7535ff8dcb5232 -->
 
+<!-- START_c9b0c7528d8e45b356488364e69b6ea1 -->
+## Prospección - APP Talleres
+
+> Example request:
+
+```bash
+curl -X POST \
+    "https://api-sugarcrm.casabaca.com/api/forms_prospeccion" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"datosSugarCRM":{"numero_identificacion":"1719932079","tipo_identificacion":"C","nombres":"Marta Patricia","apellidos":"Andrade Torres","email":"mart@hotmail.com","celular":"0987519882","agencia":"20","fuente":"17","modelo":"NEW HILUX 2.7 CD 4X2","comentarios":"Comentario Test","tienetoyota":"1","interesadorenovacion":"1","horaentregainmediata":"2021-08-31 14:00:00","asesorcorreo":"asesor@casabaca.com","asesornombre":"Pepito Martinez"}}'
+
+```
+
+```javascript
+const url = new URL(
+    "https://api-sugarcrm.casabaca.com/api/forms_prospeccion"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "datosSugarCRM": {
+        "numero_identificacion": "1719932079",
+        "tipo_identificacion": "C",
+        "nombres": "Marta Patricia",
+        "apellidos": "Andrade Torres",
+        "email": "mart@hotmail.com",
+        "celular": "0987519882",
+        "agencia": "20",
+        "fuente": "17",
+        "modelo": "NEW HILUX 2.7 CD 4X2",
+        "comentarios": "Comentario Test",
+        "tienetoyota": "1",
+        "interesadorenovacion": "1",
+        "horaentregainmediata": "2021-08-31 14:00:00",
+        "asesorcorreo": "asesor@casabaca.com",
+        "asesornombre": "Pepito Martinez"
+    }
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->post(
+    'https://api-sugarcrm.casabaca.com/api/forms_prospeccion',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+        'json' => [
+            'datosSugarCRM' => [
+                'numero_identificacion' => '1719932079',
+                'tipo_identificacion' => 'C',
+                'nombres' => 'Marta Patricia',
+                'apellidos' => 'Andrade Torres',
+                'email' => 'mart@hotmail.com',
+                'celular' => '0987519882',
+                'agencia' => '20',
+                'fuente' => '17',
+                'modelo' => 'NEW HILUX 2.7 CD 4X2',
+                'comentarios' => 'Comentario Test',
+                'tienetoyota' => '1',
+                'interesadorenovacion' => '1',
+                'horaentregainmediata' => '2021-08-31 14:00:00',
+                'asesorcorreo' => 'asesor@casabaca.com',
+                'asesornombre' => 'Pepito Martinez',
+            ],
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "data": {
+        "prospeccion_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+        "ticket_url": "https:\/\/sugarcrm.casabaca.com\/#cbp_Prospeccion\/e06279dc-5629-5b20-6ebf-61081a41553a"
+    }
+}
+```
+> Example response (422):
+
+```json
+{
+    "errors": {
+        "numero_identificacion": [
+            "Identificación es requerida"
+        ],
+        "nombres": [
+            "Nombres son requeridos"
+        ]
+    }
+}
+```
+> Example response (500):
+
+```json
+{
+    "message": "Unauthenticated.",
+    "status_code": 500
+}
+```
+
+### HTTP Request
+`POST api/forms_prospeccion`
+
+#### Body Parameters
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    `datosSugarCRM.numero_identificacion` | string |  required  | ID del client.
+        `datosSugarCRM.tipo_identificacion` | string |  required  | Valores válidos: C(Cedula),P(Pasaporte), R(RUC)
+        `datosSugarCRM.nombres` | string |  required  | Nombres del cliente.
+        `datosSugarCRM.apellidos` | string |  required  | Apellidos del cliente.
+        `datosSugarCRM.email` | email |  required  | Email válido del cliente.
+        `datosSugarCRM.celular` | numeric |  required  | Celular del cliente.
+        `datosSugarCRM.agencia` | numeric |  required  | ID S3S de la Agencia
+        `datosSugarCRM.fuente` | numeric |  required  | Fuente Permitida 17(APP Talleres)
+        `datosSugarCRM.modelo` | string |  optional  | Nombre del Modelo
+        `datosSugarCRM.comentarios` | string |  optional  | Comentario test
+        `datosSugarCRM.tienetoyota` | numeric |  required  | Tiene Toyota? 1(SI), 0(NO)
+        `datosSugarCRM.interesadorenovacion` | numeric |  required  | 1(SI), 0(NO)
+        `datosSugarCRM.horaentregainmediata` | dateTime |  optional  | Fecha y Hora de entrega Formato Y-m-d hh:mm:ss
+        `datosSugarCRM.asesorcorreo` | mail |  optional  | Correo del asesor
+        `datosSugarCRM.asesornombre` | string |  optional  | Nombre del asesor
+    
+<!-- END_c9b0c7528d8e45b356488364e69b6ea1 -->
+
 #Prospección - Citas
 
 
