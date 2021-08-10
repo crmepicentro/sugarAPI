@@ -25,7 +25,7 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-        <img src="/docs/images/logo.png" />
+        <img src="/docs/images/logo.png" width="230px"/>
                     <div class="lang-selector">
                                   <a href="#" data-language-name="bash">bash</a>
                                   <a href="#" data-language-name="javascript">javascript</a>
@@ -37,17 +37,13 @@
             <ul class="search-results"></ul>
               <div id="toc">
       </div>
-                    <ul class="toc-footer">
-                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
-                            </ul>
             </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
           <!-- START_INFO -->
-<h1>Info</h1>
-<p>Welcome to the generated API reference.
-<a href="{{ route("apidoc.json") }}">Get Postman Collection</a></p>
+          <h1>Info</h1>
+          <p>Bienvenido a la documentación "API SUGAR EPICENTRO DIGITAL"</p>
 <!-- END_INFO -->
 <h1>Asesores</h1>
 <p>Api para Obtener asesores</p>
