@@ -1005,7 +1005,7 @@ class TicketsController extends BaseController
             $concesionario = $request->datosSugarCRM["concesionario"];
             $line = $landingPage->business_line_id;
             $agency = AgenciesLandingPages::where('name', $concesionario)->where('id_form', $landingPage->id)->first();
-            $positionComercial = 2;
+            $positionComercial = $landingPage->user_assigned_position;
 
             if($agency) {
                 $comercialUser = Users::getRandomAsesorByAgency($agency->id_sugar, $line, $positionComercial, $dias, $landingPage->medio);

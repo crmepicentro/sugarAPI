@@ -43,7 +43,7 @@
       <div class="content">
           <!-- START_INFO -->
           <h1>Info</h1>
-          <p>Bienvenido a la documentación del API SUGAR EPICENTRO DIGITAL</p>
+          <p>Bienvenido a la documentación "API SUGAR EPICENTRO DIGITAL"</p>
 <!-- END_INFO -->
 <h1>Asesores</h1>
 <p>Api para Obtener asesores</p>
@@ -1606,6 +1606,223 @@ print_r(json_decode((string) $body));</code></pre>
 </tbody>
 </table>
 <!-- END_ee43d68a55417a9e9a7535ff8dcb5232 -->
+<!-- START_c9b0c7528d8e45b356488364e69b6ea1 -->
+<h2>Prospección - APP Talleres</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "https://api-sugarcrm.casabaca.com/api/forms_prospeccion" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"datosSugarCRM":{"numero_identificacion":"1719932079","tipo_identificacion":"C","nombres":"Marta Patricia","apellidos":"Andrade Torres","email":"mart@hotmail.com","celular":"0987519882","agencia":"20","fuente":"17","modelo":"NEW HILUX 2.7 CD 4X2","comentarios":"Comentario Test","tienetoyota":"1","interesadorenovacion":"1","horaentregainmediata":"2021-08-31 14:00:00","asesorcorreo":"asesor@casabaca.com","asesornombre":"Pepito Martinez"}}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "https://api-sugarcrm.casabaca.com/api/forms_prospeccion"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "datosSugarCRM": {
+        "numero_identificacion": "1719932079",
+        "tipo_identificacion": "C",
+        "nombres": "Marta Patricia",
+        "apellidos": "Andrade Torres",
+        "email": "mart@hotmail.com",
+        "celular": "0987519882",
+        "agencia": "20",
+        "fuente": "17",
+        "modelo": "NEW HILUX 2.7 CD 4X2",
+        "comentarios": "Comentario Test",
+        "tienetoyota": "1",
+        "interesadorenovacion": "1",
+        "horaentregainmediata": "2021-08-31 14:00:00",
+        "asesorcorreo": "asesor@casabaca.com",
+        "asesornombre": "Pepito Martinez"
+    }
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://api-sugarcrm.casabaca.com/api/forms_prospeccion',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+        'json' =&gt; [
+            'datosSugarCRM' =&gt; [
+                'numero_identificacion' =&gt; '1719932079',
+                'tipo_identificacion' =&gt; 'C',
+                'nombres' =&gt; 'Marta Patricia',
+                'apellidos' =&gt; 'Andrade Torres',
+                'email' =&gt; 'mart@hotmail.com',
+                'celular' =&gt; '0987519882',
+                'agencia' =&gt; '20',
+                'fuente' =&gt; '17',
+                'modelo' =&gt; 'NEW HILUX 2.7 CD 4X2',
+                'comentarios' =&gt; 'Comentario Test',
+                'tienetoyota' =&gt; '1',
+                'interesadorenovacion' =&gt; '1',
+                'horaentregainmediata' =&gt; '2021-08-31 14:00:00',
+                'asesorcorreo' =&gt; 'asesor@casabaca.com',
+                'asesornombre' =&gt; 'Pepito Martinez',
+            ],
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": {
+        "prospeccion_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+        "ticket_url": "https:\/\/sugarcrm.casabaca.com\/#cbp_Prospeccion\/e06279dc-5629-5b20-6ebf-61081a41553a"
+    }
+}</code></pre>
+<blockquote>
+<p>Example response (422):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "errors": {
+        "numero_identificacion": [
+            "Identificación es requerida"
+        ],
+        "nombres": [
+            "Nombres son requeridos"
+        ]
+    }
+}</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated.",
+    "status_code": 500
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/forms_prospeccion</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>datosSugarCRM.numero_identificacion</code></td>
+<td>string</td>
+<td>required</td>
+<td>ID del client.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.tipo_identificacion</code></td>
+<td>string</td>
+<td>required</td>
+<td>Valores válidos: C(Cedula),P(Pasaporte), R(RUC)</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.nombres</code></td>
+<td>string</td>
+<td>required</td>
+<td>Nombres del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.apellidos</code></td>
+<td>string</td>
+<td>required</td>
+<td>Apellidos del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.email</code></td>
+<td>email</td>
+<td>required</td>
+<td>Email válido del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.celular</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>Celular del cliente.</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.agencia</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>ID S3S de la Agencia</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.fuente</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>Fuente Permitida 17(APP Talleres)</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.modelo</code></td>
+<td>string</td>
+<td>optional</td>
+<td>Nombre del Modelo</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.comentarios</code></td>
+<td>string</td>
+<td>optional</td>
+<td>Comentario test</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.tienetoyota</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>Tiene Toyota? 1(SI), 0(NO)</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.interesadorenovacion</code></td>
+<td>numeric</td>
+<td>required</td>
+<td>1(SI), 0(NO)</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.horaentregainmediata</code></td>
+<td>dateTime</td>
+<td>optional</td>
+<td>Fecha y Hora de entrega Formato Y-m-d hh:mm:ss</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.asesorcorreo</code></td>
+<td>mail</td>
+<td>optional</td>
+<td>Correo del asesor</td>
+</tr>
+<tr>
+<td><code>datosSugarCRM.asesornombre</code></td>
+<td>string</td>
+<td>optional</td>
+<td>Nombre del asesor</td>
+</tr>
+</tbody>
+</table>
+<!-- END_c9b0c7528d8e45b356488364e69b6ea1 -->
 <h1>Prospección - Citas</h1>
 <p>Api para crear Llamada - Cita - Prospección</p>
 <!-- START_4ab385e6babe171ebd61d88e554311bf -->

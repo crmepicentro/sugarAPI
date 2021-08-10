@@ -51,8 +51,6 @@ class Agencies extends Model
     }
 
 
-
-
     public static function getAllCodeNameByUser($idUser)
   {
     return self::select('id as code','name','assigned_user_id')
@@ -72,5 +70,8 @@ class Agencies extends Model
             ->pluck('cb_agencias.name', 'cb_agencias.id');
     }
 
-
+    public static function getForS3SId($idS3S)
+    {
+        return self::where('s3s_id', $idS3S)->first();
+    }
 }

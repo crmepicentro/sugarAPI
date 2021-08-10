@@ -6,7 +6,12 @@ use App\Helpers\WsLog;
 use App\Http\Requests\CallQuotationRequest;
 use App\Http\Requests\ProspeccionCallRequest;
 use App\Http\Requests\ProspeccionClosedRequest;
+use App\Http\Requests\ProspectionLandingRequest;
 use App\Http\Requests\QuotationRequest;
+use App\Models\Agencies;
+use App\Models\AgenciesLandingPages;
+use App\Models\LandingPages;
+use App\Models\Medio;
 use App\Models\Prospeccion;
 use App\Models\Tickets;
 use App\Models\Users;
@@ -541,6 +546,142 @@ class ProspeccionController extends BaseController
         $contact->tipo_contacto_c  = 1;
         $contact->created_by = $user_call_center->created_by;
         $contact->assigned_user_id = $user_call_center->id;
-        return $contact->create($dataContact);
+        return $contact->create();
+    }
+
+
+    /**
+     * Prospección - APP Talleres
+     *
+     * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
+     * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
+     * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: Marta Patricia
+     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente. Example: Andrade Torres
+     * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
+     * @bodyParam  datosSugarCRM.celular numeric required Celular del cliente. Example: 0987519882
+     * @bodyParam  datosSugarCRM.agencia numeric required ID S3S de la Agencia Example: 20
+     * @bodyParam  datosSugarCRM.fuente numeric required Fuente Permitida 17(APP Talleres) Example: 17
+     * @bodyParam  datosSugarCRM.modelo string required Nombre del Modelo Example: NEW HILUX 2.7 CD 4X2
+     * @bodyParam  datosSugarCRM.comentarios string Comentario test Example: Comentario Test
+     * @bodyParam  datosSugarCRM.tienetoyota numeric Tiene Toyota? 1(SI), 0(NO) Example: 1
+     * @bodyParam  datosSugarCRM.tienetoyota numeric Tiene Toyota? 1(SI), 0(NO) Example: 1
+     * @bodyParam  datosSugarCRM.interesadorenovacion numeric Interesado en Renovación 1(SI), 0(NO) Example: 1
+     * @bodyParam  datosSugarCRM.horaentregainmediata dateTime Fecha y Hora de entrega Formato Y-m-d hh:mm:ss Example: 2021-08-31 14:00:00
+     * @bodyParam  datosSugarCRM.asesorcorreo mail Correo del asesor Example: asesor@casabaca.com
+     * @bodyParam  datosSugarCRM.asesornombre string Nombre del asesor Example: Pepito Martinez
+     * @bodyParam  datosSugarCRM.asesornombre string Nombre del asesor Example: Pepito Martinez
+     *
+     * @response  {
+     *  "data": {
+     *      "prospeccion_id": "10438baf-0d83-9533-4fb3-602ea326288b",
+     *      "ticket_url": "https://sugarcrm.casabaca.com/#cbp_Prospeccion/e06279dc-5629-5b20-6ebf-61081a41553a"
+     *  }
+     * }
+     *@response 422 {
+     *  "errors": {
+     *      "numero_identificacion": [
+     *          "Identificación es requerida"
+     *      ],
+     *  "nombres": [
+     *      "Nombres son requeridos"
+     *  ]
+     *  }
+     * }
+     *
+     * @response 500 {
+     *  "message": "Unauthenticated.",
+     *  "status_code": 500
+     * }
+     */
+
+    public function formsProspeccion(ProspectionLandingRequest $request){
+        \DB::connection(get_connection())->beginTransaction();
+        try {
+            $user_auth = Auth::user();
+
+            $dias = 1;
+            $ws_logs = WsLog::storeBefore($request, 'api/forms_prospeccion');
+
+            $landingPage = LandingPages::where('fuente_s3s', $request->datosSugarCRM["fuente"])->first();
+
+            $line = $landingPage->business_line_id;
+            $medio = Medio::find($landingPage->medio);
+            $concesionario = Agencies::getForS3SId($request->datosSugarCRM["agencia"]);
+
+            $agency = AgenciesLandingPages::where('name', $concesionario->id)->where('id_form', $landingPage->id)->first();
+            $positionComercial = $landingPage->user_assigned_position;
+
+            if($agency) {
+                $comercialUser = Users::getRandomAsesorProspectoByAgency($agency->id_sugar, $line, $positionComercial, $dias);
+            }else{
+                $comercialUser = Users::getRandomAsesorProspectoByAgency($concesionario->id, $line, $positionComercial, $dias);
+            }
+
+            $comercialUser = $comercialUser[0]->usuario;
+
+            $cleanDataProspeccion = [
+                "created_by" => $comercialUser,
+                "concat_description" => false,
+                "deleted" => "0",
+                "team_id" => "1",
+                "team_set_id" => "1",
+                "brinda_identificacion" => "1",
+                "tipo_identificacion" => $request->datosSugarCRM["tipo_identificacion"],
+                "numero_identificacion" => $request->datosSugarCRM["numero_identificacion"],
+                "fuente" => $medio->fuente_id,
+                "description" => $request->datosSugarCRM["comentarios"],
+                "medio" => $medio->id,
+                "estado" => 1,
+                "names" => $request->datosSugarCRM["nombres"],
+                "surnames" => $request->datosSugarCRM["apellidos"],
+                "cellphone_number" => $request->datosSugarCRM["celular"],
+                "phone_home" => $request->datosSugarCRM["telefono"] ?? null,
+                "email" => $request->datosSugarCRM["email"],
+                "cb_lineanegocio_id_c" => $landingPage->business_line_id,
+                "assigned_user_id" => $comercialUser,
+                "modelo_c" => $request->datosSugarCRM["modelo"] ?? null,
+                "campaign_id_c" => $landingPage->campaign,
+                "interesado_renovacion_c" => $request->datosSugarCRM["interesadorenovacion"] ?? null,
+                "correo_asesor_servicio_c" => $request->datosSugarCRM["asesorcorreo"] ?? null,
+                "nombre_asesor_servicio_c" => $request->datosSugarCRM["asesornombre"] ?? null,
+                "hora_entrega_inmediata_c" => $request->datosSugarCRM["horaentregainmediata"] ?? null,
+                "tienetoyota_c" => $request->datosSugarCRM["tienetoyota"] ?? null
+            ];
+
+            $prospeccion = ProspeccionClass::store($cleanDataProspeccion);
+
+            $contactClass = new ContactClass();
+            $contactClass->numero_identificacion = $request->datosSugarCRM["numero_identificacion"];
+            $contactClass->tipo_identificacion = $request->datosSugarCRM["tipo_identificacion"];
+            $contactClass->names = $request->datosSugarCRM["nombres"];
+            $contactClass->surnames = $request->datosSugarCRM["apellidos"];
+            $contactClass->phone_home = $request->datosSugarCRM["telefono"] ?? null;
+            $contactClass->cellphone_number = $request->datosSugarCRM["celular"];
+            $contactClass->email = $request->datosSugarCRM["email"];
+            $contactClass->tipo_contacto_c  = 1;
+            $contactClass->created_by = $comercialUser;
+            $contactClass->assigned_user_id = $comercialUser;
+            $contact = $contactClass->create();
+
+            if($prospeccion->new) {
+                $prospeccion->contacts()->attach($contact->id, ['id'=> createdID()]);
+            }
+
+            $dataUpdateWS = [
+                "response" => json_encode($this->response->item($prospeccion, new ProspeccionTransformer)),
+                "prospeccion_id" => $prospeccion->id,
+                "environment" => get_connection(),
+                "source" => $user_auth->fuente
+            ];
+
+            WsLog::storeAfter($ws_logs, $dataUpdateWS);
+
+            \DB::connection(get_connection())->commit();
+
+            return $this->response->item($prospeccion, new ProspeccionTransformer)->setStatusCode(200);
+        }catch(Throwable $e){
+            \DB::connection(get_connection())->rollBack();
+            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
+        }
     }
 }
