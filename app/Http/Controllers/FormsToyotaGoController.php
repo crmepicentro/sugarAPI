@@ -18,8 +18,9 @@ class FormsToyotaGoController extends Controller
         $wsInconcertLog = new WsToyotaGo();
         $wsInconcertLog->route = env('urlSumateForm');
         $wsInconcertLog->environment = get_connection();
-        $wsInconcertLog->source = 'WP-GravityForms';
-        $wsInconcertLog->response = json_encode($_SERVER);
+        $wsInconcertLog->source = $_SERVER['HTTP_REFERER'];
+        //$wsInconcertLog->response = json_encode($_SERVER);
+        $wsInconcertLog->status = 'Nuevo';
         $wsInconcertLog->datos_principales = json_encode($request->all());
         $wsInconcertLog->save();
 
