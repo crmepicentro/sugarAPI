@@ -1,9 +1,6 @@
 <?php
 namespace App\Services;
 
-use App\Models\Tickets;
-use App\Models\TicketsCstm;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 
