@@ -14,7 +14,7 @@ class ProspeccionTransformer extends TransformerAbstract
     {
         return [
             'prospeccion_id' => $prospeccion->id,
-            'prospeccion_url' => "https://sugarcrm.casabaca.com/#cbp_Prospeccion/".$prospeccion->id
+            'prospeccion_url' => get_domain_company(). "/#cbp_Prospeccion/" .$prospeccion->id
         ];
     }
 

@@ -230,4 +230,17 @@ function get_medio_inconcert($fuente, $descripcion)
 
     return $default[$fuente] ?? 13;//WebChat Casabaca
 }
+
+function get_domain_company()
+{
+    $user_auth = Auth::user();
+
+    if($user_auth && $user_auth->compania){
+        $compania = Companies::find($user_auth->compania);
+
+        return $compania->domain;
+    }
+
+    return 'https://sugarcrm.casabaca.com';
+}
 ?>

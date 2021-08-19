@@ -16,7 +16,7 @@ class TicketsTransformer extends TransformerAbstract
             'ticket_id'     => $ticket->id,
             'ticket_name'   => $ticket->name,
             'interaction_id'=> $ticket->id_interaction,
-            'ticket_url'    => 'https://sugarcrm.casabaca.com/#cbt_Tickets/'.$ticket->id
+            'ticket_url'    => get_domain_company() . '/#cbt_Tickets/'.$ticket->id
         ];
     }
 

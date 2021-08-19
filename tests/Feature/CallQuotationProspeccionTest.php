@@ -72,7 +72,7 @@ class CallQuotationProspeccionTest extends TestCase
         $this->assertEquals(5, $ticket->estado);
         $this->assertNotNull($contentProspeccion->data->prospeccion_id);
         $this->assertNotNull($contentProspeccion->data->call_id);
-        $this->assertEquals("https://sugarcrm.casabaca.com/#cbp_Prospeccion/".$contentProspeccion->data->prospeccion_id, $contentProspeccion->data->prospeccion_url);
+        $this->assertEquals("https://domain.com/#cbp_Prospeccion/".$contentProspeccion->data->prospeccion_id, $contentProspeccion->data->prospeccion_url);
 
         $prospeccion = Prospeccion::find($contentProspeccion->data->prospeccion_id);
 

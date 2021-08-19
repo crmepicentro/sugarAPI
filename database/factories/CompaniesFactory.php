@@ -26,6 +26,7 @@ class CompaniesFactory extends Factory
             'sugar_dev' => 'sugar_dev',
             'sugar_prod' => 'sugar_dev',
             'intermedia_prod' => 'base_intermedia',
+            'domain' => 'https://domain.com',
         ];
     }
 }
