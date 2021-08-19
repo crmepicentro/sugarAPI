@@ -27,7 +27,7 @@ class TicketsTest extends TestCase
         $this->assertNotNull($content->data->ticket_id);
         $this->assertNotNull($content->data->ticket_name);
         $this->assertNotNull($content->data->interaction_id);
-        $this->assertEquals('https://sugarcrm.casabaca.com/#cbt_Tickets/'. $content->data->ticket_id, $content->data->ticket_url);
+        $this->assertEquals('https://domain.com/#cbt_Tickets/'. $content->data->ticket_id, $content->data->ticket_url);
 
         $ticket = Tickets::find($content->data->ticket_id);
         $this->assertEquals($ticket->numero_identificacion, $this->dataTicket['datosSugarCRM']['numero_identificacion']);

@@ -15,7 +15,7 @@ class QuotationCallTransformer extends TransformerAbstract
         return [
             'prospeccion_id' => $prospeccion->id,
             'call_id' => $prospeccion->call_id,
-            'prospeccion_url' => "https://sugarcrm.casabaca.com/#cbp_Prospeccion/".$prospeccion->id
+            'prospeccion_url' => get_domain_company(). "/#cbp_Prospeccion/" .$prospeccion->id
         ];
     }
 
