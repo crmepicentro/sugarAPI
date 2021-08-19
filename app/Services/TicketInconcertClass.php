@@ -1,10 +1,8 @@
 <?php
 namespace App\Services;
 
-use App\Models\Tickets;
-use App\Models\TicketsCstm;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class TicketInconcertClass {
   public $numero_identificacion;
@@ -23,8 +21,14 @@ class TicketInconcertClass {
 
   public function create($extraFields)
   {
+    $user_auth = Auth::user();
+    $tokens = [
+        "1" =>  "inconcertTokenTicket",
+        "2" =>  "inconcertTokenTicketSZK"
+    ];
+
     $data = [
-      "serviceToken" => env('inconcertTokenTicket'),
+      "serviceToken" => env($tokens[$user_auth->compania]),
       "serviceAction" => "c2c",
       "contentUrl" => $this->contentUrl,
       "thankyouPageUrl" => $this->thankyouPageUrl,
