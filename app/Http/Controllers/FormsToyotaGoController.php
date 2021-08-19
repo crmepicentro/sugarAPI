@@ -18,7 +18,7 @@ class FormsToyotaGoController extends Controller
         $wsInconcertLog = new WsToyotaGo();
         $wsInconcertLog->route = env('urlSumateForm');
         $wsInconcertLog->environment = get_connection();
-        $wsInconcertLog->source = $_SERVER['HTTP_REFERER'];
+        $wsInconcertLog->source = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'EXTERNO(facebook)';
         //$wsInconcertLog->response = json_encode($_SERVER);
         $wsInconcertLog->status = 'Nuevo';
         $wsInconcertLog->datos_principales = json_encode($request->all());
