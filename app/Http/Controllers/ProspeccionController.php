@@ -556,7 +556,7 @@ class ProspeccionController extends BaseController
      * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
      * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
      * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: Marta Patricia
-     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente. Example: Andrade Torres
+     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente, puede ir en blanco cuando el tipo de identificación es Persona Jurídica. Example: Andrade Torres
      * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
      * @bodyParam  datosSugarCRM.celular numeric required Celular del cliente. Example: 0987519882
      * @bodyParam  datosSugarCRM.agencia numeric required ID S3S de la Agencia Example: 20
