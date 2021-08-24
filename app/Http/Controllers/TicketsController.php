@@ -291,12 +291,12 @@ class TicketsController extends BaseController
         return $contact->create();
     }
 
-    public function createUpdateTicket($dataTicket, $type_filter = 'numero_identificacion', $statusTofind = [4, 7])
+    public function createUpdateTicket($dataTicket, $type_filter = 'numero_identificacion', $statusTofind = [1, 4])
     {
         if($dataTicket[$type_filter]){
             $ticket = Tickets::where($type_filter, $dataTicket[$type_filter])
                               ->where('deleted', 0)
-                              ->whereNotIn('estado', $statusTofind)
+                              ->whereIn('estado', $statusTofind)
                               ->first();
         }
 
