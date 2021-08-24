@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Agencies;
 use App\Models\LandingPages;
+use App\Rules\ExtraRucDocument;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -44,12 +45,14 @@ class ProspectionLandingRequest extends FormRequest
      */
     public function rules()
     {
+        $content = json_decode(request()->content);
+
         $requestValidations =  [
             'datosSugarCRM.formulario' => 'in:'.$this->getNameForms(),
             'datosSugarCRM.numero_identificacion' => 'required',
             'datosSugarCRM.tipo_identificacion' => 'required|in:C,P,R',
             'datosSugarCRM.nombres' => 'required',
-            'datosSugarCRM.apellidos' => 'required',
+            'datosSugarCRM.apellidos' => [new ExtraRucDocument($content->datosSugarCRM->tipo_identificacion, $content->datosSugarCRM->numero_identificacion)],
             'datosSugarCRM.celular' => 'required|numeric',
             'datosSugarCRM.telefono' => 'numeric',
             'datosSugarCRM.email' => 'required|email:rfc,dns',
