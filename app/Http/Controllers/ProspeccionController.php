@@ -556,7 +556,7 @@ class ProspeccionController extends BaseController
      * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
      * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
      * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: Marta Patricia
-     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente. Example: Andrade Torres
+     * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente, puede ir en blanco cuando el tipo de identificación es Persona Jurídica. Example: Andrade Torres
      * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
      * @bodyParam  datosSugarCRM.celular numeric required Celular del cliente. Example: 0987519882
      * @bodyParam  datosSugarCRM.agencia numeric required ID S3S de la Agencia Example: 20
@@ -597,6 +597,10 @@ class ProspeccionController extends BaseController
     public function formsProspeccion(ProspectionLandingRequest $request){
         \DB::connection(get_connection())->beginTransaction();
         try {
+            if(!array_key_exists("apellidos", $request->datosSugarCRM)){
+                return response()->json(['errors' => ['datosSugarCRM.apellidos' => 'Apellidos debe estar definido']]);
+            }
+
             $user_auth = Auth::user();
 
             $dias = 1;
@@ -605,16 +609,16 @@ class ProspeccionController extends BaseController
             $landingPage = LandingPages::where('fuente_s3s', $request->datosSugarCRM["fuente"])->first();
 
             $line = $landingPage->business_line_id;
+
             $medio = Medio::find($landingPage->medio);
             $concesionario = Agencies::getForS3SId($request->datosSugarCRM["agencia"]);
 
-            $agency = AgenciesLandingPages::where('name', $concesionario->id)->where('id_form', $landingPage->id)->first();
             $positionComercial = $landingPage->user_assigned_position;
 
-            if($agency) {
-                $comercialUser = Users::getRandomAsesorProspectoByAgency($agency->id_sugar, $line, $positionComercial, $dias);
-            }else{
-                $comercialUser = Users::getRandomAsesorProspectoByAgency($concesionario->id, $line, $positionComercial, $dias);
+            $comercialUser = Users::getRandomAsesorProspectoByAgency($concesionario->id, $line, $positionComercial, $dias);
+
+            if(!$comercialUser){
+                return response()->json(['errors' => ['Asesor' => 'Asesor no puede ser asignado para esa agencia y linea de negocio']]);
             }
 
             $comercialUser = $comercialUser[0]->usuario;
@@ -633,7 +637,7 @@ class ProspeccionController extends BaseController
                 "medio" => $medio->id,
                 "estado" => 1,
                 "names" => $request->datosSugarCRM["nombres"],
-                "surnames" => $request->datosSugarCRM["apellidos"],
+                "surnames" => $request->datosSugarCRM["apellidos"] ?? null,
                 "cellphone_number" => $request->datosSugarCRM["celular"],
                 "phone_home" => $request->datosSugarCRM["telefono"] ?? null,
                 "email" => $request->datosSugarCRM["email"],
@@ -654,7 +658,7 @@ class ProspeccionController extends BaseController
             $contactClass->numero_identificacion = $request->datosSugarCRM["numero_identificacion"];
             $contactClass->tipo_identificacion = $request->datosSugarCRM["tipo_identificacion"];
             $contactClass->names = $request->datosSugarCRM["nombres"];
-            $contactClass->surnames = $request->datosSugarCRM["apellidos"];
+            $contactClass->surnames = $request->datosSugarCRM["apellidos"] ?? null;
             $contactClass->phone_home = $request->datosSugarCRM["telefono"] ?? null;
             $contactClass->cellphone_number = $request->datosSugarCRM["celular"];
             $contactClass->email = $request->datosSugarCRM["email"];
