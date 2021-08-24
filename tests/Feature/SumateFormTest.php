@@ -52,6 +52,13 @@ class SumateFormTest extends TestCase
         ];
     }
 
+
+
+    public function testOk()
+    {
+        $response = $this->get('/');
+        $response->assertOk();
+    }
     /**
      * A basic feature test example.
      *
