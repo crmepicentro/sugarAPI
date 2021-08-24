@@ -186,15 +186,15 @@ class ProspectionLandingTest extends TestCase
         $data = [
             'datosSugarCRM' => [
                 'fuente' => '17',
+                "numero_identificacion" => '1719932079',
+                "tipo_identificacion" => 'C',
+                "apellidos" => '',
                 "horaentregainmediata" => "14:00:00",
             ]
         ];
 
         $response = $this->json('POST', $this->baseUrl . 'forms_prospeccion', $data);
         $content = json_decode($response->content());
-
-        $err_numero_identificacion = 'datosSugarCRM.numero_identificacion';
-        $err_tipo_identificacion = 'datosSugarCRM.tipo_identificacion';
         $err_nombres = 'datosSugarCRM.nombres';
         $err_apellidos = 'datosSugarCRM.apellidos';
         $err_celular = 'datosSugarCRM.celular';
@@ -206,10 +206,8 @@ class ProspectionLandingTest extends TestCase
 
         $response->assertStatus(422);
 
-        $this->assertEquals($content->errors->$err_numero_identificacion[0], 'Número identificación es requerido');
-        $this->assertEquals($content->errors->$err_tipo_identificacion[0], 'Tipo identificación es requerido');
         $this->assertEquals($content->errors->$err_nombres[0], 'Nombres son requeridos');
-        $this->assertEquals($content->errors->$err_apellidos[0], 'Apellidos son requeridos');
+        $this->assertEquals($content->errors->$err_apellidos[0], 'El campo datos sugar c r m.apellidos es requerido o no es válido.');
         $this->assertEquals($content->errors->$err_celular[0], 'Celular es requerido');
         $this->assertEquals($content->errors->$err_email[0], 'Email es requerido');
         $this->assertEquals($content->errors->$err_agencia[0], 'agencia es requerida');
