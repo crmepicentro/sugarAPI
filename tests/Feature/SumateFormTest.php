@@ -102,11 +102,7 @@ class SumateFormTest extends TestCase
         dd($response->content());
         $response->assertStatus(200);
 
-        $contact = Destinations::first();
-        $this->assertEquals($this->dataFormDestinos["nombre"], $contact->first_name);
-        $this->assertEquals($this->dataFormDestinos["apellido"], $contact->last_name);
-        $this->assertEquals($this->dataFormDestinos["email"], $contact->email);
-        $this->assertEquals($this->dataFormDestinos["cedula"], $contact->identification);
+
 
     }
 
@@ -119,12 +115,6 @@ class SumateFormTest extends TestCase
         $response = $this->get('/api/negocios?' . http_build_query($this->dataFormNegocios));
         dd($response->content());
         $response->assertStatus(200);
-
-        $contact = DestinationSuggestions::first();
-        $this->assertEquals($this->dataFormNegocios["nombre"], $contact->first_name);
-        $this->assertEquals($this->dataFormNegocios["apellido"], $contact->last_name);
-        $this->assertEquals($this->dataFormNegocios["email"], $contact->email);
-        $this->assertEquals($this->dataFormNegocios["cedula"], $contact->identification);
 
     }
 
