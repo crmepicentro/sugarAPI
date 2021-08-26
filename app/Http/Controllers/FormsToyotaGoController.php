@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 class FormsToyotaGoController extends Controller
 {
-
     public function sumateForm(Request $request)
     {
         $wsInconcertLog = new WsToyotaGo();
