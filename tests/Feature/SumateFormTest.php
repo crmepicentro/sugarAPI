@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Contacts;
-use App\Models\Destinations;
-use App\Models\DestinationSuggestions;
 use App\Models\WsToyotaGo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
