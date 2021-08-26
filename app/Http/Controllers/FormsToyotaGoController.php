@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contacts;
-use App\Models\Destinations;
-use App\Models\DestinationSuggestions;
 use App\Models\WsToyotaGo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -12,7 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 class FormsToyotaGoController extends Controller
 {
-
     public function sumateForm(Request $request)
     {
         $wsInconcertLog = new WsToyotaGo();
