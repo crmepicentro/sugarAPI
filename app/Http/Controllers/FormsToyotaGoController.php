@@ -20,9 +20,14 @@ class FormsToyotaGoController extends Controller
         $wsInconcertLog->environment = get_connection();
         $wsInconcertLog->source = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'EXTERNO(facebook)';
         //$wsInconcertLog->response = json_encode($_SERVER);
+        $wsInconcertLog->form = 'SÚMATE';
         $wsInconcertLog->status = 'Nuevo';
         $wsInconcertLog->datos_principales = json_encode($request->all());
         $wsInconcertLog->save();
+
+        if (empty($request->nombre) or empty($request->apellido) or empty($request->email)) {
+            return false;
+        }
 
         $dataPost = [
             'First Name' => $request->nombre,
@@ -40,71 +45,83 @@ class FormsToyotaGoController extends Controller
 
         $sendData = $this->sendFormDataToActon(env('urlSumateForm'), $dataPost);
 
-        return '<script>window.location.replace("https://www.toyotago.com.ec/");</script>';
-        //return '<div id="gform_confirmation_message_2" class="gform_confirmation_message_2 gform_confirmation_message" data-gtm-vis-recent-on-screen-47109072_11="5116" data-gtm-vis-first-on-screen-47109072_11="5116" data-gtm-vis-total-visible-time-47109072_11="100" data-gtm-vis-has-fired-47109072_11="1">¡Gracias por contactar con nosotros! Nos pondremos en contacto contigo muy pronto.</div>';
+        $wsInconcertLog->status = 'Enviado';
+        $wsInconcertLog->save();
 
+        return '<script>window.location.replace("https://www.toyotago.com.ec/");</script>';
     }
 
     public function destinosForm(Request $request)
     {
-        $contacts = new DestinationSuggestions();
-        $contacts->id = createdID();
-        $contacts->first_name = $request->nombre;
-        $contacts->last_name = $request->apellido;
-        $contacts->email = $request->email;
-        $contacts->identification = $request->cedula;
+        $wsInconcertLog = new WsToyotaGo();
+        $wsInconcertLog->route = env('urlDestinosForm');
+        $wsInconcertLog->environment = get_connection();
+        $wsInconcertLog->source = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'EXTERNO(facebook)';
+        //$wsInconcertLog->response = json_encode($_SERVER);
+        $wsInconcertLog->form = 'AGREGA TU DESTINO';
+        $wsInconcertLog->status = 'Nuevo';
+        $wsInconcertLog->datos_principales = json_encode($request->all());
+        $wsInconcertLog->save();
 
-        $contacts->save();
+        if (empty($request->nombre) or empty($request->apellido) or empty($request->email)) {
+            return false;
+        }
 
         $dataPost = [
             'First Name' => $request->nombre,
             'Last Name' => $request->apellido,
+            'Cell Phone' => $request->telefono,
             'E-mail Address' => $request->email,
-            'Cedula' => $request->cedula
+            'Categoria'=> $request->categoria,
+            'Nombre destino'=> $request->destino,
+            'Business State'=> $request->provincia,
+            'Con quien viajas'=> $request->conquien,
         ];
 
         $sendData = $this->sendFormDataToActon(env('urlDestinosForm'), $dataPost);
 
-        return response()->json([
-            'status_code' => 200,
-            'messsage' => 'Datos enviados'
-        ]);
+        $wsInconcertLog->status = 'Enviado';
+        $wsInconcertLog->save();
+
+        return '<script>window.location.replace("https://www.toyotago.com.ec/");</script>';
     }
 
     public function negociosForm(Request $request)
     {
-        $contacts = new Destinations();
-        $contacts->id = createdID();
-        $contacts->first_name = $request->nombre;
-        $contacts->last_name = $request->apellido;
-        $contacts->email = $request->email;
-        $contacts->identification = $request->cedula;
+        $wsInconcertLog = new WsToyotaGo();
+        $wsInconcertLog->route = env('urlNegociosForm');
+        $wsInconcertLog->environment = get_connection();
+        $wsInconcertLog->source = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'EXTERNO(facebook)';
+        $wsInconcertLog->form = 'AGREGA TU NEGOCIO';
+        $wsInconcertLog->status = 'Nuevo';
+        $wsInconcertLog->datos_principales = json_encode($request->all());
+        $wsInconcertLog->save();
 
-        $contacts->save();
+        if (empty($request->contacto) or empty($request->email) or $request->negocio) {
+            return false;
+        }
 
         $dataPost = [
-            'First Name' => $request->nombre,
-            'Last Name' => $request->apellido,
-            'E-mail Address' => $request->email,
-            'Cedula' => $request->cedula,
+            'Company'=> $request->negocio,
+            'Contacto Negocio'=> $request->contacto,
+            'First Name' => $request->contacto,
+            'E-mail Address'=> $request->email,
+            'Categoria'=> $request->categoria,
+            'Business State'=> $request->provincia,
+            'Business Web Page'=> $request->linknegocio
         ];
 
         $sendData = $this->sendFormDataToActon(env('urlNegociosForm'), $dataPost);
 
-        return response()->json([
-            'status_code' => 200,
-            'messsage' => 'Datos enviados'
-        ]);
+        $wsInconcertLog->status = 'Enviado';
+        $wsInconcertLog->save();
+
+        return '<script>window.location.replace("https://www.toyotago.com.ec/");</script>';
     }
 
     public function sendFormDataToActon($urlToPost, $dataPost)
     {
-        $formPost = Http::withOptions(['verify' => false])->asForm()->post($urlToPost, $dataPost);
+        $formPost = Http::asForm()->post($urlToPost, $dataPost);
         return $formPost;
-    }
-
-    public function validateDuplicadosByCorreo()
-    {
-
     }
 }
