@@ -89,13 +89,13 @@ class FormsToyotaGoController extends Controller
         $wsInconcertLog = new WsToyotaGo();
         $wsInconcertLog->route = env('urlNegociosForm');
         $wsInconcertLog->environment = get_connection();
-        $wsInconcertLog->source = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'EXTERNO(facebook)';
+        $wsInconcertLog->source = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'EXTERNO';
         $wsInconcertLog->form = 'AGREGA TU NEGOCIO';
         $wsInconcertLog->status = 'Nuevo';
         $wsInconcertLog->datos_principales = json_encode($request->all());
         $wsInconcertLog->save();
 
-        if (empty($request->contacto) or empty($request->email) or $request->negocio) {
+        if (empty($request->contacto) or empty($request->email) or empty($request->negocio)) {
             return false;
         }
 
