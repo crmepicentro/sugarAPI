@@ -42,7 +42,7 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
             'datosSugarCRM.email' => 'required|email:rfc,dns',
-            'datosSugarCRM.concesionario' => 'required',
+            'datosSugarCRM.concesionario' => 'required|in:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca)',
             'datosSugarCRM.formulario' => 'required|in:'. $this->getForms()
         ];
 
@@ -76,7 +76,9 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.celular.numeric' => 'Celular debe ser numérico',
             'datosSugarCRM.telefono.numeric' => 'Telefono debe ser numérico',
             'datosSugarCRM.formulario.in' => 'Formulario inválido, valores válidos'. $this->getForms(),
-            'datosSugarCRM.porcentaje_discapacidad.in' => 'Porcentaje_discapacidad no contiene un valor válido, valores válidos: 30_49 (Del 30% al 49%),50_74 (Del 50% al 74%),75_84 (Del 75% al 84%),85_100(Del 85% al 100%)'
+            'datosSugarCRM.porcentaje_discapacidad.in' => 'Porcentaje_discapacidad no contiene un valor válido, valores válidos: 30_49,50_74,75_84,85_100',
+            'datosSugarCRM.concesionario.required' => 'Concesionario es requerido',
+            'datosSugarCRM.concesionario.in' => 'Concesionario es inválido, valores válidos:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca)',
         ];
     }
 
