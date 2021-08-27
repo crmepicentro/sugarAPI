@@ -614,8 +614,13 @@ class ProspeccionController extends BaseController
             $concesionario = Agencies::getForS3SId($request->datosSugarCRM["agencia"]);
 
             $positionComercial = $landingPage->user_assigned_position;
+            $agency = AgenciesLandingPages::where('name', $concesionario->id)->where('id_form', $landingPage->id)->first();
 
-            $comercialUser = Users::getRandomAsesorProspectoByAgency($concesionario->id, $line, $positionComercial, $dias);
+            if($agency) {
+                $comercialUser = Users::getRandomAsesorProspectoByAgency($agency->id_sugar, $line, $positionComercial, $dias);
+            }else{
+                $comercialUser = Users::getRandomAsesorProspectoByAgency($concesionario->id, $line, $positionComercial, $dias);
+            }
 
             if(!$comercialUser){
                 return response()->json(['errors' => ['Asesor' => 'Asesor no puede ser asignado para esa agencia y linea de negocio']]);

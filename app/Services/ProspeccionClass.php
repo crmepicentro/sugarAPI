@@ -20,7 +20,6 @@ class ProspeccionClass {
       $prospeccion = new Prospeccion();
       $prospeccion->date_entered = Carbon::now('UTC');
       $prospeccion->created_by = $dataProspeccion["created_by"];
-      $prospeccion->modified_user_id = $dataProspeccion["created_by"];
       $prospeccion->deleted = $dataProspeccion["deleted"] ?? 0;
       $prospeccion->team_id = $dataProspeccion["team_id"];
       $prospeccion->team_set_id = $dataProspeccion["team_set_id"];
@@ -53,6 +52,7 @@ class ProspeccionClass {
     $prospeccion->cb_lineanegocio_id_c = $dataProspeccion['cb_lineanegocio_id_c'];
     $prospeccion->date_modified = Carbon::now('UTC');
     $prospeccion->assigned_user_id = $dataProspeccion['assigned_user_id'];
+    $prospeccion->modified_user_id = $dataProspeccion["created_by"];
     $prospeccion->save();
     $prospeccion->new = $new;
     return $prospeccion;
