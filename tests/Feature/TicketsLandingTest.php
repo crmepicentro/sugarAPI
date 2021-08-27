@@ -196,7 +196,7 @@ class TicketsLandingTest extends TestCase
         $this->assertEquals($content->errors->$err_apellidos[0], 'Apellidos son requeridos');
         $this->assertEquals($content->errors->$err_celular[0], 'Celular es requerido');
         $this->assertEquals($content->errors->$err_email[0], 'Email es requerido');
-        $this->assertEquals($content->errors->$err_concesionario[0], 'El campo datos sugar c r m.concesionario es requerido.');
+        $this->assertEquals($content->errors->$err_concesionario[0], 'Concesionario es requerido');
         $this->assertEquals($content->errors->$err_porcentaje_discapacidad[0], 'El campo datos sugar c r m.porcentaje discapacidad es requerido.');
         $this->assertEquals($content->errors->$err_tipo_discapacidad[0], 'El campo datos sugar c r m.tipo discapacidad es requerido.');
         $this->assertEquals($content->errors->$err_modelo[0], 'El campo datos sugar c r m.modelo es requerido.');

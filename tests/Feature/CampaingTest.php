@@ -54,7 +54,6 @@ class CampaingTest extends TestCase
     ];
 
     $this->prospeccionDefault = [
-      'created_by' => Session::get('user')->id ,
       'deleted' => 0,
       'team_id' => 1,
       'team_set_id' => 1,
