@@ -75,11 +75,12 @@ class Users extends Model
     public static function getRandomAsesorByAgency($agency_id, $line_id, $position, $dias, $medio = 'all')
     {
         return \DB::connection(get_connection())->select('
-        SELECT t.usuario as id,t.user_name,t.cuantos
+        SELECT t.usuario, t.cuantos
         FROM (SELECT u.id  usuario,u.user_name, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos
         FROM users u
         INNER JOIN users_cstm uc ON u.id=uc.id_c
         INNER JOIN cb_lineanegocio_users_c lu ON u.id=lu.cb_lineanegocio_usersusers_idb
+        WHERE
         u.status="Active" AND lu.deleted = 0 AND u.deleted= 0  AND uc.cargo_c= '. $position .' AND uc.cb_agencias_id_c = "'. $agency_id .'"
         AND lu.cb_lineanegocio_userscb_lineanegocio_ida="'. $line_id .'")  AS t
         ORDER BY t.cuantos ASC
