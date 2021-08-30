@@ -140,7 +140,7 @@ class TicketsLandingTest extends TestCase
         $this->assertEquals($this->dataLanding['datosSugarCRM']['nombres'], $ticket->nombres);
         $this->assertEquals($this->dataLanding['datosSugarCRM']['nombres'], $ticket->nombres);
         $this->assertEquals(1, $ticket->estado);
-        $this->assertEquals($landingPage->business_line_id, $ticket->linea_negocio);
+        $this->assertEquals(getIdLineaNegocioToWebServiceID($landingPage->business_line_id), $ticket->linea_negocio);
         $this->assertEquals($ticket->ticketsCstm->id_c, $ticket->id);
         $this->assertEquals($ticket->estado, $ticket->ticketsCstm->flag_estados_c);
         $this->assertEquals($ticket->ticketsCstm->porcentaje_discapacidad_c, $this->dataLanding['datosSugarCRM']['porcentaje_discapacidad']);
