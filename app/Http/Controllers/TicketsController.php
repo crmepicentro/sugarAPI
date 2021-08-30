@@ -247,7 +247,7 @@ class TicketsController extends BaseController
             "celular" => $dataRequest['celular'],
             "telefono" => $dataRequest['telefono'],
             "email" => $dataRequest['email'],
-            "linea_negocio" => $landingPage->business_line_id,
+            "linea_negocio" => getIdLineaNegocioToWebServiceID($landingPage->business_line_id),
             "fuente" =>  $medio->fuente_id,
             "assigned_user_id" =>  $comercialUser,
             "description" =>  $comentario,
