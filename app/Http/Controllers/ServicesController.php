@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ServicesController extends Controller
 {
-    public function getDocument(ServicesDocumentRequest $request)
+  public function getDocument(ServicesDocumentRequest $request)
     {
       try{
         $data = Contacts::getData($request->get('document'),mb_strtoupper($request->get('type')));
@@ -39,5 +39,9 @@ class ServicesController extends Controller
     }catch (\Exception $e){
       return response()->json(['error' => '!Error¡ Notifique a SUGAR CRM Casabaca','msg' => $e->getMessage() . '- Line: '.$e->getLine(). '- Archivo: '.$e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+  }
+
+  public function validToken(){
+      return response()->json(true, Response::HTTP_OK);
   }
 }
