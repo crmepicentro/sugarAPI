@@ -30,7 +30,7 @@ class Campaigns extends Model
       return self::select('id as code','name')
                   ->where('campaign_type', 'especiales')
                   ->where('status', 'Active')
-                  ->where('start_date','<',Carbon::now('UTC')->addDay())
+                  ->where('start_date','<',Carbon::now('UTC'))
                   ->where('end_date','>',Carbon::now('UTC')->subDay())
                   ->orderBy('name')
                   ->get();

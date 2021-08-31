@@ -40,11 +40,12 @@ class BusinessLine extends Model
                 ->get();
   }
 
-  public static function getAllCodeNameByAgency($idBussines)
+  public static function getAllCodeNameByAgency($agency)
   {
+
     return self::select('cb_lineanegocio.id as code','cb_lineanegocio.name as name')
       ->join('cb_agencias_cb_lineanegocio_c', 'cb_lineanegocio.id', '=', 'cb_agencias_cb_lineanegocio_c.cb_agencias_cb_lineanegociocb_lineanegocio_idb')
-      ->where('cb_agencias_cb_lineanegocio_c.cb_agencias_cb_lineanegociocb_agencias_ida', $idBussines)
+      ->where('cb_agencias_cb_lineanegocio_c.cb_agencias_cb_lineanegociocb_agencias_ida', $agency)
       ->where('cb_agencias_cb_lineanegocio_c.deleted', 0)
       ->where('cb_lineanegocio.deleted', 0)
       ->get();
