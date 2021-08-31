@@ -306,7 +306,7 @@ class TicketsController extends BaseController
             $ticket = $ticketClass->create();
             $contact = $this->createContactTicket($dataTicket);
 
-            $ticket->contacts()->attach($contact->id, ['id'=> createdID()]);
+            $ticket->contacts()->attach($contact->id, getAttachObject());
         }else{
             $ticket->date_modified = Carbon::now();
             $ticket->modified_user_id = $dataTicket["created_by"];

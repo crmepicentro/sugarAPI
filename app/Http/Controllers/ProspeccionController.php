@@ -137,7 +137,7 @@ class ProspeccionController extends BaseController
                 $prospeccion->numero_identificacion = $dataProspeccion['numero_identificacion'];
                 $prospeccion->nombres = $dataProspeccion['names'];
                 $prospeccion->apellidos = $dataProspeccion['surnames'];
-                $prospeccion->contacts()->attach($contact->id, ['id'=> createdID()]);
+                $prospeccion->contacts()->attach($contact->id, getAttachObject());
               }
 
               $dataProspeccion["description"] = $dataMeeting['subject']. ": " . $dataMeeting['comments'] ;
@@ -175,7 +175,7 @@ class ProspeccionController extends BaseController
             }
 
             if(isset($contact)) {
-              $call->contacts()->attach($contact->id, ['id'=> createdID()]);
+              $call->contacts()->attach($contact->id, getAttachObject());
               $call->meeting_id = $meeting->id;
             }
 
@@ -237,8 +237,8 @@ class ProspeccionController extends BaseController
         $meetingClass->tipo_c = 2;
         $meeting = $meetingClass->create();
 
-        $meeting->contacts()->attach($contact->id, ['id'=> createdID()]);
-        $prospeccion->meetings()->attach($meeting->id, ['id'=> createdID()]);
+        $meeting->contacts()->attach($contact->id, getAttachObject());
+        $prospeccion->meetings()->attach($meeting->id, getAttachObject());
 
         return $data = ["meeting" => $meeting, "contact" => $contact];
     }
@@ -363,10 +363,10 @@ class ProspeccionController extends BaseController
             $contact = $this->createContact($dataProspeccionClient, $user_call_center);
 
             if($prospeccion->new) {
-                $prospeccion->contacts()->attach($contact->id, ['id'=> createdID()]);
+                $prospeccion->contacts()->attach($contact->id, getAttachObject());
             }
 
-            $prospeccion->tickets()->attach($ticket->id, ['id'=> createdID()]);
+            $prospeccion->tickets()->attach($ticket->id, getAttachObject());
 
             $dataUpdateWS = [
                 "response" => json_encode($this->response->item($prospeccion, new ProspeccionTransformer)),
@@ -473,12 +473,12 @@ class ProspeccionController extends BaseController
             $contact = $this->createContact($dataProspeccionClient, $user_call_center);
 
             if($prospeccion->new) {
-                $prospeccion->contacts()->attach($contact->id, ['id'=> createdID()]);
+                $prospeccion->contacts()->attach($contact->id, getAttachObject());
             }
 
-            $prospeccion->tickets()->attach($ticket->id, ['id'=> createdID()]);
-            $call->prospeccion()->attach($prospeccion->id, ['id'=> createdID()]);
-            $call->contacts()->attach($contact->id, ['id'=> createdID()]);
+            $prospeccion->tickets()->attach($ticket->id, getAttachObject());
+            $call->prospeccion()->attach($prospeccion->id, getAttachObject());
+            $call->contacts()->attach($contact->id, getAttachObject());
 
             $prospeccion->call_id = $call->id;
 
@@ -673,7 +673,7 @@ class ProspeccionController extends BaseController
             $contact = $contactClass->create();
 
             if($prospeccion->new) {
-                $prospeccion->contacts()->attach($contact->id, ['id'=> createdID()]);
+                $prospeccion->contacts()->attach($contact->id, getAttachObject());
             }
 
             $dataUpdateWS = [

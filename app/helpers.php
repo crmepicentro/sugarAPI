@@ -4,6 +4,7 @@ use App\Models\Medio;
 use App\Models\VehiculoMarca;
 use App\Models\VehiculoModelo;
 use App\Models\Companies;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 function createdID()
@@ -242,5 +243,9 @@ function get_domain_company()
     }
 
     return 'https://sugarcrm.casabaca.com';
+}
+
+function getAttachObject() {
+    return ['id'=> createdID(), 'date_modified' => Carbon::now()];
 }
 ?>

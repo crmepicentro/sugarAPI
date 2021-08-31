@@ -83,6 +83,7 @@ class Tickets extends Model
             $autoincrement = Tickets::count();
             $query->name = env('TICKET_PREFIX', "TCK-").intval($autoincrement + 1);
             $query->date_entered = Carbon::now();
+            $query->date_modified = Carbon::now();
             $query->deleted = 0;
         });
     }

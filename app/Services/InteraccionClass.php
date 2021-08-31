@@ -69,7 +69,7 @@ class InteraccionClass {
     $interaction->description = $this->description;
     $interaction->save();
     self::createInteractionCstm($interaction);
-    $ticket->interacciones()->attach($interaction->id, ['id' => createdID()]);
+    $ticket->interacciones()->attach($interaction->id, ['id' => createdID(), 'date_modified' => Carbon::now()]);
 
     return $interaction;
   }

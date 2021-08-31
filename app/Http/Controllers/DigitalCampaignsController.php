@@ -117,7 +117,7 @@ class DigitalCampaignsController extends Controller
 
          $dataContact = $contact->create();
          if($prospeccion->new == 1 || $dataContact->new == 1 ){
-           $prospeccion->contacts()->attach($dataContact->id, ['id'=> createdID()]);
+           $prospeccion->contacts()->attach($dataContact->id, getAttachObject());
          }
 
          \DB::connection(get_connection())->commit();

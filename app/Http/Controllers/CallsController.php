@@ -187,15 +187,15 @@ class CallsController extends BaseController
                 $meetingClass->parent_id = $ticket->id;
                 $meeting = $meetingClass->create();
 
-                $call->prospeccion()->attach($prospeccion->id, ['id'=> createdID()]);
-                $call->contacts()->attach($contact->id, ['id'=> createdID()]);
-                $prospeccion->meetings()->attach($meeting->id, ['id'=> createdID()]);
-                $prospeccion->tickets()->attach($ticket->id, ['id'=> createdID()]);
-                $meeting->contacts()->attach($contact->id, ['id'=> createdID()]);
+                $call->prospeccion()->attach($prospeccion->id, getAttachObject());
+                $call->contacts()->attach($contact->id, getAttachObject());
+                $prospeccion->meetings()->attach($meeting->id, getAttachObject());
+                $prospeccion->tickets()->attach($ticket->id, getAttachObject());
+                $meeting->contacts()->attach($contact->id, getAttachObject());
                 $call->meeting = $meeting;
 
                 if($prospeccion->new) {
-                  $prospeccion->contacts()->attach($contact->id, ['id'=> createdID()]);
+                  $prospeccion->contacts()->attach($contact->id, getAttachObject());
                 }
 
                 $dataUpdateWS = [

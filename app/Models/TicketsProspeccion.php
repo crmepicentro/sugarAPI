@@ -29,6 +29,7 @@ class TicketsProspeccion extends Model
 
         static::creating(function ($query) {
             $query->id = createdID();
+            $query->date_modified = Carbon::now();
         });
     }
 }
