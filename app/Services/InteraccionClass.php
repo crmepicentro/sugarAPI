@@ -21,6 +21,7 @@ class InteraccionClass {
   public $celular;
   public $telefono;
   public $email;
+  public $modelo;
   public $modelo_c;
   public $description;
   public $fuente_descripcion_c;
@@ -65,7 +66,7 @@ class InteraccionClass {
     $interaction->celular = $this->celular;
     $interaction->telefono = $this->telefono;
     $interaction->email = $this->email;
-    $interaction->modelo = $this->modelo_c;
+    $interaction->modelo = $this->modelo;
     $interaction->description = $this->description;
     $interaction->save();
     self::createInteractionCstm($interaction);

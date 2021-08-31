@@ -270,7 +270,8 @@ class TicketsController extends BaseController
             "precio_c" =>  null,
             "anio_min_c" =>  null,
             "anio_max_c" =>  null,
-            "combustible_c" =>  null
+            "combustible_c" =>  null,
+            "modelo" =>  $dataRequest["modelo"] ?? null,
         ];
     }
 
@@ -399,6 +400,7 @@ class TicketsController extends BaseController
       $interactionClass->combustible_c = $dataTicket["combustible_c"];
       $interactionClass->medio_c = $dataTicket["medio_c"];
       $interactionClass->campaign_id_c = $dataTicket["campaign_id_c"];
+      $interactionClass->modelo = $dataTicket["modelo"] ?? null;
 
       return $interactionClass;
     }
