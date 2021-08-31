@@ -238,6 +238,65 @@ export default {
 }
 </script>
 <style scoped>
+#app {
+    margin-top: 0px;
+}
+
+.text-10{
+    font-size: 10px !important
+}
+
+.text-11{
+    font-size: 11px !important
+}
+.block-inline{
+    display:inline-block;
+}
+
+.p-timeline-event-opposite{
+    flex: 0 !important;
+}
+.p-timeline-left .p-timeline-event-opposite{
+    padding: 0px !important;
+}
+
+.p-card .p-card-body {
+    padding: 0rem !important;
+}
+
+.p-card .p-card-content {
+    padding: 0rem !important;
+    padding-top: 0rem !important;
+    padding-right: 0rem !important;
+    padding-bottom: 0rem !important;
+    padding-left: 1rem !important;
+}
+
+.p-fieldset-legend > a, .p-fieldset-legend > span{
+    justify-content: right !important;
+    font-size: 0.8rem !important;
+    height: 0.5px !important;
+}
+.custom-marker {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 50%;
+    z-index: 1;
+}
+.p-datatable .p-datatable-thead > tr > th{
+    padding: 0.2rem 0.2rem !important;
+    font-size: 0.8rem !important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td{
+    padding: 0.2rem 0.2rem !important;
+    font-size: 0.8rem !important;
+}
+
 .button-interaction{
     font-size:10px;
     padding: 0px

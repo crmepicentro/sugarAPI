@@ -310,7 +310,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style>
 #app {
     margin-top: 0px;
 }
