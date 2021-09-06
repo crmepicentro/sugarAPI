@@ -28,6 +28,7 @@ $api->version('v1', ['middleware' => [EnsureUserIsValid::class, 'auth:sanctum']]
 });
 
 $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' => 200, 'expires' => 5], function ($api) {
+    $api->post('avaluo', 'App\Http\Controllers\AvaluosController@store');
     $api->post('tickets', 'App\Http\Controllers\TicketsController@store');
     $api->post('call_ticket', 'App\Http\Controllers\TicketsController@callTicket');
     $api->post('landing_ticket', 'App\Http\Controllers\TicketsController@landingTicket');
