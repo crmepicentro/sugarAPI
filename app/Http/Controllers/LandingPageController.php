@@ -61,6 +61,7 @@ class LandingPageController extends Controller
 
         if($validator->fails())
         {
+            dd($validator->errors());
             return response()->json(['status_code' => 400, 'message' => 'Revise que sus datos sean correctos']);
         }
 

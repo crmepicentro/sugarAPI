@@ -107,11 +107,11 @@ class QuotationProspeccionTest extends TestCase
         $this->assertEquals($data["datosSugarCRM"]["client"]["cellphone_number"], $prospeccion->celular);
         $this->assertEquals($data["datosSugarCRM"]["client"]["phone_home"], $prospeccion->telefono);
         $this->assertEquals($data["datosSugarCRM"]["client"]["email"], $prospeccion->email);
-        $this->assertEquals(2, $prospeccion->fuente);
+        $this->assertEquals($ticket->fuente, $prospeccion->fuente);
         $this->assertEquals($this->data["datosSugarCRM"]["campania"], $prospeccion->campaign_id_c);
         $this->assertEquals(1, $prospeccion->estado);
         $this->assertEquals("d8365338-9206-11e9-a7c3-000c297d72b1", $prospeccion->cb_lineanegocio_id_c);
-        $this->assertEquals($data["datosSugarCRM"]["medio"], $prospeccion->prospeccionCstm->medio_c);
+        $this->assertEquals($ticket->ticketsCstm->medio_c, $prospeccion->prospeccionCstm->medio_c);
 
         $ticketProspeccion = $prospeccion->tickets()->first();
         $this->assertEquals($ticket->id, $ticketProspeccion->id);
