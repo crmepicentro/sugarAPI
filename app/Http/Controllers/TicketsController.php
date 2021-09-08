@@ -315,6 +315,7 @@ class TicketsController extends BaseController
             $ticket->linea_negocio = $dataTicket['linea_negocio'];
             $ticket->fuente = $dataTicket['fuente'];
             $ticket->ticketsCstm->medio_c = $dataTicket['medio_c'];
+            $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
 
             $ticket->description = trim($ticket->description . " " . $dataTicket['description']);
             $ticket->save();
@@ -560,6 +561,7 @@ class TicketsController extends BaseController
         $ticket = Tickets::find($id);
         $ticket->estado = $status;
         $ticket->proceso = $motivo;
+        $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
         $ticket->save();
     }
 
@@ -753,6 +755,7 @@ class TicketsController extends BaseController
 
         if($ticket){
             $ticket->estado = 4;
+            $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
             $ticket->save();
 
             $dataUpdateWS = [
@@ -917,6 +920,7 @@ class TicketsController extends BaseController
             $statusEnGestion = 4;
             $ticket->estado = $statusEnGestion;
             $ticket->assigned_user_id = $user_call_center->id;
+            $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
             $ticket->save();
 
             $callClass = new CallClass();

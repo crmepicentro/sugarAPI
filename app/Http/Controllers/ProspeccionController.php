@@ -357,6 +357,7 @@ class ProspeccionController extends BaseController
             $ticket->estado = 5;
             $ticket->date_modified =  Carbon::now('UTC');
             $ticket->modified_user_id = $user_call_center->id;
+            $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
             $ticket->save();
 
             $prospeccion = $this->createProspeccion($ticket, $request, $user_call_center, $user_auth);
@@ -449,6 +450,7 @@ class ProspeccionController extends BaseController
             $ticket->estado = 5;
             $ticket->date_modified =  Carbon::now('UTC');
             $ticket->modified_user_id = $user_call_center->id;
+            $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
             $ticket->save();
 
             $callClass = new CallClass();

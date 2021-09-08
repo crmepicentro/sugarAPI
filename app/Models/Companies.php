@@ -21,4 +21,5 @@ class Companies extends Model
     {
         return $this->hasMany(Users::Class);
     }
+
 }

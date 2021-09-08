@@ -125,6 +125,7 @@ class CallsController extends BaseController
                 $ticket->estado = 5;
                 $ticket->date_modified =  Carbon::now('UTC');
                 $ticket->modified_user_id = $user_call_center->id;
+                $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
                 $ticket->save();
 
                 $dataMeeting = $request->datosSugarCRM['meeting'];
@@ -215,6 +216,7 @@ class CallsController extends BaseController
             $ticket->estado = 4;
             $ticket->date_modified =  Carbon::now('UTC');
             $ticket->modified_user_id = $user_call_center->id;
+            $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
 
             if($ticket->calls->count() >= 3){
                 $ticket->estado = 2;

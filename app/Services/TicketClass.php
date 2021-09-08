@@ -76,7 +76,6 @@ class TicketClass {
       $dataTicketCstm->id_c = $ticket_id;
       $dataTicketCstm->user_id_c = $this->user_id_c;
       $dataTicketCstm->flag_estados_c = $this->flag_estados_c;
-      $dataTicketCstm->fecha_primera_modificacion_c = Carbon::now();
     }
 
     $dataTicketCstm->precio_c = $this->precio_c;
