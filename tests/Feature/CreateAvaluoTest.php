@@ -40,7 +40,7 @@ class CreateAvaluoTest extends TestCase
      */
     public function test_should_create_avaluo()
     {
-        $response = $this->json('POST', $this->baseUrl . 'avaluo', $this->dataAvaluo);
+        $response = $this->json('POST', $this->baseUrl . 'create_avaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
 
         $response->assertStatus(200);
@@ -50,13 +50,26 @@ class CreateAvaluoTest extends TestCase
         $avaluo = Avaluos::find($content->data->avaluo_id);
         $this->assertEquals($this->dataAvaluo["description"], $avaluo->description);
         $this->assertEquals($this->dataAvaluo["placa"], $avaluo->placa);
-        $this->assertEquals($this->dataAvaluo["placa"], $avaluo->placa);
+        $this->assertEquals($this->dataAvaluo["modelo"], $avaluo->modelo);
+        $this->assertEquals($this->dataAvaluo["marca"], $avaluo->marca);
+        $this->assertEquals($this->dataAvaluo["modelo"], $avaluo->modelo);
+        $this->assertEquals($this->dataAvaluo["color"], $avaluo->color);
+        $this->assertEquals($this->dataAvaluo["recorrido"], $avaluo->recorrido);
+        $this->assertEquals($this->dataAvaluo["tipo_recorrido"], $avaluo->tipo_recorrido);
+        $this->assertEquals($this->dataAvaluo["estado_avaluo"], $avaluo->estado_avaluo);
+        $this->assertEquals($this->dataAvaluo["comentario"], $avaluo->comentario);
+        $this->assertEquals($this->dataAvaluo["observacion"], $avaluo->observacion);
+        $this->assertEquals($this->dataAvaluo["coordinador"], $avaluo->created_by);
+        $this->assertEquals($this->dataAvaluo["coordinador"], $avaluo->modified_user_id);
+        $this->assertEquals($this->dataAvaluo["coordinador"], $avaluo->assigned_user_id);
+        $this->assertEquals($this->dataAvaluo["contacto"], $avaluo->contact_id_c);
+        $this->assertEquals(0, $avaluo->deleted);
     }
 
     public function test_should_validate_data()
     {
         $this->dataAvaluo = [];
-        $response = $this->json('POST', $this->baseUrl . 'avaluo', $this->dataAvaluo);
+        $response = $this->json('POST', $this->baseUrl . 'create_avaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
 
         $response->assertStatus(422);
@@ -68,6 +81,5 @@ class CreateAvaluoTest extends TestCase
         $this->assertEquals('Estado es requerido', $content->errors->estado_avaluo[0]);
         $this->assertEquals('Coordinador es requerido', $content->errors->coordinador[0]);
         $this->assertEquals('Contacto es requerido', $content->errors->contacto[0]);
-
     }
 }
