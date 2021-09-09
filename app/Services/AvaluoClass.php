@@ -8,6 +8,7 @@ use App\Models\Tickets;
 use Carbon\Carbon;
 
 class AvaluoClass {
+    public $id;
     public $description;
     public $contact_id_c;
     public $user_id_c;
@@ -28,9 +29,11 @@ class AvaluoClass {
 
     public function createOrUpdate()
     {
-        $avaluo = Avaluos::updateOrCreate(
-            ['placa' =>  $this->placa]
-        );
+        $avaluo = new Avaluos();
+
+        if($this->id){
+            $avaluo = Avaluos::find($this->id);
+        }
 
         $avaluo->modified_user_id = $this->user_id_c;
         $avaluo->created_by = $this->user_id_c;

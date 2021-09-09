@@ -38,15 +38,14 @@ class GetAvaluosTest extends TestCase
      *
      * @return void
      */
-    public function test_should_get_avaluo()
+    public function test_should_get_avaluos()
     {
         $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $this->dataAvaluo["placa"] = "PCX-7120";
         $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
 
 
-        $response = $this->json('GET', $this->baseUrl . 'getAvaluos', ['coordinador' => 'b9187d88-6ee4-c794-27f5-552bb40ee0d4']);
-        $contentGetAvaluos = json_decode($response->content());
+        $response = $this->json('GET', $this->baseUrl . 'getAvaluos', ['contact' => '0015ad44-0a08-11ea-b67c-5883aaf14456']);
         $content = json_decode($response->content());
 
         $existsAvaluo = array_search('PCX-7120', array_column($content->avaluos, 'placa'));
@@ -56,10 +55,11 @@ class GetAvaluosTest extends TestCase
         $this->assertNotNull($existsAvaluo);
     }
 
-    public function test_should_not_get_avaluo()
+    public function test_should_not_get_avaluos()
     {
-        /*$response = $this->json('GET', $this->baseUrl . 'get_avaluo', ['id' => 'notExists']);
+        $response = $this->json('GET', $this->baseUrl . 'getAvaluos', ['id' => 'notExists']);
         $contentGetAvaluo = json_decode($response->content());
-        $this->assertEquals($contentGetAvaluo->error, 'Avaluo not found');*/
+
+        $this->assertEquals($contentGetAvaluo->avaluos, []);
     }
 }

@@ -18,18 +18,24 @@ class CreateAvaluoTest extends TestCase
         $this->setInitDataUserSanctum();
 
         $this->dataAvaluo = [
-            "description" => "description Avaluo",
-            "placa" => "PDA-14003",
-            "marca" => "1",
-            "modelo" => "10",
-            "color" => "1",
-            "recorrido" => "10000",
-            "tipo_recorrido" => "km", //mi
-            "estado_avaluo" => "N",
-            "comentario" => "COMENTARIO",
-            "observacion" => "OBSERVACION",
-            "coordinador" => "b9187d88-6ee4-c794-27f5-552bb40ee0d4", //users
-            "contacto" => "0015ad44-0a08-11ea-b67c-5883aaf14456", //contactos
+            "id" => "7ead65bb-264f-324c-26ef-613a3e7ffa9c",
+            "contact" => "0015ad44-0a08-11ea-b67c-5883aaf14456",
+            "document" => "1722898838",
+            "coordinator" => "b9187d88-6ee4-c794-27f5-552bb40ee0d4",
+            "plate" => "PCR5214",
+            "brand" =>  ["id" => 1,"name" => "Chevrolet","status" => true],
+            "model" => ["id" => 1,"name" => "Aveo","status" => true],
+            "color" => ["id" => 1,"name" => "Blanco","status" => true],
+            "year" => "2021",
+            "mileage" => "23.412",
+            "unity" => "km",
+            "status" => "1",
+            "comment" => "qweasd",
+            "observation" => "qwe", //requerido si  son diferente priceNew y priceNewEdit o priceFinal y priceFinalEdit
+            "priceNew" => null,
+            "priceNewEdit" => "234",
+            "priceFinal" => null,
+            "priceFinalEdit" => "123"
         ];
     }
 
@@ -38,8 +44,37 @@ class CreateAvaluoTest extends TestCase
      *
      * @return void
      */
+    public function test_should_update_avaluo()
+    {
+        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
+        $content = json_decode($response->content());
+        $response->assertStatus(200);
+        $this->assertNotNull($content->data->avaluo_id);
+        $this->assertNotNull($content->data->avaluo_name);
+
+        $avaluo = Avaluos::find($this->dataAvaluo["id"]);
+
+        $this->assertEquals($this->dataAvaluo["id"], $avaluo->id);
+        $this->assertEquals($this->dataAvaluo["plate"], $avaluo->placa);
+        $this->assertEquals($this->dataAvaluo["model"]["id"], $avaluo->modelo);
+        $this->assertEquals($this->dataAvaluo["brand"]["id"], $avaluo->marca);
+        $this->assertEquals($this->dataAvaluo["color"]["id"], $avaluo->color);
+        $this->assertEquals($this->dataAvaluo["mileage"], $avaluo->recorrido);
+        $this->assertEquals($this->dataAvaluo["unity"], $avaluo->tipo_recorrido);
+        $this->assertEquals($this->dataAvaluo["status"], $avaluo->estado_avaluo);
+        $this->assertEquals($this->dataAvaluo["comment"], $avaluo->comentario);
+        $this->assertEquals($this->dataAvaluo["observation"], $avaluo->observacion);
+        $this->assertEquals($this->dataAvaluo["coordinator"], $avaluo->created_by);
+        $this->assertEquals($this->dataAvaluo["coordinator"], $avaluo->modified_user_id);
+        $this->assertEquals($this->dataAvaluo["coordinator"], $avaluo->assigned_user_id);
+        $this->assertEquals($this->dataAvaluo["contact"], $avaluo->contact_id_c);
+        $this->assertEquals(0, $avaluo->deleted);
+    }
+
     public function test_should_create_avaluo()
     {
+        $this->dataAvaluo["id"] = null;
+
         $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
 
@@ -48,21 +83,20 @@ class CreateAvaluoTest extends TestCase
         $this->assertNotNull($content->data->avaluo_name);
 
         $avaluo = Avaluos::find($content->data->avaluo_id);
-        $this->assertEquals($this->dataAvaluo["description"], $avaluo->description);
-        $this->assertEquals($this->dataAvaluo["placa"], $avaluo->placa);
-        $this->assertEquals($this->dataAvaluo["modelo"], $avaluo->modelo);
-        $this->assertEquals($this->dataAvaluo["marca"], $avaluo->marca);
-        $this->assertEquals($this->dataAvaluo["modelo"], $avaluo->modelo);
-        $this->assertEquals($this->dataAvaluo["color"], $avaluo->color);
-        $this->assertEquals($this->dataAvaluo["recorrido"], $avaluo->recorrido);
-        $this->assertEquals($this->dataAvaluo["tipo_recorrido"], $avaluo->tipo_recorrido);
-        $this->assertEquals($this->dataAvaluo["estado_avaluo"], $avaluo->estado_avaluo);
-        $this->assertEquals($this->dataAvaluo["comentario"], $avaluo->comentario);
-        $this->assertEquals($this->dataAvaluo["observacion"], $avaluo->observacion);
-        $this->assertEquals($this->dataAvaluo["coordinador"], $avaluo->created_by);
-        $this->assertEquals($this->dataAvaluo["coordinador"], $avaluo->modified_user_id);
-        $this->assertEquals($this->dataAvaluo["coordinador"], $avaluo->assigned_user_id);
-        $this->assertEquals($this->dataAvaluo["contacto"], $avaluo->contact_id_c);
+
+        $this->assertEquals($this->dataAvaluo["plate"], $avaluo->placa);
+        $this->assertEquals($this->dataAvaluo["model"]["id"], $avaluo->modelo);
+        $this->assertEquals($this->dataAvaluo["brand"]["id"], $avaluo->marca);
+        $this->assertEquals($this->dataAvaluo["color"]["id"], $avaluo->color);
+        $this->assertEquals($this->dataAvaluo["mileage"], $avaluo->recorrido);
+        $this->assertEquals($this->dataAvaluo["unity"], $avaluo->tipo_recorrido);
+        $this->assertEquals($this->dataAvaluo["status"], $avaluo->estado_avaluo);
+        $this->assertEquals($this->dataAvaluo["comment"], $avaluo->comentario);
+        $this->assertEquals($this->dataAvaluo["observation"], $avaluo->observacion);
+        $this->assertEquals($this->dataAvaluo["coordinator"], $avaluo->created_by);
+        $this->assertEquals($this->dataAvaluo["coordinator"], $avaluo->modified_user_id);
+        $this->assertEquals($this->dataAvaluo["coordinator"], $avaluo->assigned_user_id);
+        $this->assertEquals($this->dataAvaluo["contact"], $avaluo->contact_id_c);
         $this->assertEquals(0, $avaluo->deleted);
     }
 
@@ -71,15 +105,39 @@ class CreateAvaluoTest extends TestCase
         $this->dataAvaluo = [];
         $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
+        $err_brand = 'brand.id';
+        $err_model = 'model.id';
+        $err_color = 'color.id';
 
         $response->assertStatus(422);
-        $this->assertEquals('Placa es campo requerido', $content->errors->placa[0]);
-        $this->assertEquals('Marca es campo requerido', $content->errors->marca[0]);
-        $this->assertEquals('Modelo es campo requerido', $content->errors->modelo[0]);
-        $this->assertEquals('Recorrido es campo requerido', $content->errors->recorrido[0]);
-        $this->assertEquals('Tipo de recorrido es campo requerido', $content->errors->tipo_recorrido[0]);
-        $this->assertEquals('Estado es requerido', $content->errors->estado_avaluo[0]);
-        $this->assertEquals('Coordinador es requerido', $content->errors->coordinador[0]);
-        $this->assertEquals('Contacto es requerido', $content->errors->contacto[0]);
+        $this->assertEquals('Placa es campo requerido', $content->errors->plate[0]);
+        $this->assertEquals('Marca es campo requerido', $content->errors->$err_brand[0]);
+        $this->assertEquals('Modelo es campo requerido', $content->errors->$err_model[0]);
+        $this->assertEquals('Color es campo requerido', $content->errors->$err_color[0]);
+        $this->assertEquals('Recorrido es campo requerido', $content->errors->mileage[0]);
+        $this->assertEquals('Tipo de recorrido es campo requerido', $content->errors->unity[0]);
+        $this->assertEquals('Estado es requerido', $content->errors->status[0]);
+        $this->assertEquals('Coordinador es requerido', $content->errors->coordinator[0]);
+        $this->assertEquals('Contacto es requerido', $content->errors->contact[0]);
+    }
+
+    public function test_should_validate_external_data()
+    {
+        $this->dataAvaluo = [
+            "brand" =>  ["id" => "notExists","name" => "Chevrolet","status" => true],
+            "model" => ["id" => "notExists","name" => "Aveo","status" => true],
+            "color" => ["id" => "notExists","name" => "Blanco","status" => true]
+            ];
+
+        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
+        $content = json_decode($response->content());
+        $err_brand = 'brand.id';
+        $err_model = 'model.id';
+        $err_color = 'color.id';
+
+        $response->assertStatus(422);
+        $this->assertEquals('Id de la marca inválido', $content->errors->$err_brand[0]);
+        $this->assertEquals('Id del modelo inválido', $content->errors->$err_model[0]);
+        $this->assertEquals('Id del color inválido', $content->errors->$err_color[0]);
     }
 }
