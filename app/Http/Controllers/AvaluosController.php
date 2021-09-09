@@ -14,14 +14,14 @@ class AvaluosController extends BaseController
     public function create(AvaluosRequest $request)
     {
         $avaluo = $this->fillAvaluo($request);
-        $newAvaluo = $avaluo->create();
+        $newAvaluo = $avaluo->createOrUpdate();
 
         return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
     }
 
     public function edit(Request $request)
     {
-        $avaluo = Avaluos::find($request->id);
+        $avaluo = Avaluos::where('placa', $request->placa)->first();
 
         if(!$avaluo){
             return response()->json(['error' => 'Avaluo not found'], 404);
@@ -35,10 +35,16 @@ class AvaluosController extends BaseController
 
     public function show(Request $request)
     {
-        return true;
+        $avaluos = Avaluos::where('assigned_user_id', $request->coordinador)->where('deleted', '0')->get();
+
+        return response()->json([
+            'status_code' => 200,
+            'avaluos' => $avaluos
+        ]);
     }
 
-    public function fillAvaluo(AvaluosRequest $request){
+    public function fillAvaluo(AvaluosRequest $request)
+    {
         $avaluo = new AvaluoClass();
         $avaluo->description = $request->description;
         $avaluo->contact_id_c = $request->contacto;

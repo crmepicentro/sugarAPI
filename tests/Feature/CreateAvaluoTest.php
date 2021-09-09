@@ -40,7 +40,7 @@ class CreateAvaluoTest extends TestCase
      */
     public function test_should_create_avaluo()
     {
-        $response = $this->json('POST', $this->baseUrl . 'create_avaluo', $this->dataAvaluo);
+        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
 
         $response->assertStatus(200);
@@ -69,7 +69,7 @@ class CreateAvaluoTest extends TestCase
     public function test_should_validate_data()
     {
         $this->dataAvaluo = [];
-        $response = $this->json('POST', $this->baseUrl . 'create_avaluo', $this->dataAvaluo);
+        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
 
         $response->assertStatus(422);
