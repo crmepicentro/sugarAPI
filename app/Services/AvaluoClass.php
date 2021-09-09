@@ -26,9 +26,12 @@ class AvaluoClass {
     public $comentario;
 
 
-    public function create()
+    public function createOrUpdate()
     {
-        $avaluo = new Avaluos();
+        $avaluo = Avaluos::updateOrCreate(
+            ['placa' =>  $this->placa]
+        );
+
         $avaluo->modified_user_id = $this->user_id_c;
         $avaluo->created_by = $this->user_id_c;
         $avaluo->description = $this->description;

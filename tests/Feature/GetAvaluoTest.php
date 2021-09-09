@@ -19,7 +19,7 @@ class GetAvaluoTest extends TestCase
 
         $this->dataAvaluo = [
             "description" => "description Avaluo",
-            "placa" => "PDA-14003",
+            "placa" => "PDA-1403",
             "marca" => "1",
             "modelo" => "10",
             "color" => "1",
@@ -40,10 +40,10 @@ class GetAvaluoTest extends TestCase
      */
     public function test_should_get_avaluo()
     {
-        $response = $this->json('POST', $this->baseUrl . 'create_avaluo', $this->dataAvaluo);
+        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $contentCreateAvaluo = json_decode($response->content());
 
-        $response = $this->json('GET', $this->baseUrl . 'get_avaluo', ['id' => $contentCreateAvaluo->data->avaluo_id]);
+        $response = $this->json('GET', $this->baseUrl . 'getAvaluo', ['placa' => 'PDA-1403']);
         $contentGetAvaluo = json_decode($response->content());
         $avaluo = Avaluos::find($contentCreateAvaluo->data->avaluo_id);
 
@@ -69,7 +69,7 @@ class GetAvaluoTest extends TestCase
 
     public function test_should_not_get_avaluo()
     {
-        $response = $this->json('GET', $this->baseUrl . 'get_avaluo', ['id' => 'notExists']);
+        $response = $this->json('GET', $this->baseUrl . 'getAvaluo', ['id' => 'notExists']);
         $contentGetAvaluo = json_decode($response->content());
         $this->assertEquals($contentGetAvaluo->error, 'Avaluo not found');
     }
