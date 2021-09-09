@@ -21,6 +21,10 @@ class Avaluos extends Model
         'precio_final', 'precio_nuevo', 'precio_aprobado', 'precio_nuevo_mod', 'precio_final_mod',
         'estado_avaluo', 'fecha_aprobacion', 'observacion', 'comentario'];
     /**
+     * @var mixed
+     */
+
+    /**
      * @var mixed|string
      */
 

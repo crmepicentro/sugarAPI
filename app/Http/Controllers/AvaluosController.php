@@ -21,7 +21,7 @@ class AvaluosController extends BaseController
 
     public function edit(Request $request)
     {
-        $avaluo = Avaluos::where('placa', $request->placa)->first();
+        $avaluo = Avaluos::find($request->id);
 
         if(!$avaluo){
             return response()->json(['error' => 'Avaluo not found'], 404);
@@ -35,7 +35,7 @@ class AvaluosController extends BaseController
 
     public function show(Request $request)
     {
-        $avaluos = Avaluos::where('assigned_user_id', $request->coordinador)->where('deleted', '0')->get();
+        $avaluos = Avaluos::where('contact_id_c', $request->contact)->where('deleted', '0')->get();
 
         return response()->json([
             'status_code' => 200,
@@ -46,23 +46,24 @@ class AvaluosController extends BaseController
     public function fillAvaluo(AvaluosRequest $request)
     {
         $avaluo = new AvaluoClass();
-        $avaluo->description = $request->description;
-        $avaluo->contact_id_c = $request->contacto;
-        $avaluo->user_id_c = $request->coordinador;
-        $avaluo->assigned_user_id = $request->coordinador;
-        $avaluo->placa = $request->placa;
-        $avaluo->marca = $request->marca;
-        $avaluo->color = $request->color;
-        $avaluo->modelo = $request->modelo;
-        $avaluo->tipo_recorrido = $request->tipo_recorrido;
-        $avaluo->recorrido = $request->recorrido;
-        $avaluo->precio_final = $request->precio_final;
-        $avaluo->precio_nuevo = $request->precio_nuevo;
-        $avaluo->precio_nuevo_mod = $request->precio_nuevo_mod;
-        $avaluo->precio_final_mod = $request->precio_final_mod;
-        $avaluo->estado_avaluo = $request->estado_avaluo;
-        $avaluo->observacion = $request->observacion;
-        $avaluo->comentario = $request->comentario;
+        $avaluo->id = $request->id;
+        $avaluo->contact_id_c = $request->contact;
+        $avaluo->user_id_c = $request->coordinator;
+        $avaluo->assigned_user_id = $request->coordinator;
+        $avaluo->placa = $request->plate;
+        $avaluo->marca = $request->brand["id"];
+        $avaluo->color = $request->color["id"];
+        $avaluo->modelo = $request->model["id"];
+        $avaluo->status = $request->status;
+        $avaluo->tipo_recorrido = $request->unity;
+        $avaluo->recorrido = $request->mileage;
+        $avaluo->precio_final = $request->priceFinal;
+        $avaluo->precio_nuevo = $request->priceNew;
+        $avaluo->precio_nuevo_mod = $request->priceNewEdi;
+        $avaluo->precio_final_mod = $request->priceFinalEdit;
+        $avaluo->estado_avaluo = $request->status;
+        $avaluo->observacion = $request->observation;
+        $avaluo->comentario = $request->comment;
 
         return $avaluo;
     }

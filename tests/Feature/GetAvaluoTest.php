@@ -18,18 +18,24 @@ class GetAvaluoTest extends TestCase
         $this->setInitDataUserSanctum();
 
         $this->dataAvaluo = [
-            "description" => "description Avaluo",
-            "placa" => "PDA-1403",
-            "marca" => "1",
-            "modelo" => "10",
-            "color" => "1",
-            "recorrido" => "10000",
-            "tipo_recorrido" => "km", //mi
-            "estado_avaluo" => "N",
-            "comentario" => "COMENTARIO",
-            "observacion" => "OBSERVACION",
-            "coordinador" => "b9187d88-6ee4-c794-27f5-552bb40ee0d4", //users
-            "contacto" => "0015ad44-0a08-11ea-b67c-5883aaf14456", //contactos
+            "id" => null,
+            "contact" => "0015ad44-0a08-11ea-b67c-5883aaf14456",
+            "document" => "1722898838",
+            "coordinator" => "b9187d88-6ee4-c794-27f5-552bb40ee0d4",
+            "plate" => "PCR5214",
+            "brand" =>  ["id" => 1,"name" => "Chevrolet","status" => true],
+            "model" => ["id" => 1,"name" => "Aveo","status" => true],
+            "color" => ["id" => 1,"name" => "Blanco","status" => true],
+            "year" => "2021",
+            "mileage" => "23.412",
+            "unity" => "km",
+            "status" => "1",
+            "comment" => "qweasd",
+            "observation" => "qwe", //requerido si  son diferente priceNew y priceNewEdit o priceFinal y priceFinalEdit
+            "priceNew" => null,
+            "priceNewEdit" => "234",
+            "priceFinal" => null,
+            "priceFinalEdit" => "123"
         ];
     }
 
@@ -43,8 +49,9 @@ class GetAvaluoTest extends TestCase
         $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $contentCreateAvaluo = json_decode($response->content());
 
-        $response = $this->json('GET', $this->baseUrl . 'getAvaluo', ['placa' => 'PDA-1403']);
+        $response = $this->json('GET', $this->baseUrl . 'getAvaluo', ['id' => $contentCreateAvaluo->data->avaluo_id]);
         $contentGetAvaluo = json_decode($response->content());
+
         $avaluo = Avaluos::find($contentCreateAvaluo->data->avaluo_id);
 
         $this->assertEquals($contentGetAvaluo->avaluo->description, $avaluo->description);
