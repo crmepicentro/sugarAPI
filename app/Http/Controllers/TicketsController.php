@@ -204,6 +204,7 @@ class TicketsController extends BaseController
             "equipo_c" =>  env('TEAM'),
             "marca_c" =>  $dataRequest["marca"],
             "modelo_c" =>  $dataRequest["modelo"],
+            "modelo" =>  $dataRequest["modelo_interaccion"] ?? null,
             "placa_c" =>  $dataRequest["placa"],
             "anio_c" =>  $dataRequest["anio"],
             "kilometraje_c" =>  $dataRequest["kilometraje"],
