@@ -147,7 +147,7 @@ class CallsController extends BaseController
                 $dataProspeccion["description"] = $dataMeeting['subject']. ": " . $dataMeeting['comments'] ;
                 $dataProspeccion["concat_description"] = true ;
                 $dataProspeccion["tipo_prospeccion"] = 5;
-                $dataProspeccion["medio"] = $dataCall['medio'] ?? $medio;
+                $dataProspeccion["medio"] = $medio ?? $dataCall['medio'];
                 $dataProspeccion["campaign_id_c"] = $dataCall['campania'] ?? $campania;
 
                 $prospeccion = ProspeccionClass::store($dataProspeccion);
