@@ -92,9 +92,10 @@ class Contacts extends Model
   public static function contactExists($numeroidentificacion)
     {
         return self::where('deleted', 0)
-                          ->join('contacts_cstm', 'contacts.id', '=', 'contacts_cstm.id_c')
-                          ->where('contacts_cstm.numero_identificacion_c', $numeroidentificacion)
-                          ->first();
+            ->join('contacts_cstm', 'contacts.id', '=', 'contacts_cstm.id_c')
+            ->where('contacts_cstm.numero_identificacion_c', $numeroidentificacion)
+            ->select('contacts.id', 'contacts.first_name', 'contacts.last_name', 'contacts_cstm.tipo_identificacion_c', 'contacts_cstm.numero_identificacion_c', 'contacts.birthdate', 'contacts.phone_home', 'contacts.phone_mobile', 'contacts_cstm.estado_civil_c')
+            ->first();
     }
 
   public static function getForDocument($document, $type, $fields){

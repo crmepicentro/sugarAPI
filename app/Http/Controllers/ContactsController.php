@@ -12,6 +12,11 @@ class ContactsController extends BaseController
 {
   public function client($numero_identificacion)
   {
+      return response()->json(['contact' => json_decode($this->getClient($numero_identificacion))], 200);
+  }
+
+  public function getClient($numero_identificacion)
+  {
     $ticket = Tickets::find($numero_identificacion);
     $contact = Contacts::contactExists($numero_identificacion);
 
@@ -27,13 +32,13 @@ class ContactsController extends BaseController
       ->where('primary_address', 1)
       ->where('deleted', 0)->pluck('email_address_id');
 
-    $contact->email = EmailAddreses::whereIn('id', $emails) ->where('deleted', 0)->first();
+    $contact->email = EmailAddreses::whereIn('id', $emails) ->where('deleted', 0)->select('email_address')->first();
 
     if($contact->nacionalidad_c) {
       $nacionality = Nationality::find($contact->nacionalidad_c);
       $contact->nacionality = $nacionality->nombre;
     }
 
-    return response()->json(['contact' => json_decode($contact)], 200);
+    return $contact;
   }
 }

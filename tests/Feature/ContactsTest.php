@@ -30,6 +30,7 @@ class ContactsTest extends TestCase
         $contact = Contacts::where('deleted', 0)
             ->join('contacts_cstm', 'contacts.id', '=', 'contacts_cstm.id_c')
             ->where('contacts_cstm.numero_identificacion_c', '1002234944')
+            ->select('contacts.id', 'contacts.first_name', 'contacts.last_name', 'contacts_cstm.tipo_identificacion_c', 'contacts_cstm.numero_identificacion_c', 'contacts.birthdate', 'contacts.phone_home', 'contacts.phone_mobile', 'contacts_cstm.estado_civil_c')
             ->first();
         if($contact->nacionalidad_c) {
             $nacionality = Nationality::find($contact->nacionalidad_c);
@@ -39,7 +40,7 @@ class ContactsTest extends TestCase
         $emails = EmailAddrBeanRel::where('bean_id', $contact->id)
             ->where('primary_address', 1)
             ->where('deleted', 0)->pluck('email_address_id');
-        $contact->email = EmailAddreses::whereIn('id', $emails) ->where('deleted', 0)->first();
+        $contact->email = EmailAddreses::whereIn('id', $emails)->where('deleted', 0)->select('email_address')->first();
 
         $this->assertEquals(json_decode($contact), $content->contact);
         $response->assertStatus(200);
@@ -54,6 +55,7 @@ class ContactsTest extends TestCase
       $contact = Contacts::where('deleted', 0)
         ->join('contacts_cstm', 'contacts.id', '=', 'contacts_cstm.id_c')
         ->where('contacts_cstm.numero_identificacion_c', $ticket->numero_identificacion)
+        ->select('contacts.id', 'contacts.first_name', 'contacts.last_name', 'contacts_cstm.tipo_identificacion_c', 'contacts_cstm.numero_identificacion_c', 'contacts.birthdate', 'contacts.phone_home', 'contacts.phone_mobile', 'contacts_cstm.estado_civil_c')
         ->first();
       if($contact->nacionalidad_c) {
         $nacionality = Nationality::find($contact->nacionalidad_c);
@@ -63,9 +65,9 @@ class ContactsTest extends TestCase
       $emails = EmailAddrBeanRel::where('bean_id', $contact->id)
         ->where('primary_address', 1)
         ->where('deleted', 0)->pluck('email_address_id');
-      $contact->email = EmailAddreses::whereIn('id', $emails) ->where('deleted', 0)->first();
+      $contact->email = EmailAddreses::whereIn('id', $emails)->where('deleted', 0)->select('email_address')->first();
 
-      $this->assertEquals(json_decode($contact), $content->contact);
+      $this->assertJson($contact, json_encode($content->contact));
       $response->assertStatus(200);
     }
 

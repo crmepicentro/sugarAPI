@@ -74,6 +74,12 @@ class Users extends Model
 
     public static function getRandomAsesorByAgency($agency_id, $line_id, $position, $dias, $medio = 'all')
     {
+        $usersBlocked = [];
+
+        if($medio) {
+            $usersBlocked = SugarUsersBlocked::where('status', 'inactive')->where('sources_blocked', 'like', '%'.$medio.'%')->pluck('sugar_user_id');
+        }
+
         return \DB::connection(get_connection())->select('
         SELECT t.usuario, t.cuantos
         FROM (SELECT u.id  usuario,u.user_name, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos
