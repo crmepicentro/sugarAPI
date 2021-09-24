@@ -21,7 +21,7 @@ class ContactsController extends BaseController
     $contact = Contacts::contactExists($numero_identificacion);
 
     if(!$contact && !$ticket){
-      return response()->json(['contact' => null], 200);
+      return $contact;
     }
 
     if(!$contact && $ticket){
