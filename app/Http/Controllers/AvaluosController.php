@@ -36,7 +36,7 @@ class AvaluosController extends BaseController
     public function show(Request $request)
     {
         $avaluos = Avaluos::where('contact_id_c', $request->contact)->where('deleted', '0')->get();
-
+        //mostrar precio aprobado
         return response()->json([
             'status_code' => 200,
             'avaluos' => $avaluos
@@ -45,6 +45,7 @@ class AvaluosController extends BaseController
 
     public function fillAvaluo(AvaluosRequest $request)
     {
+        //precio aprobado el mismo del editado cuando no este en estado en aprobado
         $avaluo = new AvaluoClass();
         $avaluo->id = $request->id;
         $avaluo->contact_id_c = $request->contact;

@@ -31,7 +31,7 @@ class HistoryTicketsTest extends TestCase
     }
 
     /** @test */
-    public function getTickets()
+    public function getTicketsData()
     {
         $response = $this->get('/ticketsHistory/1002234944');
         $content = json_decode($response->content());
@@ -47,7 +47,7 @@ class HistoryTicketsTest extends TestCase
         $response = $this->get('/ticketsHistory/1002234944');
         $content = json_decode($response->content());
         $ticketsExpected = $this->getExpectedTickets('1002234944', 'assigned_user_id');
-        $expectedAsesor = Users::where('id', $ticketsExpected[0])->first();
+        $expectedAsesor = Users::where('id', $ticketsExpected[0])->select('user_name', 'first_name', 'last_name')->first();
 
         $this->assertEquals(json_decode($expectedAsesor), $content->ticketHistory[0]->asesor);
         $response->assertStatus(202);
@@ -62,9 +62,11 @@ class HistoryTicketsTest extends TestCase
         $ticketsInteractions = TicketsInteracciones::where('cbt_tickets_cbt_interaccion_digitalcbt_tickets_ida', $ticketsExpected[0])->pluck('cbt_tickets_cbt_interaccion_digitalcbt_interaccion_digital_idb');
         $expectedInteractions = Interacciones::whereIn('cbt_interaccion_digital.id', $ticketsInteractions)
             ->join('users', 'users.id', '=', 'cbt_interaccion_digital.assigned_user_id')
+            ->join('cbt_interaccion_digital_cstm', 'cbt_interaccion_digital.id', '=', 'cbt_interaccion_digital_cstm.id_c')
             ->where('cbt_interaccion_digital.deleted', 0)
-            ->select('cbt_interaccion_digital.id', 'cbt_interaccion_digital.description', 'cbt_interaccion_digital.name',
-                'cbt_interaccion_digital.fuente', 'cbt_interaccion_digital.date_entered', 'users.first_name', 'users.last_name')
+            ->selectRaw('cbt_interaccion_digital.id, cbt_interaccion_digital.description, cbt_interaccion_digital.name,
+                            cbt_interaccion_digital.date_entered, CONVERT_TZ(cbt_interaccion_digital.date_entered,\'+00:00\',\'-05:00\') as convert_date_entered,
+                            cbt_interaccion_digital.fuente, cbt_interaccion_digital.date_entered, users.first_name as asesor_name, users.last_name as asesor_last_name, cbt_interaccion_digital_cstm.medio_c')
             ->get();
 
         $this->assertEquals(json_decode($expectedInteractions), $content->ticketHistory[0]->interactions);
@@ -78,7 +80,9 @@ class HistoryTicketsTest extends TestCase
         $content = json_decode($response->content());
         $ticketsExpected = $this->getExpectedTickets('0502173560', 'id');
         $ticketsCalls = TicketsCalls::where('cbt_tickets_callscbt_tickets_ida', $ticketsExpected[0])->pluck('cbt_tickets_callscalls_idb');
-        $expectedCalls = Calls::whereIn('id', $ticketsCalls)->where('deleted', 0)->get();
+        $expectedCalls = Calls::whereIn('id', $ticketsCalls)->where('deleted', 0)
+            ->selectRaw('id, date_end, CONVERT_TZ(date_start,\'+00:00\',\'-05:00\') as convert_date_start, CONVERT_TZ(date_end,\'+00:00\',\'-05:00\') as convert_date_end, duration_hours, duration_minutes, description, direction')
+            ->get();
 
 
         $this->assertEquals(json_decode($expectedCalls), $content->ticketHistory[0]->calls);
@@ -92,12 +96,15 @@ class HistoryTicketsTest extends TestCase
         $content = json_decode($response->content());
         $ticketsExpected = $this->getExpectedTickets('1801703693', 'id');
         $ticketsMeetings = TicketMeeting::where('cbt_tickets_meetingscbt_tickets_ida', $ticketsExpected[0])->pluck('cbt_tickets_meetingsmeetings_idb');
-        $expectedMeetings = Meetings::whereIn('id', $ticketsMeetings)->where('deleted', 0)->get();
+
+        $expectedMeetings = Meetings::whereIn('id', $ticketsMeetings)->where('deleted', 0)
+            ->selectRaw('id, status, date_start, CONVERT_TZ(date_start,\'+00:00\',\'-05:00\') as convert_date_start, name, description')
+            ->get();
 
         foreach ($expectedMeetings as $meet)
         {
             $contacts = MeetingsContacts::where('meeting_id', $meet->id)->where('deleted', '0')->pluck('contact_id');
-            $meet->contacts = Contacts::whereIn('id', $contacts)->where('deleted', '0')->get();
+            $meet->contacts = Contacts::whereIn('id', $contacts)->where('deleted', '0')->select('first_name', 'last_name')->get();
         }
 
         $this->assertEquals(json_decode($expectedMeetings), $content->ticketHistory[0]->meetings);
@@ -111,7 +118,10 @@ class HistoryTicketsTest extends TestCase
         $content = json_decode($response->content());
         $ticketsExpected = $this->getExpectedTickets('1801703693', 'id');
         $ticketsProspeccion = TicketsProspeccion::where('cbp_prospeccion_cbt_tickets_1cbt_tickets_idb', $ticketsExpected[0])->pluck('cbp_prospeccion_cbt_tickets_1cbp_prospeccion_ida');
-        $expectedProspeccion = Prospeccion::whereIn('id', $ticketsProspeccion)->where('deleted', 0)->get();
+        $expectedProspeccion = Prospeccion::whereIn('id', $ticketsProspeccion)->where('deleted', 0)
+            ->join('cbp_prospeccion_cstm', 'cbp_prospeccion.id', '=', 'cbp_prospeccion_cstm.id_c')
+            ->selectRaw('id, name, estado, date_entered, CONVERT_TZ(date_entered,\'+00:00\',\'-05:00\') as convert_date_entered, name, description, fuente, medio_c')
+            ->get();
 
 
         $this->assertEquals(json_decode($expectedProspeccion), $content->ticketHistory[0]->prospeccion);
@@ -120,7 +130,9 @@ class HistoryTicketsTest extends TestCase
 
     public function getExpectedTickets($numero_identificacion, $campo){
         return Tickets::where('numero_identificacion', $numero_identificacion)
+            ->join('cbt_tickets_cstm', 'cbt_tickets.id', '=', 'cbt_tickets_cstm.id_c')
             ->where('deleted', '0')
+            ->selectRaw('id, cbt_tickets.name, cbt_tickets.date_entered, CONVERT_TZ(cbt_tickets.date_entered,\'+00:00\',\'-05:00\') as convert_date_entered, cbt_tickets.modified_user_id, cbt_tickets.description, cbt_tickets.fuente, cbt_tickets.linea_negocio, cbt_tickets_cstm.campaign_id_c, cbt_tickets_cstm.medio_c, cbt_tickets.assigned_user_id, cbt_tickets.estado')
             ->orderBy('date_entered', 'desc')
             ->pluck($campo);
     }

@@ -6,8 +6,11 @@ use App\Http\Requests\CallNotAnswerRequest;
 use App\Http\Requests\TicketCallRequest;
 use App\Http\Requests\TicketLandingRequest;
 use App\Models\AgenciesLandingPages;
+use App\Models\Campaigns;
+use App\Models\Fuente;
 use App\Models\LandingPages;
 use App\Models\Medio;
+use App\Models\ProspeccionMeetings;
 use App\Services\CallClass;
 use App\Services\ContactClass;
 use App\Services\InteraccionClass;
@@ -692,39 +695,63 @@ class TicketsController extends BaseController
 
     public function history($numero_identificacion)
     {
+        return response()->json(['ticketHistory' => json_decode($this->getHistoryTickets($numero_identificacion))], 202);
+    }
 
+    public function getHistoryTickets($numero_identificacion){
         $data = Tickets::where('cbt_tickets.numero_identificacion', $numero_identificacion)
+            ->join('cbt_tickets_cstm', 'cbt_tickets.id', '=', 'cbt_tickets_cstm.id_c')
             ->where('deleted', '0')
             ->orderBy('date_entered', 'desc')
+            ->selectRaw('id, cbt_tickets.name, cbt_tickets.date_entered, CONVERT_TZ(cbt_tickets.date_entered,\'+00:00\',\'-05:00\') as convert_date_entered, cbt_tickets.modified_user_id, cbt_tickets.description, cbt_tickets.fuente, cbt_tickets.linea_negocio, cbt_tickets_cstm.campaign_id_c, cbt_tickets_cstm.medio_c, cbt_tickets.assigned_user_id, cbt_tickets.estado')
             ->get();
 
         foreach ($data as $t)
         {
-            $t->asesor = Users::where('id', $t->assigned_user_id)->first();
+            $t->asesor = Users::where('id', $t->assigned_user_id)->select('user_name', 'first_name', 'last_name')->first();
+            $t->campania = Campaigns::where('id', $t->campaign_id_c)->select('name')->first();
             $ticketsInteractions = TicketsInteracciones::where('cbt_tickets_cbt_interaccion_digitalcbt_tickets_ida', $t->id)->pluck('cbt_tickets_cbt_interaccion_digitalcbt_interaccion_digital_idb');
+
             $t->interactions = Interacciones::whereIn('cbt_interaccion_digital.id', $ticketsInteractions)
                 ->join('users', 'users.id', '=', 'cbt_interaccion_digital.assigned_user_id')
+                ->join('cbt_interaccion_digital_cstm', 'cbt_interaccion_digital.id', '=', 'cbt_interaccion_digital_cstm.id_c')
                 ->where('cbt_interaccion_digital.deleted', 0)
-                ->select('cbt_interaccion_digital.id', 'cbt_interaccion_digital.description', 'cbt_interaccion_digital.name',
-                        'cbt_interaccion_digital.fuente', 'cbt_interaccion_digital.date_entered', 'users.first_name', 'users.last_name')
+                ->selectRaw('cbt_interaccion_digital.id, cbt_interaccion_digital.description, cbt_interaccion_digital.name,
+                            cbt_interaccion_digital.date_entered, CONVERT_TZ(cbt_interaccion_digital.date_entered,\'+00:00\',\'-05:00\') as convert_date_entered,
+                            cbt_interaccion_digital.fuente, cbt_interaccion_digital.date_entered, users.first_name as asesor_name, users.last_name as asesor_last_name, cbt_interaccion_digital_cstm.medio_c')
                 ->get();
 
             $ticketsCalls = TicketsCalls::where('cbt_tickets_callscbt_tickets_ida', $t->id)->pluck('cbt_tickets_callscalls_idb');
-            $t->calls = Calls::whereIn('id', $ticketsCalls)->where('deleted', 0)->get();
+            $t->calls = Calls::whereIn('id', $ticketsCalls)->where('deleted', 0)
+                ->selectRaw('id, date_end, CONVERT_TZ(date_start,\'+00:00\',\'-05:00\') as convert_date_start, CONVERT_TZ(date_end,\'+00:00\',\'-05:00\') as convert_date_end, duration_hours, duration_minutes, description, direction')
+                ->get();
+
+            $ticketsProspeccion = TicketsProspeccion::where('cbp_prospeccion_cbt_tickets_1cbt_tickets_idb', $t->id)->pluck('cbp_prospeccion_cbt_tickets_1cbp_prospeccion_ida');
+            $t->prospeccion = Prospeccion::whereIn('id', $ticketsProspeccion)->where('deleted', 0)
+                ->join('cbp_prospeccion_cstm', 'cbp_prospeccion.id', '=', 'cbp_prospeccion_cstm.id_c')
+                ->selectRaw('id, name, estado, date_entered, CONVERT_TZ(date_entered,\'+00:00\',\'-05:00\') as convert_date_entered, name, description, fuente, medio_c')
+                ->get();
+
+            $ProspectionMeetings = ProspeccionMeetings::whereIn('cbp_prospeccion_meetingscbp_prospeccion_ida', $ticketsProspeccion)->pluck('cbp_prospeccion_meetingsmeetings_idb');
             $ticketsMeetings = TicketMeeting::where('cbt_tickets_meetingscbt_tickets_ida', $t->id)->pluck('cbt_tickets_meetingsmeetings_idb');
-            $t->meetings = Meetings::whereIn('id', $ticketsMeetings)->where('deleted', 0)->get();
+            $ProspectionMeetings = count($ProspectionMeetings) > 0 ? (array) $ProspectionMeetings : array();
+            $ticketsMeetings = count($ticketsMeetings) > 0 ? (array) $ticketsMeetings : array();
+
+            $meetings = array_merge($ProspectionMeetings, $ticketsMeetings);
+
+            $t->meetings = Meetings::whereIn('id', $meetings)->where('deleted', 0)
+                ->selectRaw('id, status, date_start, CONVERT_TZ(date_start,\'+00:00\',\'-05:00\') as convert_date_start, name, description')
+                ->get();
 
             foreach ($t->meetings as $meet)
             {
                 $contacts = MeetingsContacts::where('meeting_id', $meet->id)->where('deleted', '0')->pluck('contact_id');
-                $meet->contacts = Contacts::whereIn('id', $contacts)->where('deleted', '0')->get();
+                $meet->contacts = Contacts::whereIn('id', $contacts)->where('deleted', '0')->select('first_name', 'last_name')->get();
             }
 
-            $ticketsProspeccion = TicketsProspeccion::where('cbp_prospeccion_cbt_tickets_1cbt_tickets_idb', $t->id)->pluck('cbp_prospeccion_cbt_tickets_1cbp_prospeccion_ida');
-            $t->prospeccion = Prospeccion::whereIn('id', $ticketsProspeccion)->where('deleted', 0)->get();
         }
 
-        return response()->json(['ticketHistory' => json_decode($data)], 202);
+        return $data;
     }
 
     /**
