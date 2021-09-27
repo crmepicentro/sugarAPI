@@ -74,4 +74,20 @@ class Agencies extends Model
     {
         return self::where('s3s_id', $idS3S)->first();
     }
+
+    public static function getAllValueLabel()
+    {
+        return self::select('id as value', 'name as label')->where('deleted', 0)->orderBy('name')->get();
+    }
+
+    public static function getAllValueLabelByLine($line)
+    {
+        return self::select('cb_agencias.id as value', 'cb_agencias.name as label')
+            ->join('cb_agencias_cb_lineanegocio_c', 'cb_agencias.id', '=', 'cb_agencias_cb_lineanegociocb_agencias_ida')
+            ->join('cb_lineanegocio', 'cb_lineanegocio.id', '=', 'cb_agencias_cb_lineanegociocb_lineanegocio_idb')
+            ->where('cb_lineanegocio.name', $line)
+            ->where('cb_agencias.deleted', 0)
+            ->where('cb_agencias_cb_lineanegocio_c.deleted', 0)
+            ->orderBy('cb_agencias.name')->get();
+    }
 }

@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Agencies;
 use App\Models\Companies;
 use App\Models\Contacts;
 use App\Models\ContactsCstm;
+use App\Models\Coupons;
 use App\Models\Prospeccion;
 use App\Models\User;
 use App\Models\Users;
@@ -43,7 +45,7 @@ class ServicesTest extends TestCase
 
     public function testGetDocumentConSugar()
     {
-        $this->setInitDataUserSanctum();
+        $this->setInitDataUser();
         $faker = [
             'first_name' => 'CRISTIANO MESSI',
             'last_name' => 'RONALDO PULGA',
@@ -61,6 +63,7 @@ class ServicesTest extends TestCase
             'sospechoso_text_c' => 'SOSPECHOSO DE FRAUDE'
         ];
         $fakerContacts = ContactsCstm::create($fakerContacts);
+
         $response = $this->getJson('services/getDocument?document=' . $fakerContacts['numero_identificacion_c'] . '&type=C');
         $dataResponse = json_decode($response->content());
         Contacts::where('id', $faker->id)->delete();
@@ -83,7 +86,7 @@ class ServicesTest extends TestCase
 
     public function testGetDocumentCedulaConS3s()
     {
-        $this->setInitDataUserSanctum();
+        $this->setInitDataUser();
         Http::fake([
             env('S3S') . '/casabacaWebservices/processDatabookRestImpl/databookConsultarDatos?compania=01&tipoConsulta=TIT&tipoIdentificacion=C&identificacion=1727348375' => Http::response([
                 "tipoIdentificacion" => "C",
@@ -117,7 +120,7 @@ class ServicesTest extends TestCase
 
     public function testGetDocumentRucNuevoS3s()
     {
-        $this->setInitDataUserSanctum();
+        $this->setInitDataUser();
         Http::fake([
             env('S3S') . '/casabacaWebservices/processDatabookRestImpl/databookConsultarDatos?compania=01&tipoConsulta=TIT&tipoIdentificacion=R&identificacion=1722898838001' => Http::response([
                 "error" => "NO existe datos para el ruc consultado",
@@ -134,7 +137,7 @@ class ServicesTest extends TestCase
 
     public function testGetDocumentCedulaNoValidaS3s()
     {
-        $this->setInitDataUserSanctum();
+        $this->setInitDataUser();
         Http::fake([
             env('S3S') . '/casabacaWebservices/processDatabookRestImpl/databookConsultarDatos?compania=01&tipoConsulta=TIT&tipoIdentificacion=C&identificacion=1722898839' => Http::response([
                 "error" => "Identificacion no es valida",
@@ -151,7 +154,7 @@ class ServicesTest extends TestCase
 
     public function testGetDocumentRequeridoDocument()
     {
-        $this->setInitDataUserSanctum();
+        $this->setInitDataUser();
         $response = $this->getJson('services/getDocument?&type=C');
         $content = json_decode($response->content());
         $this->assertEquals($content->errors->document[0], 'El campo document es requerido.');
@@ -159,7 +162,7 @@ class ServicesTest extends TestCase
 
     public function testGetDocumentRequeridoType()
     {
-        $this->setInitDataUserSanctum();
+        $this->setInitDataUser();
         $response = $this->getJson('services/getDocument?document=1722898838');
         $content = json_decode($response->content());
         $this->assertEquals($content->errors->type[0], 'El campo type es requerido.');
@@ -167,10 +170,73 @@ class ServicesTest extends TestCase
 
     public function testGetDocumentOpcionNoValidaType()
     {
-        $this->setInitDataUserSanctum();
+        $this->setInitDataUser();
         $response = $this->getJson('services/getDocument?document=1722898838&type=H');
         $content = json_decode($response->content());
         $this->assertEquals($content->errors->type[0], 'El campo type seleccionado no es válido.');
     }
 
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    public function testServiceAgenciesNuevos()
+    {
+        $this->setInitDataUserSanctum();
+        $this->withoutExceptionHandling();
+        $response = $this->get('api/getAgencies/NUEVOS');
+        $response->assertStatus(200);
+        $data = Agencies::select('cb_agencias.id as value', 'cb_agencias.name as label')
+            ->join('cb_agencias_cb_lineanegocio_c', 'cb_agencias.id', '=', 'cb_agencias_cb_lineanegociocb_agencias_ida')
+            ->join('cb_lineanegocio', 'cb_lineanegocio.id', '=', 'cb_agencias_cb_lineanegociocb_lineanegocio_idb')
+            ->where('cb_lineanegocio.name', 'NUEVOS')
+            ->where('cb_agencias.deleted', 0)
+            ->where('cb_agencias_cb_lineanegocio_c.deleted', 0)
+            ->orderBy('cb_agencias.name')->get();
+        $response->assertJson(["data" => $data->toArray()]);
+    }
+
+    public function testServiceAgenciesExonerados()
+    {
+        $this->setInitDataUserSanctum();
+        $this->withoutExceptionHandling();
+        $response = $this->get('api/getAgencies/EXONERADOS');
+
+        $response->assertStatus(200);
+        $data = Agencies::select('cb_agencias.id as value', 'cb_agencias.name as label')
+            ->join('cb_agencias_cb_lineanegocio_c', 'cb_agencias.id', '=', 'cb_agencias_cb_lineanegociocb_agencias_ida')
+            ->join('cb_lineanegocio', 'cb_lineanegocio.id', '=', 'cb_agencias_cb_lineanegociocb_lineanegocio_idb')
+            ->where('cb_lineanegocio.name', 'EXONERADOS')
+            ->where('cb_agencias.deleted', 0)
+            ->where('cb_agencias_cb_lineanegocio_c.deleted', 0)
+            ->orderBy('cb_agencias.name')->get();
+        $response->assertJson(["data" => $data->toArray()]);
+    }
+
+    public function testServiceAgenciesSeminuevos()
+    {
+        $this->setInitDataUserSanctum();
+        $this->withoutExceptionHandling();
+        $response = $this->get('api/getAgencies/SEMINUEVOS');
+        $response->assertStatus(200);
+        $data = Agencies::select('cb_agencias.id as value', 'cb_agencias.name as label')
+            ->join('cb_agencias_cb_lineanegocio_c', 'cb_agencias.id', '=', 'cb_agencias_cb_lineanegociocb_agencias_ida')
+            ->join('cb_lineanegocio', 'cb_lineanegocio.id', '=', 'cb_agencias_cb_lineanegociocb_lineanegocio_idb')
+            ->where('cb_lineanegocio.name', 'SEMINUEVOS')
+            ->where('cb_agencias.deleted', 0)
+            ->where('cb_agencias_cb_lineanegocio_c.deleted', 0)
+            ->orderBy('cb_agencias.name')->get();
+        $response->assertJson(["data" => $data->toArray()]);
+    }
+
+    public function testServiceAgenciesTodos()
+    {
+        $this->setInitDataUserSanctum();
+        $this->withoutExceptionHandling();
+        $response = $this->get('api/getAgencies/TODOS');
+        $response->assertStatus(200);
+        $data = Agencies::select('id as value', 'name as label')->where('deleted', 0)->orderBy('name')->get();
+        $response->assertJson(["data" => $data->toArray()]);
+    }
 }

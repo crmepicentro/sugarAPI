@@ -47,6 +47,7 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('close_prospeccion/{id}', 'App\Http\Controllers\ProspeccionController@closeProspeccion');
     $api->post('forms_prospeccion', 'App\Http\Controllers\ProspeccionController@formsProspeccion');
     $api->get('validToken', 'App\Http\Controllers\ServicesController@validToken');
+    $api->get('getAgencies/{linea}', 'App\Http\Controllers\ServicesController@getAgencies');
 });
 
 $api->version('v1', function ($api) {
