@@ -1078,4 +1078,22 @@ class TicketsController extends BaseController
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
+
+    public function updateProspeccion()
+    {
+        $prospeccionesTickets = TicketsProspeccion::
+            join('cbp_prospeccion', 'cbp_prospeccion.id', '=', 'cbp_prospeccion_cbt_tickets_1_c.cbp_prospeccion_cbt_tickets_1cbp_prospeccion_ida')
+            ->select('cbp_prospeccion_cbt_tickets_1cbp_prospeccion_ida as prospeccion','cbp_prospeccion_cbt_tickets_1cbt_tickets_idb as ticket')
+            ->get();
+
+        foreach ($prospeccionesTickets as $pT){
+            $prospeccion = Prospeccion::find($pT->prospeccion);
+            $ticket = Tickets::
+            join('cbt_tickets_cstm', 'cbt_tickets_cstm.id_c', '=', 'cbt_tickets.id')->
+            where('cbt_tickets.id', $pT->ticket)->select('cbt_tickets.fuente', 'cbt_tickets_cstm.medio_c')->first();
+            $prospeccion->fuente = $ticket->fuente;
+            $prospeccion->prospeccionCstm->medio_c = $ticket->medio_c;
+            //$prospeccion->save();
+        }
+    }
 }
