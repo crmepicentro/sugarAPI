@@ -48,6 +48,8 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('forms_prospeccion', 'App\Http\Controllers\ProspeccionController@formsProspeccion');
     $api->get('validToken', 'App\Http\Controllers\ServicesController@validToken');
     $api->get('getAgencies/{linea}', 'App\Http\Controllers\ServicesController@getAgencies');
+    $api->post('coupons/', 'App\Http\Controllers\CouponsController@update');
+    $api->post('coupons/validate', 'App\Http\Controllers\CouponsController@validateCoupon');
 });
 
 $api->version('v1', function ($api) {
