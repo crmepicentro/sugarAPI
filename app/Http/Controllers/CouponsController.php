@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CouponRequest;
 use App\Http\Requests\UpdateCouponRequest;
 use App\Http\Requests\ValidCouponRequest;
 use App\Models\Agencies;
+use App\Models\Coupons\Campaigns;
 use App\Models\Coupons\Contacts;
 use App\Models\Coupons\Coupons;
+use App\Models\Coupons\Mail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class CouponsController extends Controller
@@ -57,7 +61,46 @@ class CouponsController extends Controller
         }
     }
 
-    public function create (Request $request){
-
+    public function create (CouponRequest $request){
+        try {
+            \DB::connection(get_connection())->beginTransaction();
+            //Validar exista y vigencia de la campaña con Request
+            $contact = [
+                'first_name' => $request->nombres,
+                'last_name' => $request->apellidos,
+                'email' => $request->email,
+                'mobil_phone' => $request->celular,
+                'home_phone' => $request->telefono,
+                'address' => $request->direccion
+            ];
+            $contact = Contacts::firstOrCreate(['document' => $request->cedula],$contact);
+            $typeCamapana = Campaigns::find($request->idcampana,['type'])->type;
+            if( str_contains($typeCamapana, 'CUPON')) {
+                $coupon = [
+                    'code' => Str::upper(Str::random(9)),
+                    'date_assign' => Carbon::now('UTC')->toDateString(),
+                    'date_validity' => Carbon::now('UTC')->addYear()->subDay()->toDateString()
+                ];
+                $coupon = Coupons::firstOrCreate(
+                    ['campaign_id' => $request->idcampana,
+                        'contact_id' => $contact->id],
+                    $coupon
+                );
+                //Crea el histórico de envío de mails
+                $mail = Mail::firstOrCreate(['campaign_id' => $request->idcampana, 'contact_id' => $contact->id, 'coupon_id' => $coupon->id],['status' => 1]);
+                if ($mail->status === 1){
+                    $send = true;
+                    Mail::find($mail->id)->update(['status' => 2]);
+                }
+            }
+            if ( str_contains($typeCamapana, 'INCON') ){
+                $inconcert = true;
+            }
+            \DB::connection(get_connection())->commit();
+            return response()->json(['msg' => 'Se guardo correctamente','data' => true], Response::HTTP_CREATED);
+        }catch (\Exception $e) {
+            \DB::connection()->rollBack();
+            return response()->json(['error' => '!Error¡ No se pudo cajear el cupón', 'msg' => $e->getMessage() . '- Line: ' . $e->getLine() . '- Archivo: ' . $e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

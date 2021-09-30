@@ -14,7 +14,8 @@ class Companies extends Model
         'nombre',
         'sugar_dev',
         'sugar_prod',
-        'intermedia_prod'
+        'intermedia_prod',
+        'domain'
     ];
 
     public function users()
