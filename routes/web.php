@@ -24,7 +24,6 @@ use App\Http\Controllers\ErrorController;
 */
 require __DIR__.'/auth.php';
 require __DIR__.'/campaign.php';
-require __DIR__.'/coupon.php';
 require __DIR__.'/services.php';
 
 Route::middleware([UserAuth::class])->group(function () {

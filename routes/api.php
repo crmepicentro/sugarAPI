@@ -26,6 +26,7 @@ $api->version('v1', ['middleware' => [EnsureUserIsValid::class]], function ($api
 $api->version('v1', ['middleware' => [EnsureUserIsValid::class, 'auth:sanctum']], function ($api) {
     $api->get('logout', 'App\Http\Controllers\AuthController@logout');
 });
+//$api->post('saveForm/{token}/{name}', 'App\Http\Controllers\ActonController@store');
 
 $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' => 200, 'expires' => 5], function ($api) {
     $api->get('history', 'App\Http\Controllers\HistoryController@index');
@@ -47,6 +48,10 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('close_prospeccion/{id}', 'App\Http\Controllers\ProspeccionController@closeProspeccion');
     $api->post('forms_prospeccion', 'App\Http\Controllers\ProspeccionController@formsProspeccion');
     $api->get('validToken', 'App\Http\Controllers\ServicesController@validToken');
+    $api->get('getAgencies/{linea}', 'App\Http\Controllers\ServicesController@getAgencies');
+    $api->post('coupons/', 'App\Http\Controllers\CouponsController@create');
+    $api->put('coupons/', 'App\Http\Controllers\CouponsController@update');
+    $api->post('coupons/validate', 'App\Http\Controllers\CouponsController@validateCoupon');
 });
 
 $api->version('v1', function ($api) {

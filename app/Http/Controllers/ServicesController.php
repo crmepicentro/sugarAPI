@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Contacts;
 use App\Http\Requests\ServicesDocumentRequest;
+use App\Models\Agencies;
 use App\Models\BusinessLine;
 use App\Models\Users;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class ServicesController extends Controller
 {
   public function getDocument(ServicesDocumentRequest $request)
     {
-      try{
+        try{
         $data = Contacts::getData($request->get('document'),mb_strtoupper($request->get('type')));
         return response()->json($data, Response::HTTP_OK);
       }catch (\Exception $e) {
@@ -44,4 +45,15 @@ class ServicesController extends Controller
   public function validToken(){
       return response()->json(true, Response::HTTP_OK);
   }
+
+    public function getAgencies (String $line)
+    {
+        $line = strtoupper($line);
+        if($line !== 'TODOS'){
+            $agencies = Agencies::getAllValueLabelByLine($line);
+        }else{
+            $agencies = Agencies::getAllValueLabel();
+        }
+        return response()->json(['msg' => 'Ok','data' => $agencies], Response::HTTP_OK);
+    }
 }
