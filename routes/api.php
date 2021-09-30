@@ -52,6 +52,7 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('coupons/', 'App\Http\Controllers\CouponsController@create');
     $api->put('coupons/', 'App\Http\Controllers\CouponsController@update');
     $api->post('coupons/validate', 'App\Http\Controllers\CouponsController@validateCoupon');
+    $api->post('c2cOmnichannel', 'App\Http\Controllers\OmnichannelController@sendToOmnichannel');
 });
 
 $api->version('v1', function ($api) {
