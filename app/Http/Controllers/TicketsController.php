@@ -7,7 +7,6 @@ use App\Http\Requests\TicketCallRequest;
 use App\Http\Requests\TicketLandingRequest;
 use App\Models\AgenciesLandingPages;
 use App\Models\Campaigns;
-use App\Models\Fuente;
 use App\Models\LandingPages;
 use App\Models\Medio;
 use App\Models\ProspeccionMeetings;
