@@ -9,6 +9,7 @@ use App\Models\Coupons\Mail;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class CouponTest extends TestCase
@@ -55,6 +56,9 @@ class CouponTest extends TestCase
 
     public function testCreateCoupon()
     {
+        Http::fake([
+            env('ACTON').'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001' => Http::response('gracias', 200)
+        ]);
         $this->withoutExceptionHandling();
         $campaign = Campaigns::factory()->create(['name'=>'Seguros','company_id'=>1,'type' => 'CUPON-INCON','id_sugar_campaign'=> null,'name_sugar_campaign'=>null]);
         $request = ['idcampana'=>$campaign->id, 'nombres' => 'Cristian Geovanny', 'apellidos' => 'Cazares Baldeon',
@@ -73,7 +77,7 @@ class CouponTest extends TestCase
         $mail = Mail::where('campaign_id',$request['idcampana'])->where('contact_id', $contact->id)->where('coupon_id',$cupon->id)->first();
         $this->assertEquals($mail->status, 2);
 
-        //Fake Http send mail y validar ticket inconcert
+        //Validar ticket inconcert
     }
 
     public function providerCamposNotValidCreate(): array

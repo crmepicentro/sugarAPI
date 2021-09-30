@@ -12,6 +12,8 @@ use App\Models\Coupons\Coupons;
 use App\Models\Coupons\Mail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,8 +30,12 @@ class CouponsController extends Controller
     {
 
         try{
-            $client = Contacts:://selectRaw('CONCAT(contacts.document, " - ",contacts.first_name, " ", contacts.last_name) as client')
-                selectRaw('(contacts.document || " - " || contacts.first_name || " " || contacts.last_name) as client')
+            $query = 'CONCAT(contacts.document, " - ",contacts.first_name, " ", contacts.last_name) as client';
+            if(Config::get('app.env')=== 'testing'){
+                $query = '(contacts.document || " - " || contacts.first_name || " " || contacts.last_name) as client';
+            }
+            $client = Contacts::
+                selectRaw($query)
                 ->join('coupons','coupons.contact_id','contacts.id')
                 ->where('coupons.code', $request->getCode())
                 ->where('contacts.deleted',0)
@@ -89,8 +95,16 @@ class CouponsController extends Controller
                 //Crea el histórico de envío de mails
                 $mail = Mail::firstOrCreate(['campaign_id' => $request->idcampana, 'contact_id' => $contact->id, 'coupon_id' => $coupon->id],['status' => 1]);
                 if ($mail->status === 1){
-                    $send = true;
-                    Mail::find($mail->id)->update(['status' => 2]);
+                    $data = [
+                        'nombres' => $request->nombres,
+                        'apellidos' => $request->apellidos,
+                        'email' => $request->email,
+                        'cupon' => $coupon->code
+                    ];
+                    $response = Http::withHeaders(['Content-Type' => 'application/x-www-form-urlencoded'])
+                                    ->asForm()
+                                    ->post(env('ACTON').'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001', $data);
+                    Mail::find($mail->id)->update(['status' => $response->successful() ? 2 : 3]);
                 }
             }
             if ( str_contains($typeCamapana, 'INCON') ){
