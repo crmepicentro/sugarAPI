@@ -27,6 +27,7 @@ require __DIR__.'/campaign.php';
 require __DIR__.'/services.php';
 
 Route::middleware([UserAuth::class])->group(function () {
+    Route::get('updateProspeccion', [TicketsController::class, 'updateProspeccion']);
     Route::get('login_sugar', [AuthSugarController::class, 'index'])->name('login_sugar.index');
     Route::post('login_sugar', [AuthSugarController::class, 'login'])->name('login_sugar');
     Route::get('logout_sugar', [AuthSugarController::class, 'logout'])->name('logout_sugar');

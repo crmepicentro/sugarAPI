@@ -18,6 +18,7 @@ class TicketInconcertClass {
   public $ticketName;
   public $ticketInteraction;
   public $mobile;
+  public $tokenC2C;
 
   public function create($extraFields)
   {
@@ -28,7 +29,7 @@ class TicketInconcertClass {
     ];
 
     $data = [
-      "serviceToken" => env($tokens[$user_auth->compania]),
+      "serviceToken" => $this->tokenC2C ? $this->tokenC2C : env($tokens[$user_auth->compania]),
       "serviceAction" => "c2c",
       "contentUrl" => $this->contentUrl,
       "thankyouPageUrl" => $this->thankyouPageUrl,
