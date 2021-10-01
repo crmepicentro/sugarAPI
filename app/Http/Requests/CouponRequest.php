@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\ValidateCampaing;
+use App\Rules\ValidTokenCupon;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -28,11 +29,13 @@ class CouponRequest extends FormRequest
     {
         return [
             'idcampana' => ['required','exists:App\Models\Coupons\Campaigns,id', new ValidateCampaing()],
+            'tokenC2C' => ['required', new ValidTokenCupon(request()->input('idcampana'))],
             'cedula' => ['required'],
             'nombres' => ['required'],
             'apellidos' => ['required'],
             'email' => ['required'],
             'celular' => ['required'],
+            'urlmail' => ['required'],
         ];
     }
 
@@ -46,6 +49,7 @@ class CouponRequest extends FormRequest
             'apellidos.required' => 'Apellidos es requerido',
             'email.required' => 'Correo Electrónico es requerido',
             'celular.required' => 'Celular es requerido',
+            'urlmail.required' => 'Url para el envío de mail es requerido',
         ];
     }
 
