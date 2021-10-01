@@ -16,7 +16,7 @@ class ValidTokenCupon implements Rule
 
     public function __construct($idCampaing)
     {
-        $this->$idCampaing = $idCampaing;
+        $this->idCampaing = $idCampaing;
     }
 
     /**
@@ -28,9 +28,7 @@ class ValidTokenCupon implements Rule
      */
     public function passes($attribute, $value)
     {
-        dd($this->idCampaing);
-        return false;
-        $campana = Campaigns::where('id',$this->$idCampaing)->where('type','like','%INCON%')->exists();
+        $campana = Campaigns::where('id',$this->idCampaing)->where('type','like','%INCON%')->exists();
         return !($campana && !$attribute);
     }
 
