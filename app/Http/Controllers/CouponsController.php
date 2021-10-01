@@ -70,7 +70,6 @@ class CouponsController extends Controller
 
     public function create (CouponRequest $request){
         try {
-            dd($request->all());
             \DB::connection(get_connection())->beginTransaction();
             $contact = [
                 'first_name' => $request->nombres,

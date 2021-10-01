@@ -71,10 +71,9 @@ class CouponTest extends TestCase
         ]);
         $this->withoutExceptionHandling();
         $campaign = Campaigns::factory()->create(['name'=>'Seguros','company_id'=>1,'type' => 'CUPON-INCON','id_sugar_campaign'=> null,'name_sugar_campaign'=>null]);
-        $request = ['idcampana'=>$campaign->id, 'nombres' => 'Cristian Geovanny', 'apellidos' => 'Cazares Baldeon','tokenC2C' => '',
+        $request = ['idcampana'=>$campaign->id, 'nombres' => 'Cristian Geovanny', 'apellidos' => 'Cazares Baldeon','tokenC2C' => 'prueba',
                     'cedula' => '1722898838', 'email' => 'ccazares@casabaca.com', 'celular' => '0984434641','urlmail'=>'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001'];
         $response = $this->post('api/coupons', $request);
-        dd($response->content());
         $response->assertCreated();
         $response->assertJson(["data" => true]);
 
@@ -96,6 +95,7 @@ class CouponTest extends TestCase
         return [
             'Requerido idcampana' => ['idcampana',null,"Id campaña es requerido", []],
             'No existe idcampana' => ['idcampana',100,"Id campaña no existe", []],
+            'Requerido token' => ['tokenC2C',null,"Token es requerido", []],
             'Requerido cedula' => ['cedula',null,"Cédula es requerido", []],
             'Requerido nombres' => ['nombres',null,"Nombres es requerido", []],
             'Requerido apellidos' => ['apellidos',null,"Apellidos es requerido", []],
