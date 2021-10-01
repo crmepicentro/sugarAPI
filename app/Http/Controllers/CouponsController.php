@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CouponRequest;
+use App\Http\Requests\OmnichannelRequest;
 use App\Http\Requests\UpdateCouponRequest;
 use App\Http\Requests\ValidCouponRequest;
 use App\Models\Agencies;
@@ -70,7 +71,6 @@ class CouponsController extends Controller
     public function create (CouponRequest $request){
         try {
             \DB::connection(get_connection())->beginTransaction();
-            //Validar exista y vigencia de la campaña con Request
             $contact = [
                 'first_name' => $request->nombres,
                 'last_name' => $request->apellidos,
@@ -101,14 +101,29 @@ class CouponsController extends Controller
                         'email' => $request->email,
                         'cupon' => $coupon->code
                     ];
+                    //$urlMail = $request->urlmail ?? '16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001';
                     $response = Http::withHeaders(['Content-Type' => 'application/x-www-form-urlencoded'])
                                     ->asForm()
-                                    ->post(env('ACTON').'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001', $data);
+                                    ->post(env('ACTON').$request->urlmail, $data);
                     Mail::find($mail->id)->update(['status' => $response->successful() ? 2 : 3]);
                 }
             }
             if ( str_contains($typeCamapana, 'INCON') ){
-                $inconcert = true;
+                $data = [
+                    "numero_identificacion" => $request->cedula,
+                    "tokenC2C" => $request->tokenC2C,
+                    "email" => $request->email,
+                    "nombres" => $request->nombres,
+                    "apellidos" => $request->apellidos,
+                    "celular" => $request->celular,
+                    "datos_adicionales" => [
+                        "title" => $request->formname ?? 'Cupones',
+                        "pageUrl" => $request->formurl ?? null,
+                    ]
+                ];
+                $requestOmni = new Request($data);
+                $omniController = new OmnichannelController();
+                $omniController->sendToOmnichannel(OmnichannelRequest::createFromBase($requestOmni));
             }
             \DB::connection(get_connection())->commit();
             return response()->json(['msg' => 'Se guardo correctamente','data' => true], Response::HTTP_CREATED);

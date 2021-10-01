@@ -59,10 +59,20 @@ class CouponTest extends TestCase
         Http::fake([
             env('ACTON').'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001' => Http::response('gracias', 200)
         ]);
+        Http::fake([
+            env('inconcertWS') => Http::response([
+                'status' => true,
+                'description' => 'OK',
+                'data' => [
+                    "status" => "new",
+                    "contactId" => "contactId"
+                ]
+            ], 200)
+        ]);
         $this->withoutExceptionHandling();
         $campaign = Campaigns::factory()->create(['name'=>'Seguros','company_id'=>1,'type' => 'CUPON-INCON','id_sugar_campaign'=> null,'name_sugar_campaign'=>null]);
-        $request = ['idcampana'=>$campaign->id, 'nombres' => 'Cristian Geovanny', 'apellidos' => 'Cazares Baldeon',
-                    'cedula' => '1722898838', 'email' => 'ccazares@casabaca.com', 'celular' => '0984434641' ];
+        $request = ['idcampana'=>$campaign->id, 'nombres' => 'Cristian Geovanny', 'apellidos' => 'Cazares Baldeon','tokenC2C' => 'prueba',
+                    'cedula' => '1722898838', 'email' => 'ccazares@casabaca.com', 'celular' => '0984434641','urlmail'=>'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001'];
         $response = $this->post('api/coupons', $request);
         $response->assertCreated();
         $response->assertJson(["data" => true]);
@@ -85,11 +95,13 @@ class CouponTest extends TestCase
         return [
             'Requerido idcampana' => ['idcampana',null,"Id campaña es requerido", []],
             'No existe idcampana' => ['idcampana',100,"Id campaña no existe", []],
+            'Requerido token' => ['tokenC2C',null,"Token es requerido", []],
             'Requerido cedula' => ['cedula',null,"Cédula es requerido", []],
             'Requerido nombres' => ['nombres',null,"Nombres es requerido", []],
             'Requerido apellidos' => ['apellidos',null,"Apellidos es requerido", []],
             'Requerido email' => ['email',null,"Correo Electrónico es requerido", []],
             'Requerido celular' => ['celular',null,"Celular es requerido", []],
+            'Requerido urlmail' => ['urlmail',null,"Url para el envío de mail es requerido", []],
             'Sin activar fecha campaña' => ['idcampana',null,"Campaña no válida", ['date_start' => Carbon::now('UTC')->addDay()->toDateString()]],
             'Sin activar campaña' => ['idcampana',null,"Campaña no válida", ['status' => 0]],
             'Caducado campaña' => ['idcampana',null,"Campaña no válida", ['date_end' => Carbon::now('UTC')->subDay()->toDateString()]],
@@ -105,8 +117,8 @@ class CouponTest extends TestCase
         $this->withoutExceptionHandling();
         $campaign = ['name'=>'Seguros','company_id'=>1,'type' => 'CUPON-INCON','id_sugar_campaign'=> null,'name_sugar_campaign'=>null];
         $campaign = Campaigns::factory()->create(array_merge($campaign,$valores));
-        $request = ['idcampana'=>$campaign->id, 'nombres' => 'Cristian Geovanny', 'apellidos' => 'Cazares Baldeon',
-                    'cedula' => '1722898838', 'email' => 'ccazares@casabaca.com', 'celular' => '0984434641' ];
+        $request = ['idcampana'=>$campaign->id, 'nombres' => 'Cristian Geovanny', 'apellidos' => 'Cazares Baldeon','tokenC2C' => 'prueba',
+                    'cedula' => '1722898838', 'email' => 'ccazares@casabaca.com', 'celular' => '0984434641','urlmail'=>'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001' ];
         if($label && empty($valores)){
             $request[$label] = $value;
         }
