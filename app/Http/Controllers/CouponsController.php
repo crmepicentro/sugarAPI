@@ -109,7 +109,15 @@ class CouponsController extends Controller
                     Mail::find($mail->id)->update(['status' => $response->successful() ? 2 : 3]);
                 }
             }
+            \DB::connection(get_connection())->commit();
+        }catch (\Exception $e) {
+            \DB::connection()->rollBack();
+            return response()->json(['error' => '!Error¡ al generar cupón', 'msg' => $e->getMessage() . '- Line: ' . $e->getLine() . '- Archivo: ' . $e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        try {
             if ( str_contains($typeCamapana, 'INCON') ){
+                \DB::connection(get_connection())->beginTransaction();
                 $data = [
                     "numero_identificacion" => $request->cedula,
                     "tokenC2C" => $request->tokenC2C,
@@ -123,6 +131,13 @@ class CouponsController extends Controller
                     "title" => $request->formname ?? 'Cupones',
                     "pageUrl" => $request->formurl ?? null,
                 ];
+                $request->request->remove('cedula');
+                $request->request->remove('tokenC2C');
+                $request->request->remove('email');
+                $request->request->remove('nombres');
+                $request->request->remove('apellidos');
+                $request->request->remove('celular');
+                $request->request->remove('idcampana');
                 foreach ($request->all() as $key => $item){
                     if (!in_array($key,$fields)){
                         $adicionales[$key] = $item;
@@ -132,12 +147,12 @@ class CouponsController extends Controller
                 $requestOmni = new Request($data);
                 $omniController = new OmnichannelController();
                 $omniController->sendToOmnichannel(OmnichannelRequest::createFromBase($requestOmni));
+                \DB::connection(get_connection())->commit();
             }
-            \DB::connection(get_connection())->commit();
             return response()->json(['msg' => 'Se guardo correctamente','data' => true], Response::HTTP_CREATED);
         }catch (\Exception $e) {
             \DB::connection()->rollBack();
-            return response()->json(['error' => '!Error¡ No se pudo cajear el cupón', 'msg' => $e->getMessage() . '- Line: ' . $e->getLine() . '- Archivo: ' . $e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => '!Error¡ se creo el cupón pero no se pudo ingresar en inconcert ticket', 'msg' => $e->getMessage() . '- Line: ' . $e->getLine() . '- Archivo: ' . $e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
