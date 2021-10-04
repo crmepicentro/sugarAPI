@@ -140,7 +140,7 @@ class CouponsController extends Controller
                 $request->request->remove('idcampana');
                 $request->request->remove('cedula');
                 foreach ($request->all() as $key => $item){
-                    if (!in_array($key,$fields) && (Str::substr($typeCamapana,0,3) == 'ao_') && (Str::substr($typeCamapana,0,1) == '_')){
+                    if (!in_array($key,$fields) && (Str::substr($typeCamapana,0,3) !== 'ao_') && (Str::substr($typeCamapana,0,1) !== '_')){
                         $adicionales[$key] = $item;
                     }
                 }
