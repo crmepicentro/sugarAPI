@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class CouponTest extends TestCase
@@ -56,6 +57,7 @@ class CouponTest extends TestCase
 
     public function testCreateCoupon()
     {
+        dd(Str::substr('abcxyz',0,3));
         Http::fake([
             env('ACTON').'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001' => Http::response('gracias', 200)
         ]);

@@ -128,8 +128,8 @@ class CouponsController extends Controller
                 ];
                 $fields = ['nombres','apellidos','email','celular','telefono','direccion','tokenC2C','formname','formurl'];
                 $adicionales = [
-                    "title" => $request->formname ?? 'Cupones',
-                    "pageUrl" => $request->formurl ?? null,
+                    "title" => $request->get('_FORM') ?? 'Cupones',
+                    "pageUrl" => $request->get('_FORM_URL') ?? null,
                 ];
                 $request->request->remove('cedula');
                 $request->request->remove('tokenC2C');
@@ -138,8 +138,9 @@ class CouponsController extends Controller
                 $request->request->remove('apellidos');
                 $request->request->remove('celular');
                 $request->request->remove('idcampana');
+                $request->request->remove('cedula');
                 foreach ($request->all() as $key => $item){
-                    if (!in_array($key,$fields)){
+                    if (!in_array($key,$fields) && (Str::substr($typeCamapana,0,3) !== 'ao_') && (Str::substr($typeCamapana,0,1) !== '_')){
                         $adicionales[$key] = $item;
                     }
                 }
