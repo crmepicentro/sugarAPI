@@ -38,10 +38,11 @@ class OmnichannelController extends Controller
 
             $dataResponse = $ticketInconcert->create($extraFields);
             $wsInconcertLog = new WSInconcertLogs();
-            $wsInconcertLog->route = env('/c2cOmnichannel/');
+            $wsInconcertLog->route = env('inconcertWS');;
             $wsInconcertLog->environment = get_connection();
             $wsInconcertLog->source = $user_auth->fuente;
             $wsInconcertLog->datos_sugar_crm = json_encode($request->all());
+            $wsInconcertLog->datos_adicionales = json_encode($request->datos_adicionales);
             $wsInconcertLog->response_inconcert = json_encode($dataResponse);
             $wsInconcertLog->description = $dataResponse["description"];
             $wsInconcertLog->status = $dataResponse["status"];
