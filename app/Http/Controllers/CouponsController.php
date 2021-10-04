@@ -79,6 +79,7 @@ class CouponsController extends Controller
                 'home_phone' => $request->telefono,
                 'address' => $request->direccion
             ];
+
             $contact = Contacts::firstOrCreate(['document' => $request->cedula],$contact);
             $typeCamapana = Campaigns::find($request->idcampana,['type'])->type;
             if( str_contains($typeCamapana, 'CUPON')) {
@@ -116,11 +117,18 @@ class CouponsController extends Controller
                     "nombres" => $request->nombres,
                     "apellidos" => $request->apellidos,
                     "celular" => $request->celular,
-                    "datos_adicionales" => [
-                        "title" => $request->formname ?? 'Cupones',
-                        "pageUrl" => $request->formurl ?? null,
-                    ]
                 ];
+                $fields = ['nombres','apellidos','email','celular','telefono','direccion','tokenC2C','formname','formurl'];
+                $adicionales = [
+                    "title" => $request->formname ?? 'Cupones',
+                    "pageUrl" => $request->formurl ?? null,
+                ];
+                foreach ($request->all() as $key => $item){
+                    if (!in_array($key,$fields)){
+                        $adicionales[$key] = $item;
+                    }
+                }
+                $data["datos_adicionales"] = $adicionales;
                 $requestOmni = new Request($data);
                 $omniController = new OmnichannelController();
                 $omniController->sendToOmnichannel(OmnichannelRequest::createFromBase($requestOmni));
