@@ -57,7 +57,6 @@ class CouponTest extends TestCase
 
     public function testCreateCoupon()
     {
-        dd(Str::substr('abcxyz',0,3));
         Http::fake([
             env('ACTON').'16567/c6a77f7a-e055-4b82-81e9-8adab30223fb/d-ext-0001' => Http::response('gracias', 200)
         ]);
