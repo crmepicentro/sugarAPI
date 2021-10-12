@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OmnichannelRequest;
 use App\Models\WSInconcertLogs;
 use App\Services\TicketInconcertClass;
+use Illuminate\Http\Request;
 use \Illuminate\Support\Facades\Auth;
 
 class OmnichannelController extends Controller
 {
-    public function sendToOmnichannel(OmnichannelRequest $request)
+    public function sendToOmnichannel(Request $request)
     {
+        dd($request->all());
         \DB::connection(get_connection())->beginTransaction();
 
         try {
@@ -58,5 +60,9 @@ class OmnichannelController extends Controller
             \DB::connection(get_connection())->rollBack();
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
+    }
+
+    public function prueba (Request $request){
+        return response()->json(['data' => $request->all()], 202);
     }
 }
