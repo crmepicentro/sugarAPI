@@ -4,16 +4,14 @@
 namespace App\Helpers;
 
 use App\Models\Ws_logs;
+use Illuminate\Support\Facades\Http;
 
-class  WsLog {
+class  Pricing {
 
-  public static function storeBefore($data, $route){
-    $ws_logs = new Ws_logs();
-    $ws_logs->route = $route;
-    $ws_logs->datos_sugar_crm = json_encode($data["datosSugarCRM"]);
-    $ws_logs->datos_adicionales = json_encode($data["datos_adicionales"]);
-    $ws_logs->save();
-    return $ws_logs;
+  public static function getToken(){
+      $response = Http::post(env('PRICING').'authentication',['user' => env('USER_PRICING'),'password' => env('PASSWORD_PRICING')]);
+      dd($response);
+    return true;
   }
 
   public static function storeAfter($ws_logs, $data){
