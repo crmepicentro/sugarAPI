@@ -50,7 +50,8 @@ class ServicesController extends Controller
     {
         $line = strtoupper($line);
         if($line !== 'TODOS'){
-            $agencies = Agencies::getAllValueLabelByLine($line);
+            $agencies = Agencies::getAllValueLabelByLine($line)->toArray();
+            $agencies[] = ['value' => 1 , 'label' => 'NORTE'];
         }else{
             $agencies = Agencies::getAllValueLabel();
         }
