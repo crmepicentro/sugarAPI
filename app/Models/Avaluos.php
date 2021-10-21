@@ -49,4 +49,22 @@ class Avaluos extends Model
             $query->deleted = 0;
         });
     }
+
+    public function imagenes()
+    {
+        return $this->belongsToMany(
+            Imagenes::class,
+            'cba_imagenes_avaluo_cba_avaluos_c',
+            'cba_imagenes_avaluo_cba_avaluoscba_avaluos_ida',
+            'cba_imagenes_avaluo_cba_avaluoscba_imagenes_avaluo_idb');
+    }
+
+    public function checklist()
+    {
+        return $this->belongsToMany(
+            CheckList::class,
+            'cba_checklist_avaluo_cba_avaluos_c',
+            'cba_checklist_avaluo_cba_avaluoscba_avaluos_ida',
+            'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb');
+    }
 }

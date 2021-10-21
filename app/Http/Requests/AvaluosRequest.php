@@ -26,10 +26,11 @@ class AvaluosRequest extends FormRequest
     public function rules()
     {
         return [
+            'document' => 'required',
             'plate' => 'required',
-            'brand.id' => 'required|exists:App\Models\Brand,id',
-            'color.id' => 'required|exists:App\Models\Color,id',
-            'model.id' => 'required|exists:App\Models\Models,id',
+            'brand' => 'required',
+            'color' => 'required',
+            'model' => 'required',
             'mileage' => 'required',
             'unity' => 'required|in:km,mi',
             'status' => 'required',
@@ -40,18 +41,19 @@ class AvaluosRequest extends FormRequest
     public function messages()
     {
         return [
+            'document.required' => 'Documento es campo requerido',
             'plate.required' => 'Placa es campo requerido',
-            'brand.id.required' => 'Marca es campo requerido',
-            'model.id.required' => 'Modelo es campo requerido',
-            'color.id.required' => 'Color es campo requerido',
+            'brand.required' => 'Marca es campo requerido',
+            'model.required' => 'Modelo es campo requerido',
+            'color.required' => 'Color es campo requerido',
             'mileage.required' => 'Recorrido es campo requerido',
             'unity.required' => 'Tipo de recorrido es campo requerido',
             'unity.in' => 'Tipo de recorrido valores válidos: km, mi',
             'status.required' => 'Estado es requerido',
             'coordinator.required' => 'Coordinador es requerido',
-            'coordinator.in' => 'Coordinador inválido en Sugar',
+            'coordinator.exists' => 'Coordinador inválido en Sugar',
             'contact.required' => 'Contacto es requerido',
-            'contact.in' => 'Contacto es inválido en Sugar',
+            'contact.exists' => 'Contacto es inválido en Sugar',
             'model.id.exists' => 'Id del modelo inválido',
             'brand.id.exists' => 'Id de la marca inválido',
             'color.id.exists' => 'Id del color inválido',
@@ -62,4 +64,40 @@ class AvaluosRequest extends FormRequest
     {
         throw new HttpResponseException(response()->json(['errors' => $validator->errors()], 422));
     }
+
+    public function getBrandName() : string
+    {
+        return json_decode($this->get('brand'))->name;
+    }
+
+    public function getBrandId() : string
+    {
+        return json_decode($this->get('brand'))->id;
+    }
+
+    public function getColorName() : string
+    {
+        return json_decode($this->get('color'))->name;
+    }
+
+    public function getColorId() : string
+    {
+        return json_decode($this->get('color'))->id;
+    }
+
+    public function getModelName() : string
+    {
+        return json_decode($this->get('model'))->name;
+    }
+
+    public function getModelId() : string
+    {
+        return json_decode($this->get('model'))->id;
+    }
+
+    public function getDescription() : string
+    {
+        return json_decode($this->get('description'))->description;
+    }
+
 }
