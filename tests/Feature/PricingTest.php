@@ -62,7 +62,7 @@ class PricingTest extends TestCase
                 $request->url() == env('PRICING').'pricing' &&
                 $request['id_descripcion'] == $data['id_descripcion'] &&
                 $request['anio'] == $data['anio'] &&
-                $request['placa'] == $data['placa'] &&
+                $request['placa'] == 'P' &&
                 $request['recorrido'] == $data['recorrido'] &&
                 $request['unidad'] == $data['unidad'] &&
                 $request['descuentos'] == $data['descuentos'] &&

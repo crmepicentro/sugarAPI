@@ -40,7 +40,7 @@ class PricingClass {
         $response = Http::withToken(self::getToken())->post(env('PRICING').'pricing', [
             'id_descripcion' => $id_descripcion,
             'anio' => $anio,
-            'placa' => $placa,
+            'placa' => $placa[0],
             'recorrido' => $recorrido,
             'unidad' => $unidad,
             'descuentos' => $descuentos,
