@@ -40,7 +40,7 @@ class PricingTest extends TestCase
     {
         Http::fake([
             env('PRICING').'authentication' => Http::response(['token' =>'tokenPricing'], 200),
-            env('PRICING').'pricing' => Http::response(['precio_nuevo' => '15000', 'precio_toma' => '12500', 'estado'=> true], 200)
+            env('PRICING').'pricing' => Http::response(['precio_nuevo' => '15000', 'precio_toma' => '12500', 'status'=> true], 200)
         ]);
         $data = [
           'id_descripcion' => 12,
@@ -55,18 +55,18 @@ class PricingTest extends TestCase
         $pricing = PricingClass::getPricing($data['id_descripcion'],$data['anio'], $data['placa'], $data['recorrido'], $data['unidad'], $data['descuentos']);
         $this->assertEquals('15000', $pricing->precio_nuevo);
         $this->assertEquals('12500', $pricing->precio_toma);
-        $this->assertEquals(true, $pricing->estado);
+        $this->assertEquals(true, $pricing->status);
         Http::assertSent(function (Request $request) use($data) {
             return
                 $request->hasHeader('Authorization', 'Bearer tokenPricing') &&
                 $request->url() == env('PRICING').'pricing' &&
-                $request['id_descripcion'] == $data['id_descripcion'] &&
-                $request['anio'] == $data['anio'] &&
-                $request['placa'] == 'P' &&
-                $request['recorrido'] == $data['recorrido'] &&
-                $request['unidad'] == $data['unidad'] &&
-                $request['descuentos'] == $data['descuentos'] &&
-                $request['valor_nuevo'] == null;
+                $request['data']['id_descripcion'] == $data['id_descripcion'] &&
+                $request['data']['anio'] == $data['anio'] &&
+                $request['data']['placa'] == 'P' &&
+                $request['data']['recorrido'] == $data['recorrido'] &&
+                $request['data']['unidad'] == $data['unidad'] &&
+                $request['data']['descuentos'] == $data['descuentos'] &&
+                $request['data']['valor_nuevo'] == null;
         });
     }
 
@@ -74,7 +74,7 @@ class PricingTest extends TestCase
     {
         Http::fake([
             env('PRICING').'authentication' => Http::response(['token' =>'tokenPricing'], 200),
-            env('PRICING').'pricing' => Http::response(['precio_nuevo' => '15000', 'precio_toma' => '12500', 'estado'=> true], 501)
+            env('PRICING').'pricing' => Http::response(['precio_nuevo' => '15000', 'precio_toma' => '12500', 'status'=> true], 501)
         ]);
         $data = [
             'id_descripcion' => 12,
@@ -92,5 +92,11 @@ class PricingTest extends TestCase
             $this->assertEquals(501, $e->getCode());
             $this->assertEquals('Error al traer data de Pricing notifique al área de BI', $e->getMessage());
         }
+    }
+
+    public function testServicePricing(){
+        $data = [
+
+        ]
     }
 }

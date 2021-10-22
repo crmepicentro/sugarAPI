@@ -37,7 +37,7 @@ class PricingClass {
      * @throws ErrorException
      */
     public static function getPricing(int $id_descripcion, int $anio, string $placa, string $recorrido, string $unidad, array $descuentos, float $valor_nuevo = null){
-        $response = Http::withToken(self::getToken())->post(env('PRICING').'pricing', [
+        $response = Http::withToken(self::getToken())->post(env('PRICING').'pricing', [ 'data' => [
             'id_descripcion' => $id_descripcion,
             'anio' => $anio,
             'placa' => $placa[0],
@@ -45,7 +45,7 @@ class PricingClass {
             'unidad' => $unidad,
             'descuentos' => $descuentos,
             'valor_nuevo' => $valor_nuevo,
-        ]);
+        ]]);
         if(!$response->successful()){
             throw new ErrorException('Error al traer data de Pricing notifique al área de BI', $response->status());
         }
