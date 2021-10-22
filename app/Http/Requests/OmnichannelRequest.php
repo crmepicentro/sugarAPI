@@ -26,7 +26,6 @@ class OmnichannelRequest extends FormRequest
     public function rules()
     {
         return [
-            'numero_identificacion' => 'required',
             'tokenC2C' => 'required',
             'nombres' => 'required',
             'apellidos' => 'required',
