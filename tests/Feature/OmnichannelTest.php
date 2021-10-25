@@ -180,7 +180,6 @@ class OmnichannelTest extends TestCase
         $response = $this->json('POST', $this->baseUrl . 'c2cOmnichannel', []);
         $content = json_decode($response->content());
 
-        $this->assertEquals($content->errors->numero_identificacion[0], 'Número de Identificación es requerido');
         $this->assertEquals($content->errors->tokenC2C[0], 'TokenC2C es requerido');
         $this->assertEquals($content->errors->nombres[0], 'Nombres es requerido');
         $this->assertEquals($content->errors->apellidos[0], 'Apellidos es requerido');

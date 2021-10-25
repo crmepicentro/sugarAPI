@@ -16,7 +16,7 @@ class OmnichannelController extends Controller
         try {
             $user_auth = Auth::user();
             $ticketInconcert = new TicketInconcertClass();
-            $ticketInconcert->numero_identificacion = $request->numero_identificacion;
+            $ticketInconcert->numero_identificacion = $request->numero_identificacion ?? null;
             $ticketInconcert->email = $request->email;
             $ticketInconcert->firstname = $request->nombres;
             $ticketInconcert->lastname = $request->apellidos;
