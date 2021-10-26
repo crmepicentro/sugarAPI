@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Avaluos;
+use App\Models\CheckList;
+use App\Models\CheckListAvaluo;
 use App\Models\Imagenes;
 use App\Models\Imagenes_Avaluo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -48,7 +50,8 @@ class CreateAvaluoTest extends TestCase
             "priceNewEdit" => "234",
             "priceFinal" => null,
             "priceFinalEdit" => "123",
-            "pics" => '[{"name":"testPicture1","multiple":false},{"name":"testPicture2","multiple":false},{"name":"extraPicture","multiple":true}]'
+            "pics" => '[{"name":"testPicture1","multiple":false},{"name":"testPicture2","multiple":false},{"name":"extraPicture","multiple":true}]',
+            "checklist" => '[{"id":1,"description":"Tren Motriz","status":true,"option":"A","observation":"observacion 1","cost":"1000"},{"id":2,"description":"Dirección","status":true,"option":"E","observation":"observación 2","cost":"2000"},{"id":3,"description":"Suspensión","status":true,"option":"NA"}]'
         ];
     }
 
@@ -183,6 +186,67 @@ class CreateAvaluoTest extends TestCase
             ->count();
         $this->assertEquals(1, $imageExtraPicture2);
 
+    }
+
+    public function test_should_create_checkList()
+    {
+        Http::fake([
+            env('STRAPI_URL'. '/appraisal-images') => Http::response([
+                'id' => 15,
+                'name' => 'nameFakePicture',
+                'images' => [
+                    [
+                        "formats" => [
+                            "medium" => ["url" => 'urlTestStrapi']
+                        ]
+                    ],
+                    [
+                        "formats" => [
+                            "medium" => ["url" => 'urlTestStrapiExtra']
+                        ]
+                    ]
+                ]
+            ], 200)
+        ]);
+
+        $this->dataAvaluo["id"] = null;
+
+        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
+        $content = json_decode($response->content());
+
+        $response->assertStatus(200);
+        $this->assertNotNull($content->data->avaluo_id);
+        $this->assertNotNull($content->data->avaluo_name);
+
+        $checkListAppraisal = CheckListAvaluo::where('cba_checklist_avaluo_cba_avaluoscba_avaluos_ida', $content->data->avaluo_id)->pluck('cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb');
+        $this->assertEquals(3, count($checkListAppraisal));
+
+        $checkList1 = CheckList::whereIn('id', $checkListAppraisal)
+            ->where('item_id', '1')
+            ->where('deleted', '0')
+            ->first();
+        $this->assertEquals('Tren Motriz', $checkList1->item_description);
+        $this->assertEquals('observacion 1', $checkList1->description);
+        $this->assertEquals('A', $checkList1->estado);
+        $this->assertEquals(1000, $checkList1->costo);
+
+        $checkList2 = CheckList::whereIn('id', $checkListAppraisal)
+            ->where('item_id', '2')
+            ->where('deleted', '0')
+            ->first();
+        $this->assertEquals('Dirección', $checkList2->item_description);
+        $this->assertEquals('observación 2', $checkList2->description);
+        $this->assertEquals('E', $checkList2->estado);
+        $this->assertEquals(2000, $checkList2->costo);
+
+        $checkList3 = CheckList::whereIn('id', $checkListAppraisal)
+            ->where('item_id', '3')
+            ->where('deleted', '0')
+            ->first();
+        $this->assertEquals('Suspensión', $checkList3->item_description);
+        $this->assertNull($checkList3->description);
+        $this->assertEquals(0, $checkList3->costo);
+        $this->assertEquals('NA', $checkList3->estado);
     }
 
     public function test_should_validate_data()

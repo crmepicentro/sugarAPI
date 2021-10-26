@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AvaluosRequest;
 
 use App\Services\AvaluoClass;
+use App\Services\ChecklistAvaluoClass;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
 use AvaluoTransformer;
@@ -15,15 +16,22 @@ class AvaluosController extends BaseController
     public function create(AvaluosRequest $request)
     {
         \DB::connection(get_connection())->beginTransaction();
+        $avaluo = $this->fillAvaluo($request);
+        $newAvaluo = $avaluo->createOrUpdate();
+
         try {
-            $avaluo = $this->fillAvaluo($request);
-            $newAvaluo = $avaluo->createOrUpdate();
+            $checkLists = $request->getCheckList();
+
+            foreach ($checkLists as $checkList){
+                $checkList = new ChecklistAvaluoClass($checkList->id, $checkList->description, $request->coordinator, $checkList->option, $checkList->observation ?? null, $checkList->cost ?? 0, $newAvaluo->id);
+                $checkList->create();
+            }
 
             $strappiController = new StrapiController();
             $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
 
-            \DB::connection(get_connection())->commit();
 
+            \DB::connection(get_connection())->commit();
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         }catch(Throwable $e){
             \DB::connection(get_connection())->rollBack();

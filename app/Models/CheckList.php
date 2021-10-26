@@ -43,7 +43,7 @@ class CheckList extends Model
         });
     }
 
-    public function avaluos()
+    public function avaluo()
     {
         return $this->belongsToMany(
             CheckList::class,

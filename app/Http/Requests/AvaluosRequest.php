@@ -100,4 +100,8 @@ class AvaluosRequest extends FormRequest
         return json_decode($this->get('description'))->description;
     }
 
+    public function getCheckList() : array
+    {
+        return json_decode($this->get('checklist'));
+    }
 }
