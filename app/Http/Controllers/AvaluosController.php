@@ -9,7 +9,6 @@ use App\Services\ChecklistAvaluoClass;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
 use AvaluoTransformer;
-use Symfony\Component\HttpFoundation\Response;
 
 class AvaluosController extends BaseController
 {
@@ -41,24 +40,22 @@ class AvaluosController extends BaseController
 
     public function edit(Request $request)
     {
-        $avaluo = Avaluos::find($request->id);
+        $avaluo = Avaluos::getAvaluo($request->id);
 
-        if(!$avaluo){
+        if(!isset($avaluo->id)){
             return response()->json(['error' => 'Avaluo not found'], 404);
         }
 
         return response()->json([
-            'status_code' => 200,
             'avaluo' => $avaluo
         ]);
     }
 
     public function show(Request $request)
     {
-        $avaluos = Avaluos::where('contact_id_c', $request->contact)->where('deleted', '0')->get();
-        //mostrar precio aprobado
+        $avaluos = Avaluos::getAvaluoByContact($request->contact_id_c);
+
         return response()->json([
-            'status_code' => 200,
             'avaluos' => $avaluos
         ]);
     }

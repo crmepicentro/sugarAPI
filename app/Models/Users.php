@@ -199,4 +199,9 @@ class Users extends Model
             LIMIT  1
         ');
     }
+
+    public function avaluos()
+    {
+        return $this->hasMany(Avaluos::class, 'assigned_user_id', 'id');
+    }
 }

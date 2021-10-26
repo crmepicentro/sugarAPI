@@ -3,20 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\ImagenesClass;
-use Illuminate\Http\Request;
-use Dbfx\LaravelStrapi\LaravelStrapi;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\HttpFoundation\Response;
 
 class StrapiController extends Controller
 {
-    public function getImages(Request $request){
-        $strapi = new LaravelStrapi();
-        $this->storeProductImage($request, 1);
-        $entry = $strapi->entry('appraisal-images', 1);
-        return response()->json(['msg' => $entry,  'swap' => (isset($client) ? true :false) ], Response::HTTP_ACCEPTED);
-    }
-
     public function storeFilesAppraisals($request, $idAvaluo, $placa){
         $pics =  json_decode($request->pics);
         $fileField = 'files.images';
@@ -50,6 +40,7 @@ class StrapiController extends Controller
                     }
                     $countExtrasImages++;
                 }
+
                 if ($extrasFiles) {
                     $extrasFiles = $extrasFiles->post(env('STRAPI_URL') . '/appraisal-images', [
                         'data' => json_encode(['id_avaluo_sugar' => strval($idAvaluo), 'name' => $dataFile->name, 'multiple' => boolval($dataFile->multiple)])
