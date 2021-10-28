@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Contacts;
+use App\Http\Requests\PricingRequest;
 use App\Http\Requests\ServicesDocumentRequest;
 use App\Models\Agencies;
 use App\Models\BusinessLine;
 use App\Models\Users;
+use App\Services\PricingClass;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -56,5 +58,17 @@ class ServicesController extends Controller
             $agencies = Agencies::getAllValueLabel();
         }
         return response()->json(['msg' => 'Ok','data' => $agencies], Response::HTTP_OK);
+    }
+
+    /**
+     * @throws \ErrorException
+     */
+    public function getPricing(PricingRequest $request){
+        try{
+            $pricing = PricingClass::getPricing($request->getIdDescipcion(),$request->getAnio(), $request->getPlaca(), $request->getRecorrido(), $request->getUnidad(), $request->getDescuentos(),$request->getValorNuevo());
+            return response()->json($pricing, Response::HTTP_OK);
+        }catch (\Exception $e){
+            return response()->json(['error' => '!Error¡ Notifique a SUGAR CRM Casabaca','msg' => $e->getMessage() . '- Line: '.$e->getLine(). '- Archivo: '.$e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
