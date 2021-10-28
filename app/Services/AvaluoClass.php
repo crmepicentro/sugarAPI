@@ -2,10 +2,6 @@
 namespace App\Services;
 
 use App\Models\Avaluos;
-use App\Models\Calls;
-use App\Models\CallsCstm;
-use App\Models\Tickets;
-use Carbon\Carbon;
 
 class AvaluoClass {
     public $id;
@@ -31,12 +27,13 @@ class AvaluoClass {
     {
         $avaluo = new Avaluos();
 
-        if($this->id){
+        if(!is_null($this->id) || !$this->id){
+           $avaluo->created_by = $this->user_id_c;
+        }else{
             $avaluo = Avaluos::find($this->id);
         }
 
         $avaluo->modified_user_id = $this->user_id_c;
-        $avaluo->created_by = $this->user_id_c;
         $avaluo->description = $this->description;
         $avaluo->contact_id_c = $this->contact_id_c;
         $avaluo->user_id_c = $this->user_id_c;
@@ -47,10 +44,10 @@ class AvaluoClass {
         $avaluo->color = $this->color;
         $avaluo->tipo_recorrido = $this->tipo_recorrido;
         $avaluo->recorrido = $this->recorrido;
-        $avaluo->precio_final = $this->precio_final;
-        $avaluo->precio_nuevo = $this->precio_nuevo;
-        $avaluo->precio_nuevo_mod = $this->precio_nuevo_mod;
-        $avaluo->precio_final_mod = $this->precio_final_mod;
+        $avaluo->precio_final = floatval($this->precio_final);
+        $avaluo->precio_nuevo = floatval($this->precio_nuevo);
+        $avaluo->precio_nuevo_mod = floatval($this->precio_nuevo_mod);
+        $avaluo->precio_final_mod = floatval($this->precio_final_mod);
         $avaluo->estado_avaluo = $this->estado_avaluo;
         $avaluo->observacion = $this->observacion;
         $avaluo->comentario = $this->comentario;
