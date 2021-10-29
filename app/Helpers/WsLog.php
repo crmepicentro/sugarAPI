@@ -5,7 +5,7 @@ namespace App\Helpers;
 
 use App\Models\Ws_logs;
 
-class WsLog {
+class  WsLog {
 
   public static function storeBefore($data, $route){
     $ws_logs = new Ws_logs();
