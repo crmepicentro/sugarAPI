@@ -95,9 +95,9 @@ class AvaluosRequest extends FormRequest
         return json_decode($this->get('model'))->id;
     }
 
-    public function getDescription() : string
+    public function getDescriptionId() : string
     {
-        return json_decode($this->get('description'))->description;
+        return json_decode($this->get('description'))->id;
     }
 
     public function getCheckList() : array

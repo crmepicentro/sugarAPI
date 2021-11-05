@@ -19,7 +19,6 @@ class StrapiController extends Controller
                     'data' => json_encode(['id_avaluo_sugar' => strval($idAvaluo), 'name' => $dataFile->name, 'multiple' => boolval($dataFile->multiple)])
                 ]);
                 $data = $responseStrapi->json();
-
                 $this->createImageObject($data['images'][0]['formats']['medium']['url'], $data['name'],  $data['id'], $idAvaluo);
             }
 
@@ -29,8 +28,7 @@ class StrapiController extends Controller
 
                 while (isset($request->file('extraPicture')[$countExtrasImages])){
                     $fileContent = $request->file('extraPicture')[$countExtrasImages]->getContent();
-                    $fileName = $idAvaluo . $placa . '_' .  $dataFile->name . $countExtrasImages .'.' . '.' . $request->file('extraPicture')[$countExtrasImages]->getClientOriginalExtension();
-
+                    $fileName = $idAvaluo . $placa . '_' .  $dataFile->name . $countExtrasImages .'.' . $request->file('extraPicture')[$countExtrasImages]->getClientOriginalExtension();
                     if($countExtrasImages == 0){
                         $extrasFiles = Http::attach($fileField, $fileContent, $fileName);
                     }else{
@@ -40,6 +38,7 @@ class StrapiController extends Controller
                     }
                     $countExtrasImages++;
                 }
+
 
                 if ($extrasFiles) {
                     $extrasFiles = $extrasFiles->post(env('STRAPI_URL') . '/appraisal-images', [
