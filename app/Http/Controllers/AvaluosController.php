@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AvaluosRequest;
-
 use App\Services\AvaluoClass;
 use App\Services\ChecklistAvaluoClass;
 use Illuminate\Http\Request;
@@ -28,7 +27,6 @@ class AvaluosController extends BaseController
 
             $strappiController = new StrapiController();
             $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
-
 
             \DB::connection(get_connection())->commit();
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
@@ -70,17 +68,18 @@ class AvaluosController extends BaseController
         $avaluo->marca = $request->getBrandId();
         $avaluo->color = $request->getColorId();
         $avaluo->modelo = $request->getModelId();
+        $avaluo->anio = $request->year;
+        $avaluo->modelo_descripcion = $request->getDescriptionId();
         $avaluo->status = $request->status;
         $avaluo->tipo_recorrido = $request->unity;
         $avaluo->recorrido = $request->mileage;
         $avaluo->precio_final = $request->priceFinal;
         $avaluo->precio_nuevo = $request->priceNew;
         $avaluo->precio_nuevo_mod = $request->priceNewEdit ?? $request->priceNew;
-        $avaluo->precio_final_mod = $request->priceFinal ?? $request->priceFinalEdit;
+        $avaluo->precio_final_mod = $request->priceFinalEdit ?? $request->priceFinal;
         $avaluo->estado_avaluo = $request->status;
         $avaluo->observacion = $request->observation;
         $avaluo->comentario = $request->comment;
-        $avaluo->description = $request->getDescription();
 
         return $avaluo;
     }

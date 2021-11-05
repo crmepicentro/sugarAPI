@@ -11,6 +11,9 @@ class AvaluoClass {
     public $assigned_user_id;
     public $placa;
     public $marca;
+    public $modelo;
+    public $modelo_descripcion;
+    public $anio;
     public $color;
     public $recorrido;
     public $tipo_recorrido;
@@ -41,7 +44,9 @@ class AvaluoClass {
         $avaluo->placa = $this->placa;
         $avaluo->marca = $this->marca;
         $avaluo->modelo = $this->modelo;
+        $avaluo->modelo_descripcion = $this->modelo_descripcion;
         $avaluo->color = $this->color;
+        $avaluo->anio = $this->anio;
         $avaluo->tipo_recorrido = $this->tipo_recorrido;
         $avaluo->recorrido = $this->recorrido;
         $avaluo->precio_final = floatval($this->precio_final);

@@ -109,7 +109,6 @@ class CreateAvaluoTest extends TestCase
 
         $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
-
         $response->assertStatus(200);
         $this->assertNotNull($content->data->avaluo_id);
         $this->assertNotNull($content->data->avaluo_name);
