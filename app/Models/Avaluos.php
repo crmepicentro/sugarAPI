@@ -76,6 +76,15 @@ class Avaluos extends Model
             ->selectRaw('cba_checklist_avaluo.item_id as id, cba_checklist_avaluo.item_description as description, cba_checklist_avaluo.estado as "option", cba_checklist_avaluo.costo as cost, cba_checklist_avaluo.description as observation');
     }
 
+    public function traffic()
+    {
+        return $this->belongsToMany(
+            Traffic::class,
+            'cba_avaluos_cb_traficocontrol_c',
+            'cba_avaluos_cb_traficocontrolcba_avaluos_idb',
+            'cba_avaluos_cb_traficocontrolcb_traficocontrol_ida');
+    }
+
     public function coordinator()
     {
         return $this->hasOne(Users::class, 'id', 'assigned_user_id')->selectRaw('id, CONCAT(first_name , " ",last_name) as name');
