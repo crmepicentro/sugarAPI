@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AvaluosRequest;
 use App\Services\AvaluoClass;
 use App\Services\ChecklistAvaluoClass;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
 use AvaluoTransformer;
@@ -16,6 +17,7 @@ class AvaluosController extends BaseController
         \DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate();
+        $newAvaluo->traffic()->attach($request->getTraffic(), ['id' => createdID(), 'date_modified' => Carbon::now()]);
 
         try {
             $checkLists = $request->getCheckList();

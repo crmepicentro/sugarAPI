@@ -34,6 +34,7 @@ class AvaluosRequest extends FormRequest
             'mileage' => 'required',
             'unity' => 'required|in:km,mi',
             'status' => 'required',
+            'traffic' => 'required',
             'coordinator' => 'required|exists:App\Models\Users,id,deleted,0',
             'contact' => 'required|exists:App\Models\Contacts,id',
         ];
@@ -53,6 +54,7 @@ class AvaluosRequest extends FormRequest
             'coordinator.required' => 'Coordinador es requerido',
             'coordinator.exists' => 'Coordinador inválido en Sugar',
             'contact.required' => 'Contacto es requerido',
+            'traffic.required' => 'Trafico es requerido',
             'contact.exists' => 'Contacto es inválido en Sugar',
             'model.id.exists' => 'Id del modelo inválido',
             'brand.id.exists' => 'Id de la marca inválido',
@@ -103,5 +105,10 @@ class AvaluosRequest extends FormRequest
     public function getCheckList() : array
     {
         return json_decode($this->get('checklist'));
+    }
+
+    public function getTraffic() : string
+    {
+        return $this->get('traffic');
     }
 }
