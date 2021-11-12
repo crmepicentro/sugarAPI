@@ -7,6 +7,7 @@ use App\Models\CheckList;
 use App\Models\CheckListAvaluo;
 use App\Models\Imagenes;
 use App\Models\Imagenes_Avaluo;
+use App\Models\TrafficAvaluos;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -29,6 +30,7 @@ class CreateAvaluoTest extends TestCase
 
         $this->dataAvaluo = [
             "id" => null,
+            "traffic" => createdID(),
             'testPicture1' => $image,
             'extraPicture' => [$image, $image],
             'extraPicture[1]' => $image,
@@ -265,6 +267,31 @@ class CreateAvaluoTest extends TestCase
         $this->assertEquals('Estado es requerido', $content->errors->status[0]);
         $this->assertEquals('Coordinador es requerido', $content->errors->coordinator[0]);
         $this->assertEquals('Contacto es requerido', $content->errors->contact[0]);
+    }
+
+    public function test_should_create_relationship_traffic()
+    {
+        Http::fake([
+            env('STRAPI_URL'. '/appraisal-images') => Http::response([
+                'id' => 15,
+                'name' => 'nameFakePicture',
+                'images' => [
+                    [
+                        "formats" => [
+                            "medium" => ["url" => 'urlTestStrapi']
+                        ]
+                    ]
+                ]
+            ], 200)
+        ]);
+
+        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
+        $content = json_decode($response->content());
+
+        $traffic = TrafficAvaluos::where('cba_avaluos_cb_traficocontrolcba_avaluos_idb', $content->data->avaluo_id)
+            ->where('cba_avaluos_cb_traficocontrolcb_traficocontrol_ida',$this->dataAvaluo["traffic"])
+            ->where('deleted', '0')->first();
+        $this->assertNotNull($traffic->id);
     }
 
     public function test_should_validate_external_data()

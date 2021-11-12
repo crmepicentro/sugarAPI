@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class GetAvaluoTest extends TestCase
+class GetAvaluosTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
     public $dataAvaluo = [];
@@ -40,6 +40,7 @@ class GetAvaluoTest extends TestCase
 
         $this->dataAvaluo = [
             "id" => null,
+            "traffic" => createdID(),
             'testPicture1' => $image,
             'extraPicture' => [$image, $image],
             'extraPicture[1]' => $image,
@@ -71,24 +72,28 @@ class GetAvaluoTest extends TestCase
      *
      * @return void
      */
-    public function test_should_get_avaluo()
+    public function test_should_get_avaluos()
     {
-        $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
-        $contentCreateAvaluo = json_decode($response->content());
+        $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
+        $this->dataAvaluo["placa"] = "PCX-7120";
+        $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
 
-        $response = $this->json('GET', $this->baseUrl . 'getAvaluo', ['id' => $contentCreateAvaluo->data->avaluo_id]);
-        $contentGetAvaluo = $response->content();
 
-        $avaluoExpected = Avaluos::getAvaluo($contentCreateAvaluo->data->avaluo_id);
+        $response = $this->json('GET', $this->baseUrl . 'getAvaluos', ['contact_id_c' => '0015ad44-0a08-11ea-b67c-5883aaf14456']);
+        $content = json_decode($response->content());
 
-        $this->assertJson(json_encode($avaluoExpected), $contentGetAvaluo);
+        $existsAvaluo = array_search('PCX-7120', array_column($content->avaluos, 'placa'));
+        $this->assertNotNull($existsAvaluo);
+
+        $existsAvaluo = array_search('PDA-1413', array_column($content->avaluos, 'placa'));
+        $this->assertNotNull($existsAvaluo);
     }
 
-    public function test_should_not_get_avaluo()
+    public function test_should_not_get_avaluos()
     {
-        $response = $this->json('GET', $this->baseUrl . 'getAvaluo', ['id' => 'notExists']);
+        $response = $this->json('GET', $this->baseUrl . 'getAvaluos', ['id' => 'notExists']);
         $contentGetAvaluo = json_decode($response->content());
 
-        $this->assertEquals($contentGetAvaluo->error, 'Avaluo not found');
+        $this->assertEquals($contentGetAvaluo->avaluos, []);
     }
 }
