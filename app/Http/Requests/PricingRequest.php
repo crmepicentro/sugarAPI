@@ -53,7 +53,7 @@ class PricingRequest extends FormRequest
         throw new HttpResponseException(response()->json(['errors' => $validator->errors()], 422));
     }
 
-    public function getIdDescipcion() : string
+    public function getIdDescipcion() : int
     {
         return $this->get('id_descripcion');
     }

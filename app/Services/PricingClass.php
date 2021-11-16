@@ -20,7 +20,7 @@ class PricingClass {
     public static function getToken(){
         $response = Http::post(env('PRICING').'authentication',['user' => env('USER_PRICING'),'password' => env('PASSWORD_PRICING')]);
         if(!$response->successful()){
-            throw new ErrorException('Error en Pricing notifique al área de BI', $response->status());
+            throw new ErrorException('Error en Pricing notifique al área de BI', $response->throw());
         }
         $response = $response->object();
         return $response->token;
