@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Avaluos;
-use App\Models\CheckList;
-use App\Models\CheckListAvaluo;
-use App\Models\Imagenes;
-use App\Models\Imagenes_Avaluo;
-use App\Models\TrafficAvaluos;
+use App\Models\Sugar\Avaluos;
+use App\Models\Sugar\CheckList;
+use App\Models\Sugar\CheckListAvaluo;
+use App\Models\Sugar\Imagenes;
+use App\Models\Sugar\Imagenes_Avaluo;
+use App\Models\Sugar\TrafficAvaluos;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;

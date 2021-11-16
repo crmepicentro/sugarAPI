@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use App\Models\Companies;
-use App\Models\User;
+use App\Models\Api\Companies;
+use App\Models\Api\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;

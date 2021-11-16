@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Campaigns;
-use App\Models\Contacts;
+use App\Models\Api\Campaigns;
+use App\Models\Coupons\Contacts;
 use App\Models\Coupons\Coupons;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;

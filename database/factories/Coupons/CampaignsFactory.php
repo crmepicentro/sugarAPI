@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Coupons;
 
-use App\Models\Companies;
+use App\Models\Api\Companies;
 use App\Models\Coupons\Campaigns;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;

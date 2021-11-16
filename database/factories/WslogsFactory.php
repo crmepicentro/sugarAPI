@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Model;
-use App\Models\Ws_logs;
+use App\Models\Api\Ws_logs;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
