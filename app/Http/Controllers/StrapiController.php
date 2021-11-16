@@ -40,16 +40,17 @@ class StrapiController extends Controller
                 }
 
 
-                if ($extrasFiles) {
+                /*if ($extrasFiles) {
                     $extrasFiles = $extrasFiles->post(env('STRAPI_URL') . '/appraisal-images', [
                         'data' => json_encode(['id_avaluo_sugar' => strval($idAvaluo), 'name' => $dataFile->name, 'multiple' => boolval($dataFile->multiple)])
                     ]);
                     $data = $extrasFiles->json();
 
+
                     for ($totalImages = 0; $totalImages < count($data["images"]); $totalImages++) {
                         $this->createImageObject($data['images'][$totalImages]['formats']['medium']['url'], $data['name'] . $totalImages, $data['id'], $idAvaluo);
                     }
-                }
+                }*/
             }
         }
     }
