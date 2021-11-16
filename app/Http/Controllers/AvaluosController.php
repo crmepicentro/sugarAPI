@@ -28,8 +28,7 @@ class AvaluosController extends BaseController
             }
 
             $strappiController = new StrapiController();
-            $strapi = $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
-            return response()->json(['error' => $strapi], 200);
+            $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
 
             \DB::connection(get_connection())->commit();
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
