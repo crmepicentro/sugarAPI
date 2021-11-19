@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Http\Controllers\EmailController;
 use App\Models\Meetings;
 use App\Models\MeetingsCstm;
 use Carbon\Carbon;
@@ -61,7 +62,7 @@ class MeetingClass {
 
     $this->storeCstm();
     $meeting->users()->attach($meeting->assigned_user_id, ['id'=> createdID()]);
-
+    EmailController::sendMeetingAsesor($meeting);
     return $meeting;
   }
   private function storeCstm()  {
