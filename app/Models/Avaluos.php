@@ -58,11 +58,12 @@ class Avaluos extends Model
     {
         return $this->belongsToMany(
             Imagenes::class,
-            'cba_imagenes_avaluo_cba_avaluos_c',
-            'cba_imagenes_avaluo_cba_avaluoscba_avaluos_ida',
-            'cba_imagenes_avaluo_cba_avaluoscba_imagenes_avaluo_idb')
-            ->where('cba_imagenes_avaluo.deleted', '0')
-            ->select('cba_imagenes_avaluo.name as id_strapi', 'cba_imagenes_avaluo.imagen_path', 'cba_imagenes_avaluo.imagen');
+            'cba_imagenavaluo_cba_avaluos_c',
+            'cba_imagenavaluo_cba_avaluoscba_avaluos_ida',
+            'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb')
+            ->where('cba_imagenavaluo.deleted', '0')
+            //->select('cba_imagenavaluo.name as id_strapi', 'cba_imagenavaluo.imagen_path', 'cba_imagenavaluo.imagen');
+            ->select('cba_imagenavaluo.name as id_strapi', 'cba_imagenavaluo.imagen_path');
     }
 
     public function checklist()

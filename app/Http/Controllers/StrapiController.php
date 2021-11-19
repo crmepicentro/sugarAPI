@@ -19,7 +19,9 @@ class StrapiController extends Controller
                     'data' => json_encode(['id_avaluo_sugar' => strval($idAvaluo), 'name' => $dataFile->name, 'multiple' => boolval($dataFile->multiple)])
                 ]);
                 $data = $responseStrapi->json();
-                $this->createImageObject($data['images'][0]['formats']['medium']['url'], $data['name'],  $data['id'], $idAvaluo);
+                if(!isset($data['images'][0]['formats']['thumbnail']['url']))
+                    return $data;
+                $this->createImageObject($data['images'][0]['formats']['thumbnail']['url'], $data['name'],  $data['id'], $idAvaluo);
             }
 
             if($dataFile->multiple) {
@@ -47,7 +49,7 @@ class StrapiController extends Controller
                     $data = $extrasFiles->json();
 
                     for ($totalImages = 0; $totalImages < count($data["images"]); $totalImages++) {
-                        $this->createImageObject($data['images'][$totalImages]['formats']['medium']['url'], $data['name'] . $totalImages, $data['id'], $idAvaluo);
+                        $this->createImageObject($data['images'][$totalImages]['formats']['thumbnail']['url'], $data['name'] . $totalImages, $data['id'], $idAvaluo);
                     }
                 }
             }

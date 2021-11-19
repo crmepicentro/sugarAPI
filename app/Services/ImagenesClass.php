@@ -25,7 +25,7 @@ class ImagenesClass {
         $imagen->description = $this->description;
         $imagen->deleted = "0";
         $imagen->imagen_path = $this->imagen_path;
-        $imagen->imagen = $this->imagen;
+       // $imagen->imagen = $this->imagen;
         $imagen->assigned_user_id = $this->assigned_user_id;
         $imagen->team_id = 1;
         $imagen->team_set_id = 1;

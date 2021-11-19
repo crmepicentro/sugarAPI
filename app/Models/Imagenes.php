@@ -10,7 +10,7 @@ class Imagenes extends Model
 {
     use HasFactory;
     protected $connection = 'sugar_dev';
-    protected $table = 'cba_imagenes_avaluo';
+    protected $table = 'cba_imagenavaluo';
     public $incrementing = false;
     const CREATED_AT = 'date_entered';
     const UPDATED_AT = 'date_modified';
@@ -47,8 +47,8 @@ class Imagenes extends Model
     {
         return $this->belongsToMany(
             Avaluos::class,
-            'cba_imagenes_avaluo_cba_avaluos_c',
-            'cba_imagenes_avaluo_cba_avaluoscba_imagenes_avaluo_idb',
-            'cba_imagenes_avaluo_cba_avaluoscba_avaluos_ida');
+            'cba_imagenavaluo_cba_avaluos_c',
+            'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb',
+            'cba_imagenavaluo_cba_avaluoscba_avaluos_ida');
     }
 }
