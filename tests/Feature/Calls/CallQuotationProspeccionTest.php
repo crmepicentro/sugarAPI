@@ -67,10 +67,12 @@ class CallQuotationProspeccionTest extends TestCase
 
         $response = $this->json('POST', $this->baseUrl . 'call_quotation', $this->dataCallProspeccion);
         $contentProspeccion = json_decode($response->content());
+
         $ticket = Tickets::find($contentTicket->data->ticket_id);
 
         $this->assertEquals(5, $ticket->estado);
         $this->assertNotNull($contentProspeccion->data->prospeccion_id);
+        $this->assertNotNull($contentProspeccion->data->prospeccion_name);
         $this->assertNotNull($contentProspeccion->data->call_id);
         $this->assertEquals("https://domain.com/#cbp_Prospeccion/".$contentProspeccion->data->prospeccion_id, $contentProspeccion->data->prospeccion_url);
 

@@ -17,6 +17,7 @@ class CallMeetingTransformer extends TransformerAbstract
             'call_id'     => $call->id,
             'ticket_id'   => $call->parent_id,
             'prospeccion_id' => $call->prospeccion[0]->id,
+            'prospeccion_name' => $call->prospeccion[0]->name,
             'meeting_id' => $call->meeting->id
         ];
     }

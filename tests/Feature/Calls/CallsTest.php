@@ -100,6 +100,7 @@ CallsTest extends TestCase
         $this->assertNotNull($content->data->call_id);
         $this->assertNotNull($content->data->ticket_id);
         $this->assertNotNull($content->data->prospeccion_id);
+        $this->assertNotNull($content->data->prospeccion_name);
         $this->assertNotNull($content->data->meeting_id);
 
         $this->datCallComplete($content->data->call_id, $content->data->ticket_id);

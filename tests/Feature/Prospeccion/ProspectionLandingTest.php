@@ -114,6 +114,7 @@ class ProspectionLandingTest extends TestCase
         $response->assertStatus(200);
         $this->assertNotNull($content->data->prospeccion_id);
         $this->assertNotNull($content->data->prospeccion_url);
+        $this->assertNotNull($content->data->prospeccion_name);
 
         $landingPage = LandingPages::where('fuente_s3s', $this->dataLanding['datosSugarCRM']["fuente"])->first();
         $medio = Medio::find($landingPage->medio);

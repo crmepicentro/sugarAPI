@@ -84,11 +84,12 @@ class ProspeccionSuccessTest extends TestCase
      *
      * @return void
      */
-    public function test_data_success_saved()
+    public function test_prospeccion_data_success_saved()
     {
       $response = $this->json('POST', $this->baseUrl . 'calls', $this->dataCall);
       $contentProspeccion = json_decode($response->content());
       $prospeccion = Prospeccion::find($contentProspeccion->data->prospeccion_id);
+
       $meetings = $prospeccion->meetings()->where('status', 'Planned')->get();
 
       foreach ($meetings as $meet) {
@@ -118,6 +119,7 @@ class ProspeccionSuccessTest extends TestCase
       $response->assertStatus(200);
       $this->assertNotNull($contentMeetingProspeccion->data->call_id);
       $this->assertNotNull($contentMeetingProspeccion->data->prospeccion_id);
+      $this->assertNotNull($contentMeetingProspeccion->data->prospeccion_name);
       $this->assertNotNull($contentMeetingProspeccion->data->meeting_id);
 
       $this->datCallComplete($contentMeetingProspeccion->data->call_id, $prospeccion);

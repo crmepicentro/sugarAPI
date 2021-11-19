@@ -16,6 +16,7 @@ class CallProspeccionTransformer extends TransformerAbstract
     return [
       'call_id'     => $call->id,
       'prospeccion_id' => $call->prospeccion[0]->id,
+      'prospeccion_name' => $call->prospeccion[0]->name,
       'meeting_id' => $call->meeting_id ?? 'N/A'
     ];
   }
