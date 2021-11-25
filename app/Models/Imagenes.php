@@ -16,7 +16,7 @@ class Imagenes extends Model
     const UPDATED_AT = 'date_modified';
     protected $fillable = ['name', 'created_by',
         'modified_user_id', 'description',
-        'deleted', 'imagen_path', 'imagen',
+        'deleted', 'imagen_path', 'orientacion',
         'assigned_user_id'];
     /**
      * @var mixed

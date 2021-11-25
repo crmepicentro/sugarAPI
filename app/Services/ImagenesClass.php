@@ -12,7 +12,7 @@ class ImagenesClass {
     public $description;
     public $deleted;
     public $imagen_path;
-    public $imagen;
+    public $orientacion;
     public $assigned_user_id;
     public $id_avaluo;
 
@@ -25,7 +25,7 @@ class ImagenesClass {
         $imagen->description = $this->description;
         $imagen->deleted = "0";
         $imagen->imagen_path = $this->imagen_path;
-       // $imagen->imagen = $this->imagen;
+        $imagen->orientacion = $this->orientacion;
         $imagen->assigned_user_id = $this->assigned_user_id;
         $imagen->team_id = 1;
         $imagen->team_set_id = 1;

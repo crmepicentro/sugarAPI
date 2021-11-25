@@ -61,8 +61,8 @@ class StrapiController extends Controller
      */
     private function createImageObject($path, $name, $id, $idAvaluo){
         $imagen = new ImagenesClass();
-        $imagen->imagen_path = $path;
-        $imagen->imagen = $name;
+        $imagen->imagen_path = env('STRAPI_URL'). $path;
+        $imagen->orientacion = $name;
         $imagen->name = $id;
         $imagen->id_avaluo = $idAvaluo;
         $imagen->create();

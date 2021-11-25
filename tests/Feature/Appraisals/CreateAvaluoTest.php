@@ -143,12 +143,12 @@ class CreateAvaluoTest extends TestCase
                 'images' => [
                     [
                         "formats" => [
-                            "thumbnail" => ["url" => 'urlTestStrapi']
+                            "thumbnail" => ["url" => '/urlTestStrapi']
                         ]
                     ],
                     [
                         "formats" => [
-                            "thumbnail" => ["url" => 'urlTestStrapiExtra']
+                            "thumbnail" => ["url" => '/urlTestStrapiExtra']
                         ]
                     ]
                 ]
@@ -168,22 +168,22 @@ class CreateAvaluoTest extends TestCase
         $this->assertEquals(3, count($imagesAppraisal));
 
         $imageTestPicture1 = Imagenes::whereIn('id', $imagesAppraisal)
-            ->where('imagen_path', 'urlTestStrapi')
-           // ->where('imagen', 'nameFakePicture')
+            ->where('imagen_path', env('STRAPI_URL'). '/urlTestStrapi')
+            ->where('orientacion', 'nameFakePicture')
             ->where('name', '15')
             ->count();
-        $this->assertEquals(2, $imageTestPicture1);
+        $this->assertEquals(1, $imageTestPicture1);
 
-        /*$imageExtraPicture1 = Imagenes::whereIn('id', $imagesAppraisal)
-            ->where('imagen_path', 'urlTestStrapi')
-          //  ->where('imagen', 'nameFakePicture0')
+        $imageExtraPicture1 = Imagenes::whereIn('id', $imagesAppraisal)
+            ->where('imagen_path', env('STRAPI_URL'). '/urlTestStrapi')
+            ->where('orientacion', 'nameFakePicture0')
             ->where('name', '15')
             ->count();
-        $this->assertEquals(1, $imageExtraPicture1);*/
+        $this->assertEquals(1, $imageExtraPicture1);
 
         $imageExtraPicture2 = Imagenes::whereIn('id', $imagesAppraisal)
-            ->where('imagen_path', 'urlTestStrapiExtra')
-          //  ->where('imagen', 'nameFakePicture1')
+            ->where('imagen_path', env('STRAPI_URL'). '/urlTestStrapiExtra')
+            ->where('orientacion', 'nameFakePicture1')
             ->where('name', '15')
             ->count();
         $this->assertEquals(1, $imageExtraPicture2);
