@@ -9,11 +9,11 @@ class Imagenes_Avaluo extends Model
 {
     use HasFactory;
     protected $connection = 'sugar_dev';
-    protected $table = 'cba_imagenes_avaluo_cba_avaluos_c';
+    protected $table = 'cba_imagenavaluo_cba_avaluos_c';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['cba_imagenes_avaluo_cba_avaluoscba_avaluos_ida',
-        'cba_imagenes_avaluo_cba_avaluoscba_imagenes_avaluo_idb',
+    protected $fillable = ['cba_imagenavaluo_cba_avaluoscba_avaluos_ida',
+        'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb',
         'date_modified', 'deleted'];
     /**
      * @var mixed

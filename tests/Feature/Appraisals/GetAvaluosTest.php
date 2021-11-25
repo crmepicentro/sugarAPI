@@ -31,7 +31,7 @@ class GetAvaluosTest extends TestCase
                 'images' => [
                     [
                         "formats" => [
-                            "medium" => ["url" => 'urlTestStrapi']
+                            "thumbnail" => ["url" => 'urlTestStrapi']
                         ]
                     ]
                 ]
