@@ -73,6 +73,7 @@ class CallQuotationProspeccionTest extends TestCase
         $this->assertEquals(5, $ticket->estado);
         $this->assertNotNull($contentProspeccion->data->prospeccion_id);
         $this->assertNotNull($contentProspeccion->data->prospeccion_name);
+        $this->assertNotNull($contentProspeccion->data->prospeccion_asignado_a);
         $this->assertNotNull($contentProspeccion->data->call_id);
         $this->assertEquals("https://domain.com/#cbp_Prospeccion/".$contentProspeccion->data->prospeccion_id, $contentProspeccion->data->prospeccion_url);
 

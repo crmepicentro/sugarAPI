@@ -97,11 +97,13 @@ CallsTest extends TestCase
         $content = json_decode($response->content());
 
         $response->assertStatus(200);
+
         $this->assertNotNull($content->data->call_id);
         $this->assertNotNull($content->data->ticket_id);
         $this->assertNotNull($content->data->prospeccion_id);
         $this->assertNotNull($content->data->prospeccion_name);
         $this->assertNotNull($content->data->meeting_id);
+        $this->assertNotNull($content->data->prospeccion_asignado_a);
 
         $this->datCallComplete($content->data->call_id, $content->data->ticket_id);
         $this->dataStatusTicket($content->data->ticket_id);
