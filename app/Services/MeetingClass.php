@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Http\Controllers\EmailController;
 use App\Models\Meetings;
 use App\Models\MeetingsCstm;
 use Carbon\Carbon;

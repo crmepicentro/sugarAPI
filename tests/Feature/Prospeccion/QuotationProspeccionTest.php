@@ -91,6 +91,8 @@ class QuotationProspeccionTest extends TestCase
         $this->assertEquals(5, $ticket->estado);
 
         $this->assertNotNull($content->data->prospeccion_id);
+        $this->assertNotNull($content->data->prospeccion_name);
+        $this->assertNotNull($content->data->prospeccion_asignado_a);
         $this->assertEquals("https://domain.com/#cbp_Prospeccion/".$content->data->prospeccion_id, $content->data->prospeccion_url);
 
         $prospeccion = Prospeccion::find($content->data->prospeccion_id);
