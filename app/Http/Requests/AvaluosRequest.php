@@ -27,15 +27,17 @@ class AvaluosRequest extends FormRequest
     {
         return [
             'document' => 'required',
-            'plate' => 'required',
-            'brand' => 'required',
-            'color' => 'required',
-            'model' => 'required',
-            'mileage' => 'required',
-            'unity' => 'required|in:km,mi',
+            'plate' => 'required_with:id',
+            'brand.id' => 'required_with:id',
+            'model.id' => 'required_with:id',
+            'description.id' => 'required_with:id',
+            'color.id' => 'required_with:id',
+            'mileage' => 'required_with:id',
+            'unity' => 'required_with:id|in:km,mi',
             'status' => 'required',
             'traffic' => 'required',
-            'coordinator' => 'required|exists:App\Models\Users,id,deleted,0',
+            'coordinator.code' => 'required|exists:App\Models\Users,id,deleted,0',
+            'user' => 'required|exists:App\Models\Users,id,deleted,0',
             'contact' => 'required|exists:App\Models\Contacts,id',
         ];
     }
@@ -46,6 +48,7 @@ class AvaluosRequest extends FormRequest
             'plate.required' => 'Placa es campo requerido',
             'brand.required' => 'Marca es campo requerido',
             'model.required' => 'Modelo es campo requerido',
+            'description.required' => 'Descripción es campo requerido',
             'color.required' => 'Color es campo requerido',
             'mileage.required' => 'Recorrido es campo requerido',
             'unity.required' => 'Tipo de recorrido es campo requerido',
@@ -53,6 +56,7 @@ class AvaluosRequest extends FormRequest
             'status.required' => 'Estado es requerido',
             'coordinator.required' => 'Coordinador es requerido',
             'coordinator.exists' => 'Coordinador inválido en Sugar',
+            'user.exists' => 'Usuario inválido en Sugar',
             'contact.required' => 'Contacto es requerido',
             'traffic.required' => 'Trafico es requerido',
             'contact.exists' => 'Contacto es inválido en Sugar',
@@ -75,6 +79,11 @@ class AvaluosRequest extends FormRequest
     public function getBrandId() : string
     {
         return json_decode($this->get('brand'))->id;
+    }
+
+    public function getCoordinatorId() : string
+    {
+        return $this->get('coordinator')['code'];
     }
 
     public function getColorName() : string

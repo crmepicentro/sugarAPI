@@ -51,6 +51,8 @@ class Avaluos extends Model
             $query->date_modified = Carbon::now();
             $query->num_avaluo = $autoincrement;
             $query->deleted = 0;
+            $query->team_id = 1;
+            $query->team_set_id = 1;
         });
     }
 
@@ -88,7 +90,7 @@ class Avaluos extends Model
 
     public function coordinator()
     {
-        return $this->hasOne(Users::class, 'id', 'assigned_user_id')->selectRaw('id, CONCAT(first_name , " ",last_name) as name');
+        return $this->hasOne(Users::class, 'id', 'user')->selectRaw('id, CONCAT(first_name , " ",last_name) as name');
     }
 
     public function color()
@@ -105,12 +107,13 @@ class Avaluos extends Model
     {
         return $this->hasOne(Models::class, 'id', 'modelo')->select('id','name');
     }
+
     public function description()
     {
         return $this->hasOne(Descriptions::class, 'id', 'modelo_descripcion')->select('id','description');
     }
 
-    public static function getAvaluo ($id)
+    public static function getAvaluo ($id,$status)
     {
         return self::where('id', $id)
             ->with('imagenes')
@@ -120,12 +123,14 @@ class Avaluos extends Model
             ->with('brand')
             ->with('model')
             ->with('description')
-            ->selectRaw('id, name as avaluo, description, contact_id_c as contact, assigned_user_id, placa as plate,color, anio as year,
+            ->selectRaw('id, name as alias, description, contact_id_c as contact, assigned_user_id as user, placa as plate,color, anio as year,
                          marca, modelo, CONVERT(recorrido,UNSIGNED INTEGER) as mileage, tipo_recorrido as unity,modelo_descripcion,
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment')
+                         observacion as observation, comentario as comment, referido_c as referred')
+            ->leftJoin('cba_avaluos_cstm','id','id_c')
+            ->where('estado_avaluo',$status)
             ->first();
 
     }
@@ -139,12 +144,14 @@ class Avaluos extends Model
             ->with('brand')
             ->with('model')
             ->with('description')
-            ->selectRaw('id, name as avaluo, description, contact_id_c as contact, assigned_user_id, placa as plate,color, anio as year,
+            ->selectRaw('id, name as alias, description, contact_id_c as contact, assigned_user_id as user, placa as plate,color, anio as year,
                          marca, modelo, CONVERT(recorrido,UNSIGNED INTEGER) as mileage, tipo_recorrido as unity,modelo_descripcion,
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment')
+                         observacion as observation, comentario as comment, referido_c as referred')
+            ->leftJoin('cba_avaluos_cstm','id','id_c')
+            ->where('estado_avaluo','<>',5)
             ->orderBy('date_entered','desc')
             ->get();
     }

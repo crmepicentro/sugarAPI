@@ -71,4 +71,18 @@ class ServicesController extends Controller
             return response()->json(['error' => '!Error¡ Notifique a SUGAR CRM Casabaca','msg' => $e->getMessage() . '- Line: '.$e->getLine(). '- Archivo: '.$e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function getUsers($agency, $position)
+  {
+    try{
+      if($agency !== 'TODOS'){
+        $data = Users::getByAgencyPosition($agency,$position);
+      }else{
+        $data = Users::getByPosition($position);
+      }
+      return response()->json(['msg' => 'Ok','data' => $data], Response::HTTP_OK);
+    }catch (\Exception $e){
+      return response()->json(['error' => '!Error¡ Notifique a SUGAR CRM Casabaca','msg' => $e->getMessage() . '- Line: '.$e->getLine(). '- Archivo: '.$e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+  }
 }

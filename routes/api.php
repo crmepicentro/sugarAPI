@@ -31,7 +31,7 @@ $api->version('v1', ['middleware' => [EnsureUserIsValid::class, 'auth:sanctum']]
 $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' => 200, 'expires' => 5], function ($api) {
     $api->get('history', 'App\Http\Controllers\HistoryController@index');
     $api->get('getAvaluos', 'App\Http\Controllers\AvaluosController@show');
-    $api->get('getAvaluo', 'App\Http\Controllers\AvaluosController@edit');
+    $api->get('getAvaluo/{id}/{status}', 'App\Http\Controllers\AvaluosController@edit');
     $api->post('createUpdateAvaluo', 'App\Http\Controllers\AvaluosController@create');
     $api->post('tickets', 'App\Http\Controllers\TicketsController@store');
     $api->post('call_ticket', 'App\Http\Controllers\TicketsController@callTicket');
@@ -50,6 +50,7 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->get('validToken', 'App\Http\Controllers\ServicesController@validToken');
     $api->get('getAgencies/{linea}', 'App\Http\Controllers\ServicesController@getAgencies');
     $api->post('pricing', 'App\Http\Controllers\ServicesController@getPricing');
+    $api->get('getUsers/{agency}/{position}', 'App\Http\Controllers\ServicesController@getUsers');
     $api->post('coupons/', 'App\Http\Controllers\CouponsController@create');
     $api->put('coupons/', 'App\Http\Controllers\CouponsController@update');
     $api->post('coupons/validate', 'App\Http\Controllers\CouponsController@validateCoupon');
