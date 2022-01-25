@@ -174,7 +174,7 @@ class TicketsController extends BaseController
                 $dataInconcert = $this->getDataInconcert($request, $user_auth, $ticket);
                 $this->createTicketInconcert($dataInconcert);
             }
-
+            
             return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
         }catch(Throwable $e){
             \DB::connection(get_connection())->rollBack();
@@ -542,7 +542,6 @@ class TicketsController extends BaseController
 
         if($ticket){
             $this->findChangeStatusTicket($ticket->id, 7, $request->datosSugarCRM['motivo_cierre']);
-
             $dataUpdateWS = [
                 "response" => json_encode($this->response->item($ticket, new TicketUpdateTransformer)),
                 "ticket_id" => $ticket->id,

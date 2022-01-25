@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->command('set:missedMeetings')->timezone('America/Guayaquil')->at('21:00');
         $schedule->command('active:BlockedUsers')->timezone('America/Guayaquil')->at('01:00');
+        $schedule->command('set:missedMeetings')->timezone('America/Guayaquil')->at('00:01');
     }
 
     /**

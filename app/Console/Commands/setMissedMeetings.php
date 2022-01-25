@@ -9,6 +9,7 @@ use App\Services\CallInconcertClass;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage; // libreria para utiliar storage de laravel
 
 class setMissedMeetings extends Command
 {
@@ -43,18 +44,22 @@ class setMissedMeetings extends Command
      */
     public function handle()
     {
+      
         $user_auth = Auth::user();
 
         if(!$user_auth){
-          $user = Auth::loginUsingId(1);
+          $user = Auth::loginUsingId(51);
 
           if($user->fuente !== 'tests_source'){
             $user->connection = 'prod';
           }
         }
-
+        
         $missedMeetings = Meetings::getMissedMeetings();
 
+        //$text = date('Y-m-d H:i:s').' --'.$user->fuente.'--'.get_connection().'--'.$user->connection.' datos encontrados para enviar = ['.count($missedMeetings).']';
+        //Storage::append('log_crontab.txt', $text);
+  
         foreach ($missedMeetings as $meet){
           $meeting = Meetings::find($meet->id);
 
@@ -81,7 +86,10 @@ class setMissedMeetings extends Command
           $meeting->save();
         }
 
-        return 0;
+        $text = date('Y-m-d H:i:s').' --'.$user->fuente.' '.$user->connection.' datos encontrados para enviar = ['.count($missedMeetings).']';
+        Storage::append('log_crontab.txt', $text);
+
+        return 0;   
     }
 
     protected function sendCallToInconcert(Meetings $meeting)
