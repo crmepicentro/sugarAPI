@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Services\CallClass;
+use App\Services\TicketClass;
 use App\Services\CallCstmClass;
 use App\Services\ContactClass;
 use App\Services\MeetingClass;
 use App\Services\ProspeccionClass;
 use App\Helpers\WsLog;
 use App\Http\Requests\CallRequest;
+use App\Http\Requests\TicketRequestUpdate;
 use App\Models\Tickets;
 use App\Models\Users;
 use CallMeetingTransformer;
 use CallTransformer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+
+use TicketUpdateTransformer;
 
 /**
  * @group Prospección - Citas
@@ -91,6 +97,7 @@ class CallsController extends BaseController
 
     public function store(CallRequest $request)
     {
+        
         \DB::connection(get_connection())->beginTransaction();
         try {
             $user_auth = Auth::user();
@@ -133,7 +140,36 @@ class CallsController extends BaseController
                 $campania = $ticket->ticketsCstm->campaign_id_c ?? null;
                 $medio = $ticket->ticketsCstm->medio_c ?? null;
 
-                $dataProspeccion["created_by"] = $call->created_by;
+                //bandera para identificar las agencias 
+                //hay que cambiarla segun sea necesario
+                $Shippingtype = false;
+
+                if($dataCall['meeting']['location'] == 'ALTON CUENCA'){
+                    $Shippingtype = true;
+                }
+
+                if(!$Shippingtype)
+                {
+                    $dataProspeccion["created_by"] = $call->created_by;
+                    $dataProspeccion["team_id"] = 1;
+                    $dataProspeccion["team_set_id"] = 1;
+                    $dataProspeccion["estado"] = 5;
+                    $dataProspeccion["brinda_identificacion"] = 1;
+                    $dataProspeccion["fuente"] = $ticket->fuente;
+                    $marca = isset($dataMeeting["marca"]) ? $dataMeeting["marca"] : '';
+                    $modelo = isset($dataMeeting["modelo"]) ? $dataMeeting["modelo"] : '';
+                    $dataProspeccion['modelo_c'] = trim(getMarcaModelo($marca, $modelo));
+                    $dataProspeccion["assigned_user_id"] = $user_asesor->id;
+                    $dataProspeccion["cb_lineanegocio_id_c"] = getIdLineaNegocio($dataMeeting['linea_negocio']);
+                    $dataProspeccion["description"] = $dataMeeting['subject']. ": " . $dataMeeting['comments'] ;
+                    $dataProspeccion["concat_description"] = true ;
+                    $dataProspeccion["tipo_prospeccion"] = 5;
+                    $dataProspeccion["medio"] = $medio ?? $dataCall['medio'];
+                    $dataProspeccion["campaign_id_c"] = $dataCall['campania'] ?? $campania;
+
+                    $prospeccion = ProspeccionClass::store($dataProspeccion);
+                }
+                /* $dataProspeccion["created_by"] = $call->created_by;
                 $dataProspeccion["team_id"] = 1;
                 $dataProspeccion["team_set_id"] = 1;
                 $dataProspeccion["estado"] = 5;
@@ -150,7 +186,7 @@ class CallsController extends BaseController
                 $dataProspeccion["medio"] = $medio ?? $dataCall['medio'];
                 $dataProspeccion["campaign_id_c"] = $dataCall['campania'] ?? $campania;
 
-                $prospeccion = ProspeccionClass::store($dataProspeccion);
+                $prospeccion = ProspeccionClass::store($dataProspeccion); */
 
                 $dataContact = $dataMeeting['client'];
                 $contact = new ContactClass();
@@ -188,16 +224,31 @@ class CallsController extends BaseController
                 $meetingClass->parent_id = $ticket->id;
                 $meeting = $meetingClass->create();
 
-                $call->prospeccion()->attach($prospeccion->id, getAttachObject());
+               /*  $call->prospeccion()->attach($prospeccion->id, getAttachObject());
                 $call->contacts()->attach($contact->id, getAttachObject());
                 $prospeccion->meetings()->attach($meeting->id, getAttachObject());
                 $prospeccion->tickets()->attach($ticket->id, getAttachObject());
                 $meeting->contacts()->attach($contact->id, getAttachObject());
-                $call->meeting = $meeting;
+                $call->meeting = $meeting; */
 
-                if($prospeccion->new) {
-                  $prospeccion->contacts()->attach($contact->id, getAttachObject());
+                if(!$Shippingtype){
+                    $call->prospeccion()->attach($prospeccion->id, getAttachObject());
+                    $call->contacts()->attach($contact->id, getAttachObject());
+                    $prospeccion->meetings()->attach($meeting->id, getAttachObject());
+                    $prospeccion->tickets()->attach($ticket->id, getAttachObject());
+                    $meeting->contacts()->attach($contact->id, getAttachObject());
+                    $call->meeting = $meeting;
+
+                    if($prospeccion->new) {
+                        $prospeccion->contacts()->attach($contact->id, getAttachObject());
+                    }
+                }else{
+                    $call->meeting = $meeting;
                 }
+
+                /* if($prospeccion->new) {
+                  $prospeccion->contacts()->attach($contact->id, getAttachObject());
+                } */
 
                 $dataUpdateWS = [
                     "response" => json_encode($this->response->item($call, new CallMeetingTransformer)),
@@ -210,7 +261,53 @@ class CallsController extends BaseController
                 WsLog::storeAfter($ws_logs, $dataUpdateWS);
 
                 \DB::connection(get_connection())->commit();
-                return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
+
+                if(!$Shippingtype){
+                    return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
+                }else{
+                     //Enviamos la informacion a Atom solo cuando las agencias son de cuenca, guayaquil, zuzuky
+                    $dataAlton = [
+                        
+                        "nombres"=>$dataContact["names"],
+                        "apellidos"=>$dataContact["surnames"],
+                        "documento"=>"",
+                        "direccion"=>"",
+                        "idCiudad"=>0,
+                        "email"=>$dataContact["email"],
+                        "telefono1"=>$dataContact["phone_home"] ?? null,
+                        "telefono2"=>"",
+                        "celular"=>$dataContact["cellphone_number"],
+                        "idOrigen"=>174,
+                        "idCanal"=>206,
+                        "notas"=>"Lead ALTON generado desde API - Pruebas",
+                        "idMarca"=>41,
+                        "idFamilia"=>204,
+                        "FormaContacto"=>"W",
+                        "Source"=>"Postman",
+                        "Medium"=>"Demo",
+                        "Channel"=>"Test"
+                    ];
+
+                    //return $dataAlton;
+                    //enviamos la informacion notificacndo a ALTON
+                    $responseAlton = Http::withBasicAuth(env('USER_ALTON'), env('PASSWORD_ALTON'))->post(env('REST_ALTON'),$dataAlton);
+
+                    if($responseAlton)
+                    {
+                        //Cerramos el ticket 
+                        $objTicket = new Tickets();
+                        $objTicket->datosSugarCRM = "Cierre de Ticket por Agencia Externa";
+
+                        $cerrarTicket = $this->closeTicketAlton($objTicket,$ticket->id);
+                    
+                        return $cerrarTicket;
+
+                    }
+                    //return $responseAlton;
+                    return response()->json(['error' => $e . ' - Al enviar los datos, Notificar a Alton'], 500);
+                    
+                }
+                //return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
             }
 
             $ticket->estado = 4;
@@ -248,6 +345,40 @@ class CallsController extends BaseController
             \DB::connection(get_connection())->rollBack();
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
+    }
+
+    public function closeTicketAlton( $request, $id)
+    {
+        
+        $ws_logs = WsLog::storeBefore($request, 'api/close_ticket_alton/'.$id);
+        $user_auth = Auth::user();
+        $ticket = Tickets::find($id);
+
+        if($ticket){
+            $this->findChangeStatusTicket($ticket->id, 7, $request->datosSugarCRM['motivo_cierre']);
+            $dataUpdateWS = [
+                "response" => json_encode($this->response->item($ticket, new TicketUpdateTransformer)),
+                "ticket_id" => $ticket->id,
+                "environment" => get_connection(),
+                "source" => $user_auth->fuente,
+                "interaccion_id" => null,
+            ];
+
+            WsLog::storeAfter($ws_logs, $dataUpdateWS);
+
+            return $this->response->item($ticket, new TicketUpdateTransformer)->setStatusCode(200);
+        }
+
+        return response()->json(['error' => 'Ticket no existe, id inválido'], 404);
+    }
+
+    public function findChangeStatusTicket($id, $status, $motivo)
+    {
+        $ticket = Tickets::find($id);
+        $ticket->estado = $status;
+        $ticket->proceso = $motivo;
+        $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
+        $ticket->save();
     }
 
 
