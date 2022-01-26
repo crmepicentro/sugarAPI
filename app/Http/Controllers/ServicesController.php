@@ -68,7 +68,7 @@ class ServicesController extends Controller
             $pricing = PricingClass::getPricing($request->getIdDescipcion(),$request->getAnio(), $request->getPlaca(), $request->getRecorrido(), $request->getUnidad(), $request->getDescuentos(),$request->getValorNuevo());
             return response()->json($pricing, Response::HTTP_OK);
         }catch (\Exception $e){
-            return response()->json(['error' => '!Error¡ Notifique a SUGAR CRM Casabaca','msg' => $e->getMessage() . '- Line: '.$e->getLine(). '- Archivo: '.$e->getFile()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['status'=>false,'message'=>'No se pudo obtener el precio desde pricing','error' => '!Error¡ Notifique a SUGAR CRM Casabaca','msg' => $e->getMessage() . '- Line: '.$e->getLine(). '- Archivo: '.$e->getFile(). '- Code: '.$e->getCode()], Response::HTTP_OK);
         }
     }
 

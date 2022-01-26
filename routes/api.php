@@ -31,7 +31,7 @@ $api->version('v1', ['middleware' => [EnsureUserIsValid::class, 'auth:sanctum']]
 $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' => 200, 'expires' => 5], function ($api) {
     $api->get('history', 'App\Http\Controllers\HistoryController@index');
     $api->get('getAvaluos', 'App\Http\Controllers\AvaluosController@show');
-    $api->get('getAvaluo/{id}/{status}', 'App\Http\Controllers\AvaluosController@edit');
+    $api->get('getAvaluo/{id}', 'App\Http\Controllers\AvaluosController@edit');
     $api->post('createUpdateAvaluo', 'App\Http\Controllers\AvaluosController@create');
     $api->post('tickets', 'App\Http\Controllers\TicketsController@store');
     $api->post('call_ticket', 'App\Http\Controllers\TicketsController@callTicket');
@@ -62,6 +62,7 @@ $api->version('v1', function ($api) {
     $api->get('sumate', 'App\Http\Controllers\FormsToyotaGoController@sumateForm');
     $api->get('destinos', 'App\Http\Controllers\FormsToyotaGoController@destinosForm');
     $api->get('negocios', 'App\Http\Controllers\FormsToyotaGoController@negociosForm');
+    $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf');
 });
 
 // Accept: application/vnd.apisugarcrm.v2+json -> Agregar en los headers para llamar a la v2

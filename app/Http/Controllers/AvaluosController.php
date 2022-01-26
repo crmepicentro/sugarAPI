@@ -8,12 +8,14 @@ use App\Services\ChecklistAvaluoClass;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
+use App\Models\CheckList;
 use AvaluoTransformer;
 use Illuminate\Support\Facades\DB;
+use PDF;
 class AvaluosController extends BaseController
 {
     public function create(AvaluosRequest $request)
-    { // Arreglar get avaluos para que no traiga los estados 5 q son nuevos añadir el campo referido
+    { 
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate();
@@ -39,9 +41,9 @@ class AvaluosController extends BaseController
         }
     }
 
-    public function edit($id,$status)
+    public function edit($id)
     {
-        $avaluo = Avaluos::getAvaluo($id,$status);
+        $avaluo = Avaluos::getAvaluo($id);
 
         return response()->json([
             'avaluo' => $avaluo
@@ -54,6 +56,18 @@ class AvaluosController extends BaseController
         return response()->json([
             'avaluos' => $avaluos
         ]);
+    }
+
+    public function pdf($id){
+        $avaluo = Avaluos::getAvaluo($id);
+        //$pdf = PDF::loadView('appraisal/pdf', $avaluo->toArray());
+        //return $pdf->download('archivo-pdf.pdf');
+        $data = $avaluo->toArray();
+        $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
+        $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 1 week"));
+        //dd($data);
+        $pdf = PDF::loadView('appraisal.pdf', $data);
+        return $pdf->download($avaluo->alias . '.pdf');
     }
 
     public function fillAvaluo(AvaluosRequest $request)

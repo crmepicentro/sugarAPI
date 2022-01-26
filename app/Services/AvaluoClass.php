@@ -31,11 +31,12 @@ class AvaluoClass {
     public function createOrUpdate()
     {
         $avaluo = new Avaluos();
-
+        $avaluo->created_by = $this->user_id_c;
         if(!is_null($this->id) || !$this->id){
-           $avaluo->created_by = $this->user_id_c;
-        }else{
-            $avaluo = Avaluos::find($this->id);
+            $avaluoTmp = Avaluos::find($this->id);
+            if($avaluoTmp){
+                $avaluo = $avaluoTmp;
+            }
         }
 
         $avaluo->modified_user_id = $this->user_id_c;

@@ -18,6 +18,7 @@ class ImagenesClass {
 
     public function create()
     {
+        $this->deletedImageOld();
         $imagen = new Imagenes();
         $imagen->name = $this->name;
         $imagen->created_by = $this->assigned_user_id;
@@ -33,5 +34,19 @@ class ImagenesClass {
 
         $imagen->avaluo()->attach($this->id_avaluo, ['id' => createdID(), 'date_modified' => Carbon::now()]);
         return $imagen;
+    }
+
+    private function deletedImageOld()
+    {
+
+        $ids = Imagenes::select('cba_imagenavaluo.id')
+                        ->join('cba_imagenavaluo_cba_avaluos_c',
+                                'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb',
+                                'cba_imagenavaluo.id')
+                        ->where('cba_imagenavaluo_cba_avaluoscba_avaluos_ida',$this->id_avaluo)
+                        ->where('orientacion',$this->orientacion)
+                        ->get()
+                        ->pluck('id');
+        Imagenes::whereIn('id',$ids)->update(['deleted' => 1]);
     }
 }

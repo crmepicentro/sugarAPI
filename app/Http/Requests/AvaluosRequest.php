@@ -28,15 +28,15 @@ class AvaluosRequest extends FormRequest
         return [
             'document' => 'required',
             'plate' => 'required_with:id',
-            'brand.id' => 'required_with:id',
-            'model.id' => 'required_with:id',
-            'description.id' => 'required_with:id',
-            'color.id' => 'required_with:id',
+            'brand' => 'required_with:id',
+            'model' => 'required_with:id',
+            'description' => 'required_with:id',
+            'color' => 'required_with:id',
             'mileage' => 'required_with:id',
             'unity' => 'required_with:id|in:km,mi',
             'status' => 'required',
             'traffic' => 'required',
-            'coordinator.code' => 'required|exists:App\Models\Users,id,deleted,0',
+            'coordinator' => 'required',
             'user' => 'required|exists:App\Models\Users,id,deleted,0',
             'contact' => 'required|exists:App\Models\Contacts,id',
         ];
@@ -55,7 +55,6 @@ class AvaluosRequest extends FormRequest
             'unity.in' => 'Tipo de recorrido valores válidos: km, mi',
             'status.required' => 'Estado es requerido',
             'coordinator.required' => 'Coordinador es requerido',
-            'coordinator.exists' => 'Coordinador inválido en Sugar',
             'user.exists' => 'Usuario inválido en Sugar',
             'contact.required' => 'Contacto es requerido',
             'traffic.required' => 'Trafico es requerido',
@@ -83,7 +82,7 @@ class AvaluosRequest extends FormRequest
 
     public function getCoordinatorId() : string
     {
-        return $this->get('coordinator')['code'];
+        return json_decode($this->get('coordinator'))->code;
     }
 
     public function getColorName() : string
