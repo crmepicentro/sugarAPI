@@ -143,8 +143,8 @@ class CallsController extends BaseController
                 //bandera para identificar las agencias 
                 //hay que cambiarla segun sea necesario
                 $Shippingtype = false;
-
-                if($dataCall['meeting']['location'] == 'ALTON CUENCA'){
+              
+                if($dataCall['meeting']['location'] == 'ALTON CUENCA' || $dataCall['meeting']['location'] == 'ALTON GUAYAQUIL' || $dataCall['meeting']['location'] == 'SUZUKI'){
                     $Shippingtype = true;
                 }
 
@@ -224,13 +224,6 @@ class CallsController extends BaseController
                 $meetingClass->parent_id = $ticket->id;
                 $meeting = $meetingClass->create();
 
-               /*  $call->prospeccion()->attach($prospeccion->id, getAttachObject());
-                $call->contacts()->attach($contact->id, getAttachObject());
-                $prospeccion->meetings()->attach($meeting->id, getAttachObject());
-                $prospeccion->tickets()->attach($ticket->id, getAttachObject());
-                $meeting->contacts()->attach($contact->id, getAttachObject());
-                $call->meeting = $meeting; */
-
                 if(!$Shippingtype){
                     $call->prospeccion()->attach($prospeccion->id, getAttachObject());
                     $call->contacts()->attach($contact->id, getAttachObject());
@@ -262,6 +255,8 @@ class CallsController extends BaseController
 
                 \DB::connection(get_connection())->commit();
 
+                /* return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200); */
+
                 if(!$Shippingtype){
                     return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
                 }else{
@@ -288,10 +283,13 @@ class CallsController extends BaseController
                         "Channel"=>"Test"
                     ];
 
+                    //$ws_logs_alton = WsLog::storeBefore($dataAlton, env('REST_ALTON'));
+                    
                     //return $dataAlton;
                     //enviamos la informacion notificacndo a ALTON
                     $responseAlton = Http::withBasicAuth(env('USER_ALTON'), env('PASSWORD_ALTON'))->post(env('REST_ALTON'),$dataAlton);
-
+                    //WsLog::storeAfter($ws_logs_alton, $responseAlton);
+                    
                     if($responseAlton)
                     {
                         //Cerramos el ticket 
@@ -307,7 +305,9 @@ class CallsController extends BaseController
                     return response()->json(['error' => $e . ' - Al enviar los datos, Notificar a Alton'], 500);
                     
                 }
+
                 //return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
+
             }
 
             $ticket->estado = 4;
@@ -350,7 +350,8 @@ class CallsController extends BaseController
     public function closeTicketAlton( $request, $id)
     {
         
-        $ws_logs = WsLog::storeBefore($request, 'api/close_ticket_alton/'.$id);
+        $ws_logs = WsLog::storeBefore($request, 'api/close_ticket/'.$id);
+
         $user_auth = Auth::user();
         $ticket = Tickets::find($id);
 
