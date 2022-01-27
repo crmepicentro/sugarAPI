@@ -51,6 +51,8 @@ class Avaluos extends Model
             $query->date_modified = Carbon::now();
             $query->num_avaluo = $autoincrement;
             $query->deleted = 0;
+            $query->team_id = 1;
+            $query->team_set_id = 1;
         });
     }
 
@@ -62,7 +64,6 @@ class Avaluos extends Model
             'cba_imagenavaluo_cba_avaluoscba_avaluos_ida',
             'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb')
             ->where('cba_imagenavaluo.deleted', '0')
-            //->select('cba_imagenavaluo.name as id_strapi', 'cba_imagenavaluo.imagen_path', 'cba_imagenavaluo.imagen');
             ->select('cba_imagenavaluo.name as id_strapi', 'cba_imagenavaluo.imagen_path');
     }
 
@@ -88,7 +89,17 @@ class Avaluos extends Model
 
     public function coordinator()
     {
-        return $this->hasOne(Users::class, 'id', 'assigned_user_id')->selectRaw('id, CONCAT(first_name , " ",last_name) as name');
+        return $this->hasOne(Users::class, 'id', 'user')->selectRaw('id,id as code, CONCAT(first_name , " ",last_name) as name');
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Contacts::class, 'id', 'contact')->selectRaw('id,CONCAT(first_name , " ",last_name) as name');
+    }
+
+    public function clientCstm()
+    {
+        return $this->hasOne(ContactsCstm::class, 'id_c', 'contact')->selectRaw('id_c,numero_identificacion_c');
     }
 
     public function color()
@@ -105,6 +116,7 @@ class Avaluos extends Model
     {
         return $this->hasOne(Models::class, 'id', 'modelo')->select('id','name');
     }
+
     public function description()
     {
         return $this->hasOne(Descriptions::class, 'id', 'modelo_descripcion')->select('id','description');
@@ -116,16 +128,21 @@ class Avaluos extends Model
             ->with('imagenes')
             ->with('checklist')
             ->with('coordinator')
+            ->with('client')
+            ->with('clientCstm')
             ->with('color')
             ->with('brand')
             ->with('model')
             ->with('description')
-            ->selectRaw('id, name as avaluo, description, contact_id_c as contact, assigned_user_id, placa as plate,color, anio as year,
+            ->selectRaw('id, name as alias, description, contact_id_c as contact, assigned_user_id as user, placa as plate,color, anio as year,
                          marca, modelo, CONVERT(recorrido,UNSIGNED INTEGER) as mileage, tipo_recorrido as unity,modelo_descripcion,
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment')
+                         observacion as observation, comentario as comment, referido_c as referred')
+            ->leftJoin('cba_avaluos_cstm','id','id_c')
+            ->where('estado_avaluo','<>',0) // Avaluo cancelado
+            ->where('estado_avaluo','<>',4) // Avaluo Vacio eliminado
             ->first();
 
     }
@@ -134,17 +151,22 @@ class Avaluos extends Model
         return self::where('contact_id_c', $idContact)
             ->with('imagenes')
             ->with('checklist')
+            ->with('client')
+            ->with('clientCstm')
             ->with('coordinator')
             ->with('color')
             ->with('brand')
             ->with('model')
             ->with('description')
-            ->selectRaw('id, name as avaluo, description, contact_id_c as contact, assigned_user_id, placa as plate,color, anio as year,
+            ->selectRaw('id, name as alias, description, contact_id_c as contact, assigned_user_id as user, placa as plate,color, anio as year,
                          marca, modelo, CONVERT(recorrido,UNSIGNED INTEGER) as mileage, tipo_recorrido as unity,modelo_descripcion,
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment')
+                         observacion as observation, comentario as comment, referido_c as referred')
+            ->leftJoin('cba_avaluos_cstm','id','id_c')
+            ->where('estado_avaluo','<>',5) // Avaluo Vacio
+            ->where('estado_avaluo','<>',4) // Avaluo Vacio eliminado
             ->orderBy('date_entered','desc')
             ->get();
     }

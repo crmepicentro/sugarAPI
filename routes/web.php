@@ -10,6 +10,7 @@ use App\Http\Middleware\UserSugarAuth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthSugarController;
 use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\AvaluosController;
 
 
 /*

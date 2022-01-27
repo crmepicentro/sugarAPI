@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Avaluos;
+use App\Models\AvaluosCstm;
 
 class AvaluoClass {
     public $id;
@@ -24,16 +25,18 @@ class AvaluoClass {
     public $estado_avaluo;
     public $observacion;
     public $comentario;
+    public $referido;
 
 
     public function createOrUpdate()
     {
         $avaluo = new Avaluos();
-
+        $avaluo->created_by = $this->user_id_c;
         if(!is_null($this->id) || !$this->id){
-           $avaluo->created_by = $this->user_id_c;
-        }else{
-            $avaluo = Avaluos::find($this->id);
+            $avaluoTmp = Avaluos::find($this->id);
+            if($avaluoTmp){
+                $avaluo = $avaluoTmp;
+            }
         }
 
         $avaluo->modified_user_id = $this->user_id_c;
@@ -60,7 +63,19 @@ class AvaluoClass {
         $avaluo->team_id = 1;
         $avaluo->team_set_id = 1;
         $avaluo->save();
-
+        $this->createOrUpdateCstm($avaluo->id);
+        
         return $avaluo;
+    }
+
+    private function createOrUpdateCstm ($id){
+        
+        $avaluoCstm = AvaluosCstm::find($id);
+        if(!$avaluoCstm){
+            $avaluoCstm = new AvaluosCstm();
+            $avaluoCstm->id_c = $id;
+        }
+        $avaluoCstm->referido_c = $this->referido;
+        $avaluoCstm->save();
     }
 }

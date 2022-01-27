@@ -51,4 +51,9 @@ class CheckList extends Model
             'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb',
             'cba_checklist_avaluo_cba_avaluoscba_avaluos_ida');
     }
+
+    public function checkListAvaluo()
+    {
+        return $this->hasMany( CheckListAvaluo::class, 'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb','id' );
+    }
 }
