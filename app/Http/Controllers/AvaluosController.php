@@ -13,6 +13,7 @@ use App\Models\EmailAddrBeanRel;
 use App\Models\EmailAddreses;
 use Illuminate\Support\Facades\Mail;
 use AvaluoTransformer;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use PDF;
 class AvaluosController extends BaseController
@@ -78,10 +79,12 @@ class AvaluosController extends BaseController
     }
 
     public function correo($id){
+        $correo = 'dev.ccazares@gmail.com';
         $avaluo = Avaluos::getAvaluo($id);
         $avaluo = $this->formatData($avaluo);
-        
-        dd($avaluo);
+        if (App::environment('production')) {
+
+        }
         Mail::to('dev.ccazares@gmail.com')->send(new Appraisal($data));
     }
 
