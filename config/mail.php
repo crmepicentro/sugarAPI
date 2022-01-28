@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.googlemail.com'),
-            'port' => env('MAIL_PORT', 465),
-            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
-            'username' => env('MAIL_USERNAME', 'mrodriguez@casabaca.com'),
-            'password' => env('MAIL_PASSWORD', '2015FRVRmr'),
+            'host' => env('MAIL_HOST', '192.168.150.11'),
+            'port' => env('MAIL_PORT', 25),
+            'encryption' => env('MAIL_ENCRYPTION', 'SSL'),
+            'username' => env('MAIL_USERNAME', null),
+            'password' => env('MAIL_PASSWORD', null),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -84,8 +84,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sugar_crm@casabaca.com'),
+        'name' => env('MAIL_FROM_NAME', 'Sugar CRM'),
     ],
 
     /*

@@ -99,7 +99,7 @@ class Avaluos extends Model
 
     public function clientCstm()
     {
-        return $this->hasOne(ContactsCstm::class, 'id_c', 'contact')->selectRaw('id_c,numero_identificacion_c');
+        return $this->hasOne(ContactsCstm::class, 'id_c', 'contact')->selectRaw('id_c,numero_identificacion_c as document');
     }
 
     public function color()

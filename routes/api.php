@@ -63,6 +63,7 @@ $api->version('v1', function ($api) {
     $api->get('destinos', 'App\Http\Controllers\FormsToyotaGoController@destinosForm');
     $api->get('negocios', 'App\Http\Controllers\FormsToyotaGoController@negociosForm');
     $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf');
+    $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
 });
 
 // Accept: application/vnd.apisugarcrm.v2+json -> Agregar en los headers para llamar a la v2

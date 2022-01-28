@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AvaluosRequest;
+use App\Mail\Appraisal;
 use App\Services\AvaluoClass;
 use App\Services\ChecklistAvaluoClass;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
-use App\Models\CheckList;
+use App\Models\EmailAddrBeanRel;
+use App\Models\EmailAddreses;
+use Illuminate\Support\Facades\Mail;
 use AvaluoTransformer;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -44,7 +47,7 @@ class AvaluosController extends BaseController
     public function edit($id)
     {
         $avaluo = Avaluos::getAvaluo($id);
-
+        $avaluo = $this->formatData($avaluo);
         return response()->json([
             'avaluo' => $avaluo
         ]);
@@ -60,14 +63,26 @@ class AvaluosController extends BaseController
 
     public function pdf($id){
         $avaluo = Avaluos::getAvaluo($id);
-        //$pdf = PDF::loadView('appraisal/pdf', $avaluo->toArray());
-        //return $pdf->download('archivo-pdf.pdf');
+        $avaluo = $this->formatData($avaluo);
         $data = $avaluo->toArray();
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
         $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 1 week"));
-        //dd($data);
         $pdf = PDF::loadView('appraisal.pdf', $data);
         return $pdf->download($avaluo->alias . '.pdf');
+    }
+
+    private function formatData($avaluo){
+        $avaluo->document = $avaluo->clientCstm->document;
+        $avaluo->name = $avaluo->client->name;
+        return $avaluo;
+    }
+
+    public function correo($id){
+        $avaluo = Avaluos::getAvaluo($id);
+        $avaluo = $this->formatData($avaluo);
+        
+        dd($avaluo);
+        Mail::to('dev.ccazares@gmail.com')->send(new Appraisal($data));
     }
 
     public function fillAvaluo(AvaluosRequest $request)

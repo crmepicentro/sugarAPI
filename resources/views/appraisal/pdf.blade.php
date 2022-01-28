@@ -119,10 +119,10 @@
         <div class="box pad" style="margin:0px 25px 25px 25px auto;">  
             <table width="95%" border="0" cellspacing="0" cellpadding="5" style="margin:10px 20px 10px 20px;">     
               <tr>                  
-                  <td colspan="2"><span class="campos_b">NOMBRE: </span><span class="respuesta">{{ mb_convert_case($client['name'], MB_CASE_UPPER, "UTF-8") }}</span></td>
+                  <td colspan="2"><span class="campos_b">NOMBRE: </span><span class="respuesta">{{ mb_convert_case($name, MB_CASE_UPPER, "UTF-8") }}</span></td>
               </tr>   
               <tr>                  
-                  <td><span class="campos_b">CÉDULA: </span><span class="respuesta">{{ mb_convert_case($client_cstm['numero_identificacion_c'], MB_CASE_UPPER, "UTF-8") }}</span></td>
+                  <td><span class="campos_b">CÉDULA: </span><span class="respuesta">{{ $document }}</span></td>
                   <td><span class="campos_b">PLACA: </span><span class="respuesta">{{$plate}}</span></td>
               </tr>             
               <tr>                  
