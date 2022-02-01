@@ -120,7 +120,7 @@ class Meetings extends Model
         //return $data;
       return \DB::connection(get_connection())->select('
         SELECT id FROM meetings
-            WHERE DATE(date_start) < DATE(now()) AND STATUS="Planned" AND deleted=0;
+            where date_start between DATE(DATE_SUB(NOW(),INTERVAL 24 HOUR)) AND DATE(NOW()) AND STATUS="Planned" AND deleted=0;
         ');
 
     }
