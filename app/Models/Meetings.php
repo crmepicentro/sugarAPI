@@ -119,8 +119,10 @@ class Meetings extends Model
         //$data = Meetings::where('status', 'Planned')->where('deleted',0)->whereRaw('date_start < DATE(now())')->get();
         //return $data;
       return \DB::connection(get_connection())->select('
-        SELECT id FROM meetings
-            where date_start between DATE(DATE_SUB(NOW(),INTERVAL 24 HOUR)) AND DATE(NOW()) AND STATUS="Planned" AND deleted=0;
+            select id from meetings m
+            where date(date_entered) >= date(DATE_SUB(NOW(),INTERVAL 24 HOUR))
+            and date(date_entered) <= date(now())
+            AND STATUS="Planned" AND deleted=0;
         ');
 
     }
