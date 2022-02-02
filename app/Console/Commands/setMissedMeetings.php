@@ -63,9 +63,12 @@ class setMissedMeetings extends Command
   
         foreach ($missedMeetings as $meet){
           $meeting = Meetings::find($meet->id);
+        
 
           if($meeting->prospeccion()->first()){
+           
             $callInconcert = $this->sendCallToInconcert($meeting);
+              
             $dataToSend = $callInconcert->createData();
             $response_inconcert = $callInconcert->create($dataToSend);
 
@@ -105,7 +108,7 @@ class setMissedMeetings extends Command
       if($ticket) {
         $tipo_transaccion = $ticket->ticketsCstm->tipo_transaccion_c;
         $call = Calls::where('parent_id', $ticket->id)->first();
-
+        
         if($call) {
           $callInconcert->category_id = $call->callsCstm->categoria_llamada_c;
           $callInconcert->type = $call->callsCstm->tipo_llamada_c;
@@ -123,8 +126,8 @@ class setMissedMeetings extends Command
       $callInconcert->email = $prospeccion->email;
       $callInconcert->firstname = $prospeccion->nombres;
       $callInconcert->lastname = $prospeccion->apellidos;
-      $callInconcert->tipo_transaccion = $tipo_transaccion;
-      $callInconcert->linea_negocio = $ticket->linea_negocio ?? null;
+      $callInconcert->tipo_transaccion = getTipoTransaccion($tipo_transaccion);
+      $callInconcert->linea_negocio = getLineaNegocio($ticket->linea_negocio) ?? null;
 
       $callInconcert->prospeccionId = $prospeccion->id;
       $callInconcert->user_name_asesor = $prospeccion->assigned_user_id;
