@@ -87,7 +87,7 @@ class setMissedMeetings extends Command
           $meeting->save();
         }
 
-        $text = date('Y-m-d H:i:s').' --'.$user->fuente.' '.$user->connection.' datos encontrados para enviar = ['.count($missedMeetings).']';
+        $text = date('Y-m-d H:i:s').' --'.$user->fuente.'--'.get_connection().'--'.$user->connection.' datos encontrados para enviar = ['.count($missedMeetings).']';
         Storage::append('log_crontab.txt', $text);
 
         return 0;
