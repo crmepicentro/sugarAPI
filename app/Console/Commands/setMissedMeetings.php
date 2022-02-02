@@ -120,7 +120,7 @@ class setMissedMeetings extends Command
         $callInconcert->meeting_marca_id = $ticket->ticketsCstm->marca_c;
         $callInconcert->meeting_modelo_id = $ticket->ticketsCstm->modelo_c;
       }
-
+      $callInconcert->prospeccion_name = $prospeccion->name;
       $callInconcert->numero_identificacion = $prospeccion->numero_identificacion;
       $callInconcert->tipo_identificacion = $prospeccion->tipo_identificacion;
       $callInconcert->email = $prospeccion->email;
