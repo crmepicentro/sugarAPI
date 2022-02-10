@@ -75,7 +75,7 @@ class Avaluos extends Model
             'cbav_checklistavaluonew_cbav_avaluoscrmcbav_avaluoscrm_ida',
             'cbav_checkef44aluonew_idb')
             ->where('cbav_checklistavaluonew.deleted', '0')
-            ->selectRaw('cbav_checklistavaluonew.item_id as id, cbav_checklistavaluonew.item_description as description, cbav_checklistavaluonew.estado as "option", cbav_checklistavaluonew.costo as cost, cbav_checklistavaluonew.description as observation');
+            ->selectRaw('cbav_checklistavaluonew.item_id as id, cbav_checklistavaluonew.item_description as description, cbav_checklistavaluonew.checklist_estado as "option", cbav_checklistavaluonew.costo as cost, cbav_checklistavaluonew.description as observation');
     }
 
     public function traffic()

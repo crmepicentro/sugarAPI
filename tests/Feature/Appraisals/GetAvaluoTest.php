@@ -74,6 +74,7 @@ class GetAvaluoTest extends TestCase
      */
     public function test_should_get_avaluo()
     {
+        //dd(Avaluos::getAvaluo('57ed396d-b483-f6fe-be50-6204b299bc35'));
         $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $contentCreateAvaluo = json_decode($response->content());
 

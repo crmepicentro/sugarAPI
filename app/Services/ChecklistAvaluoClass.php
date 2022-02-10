@@ -34,7 +34,7 @@ class ChecklistAvaluoClass {
         $checkList->item_id = $this->item_id;
         $checkList->item_description = $this->item_description;
         $checkList->costo = $this->costo;
-        $checkList->estado = $this->estado;
+        $checkList->checklist_estado = $this->estado;
         $checkList->save();
 
         $checkList->avaluo()->attach($this->id_avaluo, ['id' => createdID(), 'date_modified' => Carbon::now()]);
