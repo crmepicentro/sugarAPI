@@ -39,11 +39,11 @@ class ImagenesClass {
     private function deletedImageOld()
     {
 
-        $ids = Imagenes::select('cba_imagenavaluo.id')
-                        ->join('cba_imagenavaluo_cba_avaluos_c',
-                                'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb',
-                                'cba_imagenavaluo.id')
-                        ->where('cba_imagenavaluo_cba_avaluoscba_avaluos_ida',$this->id_avaluo)
+        $ids = Imagenes::select('cbav_imagenesavaluocrm.id')
+                        ->join('cbav_imagenesavaluocrm_cbav_avaluoscrm_c',
+                                'cbav_imagenesavaluocrm_cbav_avaluoscrmcbav_imagenesavaluocrm_idb',
+                                'cbav_imagenesavaluocrm.id')
+                        ->where('cbav_imagenesavaluocrm_cbav_avaluoscrmcbav_avaluoscrm_ida',$this->id_avaluo)
                         ->where('orientacion',$this->orientacion)
                         ->get()
                         ->pluck('id');

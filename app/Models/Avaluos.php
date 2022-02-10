@@ -14,7 +14,7 @@ class Avaluos extends Model
 {
     use HasFactory;
     protected $connection = 'sugar_dev';
-    protected $table = 'cba_avaluos';
+    protected $table = 'cbav_avaluoscrm';
     public $incrementing = false;
     const CREATED_AT = 'date_entered';
     const UPDATED_AT = 'date_modified';
@@ -23,7 +23,7 @@ class Avaluos extends Model
         'marca', 'modelo', 'modelo_descripcion', 'color',
         'recorrido', 'tipo_recorrido', 'currency_id', 'base_rate',
         'precio_final', 'precio_nuevo', 'precio_aprobado', 'precio_nuevo_mod', 'precio_final_mod',
-        'estado_avaluo', 'fecha_aprobacion', 'observacion', 'comentario', 'assigned_user_id'];
+        'estado_avaluo', 'fecha_aprobacion', 'observacion', 'comentario', 'assigned_user_id','referido'];
     /**
      * @var mixed
      */
@@ -60,31 +60,31 @@ class Avaluos extends Model
     {
         return $this->belongsToMany(
             Imagenes::class,
-            'cba_imagenavaluo_cba_avaluos_c',
-            'cba_imagenavaluo_cba_avaluoscba_avaluos_ida',
-            'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb')
-            ->where('cba_imagenavaluo.deleted', '0')
-            ->select('cba_imagenavaluo.name as id_strapi', 'cba_imagenavaluo.imagen_path');
+            'cbav_imagenesavaluocrm_cbav_avaluoscrm_c',
+            'cbav_imagenesavaluocrm_cbav_avaluoscrmcbav_avaluoscrm_ida',
+            'cbav_imagenesavaluocrm_cbav_avaluoscrmcbav_imagenesavaluocrm_idb')
+            ->where('cbav_imagenesavaluocrm.deleted', '0')
+            ->select('cbav_imagenesavaluocrm.name as id_strapi', 'cbav_imagenesavaluocrm.imagen_path');
     }
 
     public function checklist()
     {
         return $this->belongsToMany(
             CheckList::class,
-            'cba_checklist_avaluo_cba_avaluos_c',
-            'cba_checklist_avaluo_cba_avaluoscba_avaluos_ida',
-            'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb')
-            ->where('cba_checklist_avaluo.deleted', '0')
-            ->selectRaw('cba_checklist_avaluo.item_id as id, cba_checklist_avaluo.item_description as description, cba_checklist_avaluo.estado as "option", cba_checklist_avaluo.costo as cost, cba_checklist_avaluo.description as observation');
+            'cbav_checklistavaluonew_cbav_avaluoscrm_c',
+            'cbav_checklistavaluonew_cbav_avaluoscrmcbav_avaluoscrm_ida',
+            'cbav_checkef44aluonew_idb')
+            ->where('cbav_checklistavaluonew.deleted', '0')
+            ->selectRaw('cbav_checklistavaluonew.item_id as id, cbav_checklistavaluonew.item_description as description, cbav_checklistavaluonew.estado as "option", cbav_checklistavaluonew.costo as cost, cbav_checklistavaluonew.description as observation');
     }
 
     public function traffic()
     {
         return $this->belongsToMany(
             Traffic::class,
-            'cba_avaluos_cb_traficocontrol_c',
-            'cba_avaluos_cb_traficocontrolcba_avaluos_idb',
-            'cba_avaluos_cb_traficocontrolcb_traficocontrol_ida');
+            'cbav_avaluoscrm_cb_traficocontrol_c',
+            'cbav_avaluoscrm_cb_traficocontrolcb_traficocontrol_ida',
+            'cbav_avaluoscrm_cb_traficocontrolcbav_avaluoscrm_idb');
     }
 
     public function coordinator()
@@ -139,8 +139,7 @@ class Avaluos extends Model
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment, referido_c as referred')
-            ->leftJoin('cba_avaluos_cstm','id','id_c')
+                         observacion as observation, comentario as comment, referido as referred')
             ->where('estado_avaluo','<>',0) // Avaluo cancelado
             ->where('estado_avaluo','<>',4) // Avaluo Vacio eliminado
             ->first();
@@ -163,8 +162,7 @@ class Avaluos extends Model
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment, referido_c as referred')
-            ->leftJoin('cba_avaluos_cstm','id','id_c')
+                         observacion as observation, comentario as comment, referido as referred')
             ->where('estado_avaluo','<>',5) // Avaluo Vacio
             ->where('estado_avaluo','<>',4) // Avaluo Vacio eliminado
             ->orderBy('date_entered','desc')
