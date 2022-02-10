@@ -17,7 +17,7 @@ class CheckList extends Model
     protected $fillable = ['name',
         'modified_user_id', 'description',
         'deleted', 'item_description', 'item_id',
-        'costo', 'estado', 'assigned_user_id'];
+        'costo', 'checklist_estado', 'assigned_user_id'];
     /**
      * @var mixed
      */
