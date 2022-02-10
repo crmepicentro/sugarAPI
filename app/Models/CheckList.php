@@ -10,7 +10,7 @@ class CheckList extends Model
 {
     use HasFactory;
     protected $connection = 'sugar_dev';
-    protected $table = 'cba_checklist_avaluo';
+    protected $table = 'cbav_checklistavaluonew';
     public $incrementing = false;
     const CREATED_AT = 'date_entered';
     const UPDATED_AT = 'date_modified';
@@ -46,14 +46,14 @@ class CheckList extends Model
     public function avaluo()
     {
         return $this->belongsToMany(
-            CheckList::class,
-            'cba_checklist_avaluo_cba_avaluos_c',
-            'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb',
-            'cba_checklist_avaluo_cba_avaluoscba_avaluos_ida');
+            Avaluos::class,
+            'cbav_checklistavaluonew_cbav_avaluoscrm_c',
+            'cbav_checkef44aluonew_idb',
+            'cbav_checklistavaluonew_cbav_avaluoscrmcbav_avaluoscrm_ida');
     }
 
     public function checkListAvaluo()
     {
-        return $this->hasMany( CheckListAvaluo::class, 'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb','id' );
+        return $this->hasMany( CheckListAvaluo::class, 'cbav_checkef44aluonew_idb','id' );
     }
 }
