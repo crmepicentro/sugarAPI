@@ -17,7 +17,9 @@ class CallInconcertClass {
     public $prospeccionId;
     public $prospeccion_name;
     public $user_name_asesor;
+    public $name_user_name_asesor;
     public $user_name_call_center;
+    public $name_user_name_call_center;
     public $date_start;
     public $type;
     public $category_id;
@@ -62,7 +64,9 @@ class CallInconcertClass {
         "linea_negocio" => $this->linea_negocio,
         "ProspeccionId" => $this->prospeccionId,
         "user_name_asesor" => $this->user_name_asesor,
+        "name_user_name_asesor" => $this->name_user_name_asesor,
         "user_name_call_center" => $this->user_name_call_center,
+        "name_user_name_call_center" => $this->name_user_name_call_center,
         "prospeccion_name" => $this->prospeccion_name,
         "date_start" => $this->date_start,
         "type" => $this->type,
