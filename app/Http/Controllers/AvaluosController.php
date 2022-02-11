@@ -16,31 +16,32 @@ use AvaluoTransformer;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use PDF;
+
 class AvaluosController extends BaseController
 {
     public function create(AvaluosRequest $request)
-    { 
+    {
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate();
         $newAvaluo->traffic()->attach($request->getTraffic(), ['id' => createdID(), 'date_modified' => Carbon::now()]);
 
         try {
-            if($request->has('checklist')){
+            if ($request->has('checklist')) {
                 $checkLists = $request->getCheckList();
-                foreach ($checkLists as $checkList){
+                foreach ($checkLists as $checkList) {
                     $checkList = new ChecklistAvaluoClass($checkList->id, $checkList->description, $request->getCoordinatorId(), $checkList->option, $checkList->observation ?? null, $checkList->cost ?? 0, $newAvaluo->id);
                     $checkList->create();
                 }
             }
-            if($request->has('pics')){
+            if ($request->has('pics')) {
                 $strappiController = new StrapiController();
                 $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
             }
             DB::connection(get_connection())->commit();
             $this->correo($newAvaluo->id);
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
@@ -63,7 +64,8 @@ class AvaluosController extends BaseController
         ]);
     }
 
-    public function pdf($id){
+    public function pdf($id)
+    {
         $avaluo = Avaluos::getAvaluo($id);
         $avaluo = $this->formatData($avaluo);
         $data = $avaluo->toArray();
@@ -126,7 +128,7 @@ class AvaluosController extends BaseController
         $avaluo->contact_id_c = $request->contact;
         $avaluo->user_id_c = $request->user;
         $avaluo->assigned_user_id = $request->getCoordinatorId();
-        if($avaluo->id){
+        if ($avaluo->id) {
             $avaluo->marca = $request->getBrandId();
             $avaluo->color = $request->getColorId();
             $avaluo->modelo = $request->getModelId();

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\PostController;
 use \App\Http\Middleware\EnsureUserIsValid;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,8 +18,12 @@ use \App\Http\Middleware\EnsureUserIsValid;
 */
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', ['middleware' => [EnsureUserIsValid::class]], function ($api) {
+$api->version('v1', [], function ($api) {
     $api->post('register', 'App\Http\Controllers\AuthController@register');
+});
+
+$api->version('v1', ['middleware' => [EnsureUserIsValid::class]], function ($api) {
+   /* $api->post('register', 'App\Http\Controllers\AuthController@register');*/
     $api->post('login', 'App\Http\Controllers\AuthController@login');
     $api->post('create_landing_page', 'App\Http\Controllers\LandingPageController@store');
 });

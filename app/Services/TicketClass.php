@@ -99,4 +99,6 @@ class TicketClass {
     $dataTicketCstm->campaign_id_c = $this->campaign_id_c;
     $dataTicketCstm->save();
   }
+
+  
 }

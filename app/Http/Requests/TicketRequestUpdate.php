@@ -24,7 +24,7 @@ class TicketRequestUpdate extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    { 
         return [
             'datosSugarCRM.motivo_cierre' => 'required|in:abandono_chat,solo_informacion,desiste,no_contesta,compra_futura'
         ];
@@ -33,13 +33,13 @@ class TicketRequestUpdate extends FormRequest
     public function messages()
     {
         return [
-            'datosSugarCRM.motivo_cierre.required' => 'Motivo de cierre es requerido',
-            'datosSugarCRM.motivo_cierre.in' => 'Motivo de cierre no contiene un valor válido, valores válidos: abandono_chat,solo_informacion,desiste,no_contesta,compra_futura'
+            //'datosSugarCRM.motivo_cierre.required' => 'Motivo de cierre es requerido',
+            //'datosSugarCRM.motivo_cierre.in' => 'Motivo de cierre no contiene un valor válido, valores válidos: abandono_chat,solo_informacion,desiste,no_contesta,compra_futura'
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json(['errors' => $validator->errors()], 422));
+        //throw new HttpResponseException(response()->json(['errors' => $validator->errors()], 422));
     }
 }

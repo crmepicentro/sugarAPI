@@ -15,6 +15,7 @@ class CallInconcertClass {
     public $tipo_transaccion;
     public $linea_negocio;
     public $prospeccionId;
+    public $prospeccion_name;
     public $user_name_asesor;
     public $user_name_call_center;
     public $date_start;
@@ -62,6 +63,7 @@ class CallInconcertClass {
         "ProspeccionId" => $this->prospeccionId,
         "user_name_asesor" => $this->user_name_asesor,
         "user_name_call_center" => $this->user_name_call_center,
+        "prospeccion_name" => $this->prospeccion_name,
         "date_start" => $this->date_start,
         "type" => $this->type,
         "category_id" => $this->category_id,

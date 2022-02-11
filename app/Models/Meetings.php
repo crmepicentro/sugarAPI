@@ -115,10 +115,21 @@ class Meetings extends Model
 
     public static function getMissedMeetings()
     {
+
+        //$data = Meetings::where('status', 'Planned')->where('deleted',0)->whereRaw('date_start < DATE(now())')->get();
+        //return $data;
       return \DB::connection(get_connection())->select('
-        SELECT id FROM meetings
-            WHERE DATE(NOW())>DATE(DATE_ADD(date_start, INTERVAL -5 HOUR)) AND STATUS="Planned" AND deleted=0;
+            SELECT id FROM meetings
+                where date(date_start) > date(DATE_SUB(now(),INTERVAL 2 day))
+                and date(date_start) < date(now())
+                AND STATUS="Planned" AND deleted=0;
         ');
+/* 
+        return \DB::connection(get_connection())->select('
+            select * from meetings
+            where date(date_start) >= date(DATE_SUB(NOW(),INTERVAL 2 day))
+            AND STATUS="Planned" AND deleted=0;
+        '); */
 
     }
 }

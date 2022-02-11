@@ -34,7 +34,7 @@ class ChecklistAvaluoClass {
         $checkList->item_id = $this->item_id;
         $checkList->item_description = $this->item_description;
         $checkList->costo = $this->costo;
-        $checkList->estado = $this->estado;
+        $checkList->checklist_estado = $this->estado;
         $checkList->save();
 
         $checkList->avaluo()->attach($this->id_avaluo, ['id' => createdID(), 'date_modified' => Carbon::now()]);
@@ -44,11 +44,11 @@ class ChecklistAvaluoClass {
 
     private function deletedCheckOld()
     {
-        $ids = CheckList::select('cba_checklist_avaluo.id')
-                        ->join('cba_checklist_avaluo_cba_avaluos_c',
-                                'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb',
-                                'cba_checklist_avaluo.id')
-                        ->where('cba_checklist_avaluo_cba_avaluoscba_avaluos_ida',$this->id_avaluo)
+        $ids = CheckList::select('cbav_checklistavaluonew.id')
+                        ->join('cbav_checklistavaluonew_cbav_avaluoscrm_c',
+                                'cbav_checkef44aluonew_idb',
+                                'cbav_checklistavaluonew.id')
+                        ->where('cbav_checklistavaluonew_cbav_avaluoscrmcbav_avaluoscrm_ida',$this->id_avaluo)
                         ->where('item_id',$this->item_id)
                         ->get()
                         ->pluck('id');
