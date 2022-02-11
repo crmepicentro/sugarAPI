@@ -39,6 +39,7 @@ class AvaluosController extends BaseController
                 $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
             }
             DB::connection(get_connection())->commit();
+            $this->correo($newAvaluo->id);
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
@@ -69,30 +70,58 @@ class AvaluosController extends BaseController
         $avaluo = $this->formatData($avaluo);
         $data = $avaluo->toArray();
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
-        $data['dateValid'] = date("Y/m/d", strtotime($data['date'] . "+ 1 week"));
+        $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 1 days"));//Fecha de aprobación
         $pdf = PDF::loadView('appraisal.pdf', $data);
         return $pdf->download($avaluo->alias . '.pdf');
     }
 
-    private function formatData($avaluo)
-    {
+    public function correo($id){
+        $avaluo = Avaluos::getAvaluo($id);
+        $mail = new \stdClass();
+        switch ($avaluo->status) {
+            case 'N': //Avaluo nuevo asignado
+                $correo = $this->searchEmail($avaluo->coordinator->id);
+                $mail->text = 'Te han asignado el avalúo '.$avaluo->alias.'.  Por favor ingresar al siguiente enlace para realizarlo: ';
+                $mail->link = env('SUGAR').'avavluo'.$id;
+                $mail->subject = 'Avalúo Asignado';
+                break;
+            case 'P': //Avaluo por aprobar
+                $correo = $this->searchEmail($avaluo->coordinator->id);
+                // Añadir logica para enviar correo al aprobador de ese coordinador hacer push a la variable $correo
+                $mail->text = 'Tienes el avalúo '.$avaluo->alias.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
+                $mail->link = env('SUGAR').'avavluo'.$id;
+                $mail->subject = 'Nueva Solicitud de Aprobación';
+                break;
+            case 'A': // Avaluo aprobado
+                $correo = $this->searchEmail($avaluo->coordinator->id);
+                $mail->text = ' El avalúo '.$avaluo->alias.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
+                $mail->link = route('appraisalPDF', ['id' => $id]);
+                $mail->subject = 'Tu avalúo ha sido aprobado!';
+                break;
+        }
+        if(isset($correo)){
+            Mail::to($correo)->send(new Appraisal($mail));
+        }
+    }
+
+    private function formatData($avaluo){
         $avaluo->document = $avaluo->clientCstm->document;
         $avaluo->name = $avaluo->client->name;
         return $avaluo;
     }
 
-    public function correo($id)
-    {
-        $correo = 'dev.ccazares@gmail.com';
-        $avaluo = Avaluos::getAvaluo($id);
-        $avaluo = $this->formatData($avaluo);
+    private function searchEmail($id){
+        $correo = env('CORREO_PRUEBA');
         if (App::environment('production')) {
-
+            $emails = EmailAddrBeanRel::where('bean_id', $id)
+                                        ->where('primary_address', 1)
+                                        ->where('deleted', 0)->pluck('email_address_id');
+            $correo = EmailAddreses::whereIn('id', $emails) ->where('deleted', 0)->select('email_address')->pluck('email_address')->first();
         }
-        Mail::to('dev.ccazares@gmail.com')->send(new Appraisal($data));
+        return $correo;
     }
 
-    public function fillAvaluo(AvaluosRequest $request)
+    private function fillAvaluo(AvaluosRequest $request)
     {
         $avaluo = new AvaluoClass();
         $avaluo->id = $request->id;

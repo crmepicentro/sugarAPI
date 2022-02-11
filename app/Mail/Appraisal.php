@@ -28,6 +28,6 @@ class Appraisal extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.appraisal');
+        return $this->subject($this->data->subject)->view('emails.appraisal');
     }
 }
