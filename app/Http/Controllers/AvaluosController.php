@@ -79,20 +79,20 @@ class AvaluosController extends BaseController
         $avaluo = Avaluos::getAvaluo($id);
         $mail = new \stdClass();
         switch ($avaluo->status) {
-            case 5: //Avaluo nuevo asignado
+            case 'N': //Avaluo nuevo asignado
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 $mail->text = 'Te han asignado el avalúo '.$avaluo->alias.'.  Por favor ingresar al siguiente enlace para realizarlo: ';
                 $mail->link = env('SUGAR').'avavluo'.$id;
                 $mail->subject = 'Avalúo Asignado';
                 break;
-            case 1: //Avaluo por aprobar
+            case 'P': //Avaluo por aprobar
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 // Añadir logica para enviar correo al aprobador de ese coordinador hacer push a la variable $correo
                 $mail->text = 'Tienes el avalúo '.$avaluo->alias.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
                 $mail->link = env('SUGAR').'avavluo'.$id;
                 $mail->subject = 'Nueva Solicitud de Aprobación';
                 break;
-            case 2: // Avaluo aprobado
+            case 'A': // Avaluo aprobado
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 $mail->text = ' El avalúo '.$avaluo->alias.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
                 $mail->link = route('appraisalPDF', ['id' => $id]);
