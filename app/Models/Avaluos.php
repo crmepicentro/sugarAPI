@@ -140,8 +140,8 @@ class Avaluos extends Model
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
                          observacion as observation, comentario as comment, referido as referred')
-            ->where('estado_avaluo','<>',0) // Avaluo cancelado
-            ->where('estado_avaluo','<>',4) // Avaluo Vacio eliminado
+            ->where('estado_avaluo','<>','C') // Avaluo cancelado
+            ->where('estado_avaluo','<>','X') // Avaluo Vacio eliminado
             ->first();
 
     }
@@ -163,8 +163,8 @@ class Avaluos extends Model
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
                          observacion as observation, comentario as comment, referido as referred')
-            ->where('estado_avaluo','<>',5) // Avaluo Vacio
-            ->where('estado_avaluo','<>',4) // Avaluo Vacio eliminado
+            ->where('estado_avaluo','<>','N') // Avaluo Vacio
+            ->where('estado_avaluo','<>','X') // Avaluo Vacio eliminado
             ->orderBy('date_entered','desc')
             ->get();
     }
