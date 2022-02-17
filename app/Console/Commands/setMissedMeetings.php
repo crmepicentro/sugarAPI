@@ -134,7 +134,7 @@ class setMissedMeetings extends Command
       $callInconcert->linea_negocio = getLineaNegocio($ticket->linea_negocio) ?? null;
 
       $callInconcert->prospeccionId = $prospeccion->id;
-      $callInconcert->user_name_asesor = $prospeccion->assigned_user_id;
+      $callInconcert->user_name_asesor = $prospeccion->assigned_user_id; 
 
           $user_ascesor =  Users::where('id', $prospeccion->assigned_user_id)->select('first_name', 'last_name')->first();
           $callInconcert->name_user_name_asesor = $user_ascesor->first_name + ' ' +$user_ascesor->last_name;
