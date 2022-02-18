@@ -83,8 +83,9 @@ class Avaluos extends Model
         return $this->belongsToMany(
             Traffic::class,
             'cbav_avaluoscrm_cb_traficocontrol_c',
-            'cbav_avaluoscrm_cb_traficocontrolcb_traficocontrol_ida',
-            'cbav_avaluoscrm_cb_traficocontrolcbav_avaluoscrm_idb');
+            'cbav_avaluoscrm_cb_traficocontrolcbav_avaluoscrm_idb',
+            'cbav_avaluoscrm_cb_traficocontrolcb_traficocontrol_ida'
+        );
     }
 
     public function talk()
@@ -92,8 +93,9 @@ class Avaluos extends Model
         return $this->belongsToMany(
             Talks::class,
             'cbav_avaluoscrm_cb_negociacion_c',
-            'cbav_avaluoscrm_cb_negociacioncb_negociacion_ida',
-            'cbav_avaluoscrm_cb_negociacioncbav_avaluoscrm_idb');
+            'cbav_avaluoscrm_cb_negociacioncbav_avaluoscrm_idb',
+            'cbav_avaluoscrm_cb_negociacioncb_negociacion_ida'
+        );
     }
 
     public function coordinator()
