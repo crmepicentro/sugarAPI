@@ -84,7 +84,7 @@ class AvaluosController extends BaseController
     public function correo($id,Request $request){
         $avaluo = Avaluos::getAvaluo($id);
         $mail = new \stdClass();
-        $url_sugar = Companies::find(auth()->user()->compania)->pluck('domain');
+        $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
         switch ($avaluo->status) {
             case 'N': //Avaluo nuevo asignado
                 $correo = $this->searchEmail($avaluo->coordinator->id);
