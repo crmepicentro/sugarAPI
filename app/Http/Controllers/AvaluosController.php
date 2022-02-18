@@ -105,7 +105,7 @@ class AvaluosController extends BaseController
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 $mail->text = ' El avalúo '.$avaluo->alias.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
                 //$mail->link = route('appraisalPDF', ['id' => $id]);
-                $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
+                $mail->link = $url_sugar.'/custom/Backend/Applications/Avaluos/pdf/index.php?id='.$id;
                 $mail->subject = 'Tu avalúo ha sido aprobado!';
                 break;
         }
