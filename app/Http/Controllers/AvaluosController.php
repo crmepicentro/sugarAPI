@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Avaluos;
 use App\Models\EmailAddrBeanRel;
 use App\Models\EmailAddreses;
+use App\Models\TalksTraffic;
 use Illuminate\Support\Facades\Mail;
 use AvaluoTransformer;
 use Illuminate\Support\Facades\App;
@@ -24,7 +25,11 @@ class AvaluosController extends BaseController
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate();
-        $newAvaluo->traffic()->attach($request->getTraffic(), ['id' => createdID(), 'date_modified' => Carbon::now()]);
+        if ($request->getTraffic() !== null){
+            $newAvaluo->traffic()->attach($request->getTraffic(), ['id' => createdID(), 'date_modified' => Carbon::now()]);
+            $talk = TalksTraffic::where('cb_negociacion_cb_traficocontrolcb_traficocontrol_idb', $request->getTraffic())->pluck('cb_negociacion_cb_traficocontrolcb_negociacion_ida')->first();
+            $newAvaluo->talk()->attach($talk, ['id' => createdID(), 'date_modified' => Carbon::now()]);
+        } 
 
         try {
             if ($request->has('checklist')) {
@@ -39,7 +44,7 @@ class AvaluosController extends BaseController
                 $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
             }
             DB::connection(get_connection())->commit();
-            $this->correo($newAvaluo->id);
+            $this->correo($newAvaluo->id,$request);
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
@@ -75,21 +80,22 @@ class AvaluosController extends BaseController
         return $pdf->download($avaluo->alias . '.pdf');
     }
 
-    public function correo($id){
+    public function correo($id,Request $request){
         $avaluo = Avaluos::getAvaluo($id);
         $mail = new \stdClass();
         switch ($avaluo->status) {
             case 'N': //Avaluo nuevo asignado
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 $mail->text = 'Te han asignado el avalúo '.$avaluo->alias.'.  Por favor ingresar al siguiente enlace para realizarlo: ';
-                $mail->link = env('SUGAR').'avavluo'.$id;
+                $mail->link = env('SUGAR').'/#cbav_AvaluosCRM/'.$id;
+                $mail->link2 = env('APP_URL').$request->bearerToken().'/appraisal?id_avaluo='.$id;
                 $mail->subject = 'Avalúo Asignado';
                 break;
             case 'P': //Avaluo por aprobar
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 // Añadir logica para enviar correo al aprobador de ese coordinador hacer push a la variable $correo
                 $mail->text = 'Tienes el avalúo '.$avaluo->alias.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
-                $mail->link = env('SUGAR').'avavluo'.$id;
+                $mail->link = env('SUGAR').'/#cbav_AvaluosCRM/'.$id;
                 $mail->subject = 'Nueva Solicitud de Aprobación';
                 break;
             case 'A': // Avaluo aprobado

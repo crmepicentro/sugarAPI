@@ -87,6 +87,15 @@ class Avaluos extends Model
             'cbav_avaluoscrm_cb_traficocontrolcbav_avaluoscrm_idb');
     }
 
+    public function talk()
+    {
+        return $this->belongsToMany(
+            Talks::class,
+            'cbav_avaluoscrm_cb_negociacion_c',
+            'cbav_avaluoscrm_cb_negociacioncb_negociacion_ida',
+            'cbav_avaluoscrm_cb_negociacioncbav_avaluoscrm_idb');
+    }
+
     public function coordinator()
     {
         return $this->hasOne(Users::class, 'id', 'user')->selectRaw('id,id as code, CONCAT(first_name , " ",last_name) as name');
