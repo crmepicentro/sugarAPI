@@ -9,6 +9,7 @@ use App\Services\ChecklistAvaluoClass;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
+use App\Models\Companies;
 use App\Models\EmailAddrBeanRel;
 use App\Models\EmailAddreses;
 use App\Models\TalksTraffic;
@@ -83,11 +84,12 @@ class AvaluosController extends BaseController
     public function correo($id,Request $request){
         $avaluo = Avaluos::getAvaluo($id);
         $mail = new \stdClass();
+        $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
         switch ($avaluo->status) {
             case 'N': //Avaluo nuevo asignado
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 $mail->text = 'Te han asignado el avalúo '.$avaluo->alias.'.  Por favor ingresar al siguiente enlace para realizarlo: ';
-                $mail->link = env('SUGAR').'/#cbav_AvaluosCRM/'.$id;
+                $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
                 $mail->link2 = env('APP_URL').$request->bearerToken().'/appraisal?id_avaluo='.$id;
                 $mail->subject = 'Avalúo Asignado';
                 break;
@@ -95,14 +97,14 @@ class AvaluosController extends BaseController
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 // Añadir logica para enviar correo al aprobador de ese coordinador hacer push a la variable $correo
                 $mail->text = 'Tienes el avalúo '.$avaluo->alias.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
-                $mail->link = env('SUGAR').'/#cbav_AvaluosCRM/'.$id;
+                $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
                 $mail->subject = 'Nueva Solicitud de Aprobación';
                 break;
             case 'A': // Avaluo aprobado
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 $mail->text = ' El avalúo '.$avaluo->alias.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
                 //$mail->link = route('appraisalPDF', ['id' => $id]);
-                $mail->link = env('SUGAR').'/#cbav_AvaluosCRM/'.$id;
+                $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
                 $mail->subject = 'Tu avalúo ha sido aprobado!';
                 break;
         }
