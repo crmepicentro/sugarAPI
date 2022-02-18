@@ -95,7 +95,8 @@ class AvaluosController extends BaseController
                 $mail->subject = 'Avalúo Asignado';
                 break;
             case 'P': //Avaluo por aprobar
-                $correo = $this->searchEmail($avaluo->coordinator->id);
+                //$correo = $this->searchEmail($avaluo->coordinator->id);
+                $correo = $this->searchEmail('aa791cfa-7832-a585-1747-55b011f6393b');// Usuario aprobador
                 // Añadir logica para enviar correo al aprobador de ese coordinador hacer push a la variable $correo
                 $mail->text = 'Tienes el avalúo '.$avaluo->alias.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
                 $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
