@@ -26,5 +26,11 @@
     <div>
         <a href="{{$data->link}}" class="button">Enlace</a>
     </div>
+    @if(isset($data->link2))
+        <br>
+        <div>
+            <a href="{{$data->link2}}" class="button">Enlace para Móvil</a>
+        </div>
+    @endif
 </body>
 </html>
