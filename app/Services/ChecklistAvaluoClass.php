@@ -31,6 +31,7 @@ class ChecklistAvaluoClass {
         $checkList->modified_user_id = $this->assigned_user_id;
         $checkList->assigned_user_id = $this->assigned_user_id;
         $checkList->description = $this->description;
+        $checkList->name = $this->description;
         $checkList->item_id = $this->item_id;
         $checkList->item_description = $this->item_description;
         $checkList->costo = $this->costo;

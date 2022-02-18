@@ -39,6 +39,8 @@ class CheckList extends Model
 
         static::creating(function ($query) {
             $query->id = createdID();
+            $query->team_id = 1;
+            $query->team_set_id = 1;
             $query->deleted = 0;
         });
     }

@@ -41,7 +41,7 @@ class AvaluosController extends BaseController
             }
             if ($request->has('pics')) {
                 $strappiController = new StrapiController();
-                $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa);
+                $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
             }
             DB::connection(get_connection())->commit();
             $this->correo($newAvaluo->id,$request);
@@ -77,7 +77,7 @@ class AvaluosController extends BaseController
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
         $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 1 days"));//Fecha de aprobación
         $pdf = PDF::loadView('appraisal.pdf', $data);
-        return $pdf->download($avaluo->alias . '.pdf');
+        return $pdf->stream($avaluo->alias . '.pdf');
     }
 
     public function correo($id,Request $request){
@@ -101,7 +101,8 @@ class AvaluosController extends BaseController
             case 'A': // Avaluo aprobado
                 $correo = $this->searchEmail($avaluo->coordinator->id);
                 $mail->text = ' El avalúo '.$avaluo->alias.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
-                $mail->link = route('appraisalPDF', ['id' => $id]);
+                //$mail->link = route('appraisalPDF', ['id' => $id]);
+                $mail->link = env('SUGAR').'/#cbav_AvaluosCRM/'.$id;
                 $mail->subject = 'Tu avalúo ha sido aprobado!';
                 break;
         }
