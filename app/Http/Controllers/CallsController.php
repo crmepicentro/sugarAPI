@@ -98,10 +98,14 @@ class CallsController extends BaseController
     public function store(CallRequest $request)
     {
         
-        \DB::connection(get_connection())->beginTransaction();
+        $user_auth = Auth::user();
+        $ws_logs = WsLog::storeBefore($request, 'api/calls/');
+
+        //\DB::connection(get_connection())->beginTransaction();
         try {
-            $user_auth = Auth::user();
-            $ws_logs = WsLog::storeBefore($request, 'api/calls/');
+            \DB::connection(get_connection())->beginTransaction();
+            //$user_auth = Auth::user();
+            //$ws_logs = WsLog::storeBefore($request, 'api/calls/');
 
             $dataCall = $request->datosSugarCRM;
             $dataTicket = $request->datosSugarCRM['ticket'];
@@ -341,9 +345,10 @@ class CallsController extends BaseController
 
             return $this->response->item($call, new CallTransformer)->setStatusCode(200);
 
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
-            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
+            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+            return response()->json(['error' => $e->getMessage() . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
 
@@ -383,5 +388,14 @@ class CallsController extends BaseController
     }
 
 
+    /* funcion que captura el error y guarda en wsLog */
+    public function errorExceptionWsLog($e,$user,$ws_logs){
+        $dataErrorWS = [
+            "response" => json_encode($e->getMessage()),
+            "environment" => get_connection(),
+            "source" => $user->fuente, 
+        ];
+        WsLog::storeAfter($ws_logs, $dataErrorWS);
+    }
 
 }

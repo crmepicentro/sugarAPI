@@ -50,7 +50,7 @@ class setMissedMeetings extends Command
         $user_auth = Auth::user();
 
         if(!$user_auth){
-          $user = Auth::loginUsingId(1);
+          $user = Auth::loginUsingId(51);
 
           if($user->fuente !== 'tests_source'){
             $user->connection = 'prod';

@@ -35,6 +35,10 @@ use App\Models\Users;
 use App\Models\Ws_logs;
 use App\Models\WSInconcertLogs;
 use App\Services\TicketInconcertClass;
+
+use App\Services\PayUService\Exception;
+use Illuminate\Validation\ValidationException;
+
 use Carbon\Carbon;
 use \Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -120,15 +124,18 @@ class TicketsController extends BaseController
      */
     public function store(TicketRequest $request)
     {
-        \DB::connection(get_connection())->beginTransaction();
-
+        $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
+        $user_auth = Auth::user();
+        
         try {
-            $user_auth = Auth::user();
+            \DB::connection(get_connection())->beginTransaction();
 
-            $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
+             //$user_auth = Auth::user();
+           
+            //$ws_logs = WsLog::storeBefore($request, 'api/tickets/');
             $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
             $type_filter = $request->datosSugarCRM['numero_identificacion'] ? 'numero_identificacion' : 'ticket_id';
-
+            
             if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"] )) {
                 $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
@@ -142,8 +149,8 @@ class TicketsController extends BaseController
                 $user = Users::find($userRandom->id);
             }
 
-            $dataTicket = $this->cleanDataTicket($user, $user_auth, $validateRequest);
-            $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
+            $dataTicket= $this->cleanDataTicket($user, $user_auth, $validateRequest);
+            $ticket= $this->createUpdateTicket($dataTicket, $type_filter);
 
             $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $user->usersCstm->cb_agencias_id_c);
             $interaction = $interactionClass->create($ticket);
@@ -157,7 +164,7 @@ class TicketsController extends BaseController
                 "interaccion_id" => $interaction->id,
             ];
 
-            WsLog::storeAfter($ws_logs, $dataUpdateWS);
+            WsLog::storeAfter($ws_logs, $dataUpdateWS); 
 
             \DB::connection(get_connection())->commit();
 
@@ -176,9 +183,13 @@ class TicketsController extends BaseController
             }
             
             return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
-            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
+
+            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+
+            return response()->json(['error' => $e->getMessage() . ' - Notifique a SUGAR CRM Casabaca'], 500);
+            
         }
     }
 
@@ -322,6 +333,8 @@ class TicketsController extends BaseController
 
             $ticket->description = trim($ticket->description . " " . $dataTicket['description']);
             $ticket->save();
+
+            
 
             $ticketClass->flag_estados_c = $ticket->estado;
             $ticketClass->updateCstm($ticket->id);
@@ -856,11 +869,13 @@ class TicketsController extends BaseController
 
     public function callTicket(TicketCallRequest $request)
     {
-        \DB::connection(get_connection())->beginTransaction();
-
+       
+        $user_auth = Auth::user();
+        $ws_logs = WsLog::storeBefore($request, 'api/call_ticket');
         try {
-            $user_auth = Auth::user();
-            $ws_logs = WsLog::storeBefore($request, 'api/call_ticket');
+            \DB::connection(get_connection())->beginTransaction();
+            //$user_auth = Auth::user();
+            //$ws_logs = WsLog::storeBefore($request, 'api/call_ticket');
 
             $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
 
@@ -887,8 +902,16 @@ class TicketsController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($ticket, new TicketCallTransformer)->setStatusCode(200);
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
+
+            $dataErrorWS = [
+                "response" => json_encode($e->getMessage()),
+                "environment" => get_connection(),
+                "source" => $user_auth->fuente, 
+            ];
+            WsLog::storeAfter($ws_logs, $dataErrorWS);
+
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
@@ -934,11 +957,13 @@ class TicketsController extends BaseController
 
     public function notAnswerCall(CallNotAnswerRequest $request)
     {
-        \DB::connection(get_connection())->beginTransaction();
-
+        //\DB::connection(get_connection())->beginTransaction();
+        $user_auth = Auth::user();
+        $ws_logs = WsLog::storeBefore($request, 'api/not_answer_call');
         try {
-            $user_auth = Auth::user();
-            $ws_logs = WsLog::storeBefore($request, 'api/not_answer_call');
+            \DB::connection(get_connection())->beginTransaction();
+            //$user_auth = Auth::user();
+            //$ws_logs = WsLog::storeBefore($request, 'api/not_answer_call');
             $dataCall = $request->datosSugarCRM;
             $user_call_center = Users::get_user($dataCall['user_name_call_center']);
 
@@ -980,8 +1005,11 @@ class TicketsController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($call, new CallTransformer)->setStatusCode(200);
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
+
+            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
@@ -1025,12 +1053,16 @@ class TicketsController extends BaseController
 
     public function landingTicket(TicketLandingRequest $request)
     {
-        \DB::connection(get_connection())->beginTransaction();
+        //\DB::connection(get_connection())->beginTransaction();
+
+        $user_auth = Auth::user();
+        $ws_logs = WsLog::storeBefore($request, 'api/landing_ticket');
         try {
-            $user_auth = Auth::user();
+            \DB::connection(get_connection())->beginTransaction();
+            //$user_auth = Auth::user();
 
             $dias = 1;
-            $ws_logs = WsLog::storeBefore($request, 'api/landing_ticket');
+            //$ws_logs = WsLog::storeBefore($request, 'api/landing_ticket');
 
             $landingPage = LandingPages::where('name', $request->datosSugarCRM["formulario"])->first();
 
@@ -1071,8 +1103,11 @@ class TicketsController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
+
+             $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+            
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
@@ -1093,5 +1128,15 @@ class TicketsController extends BaseController
             $prospeccion->prospeccionCstm->medio_c = $ticket->medio_c;
             //$prospeccion->save();
         }
+    }
+
+    /* funcion que captura el error y guarda en wsLog */
+    public function errorExceptionWsLog($e,$user,$ws_logs){
+        $dataErrorWS = [
+            "response" => json_encode($e->getMessage()),
+            "environment" => get_connection(),
+            "source" => $user->fuente, 
+        ];
+        WsLog::storeAfter($ws_logs, $dataErrorWS);
     }
 }
