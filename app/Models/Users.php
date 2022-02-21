@@ -61,7 +61,7 @@ class Users extends Model
 
     public static function getRandomAsesor($position, $dias, $fuente = 'all')
     {
-        return \DB::connection(get_connection())->select('
+        return DB::connection(get_connection())->select('
         SELECT t.usuario as id,t.user_name,t.cuantos
         FROM (SELECT u.id  usuario,u.user_name, countInteraccionesAsigFuente(u.id, '. $dias .', \''. $fuente. '\') cuantos
         FROM users u
@@ -80,7 +80,7 @@ class Users extends Model
             $usersBlocked = SugarUsersBlocked::where('status', 'inactive')->where('sources_blocked', 'like', '%'.$medio.'%')->pluck('sugar_user_id');
         }
 
-        return \DB::connection(get_connection())->select('
+        return DB::connection(get_connection())->select('
         SELECT t.usuario, t.cuantos
         FROM (SELECT u.id  usuario,u.user_name, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos
         FROM users u
@@ -96,7 +96,7 @@ class Users extends Model
 
     public static function getRandomAsesorUIO($line_id, $position, $dias, $medio = 'all')
     {
-        return \DB::connection(get_connection())->select('
+        return DB::connection(get_connection())->select('
         SELECT t.usuario,t.cuantos FROM (
         SELECT u.id  usuario, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos FROM users u
         INNER JOIN users_cstm uc ON u.id=uc.id_c
@@ -183,9 +183,30 @@ class Users extends Model
             ->get();
     }
 
+    public static function getByAgencyPosition($idAgencia,$idCargo)
+    {
+        return self::selectRaw('users.id as code, CONCAT(users.first_name," ",users.last_name) AS name')
+            ->join('users_cstm', 'users.id', '=', 'users_cstm.id_c')
+            ->where('status', 'Active')
+            ->where('users.deleted', 0)
+            ->where('users_cstm.cargo_c', $idCargo)
+            ->where('users_cstm.cb_agencias_id_c',$idAgencia)
+            ->get();
+    }
+
+    public static function getByPosition($idCargo)
+    {
+        return self::selectRaw('users.id as code, CONCAT(users.first_name," ",users.last_name) AS name')
+            ->join('users_cstm', 'users.id', '=', 'users_cstm.id_c')
+            ->where('status', 'Active')
+            ->where('users.deleted', 0)
+            ->where('users_cstm.cargo_c', $idCargo)
+            ->get();
+    }
+
     public static function getRandomAsesorProspectoByAgency($agency_id, $line_id, $position, $dias)
     {
-        return \DB::connection(get_connection())->select('
+        return DB::connection(get_connection())->select('
             SELECT t.usuario,t.cuantos FROM (
             SELECT u.id  usuario, countProspectosAsig(u.id,'. $dias .') cuantos FROM users u
             INNER JOIN users_cstm uc ON u.id=uc.id_c

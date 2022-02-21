@@ -15,6 +15,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class ServicesTest extends TestCase
@@ -176,11 +177,6 @@ class ServicesTest extends TestCase
         $this->assertEquals($content->errors->type[0], 'El campo type seleccionado no es válido.');
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function testServiceAgenciesNuevos()
     {
         $this->setInitDataUserSanctum();
@@ -239,4 +235,36 @@ class ServicesTest extends TestCase
         $data = Agencies::select('id as value', 'name as label')->where('deleted', 0)->orderBy('name')->get();
         $response->assertJson(["data" => $data->toArray()]);
     }
+
+    public function testServiceCoordinatorAgency()
+    {
+        $this->setInitDataUserSanctum();
+        $this->withoutExceptionHandling();
+        $response = $this->get('api/getUsers/e4c989c6-9206-11e9-8460-000c297d72b1/6');
+        $response->assertStatus(200);
+        $data = Users::selectRaw('users.id as code, CONCAT(users.first_name," ",users.last_name) AS name')
+                ->join('users_cstm', 'users.id', '=', 'users_cstm.id_c')
+                ->where('status', 'Active')
+                ->where('users.deleted', 0)
+                ->where('users_cstm.cargo_c', 6)
+                ->where('users_cstm.cb_agencias_id_c','e4c989c6-9206-11e9-8460-000c297d72b1')
+                ->get();
+        $response->assertJson(["data" => $data->toArray()]);
+    }
+
+    public function testServiceCoordinator()
+    {
+        $this->setInitDataUserSanctum();
+        $this->withoutExceptionHandling();
+        $response = $this->get('api/getUsers/TODOS/2');
+        $response->assertStatus(200);
+        $data = Users::selectRaw('users.id as code, CONCAT(users.first_name," ",users.last_name) AS name')
+                ->join('users_cstm', 'users.id', '=', 'users_cstm.id_c')
+                ->where('status', 'Active')
+                ->where('users.deleted', 0)
+                ->where('users_cstm.cargo_c', 2)
+                ->get();
+        $response->assertJson(["data" => $data->toArray()]);
+    }
+
 }

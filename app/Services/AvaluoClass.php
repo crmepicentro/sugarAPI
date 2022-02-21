@@ -24,16 +24,18 @@ class AvaluoClass {
     public $estado_avaluo;
     public $observacion;
     public $comentario;
+    public $referido;
 
 
     public function createOrUpdate()
     {
         $avaluo = new Avaluos();
-
+        $avaluo->created_by = $this->user_id_c;
         if(!is_null($this->id) || !$this->id){
-           $avaluo->created_by = $this->user_id_c;
-        }else{
-            $avaluo = Avaluos::find($this->id);
+            $avaluoTmp = Avaluos::find($this->id);
+            if($avaluoTmp){
+                $avaluo = $avaluoTmp;
+            }
         }
 
         $avaluo->modified_user_id = $this->user_id_c;
@@ -56,6 +58,7 @@ class AvaluoClass {
         $avaluo->estado_avaluo = $this->estado_avaluo;
         $avaluo->observacion = $this->observacion;
         $avaluo->comentario = $this->comentario;
+        $avaluo->referido = $this->referido;
         $avaluo->deleted = '0';
         $avaluo->team_id = 1;
         $avaluo->team_set_id = 1;
