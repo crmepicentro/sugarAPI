@@ -105,9 +105,11 @@ class ProspeccionController extends BaseController
     */
     public function storeCall(ProspeccionCallRequest $request)
     {
-        \DB::connection(get_connection())->beginTransaction();
+        $ws_logs = WsLog::storeBefore($request, 'api/calls_prospeccion/');
+       // \DB::connection(get_connection())->beginTransaction();
         try {
-            $ws_logs = WsLog::storeBefore($request, 'api/calls_prospeccion/');
+            \DB::connection(get_connection())->beginTransaction();
+            //$ws_logs = WsLog::storeBefore($request, 'api/calls_prospeccion/');
             $dataCall = $request->datosSugarCRM;
             $user_asesor = Users::get_user($dataCall['user_name_asesor']);
             $user_call_center = Users::get_user($dataCall['user_name_call_center']);
@@ -194,8 +196,10 @@ class ProspeccionController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($call, new CallProspeccionTransformer)->setStatusCode(200);
-          }catch(Throwable $e){
+          }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
+            $user_auth = Auth::user();
+            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
           }
     }
@@ -345,10 +349,13 @@ class ProspeccionController extends BaseController
 
     public function storeProspeccion(QuotationRequest $request)
     {
-        \DB::connection(get_connection())->beginTransaction();
+        $user_auth = Auth::user();
+        $ws_logs = WsLog::storeBefore($request, 'api/quotation/');
+        //-\DB::connection(get_connection())->beginTransaction();
         try {
-            $user_auth = Auth::user();
-            $ws_logs = WsLog::storeBefore($request, 'api/quotation/');
+            \DB::connection(get_connection())->beginTransaction();
+            //$user_auth = Auth::user();
+            //$ws_logs = WsLog::storeBefore($request, 'api/quotation/');
             $dataProspeccion = $request->datosSugarCRM;
             $dataProspeccionClient = $request->datosSugarCRM["client"];
             $user_call_center = Users::get_user($dataProspeccion['user_name_call_center']);
@@ -382,8 +389,9 @@ class ProspeccionController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($prospeccion, new ProspeccionTransformer)->setStatusCode(200);
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
+            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
@@ -437,8 +445,11 @@ class ProspeccionController extends BaseController
 
     public function storeCallProspeccion(CallQuotationRequest $request)
     {
-        \DB::connection(get_connection())->beginTransaction();
+        //-\DB::connection(get_connection())->beginTransaction();
+        $user_auth = Auth::user();
+        $ws_logs = WsLog::storeBefore($request, 'api/call_quotation/');
         try {
+            \DB::connection(get_connection())->beginTransaction();
             $user_auth = Auth::user();
             $ws_logs = WsLog::storeBefore($request, 'api/call_quotation/');
             $dataProspeccion = $request->datosSugarCRM;
@@ -497,8 +508,9 @@ class ProspeccionController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($prospeccion, new QuotationCallTransformer)->setStatusCode(200);
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
+            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
@@ -597,16 +609,20 @@ class ProspeccionController extends BaseController
      */
 
     public function formsProspeccion(ProspectionLandingRequest $request){
-        \DB::connection(get_connection())->beginTransaction();
+        //-\DB::connection(get_connection())->beginTransaction();
+        $user_auth = Auth::user();
+        $ws_logs = WsLog::storeBefore($request, 'api/forms_prospeccion');
         try {
+            \DB::connection(get_connection())->beginTransaction();
+
             if(!array_key_exists("apellidos", $request->datosSugarCRM)){
                 return response()->json(['errors' => ['datosSugarCRM.apellidos' => 'Apellidos debe estar definido']]);
             }
 
-            $user_auth = Auth::user();
+            //$user_auth = Auth::user();
 
             $dias = 1;
-            $ws_logs = WsLog::storeBefore($request, 'api/forms_prospeccion');
+            //$ws_logs = WsLog::storeBefore($request, 'api/forms_prospeccion');
 
             $landingPage = LandingPages::where('fuente_s3s', $request->datosSugarCRM["fuente"])->first();
 
@@ -690,9 +706,21 @@ class ProspeccionController extends BaseController
             \DB::connection(get_connection())->commit();
 
             return $this->response->item($prospeccion, new ProspeccionTransformer)->setStatusCode(200);
-        }catch(Throwable $e){
+        }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
+            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
+    }
+
+
+    /* funcion que captura el error y guarda en wsLog */
+    public function errorExceptionWsLog($e,$user,$ws_logs){
+        $dataErrorWS = [
+            "response" => json_encode($e->getMessage()),
+            "environment" => get_connection(),
+            "source" => $user->fuente, 
+        ];
+        WsLog::storeAfter($ws_logs, $dataErrorWS);
     }
 }

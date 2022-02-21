@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Calls;
 use App\Models\Meetings;
 use App\Models\WSInconcertLogs;
+use App\Models\Users;
 use App\Services\CallInconcertClass;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -49,7 +50,7 @@ class setMissedMeetings extends Command
         $user_auth = Auth::user();
 
         if(!$user_auth){
-          $user = Auth::loginUsingId(1);
+          $user = Auth::loginUsingId(51);
 
           if($user->fuente !== 'tests_source'){
             $user->connection = 'prod';
@@ -115,6 +116,9 @@ class setMissedMeetings extends Command
           $callInconcert->notes = $call->description;
           $callInconcert->date_start = $call->date_start;
           $callInconcert->user_name_call_center = $call->assigned_user_id;
+          $user_call_ascesor =  Users::where('id', $call->assigned_user_id)->select('first_name', 'last_name')->first();
+          $callInconcert->name_user_name_call_center = $user_call_ascesor->first_name + ' ' +$user_call_ascesor->last_name;
+
         }
 
         $callInconcert->meeting_marca_id = $ticket->ticketsCstm->marca_c;
@@ -130,7 +134,11 @@ class setMissedMeetings extends Command
       $callInconcert->linea_negocio = getLineaNegocio($ticket->linea_negocio) ?? null;
 
       $callInconcert->prospeccionId = $prospeccion->id;
-      $callInconcert->user_name_asesor = $prospeccion->assigned_user_id;
+      $callInconcert->user_name_asesor = $prospeccion->assigned_user_id; 
+
+          $user_ascesor =  Users::where('id', $prospeccion->assigned_user_id)->select('first_name', 'last_name')->first();
+          $callInconcert->name_user_name_asesor = $user_ascesor->first_name + ' ' +$user_ascesor->last_name;
+
       $callInconcert->meeting_date = $meeting->date_start;
       $callInconcert->meeting_subject = $prospeccion->description;
       $callInconcert->meeting_duration_hours = $meeting->duration_hours;
