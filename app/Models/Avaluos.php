@@ -14,7 +14,7 @@ class Avaluos extends Model
 {
     use HasFactory;
     protected $connection = 'sugar_dev';
-    protected $table = 'cba_avaluos';
+    protected $table = 'cbav_avaluoscrm';
     public $incrementing = false;
     const CREATED_AT = 'date_entered';
     const UPDATED_AT = 'date_modified';
@@ -23,7 +23,7 @@ class Avaluos extends Model
         'marca', 'modelo', 'modelo_descripcion', 'color',
         'recorrido', 'tipo_recorrido', 'currency_id', 'base_rate',
         'precio_final', 'precio_nuevo', 'precio_aprobado', 'precio_nuevo_mod', 'precio_final_mod',
-        'estado_avaluo', 'fecha_aprobacion', 'observacion', 'comentario', 'assigned_user_id'];
+        'estado_avaluo', 'fecha_aprobacion', 'observacion', 'comentario', 'assigned_user_id','referido'];
     /**
      * @var mixed
      */
@@ -51,6 +51,8 @@ class Avaluos extends Model
             $query->date_modified = Carbon::now();
             $query->num_avaluo = $autoincrement;
             $query->deleted = 0;
+            $query->team_id = 1;
+            $query->team_set_id = 1;
         });
     }
 
@@ -58,37 +60,57 @@ class Avaluos extends Model
     {
         return $this->belongsToMany(
             Imagenes::class,
-            'cba_imagenavaluo_cba_avaluos_c',
-            'cba_imagenavaluo_cba_avaluoscba_avaluos_ida',
-            'cba_imagenavaluo_cba_avaluoscba_imagenavaluo_idb')
-            ->where('cba_imagenavaluo.deleted', '0')
-            //->select('cba_imagenavaluo.name as id_strapi', 'cba_imagenavaluo.imagen_path', 'cba_imagenavaluo.imagen');
-            ->select('cba_imagenavaluo.name as id_strapi', 'cba_imagenavaluo.imagen_path');
+            'cbav_imagenesavaluocrm_cbav_avaluoscrm_c',
+            'cbav_imagenesavaluocrm_cbav_avaluoscrmcbav_avaluoscrm_ida',
+            'cbav_imagenesavaluocrm_cbav_avaluoscrmcbav_imagenesavaluocrm_idb')
+            ->where('cbav_imagenesavaluocrm.deleted', '0')
+            ->select('cbav_imagenesavaluocrm.name as id_strapi', 'cbav_imagenesavaluocrm.imagen_path');
     }
 
     public function checklist()
     {
         return $this->belongsToMany(
             CheckList::class,
-            'cba_checklist_avaluo_cba_avaluos_c',
-            'cba_checklist_avaluo_cba_avaluoscba_avaluos_ida',
-            'cba_checklist_avaluo_cba_avaluoscba_checklist_avaluo_idb')
-            ->where('cba_checklist_avaluo.deleted', '0')
-            ->selectRaw('cba_checklist_avaluo.item_id as id, cba_checklist_avaluo.item_description as description, cba_checklist_avaluo.estado as "option", cba_checklist_avaluo.costo as cost, cba_checklist_avaluo.description as observation');
+            'cbav_checklistavaluonew_cbav_avaluoscrm_c',
+            'cbav_checklistavaluonew_cbav_avaluoscrmcbav_avaluoscrm_ida',
+            'cbav_checkef44aluonew_idb')
+            ->where('cbav_checklistavaluonew.deleted', '0')
+            ->selectRaw('cbav_checklistavaluonew.item_id as id, cbav_checklistavaluonew.item_description as description, cbav_checklistavaluonew.checklist_estado as "option", cbav_checklistavaluonew.costo as cost, cbav_checklistavaluonew.description as observation');
     }
 
     public function traffic()
     {
         return $this->belongsToMany(
             Traffic::class,
-            'cba_avaluos_cb_traficocontrol_c',
-            'cba_avaluos_cb_traficocontrolcba_avaluos_idb',
-            'cba_avaluos_cb_traficocontrolcb_traficocontrol_ida');
+            'cbav_avaluoscrm_cb_traficocontrol_c',
+            'cbav_avaluoscrm_cb_traficocontrolcbav_avaluoscrm_idb',
+            'cbav_avaluoscrm_cb_traficocontrolcb_traficocontrol_ida'
+        );
+    }
+
+    public function talk()
+    {
+        return $this->belongsToMany(
+            Talks::class,
+            'cbav_avaluoscrm_cb_negociacion_c',
+            'cbav_avaluoscrm_cb_negociacioncbav_avaluoscrm_idb',
+            'cbav_avaluoscrm_cb_negociacioncb_negociacion_ida'
+        );
     }
 
     public function coordinator()
     {
-        return $this->hasOne(Users::class, 'id', 'assigned_user_id')->selectRaw('id, CONCAT(first_name , " ",last_name) as name');
+        return $this->hasOne(Users::class, 'id', 'user')->selectRaw('id,id as code, CONCAT(first_name , " ",last_name) as name');
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Contacts::class, 'id', 'contact')->selectRaw('id,CONCAT(first_name , " ",last_name) as name');
+    }
+
+    public function clientCstm()
+    {
+        return $this->hasOne(ContactsCstm::class, 'id_c', 'contact')->selectRaw('id_c,numero_identificacion_c as document');
     }
 
     public function color()
@@ -105,6 +127,7 @@ class Avaluos extends Model
     {
         return $this->hasOne(Models::class, 'id', 'modelo')->select('id','name');
     }
+
     public function description()
     {
         return $this->hasOne(Descriptions::class, 'id', 'modelo_descripcion')->select('id','description');
@@ -116,16 +139,21 @@ class Avaluos extends Model
             ->with('imagenes')
             ->with('checklist')
             ->with('coordinator')
+            ->with('client')
+            ->with('clientCstm')
             ->with('color')
             ->with('brand')
             ->with('model')
             ->with('description')
-            ->selectRaw('id, name as avaluo, description, contact_id_c as contact, assigned_user_id, placa as plate,color, anio as year,
+            ->selectRaw('id, name as alias, description, contact_id_c as contact, assigned_user_id as user, placa as plate,color, anio as year,
                          marca, modelo, CONVERT(recorrido,UNSIGNED INTEGER) as mileage, tipo_recorrido as unity,modelo_descripcion,
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment')
+                         observacion as observation, comentario as comment, referido as referred')
+            ->where('estado_avaluo','<>','C') // Avaluo caducado
+            ->where('estado_avaluo','<>','X') // Avaluo Vacio eliminado
+            ->where('deleted',0)
             ->first();
 
     }
@@ -134,17 +162,22 @@ class Avaluos extends Model
         return self::where('contact_id_c', $idContact)
             ->with('imagenes')
             ->with('checklist')
+            ->with('client')
+            ->with('clientCstm')
             ->with('coordinator')
             ->with('color')
             ->with('brand')
             ->with('model')
             ->with('description')
-            ->selectRaw('id, name as avaluo, description, contact_id_c as contact, assigned_user_id, placa as plate,color, anio as year,
+            ->selectRaw('id, name as alias, description, contact_id_c as contact, assigned_user_id as user, placa as plate,color, anio as year,
                          marca, modelo, CONVERT(recorrido,UNSIGNED INTEGER) as mileage, tipo_recorrido as unity,modelo_descripcion,
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment')
+                         observacion as observation, comentario as comment, referido as referred')
+            ->where('estado_avaluo','<>','N') // Avaluo Vacio
+            ->where('estado_avaluo','<>','X') // Avaluo Vacio eliminado
+            ->where('deleted',0)
             ->orderBy('date_entered','desc')
             ->get();
     }
