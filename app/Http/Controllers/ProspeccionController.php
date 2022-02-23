@@ -450,8 +450,8 @@ class ProspeccionController extends BaseController
         $ws_logs = WsLog::storeBefore($request, 'api/call_quotation/');
         try {
             \DB::connection(get_connection())->beginTransaction();
-            $user_auth = Auth::user();
-            $ws_logs = WsLog::storeBefore($request, 'api/call_quotation/');
+            //$user_auth = Auth::user();
+            //$ws_logs = WsLog::storeBefore($request, 'api/call_quotation/');
             $dataProspeccion = $request->datosSugarCRM;
             $dataProspeccionClient = $request->datosSugarCRM["client"];
             $user_call_center = Users::get_user($dataProspeccion['user_name_call_center']);
