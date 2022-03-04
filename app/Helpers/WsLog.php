@@ -5,6 +5,11 @@ namespace App\Helpers;
 
 use App\Models\Ws_logs;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class  WsLog {
 
   public static function storeBefore($data, $route){
@@ -26,6 +31,34 @@ class  WsLog {
     $ws_logs->call_id = $data["call_id"] ?? null;
     $ws_logs->meeting_id = $data["meeting_id"] ?? null;
     $ws_logs->save();
+  }
+
+
+  public static function getErrorlogs (){
+    return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response')->where('response', 'like', '%Undefined%')->get();
+  }
+
+  public static function getDuplicadoLog ($request){
+
+    $cadena_principal = json_encode($request->datosSugarCRM);
+    $cadena_adicional = $request->datos_adicionales;
+
+
+    if($cadena_adicional){
+      $cadena_adicional = json_encode($request->datos_adicionales);
+      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response')
+                                ->where('datos_sugar_crm','=', $cadena_principal)
+                                ->where('datos_adicionales','=', $cadena_adicional)->first();
+    }else{
+      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response')
+                                ->where('datos_sugar_crm','=', $cadena_principal)->first();  
+    }
+
+  }
+
+  public static function updateResponse($id,$response){
+    return DB::table('ws_logs')->where('id', $id)
+                              ->update(['response' => $response]);
   }
 
 }

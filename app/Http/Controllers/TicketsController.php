@@ -125,22 +125,37 @@ class TicketsController extends BaseController
      */
     public function store(TicketRequest $request)
     {
-        $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
-        $user_auth = Auth::user();
-        
+       
+        //buscamos que el dato entrante no se encuentre en el log de transaccion para ya no volver a ingresar
+        $dataLog = WsLog::getDuplicadoLog($request);
+        //bandera que permitira registrar en log solo si es nuevo el ticket
+        $reprocesoLog = false;
+        if($dataLog != null){
+            //bandera que indicara si el proceso es nuevo o se reprocesara si la bandera indica TRUE no guardar en el log el reproceso
+                $reprocesoLog = strpos($dataLog->response,'Undefined');
+                if(!$reprocesoLog){
+                    return response()->json(["data"=>"el ticket ya fue ingresado y procesado"])->setStatusCode(200);
+                }else{
+                    // si entra en esta validacion indicara si que se inicia el reproceso del ticket
+                }
+        }
+
+        if(!$reprocesoLog){
+            $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
+        }
+            $user_auth = Auth::user();
+
         try {
             \DB::connection(get_connection())->beginTransaction();
 
-             //$user_auth = Auth::user();
-           
-            //$ws_logs = WsLog::storeBefore($request, 'api/tickets/');
-            $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
+            $validateRequest =  $this->fillOptionalDataWithNull($request->datosSugarCRM);
+            
             $type_filter = $request->datosSugarCRM['numero_identificacion'] ? 'numero_identificacion' : 'ticket_id';
             
             if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"] )) {
                 $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
-
+            
             if (isset($request->datosSugarCRM['user_name'])) {
                 $user = Users::get_user($request->datosSugarCRM['user_name']);
             } else {
@@ -150,22 +165,27 @@ class TicketsController extends BaseController
                 $user = Users::find($userRandom->id);
             }
 
+            
             $dataTicket= $this->cleanDataTicket($user, $user_auth, $validateRequest);
+            
             $ticket= $this->createUpdateTicket($dataTicket, $type_filter);
 
             $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $user->usersCstm->cb_agencias_id_c);
+           
             $interaction = $interactionClass->create($ticket);
             $ticket->id_interaction = $interaction->id;
 
-            $dataUpdateWS = [
-                "response" => json_encode($this->response->item($ticket, new TicketsTransformer)),
-                "ticket_id" => $ticket->id,
-                "environment" => get_connection(),
-                "source" => $user_auth->fuente,
-                "interaccion_id" => $interaction->id,
-            ];
+            if(!$reprocesoLog){
+                $dataUpdateWS = [
+                    "response" => json_encode($this->response->item($ticket, new TicketsTransformer)),
+                    "ticket_id" => $ticket->id,
+                    "environment" => get_connection(),
+                    "source" => $user_auth->fuente,
+                    "interaccion_id" => $interaction->id,
+                ];
 
-            WsLog::storeAfter($ws_logs, $dataUpdateWS); 
+                WsLog::storeAfter($ws_logs, $dataUpdateWS); 
+            }
 
             \DB::connection(get_connection())->commit();
 
@@ -181,18 +201,25 @@ class TicketsController extends BaseController
                 $dataInconcert = $this->getDataInconcert($request, $user_auth, $ticket);
                 $this->createTicketInconcert($dataInconcert);
             }
-
-            return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
+            if(!$reprocesoLog){
+                return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
+            }else{
+                $a = json_encode($this->response->item($ticket, new TicketsTransformer));
+                return response()->json($a)->setStatusCode(200);
+            }
+           
+            //return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
 
         }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
-
-            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
-
+            if(!$reprocesoLog){
+                $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+            }
             return response()->json(['error' => $e->getMessage() . ' - Notifique a SUGAR CRM Casabaca'], 500);
             
-        }
+        } 
     }
+
 
     public function cleanDataTicket($user_call_center, $user_token, $dataRequest)
     {
@@ -336,8 +363,6 @@ class TicketsController extends BaseController
 
             $ticket->description = trim($ticket->description . " " . $dataTicket['description']);
             $ticket->save();
-
-            
 
             $ticketClass->flag_estados_c = $ticket->estado;
             $ticketClass->updateCstm($ticket->id);
@@ -1158,4 +1183,5 @@ class TicketsController extends BaseController
         ];
         WsLog::storeAfter($ws_logs, $dataErrorWS);
     }
+
 }
