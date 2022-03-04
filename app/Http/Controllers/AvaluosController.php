@@ -91,7 +91,7 @@ class AvaluosController extends BaseController
     public function correo($id,Request $request){
         $avaluo = Avaluos::find($id);
         $mail = new \stdClass();
-        /*$url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
+        $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
         switch ($avaluo->estado_avaluo) {
             case 'N': //Avaluo nuevo asignado
                 $correo = $this->searchEmail($avaluo->assigned_user_id);
@@ -118,7 +118,7 @@ class AvaluosController extends BaseController
         }
         if(isset($correo)){
             Mail::to($correo)->send(new Appraisal($mail));
-        }*/
+        }
         if($avaluo->estado_avaluo == 'A'){
             if($avaluo->precio_nuevo != $avaluo->precio_nuevo_mod){
                 PricingClass::historyPricing($avaluo->modelo_descripcion,$avaluo->id,$avaluo->precio_nuevo_mod,$avaluo->comentario,$avaluo->date_entered,$avaluo->fecha_aprobacion);
