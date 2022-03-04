@@ -63,13 +63,13 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
     $api->post('sendEmail', 'App\Http\Controllers\EmailController@sendMeetingAsesor');
     $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
+    $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
 });
 
 $api->version('v1', function ($api) {
     $api->get('sumate', 'App\Http\Controllers\FormsToyotaGoController@sumateForm');
     $api->get('destinos', 'App\Http\Controllers\FormsToyotaGoController@destinosForm');
     $api->get('negocios', 'App\Http\Controllers\FormsToyotaGoController@negociosForm');
-    $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
 });
 
 // Accept: application/vnd.apisugarcrm.v2+json -> Agregar en los headers para llamar a la v2
