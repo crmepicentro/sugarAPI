@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use AvaluoTransformer;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PDF;
 
 class AvaluosController extends BaseController
@@ -89,6 +90,7 @@ class AvaluosController extends BaseController
     }
 
     public function correo($id,Request $request){
+        Log::info('Correo Avaluos.', [$id]);
         $avaluo = Avaluos::find($id);
         $mail = new \stdClass();
         $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
