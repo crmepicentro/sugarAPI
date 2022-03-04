@@ -93,6 +93,7 @@ class AvaluosController extends BaseController
         $avaluo = Avaluos::find($id);
         $mail = new \stdClass();
         $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
+        $correo = null;
         switch ($avaluo->estado_avaluo) {
             case 'N': //Avaluo nuevo asignado
                 $correo = $this->searchEmail($avaluo->assigned_user_id);
