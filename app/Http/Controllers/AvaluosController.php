@@ -90,7 +90,6 @@ class AvaluosController extends BaseController
     }
 
     public function correo($id,Request $request){
-        Log::info('Correo Avaluos.', [$id]);
         $avaluo = Avaluos::find($id);
         $mail = new \stdClass();
         $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
@@ -119,6 +118,7 @@ class AvaluosController extends BaseController
                 break;
         }
         if(isset($correo)){
+            Log::info('Correo Avaluos.', ['id'=> $id,'Correo' => $correo]);
             Mail::to($correo)->send(new Appraisal($mail));
         }
         if($avaluo->estado_avaluo == 'A'){
