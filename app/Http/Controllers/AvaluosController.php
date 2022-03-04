@@ -76,7 +76,7 @@ class AvaluosController extends BaseController
         $avaluo = Avaluos::getAvaluo($id);
         //Solo cuando esta aprobado
         if($avaluo->status != 'A'){
-            $pdf = PDF::loadHtml('No encontrado');
+            $pdf = PDF::loadHtml(' ');
             return $pdf->stream($avaluo->alias . '.pdf');
         }
         $avaluo = $this->formatData($avaluo);
