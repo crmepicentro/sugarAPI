@@ -3,16 +3,9 @@ namespace App\Services;
 
 use ErrorException;
 use Illuminate\Support\Facades\Http;
+use App\Models\Strapi\PricingHistories;
 
 class PricingClass {
-    /**public $valor_nuevo;
-      public $id_descipcion;
-      public $anio;
-      public $placa;
-      public $recorrido;
-      public $unidad;
-      public $descuentos;
-    */
 
     /**
      * @throws ErrorException
@@ -51,4 +44,29 @@ class PricingClass {
         }
         return $response->object();
     }
+    /** Ingresar historial pricing
+     * @param int $descripcion [required] Id de la descipción del auto.
+     * @param string $id_avaluo_sugar [required] Año del auto.
+     * @param double $price [required] Precio nuevo.
+     * @param string $observation [required] Observacion de porque se cambio el precio.
+     * @param string $date_save [required] Fecha en la que se guardo el avaluo.
+     * @param string $date_approved [required] Fecha en la que se aprobo el avaluo.
+     */
+    public static function historyPricing($descripcion,$id_avaluo_sugar,$price,$observation,$date_save,$date_approved){
+        $pricing = PricingHistories::where('id_avaluo_sugar',$id_avaluo_sugar)->first();
+        if(!$pricing){
+            $pricing = new PricingHistories();
+            $pricing->created_at = date('Y-m-d H:i:s');
+            $pricing->id_avaluo_sugar = $id_avaluo_sugar;
+        }
+        $pricing->descripcion = $descripcion;
+        $pricing->price = $price;
+        $pricing->observation = $observation;
+        $pricing->date_save = $date_save;
+        $pricing->date_approved = $date_approved;
+        $pricing->status = 1;
+        $pricing->approved = 1;
+        $pricing->updated_at = date('Y-m-d H:i:s');
+        $pricing->save();
+    } 
 }
