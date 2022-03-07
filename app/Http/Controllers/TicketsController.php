@@ -156,6 +156,7 @@ class TicketsController extends BaseController
                 $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
             
+            //agrega nombre del Asesor y no lo tiene agrega uno dinamicamente
             if (isset($request->datosSugarCRM['user_name'])) {
                 $user = Users::get_user($request->datosSugarCRM['user_name']);
             } else {
