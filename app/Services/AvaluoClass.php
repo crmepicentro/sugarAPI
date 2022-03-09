@@ -31,14 +31,14 @@ class AvaluoClass {
     {
         $avaluo = new Avaluos();
         $avaluo->created_by = $this->user_id_c;
+        $avaluo->modified_user_id = $this->user_id_c;
         if(!is_null($this->id) || !$this->id){
             $avaluoTmp = Avaluos::find($this->id);
             if($avaluoTmp){
                 $avaluo = $avaluoTmp;
+                $avaluo->modified_user_id = $this->assigned_user_id;
             }
         }
-
-        $avaluo->modified_user_id = $this->user_id_c;
         $avaluo->description = $this->description;
         $avaluo->contact_id_c = $this->contact_id_c;
         $avaluo->user_id_c = $this->user_id_c;
