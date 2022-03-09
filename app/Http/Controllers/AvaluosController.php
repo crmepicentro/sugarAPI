@@ -58,7 +58,9 @@ class AvaluosController extends BaseController
     public function edit($id)
     {
         $avaluo = Avaluos::getAvaluo($id);
-        $avaluo = $this->formatData($avaluo);
+        if($avaluo){
+            $avaluo = $this->formatData($avaluo);
+        }
         return response()->json([
             'avaluo' => $avaluo
         ]);
