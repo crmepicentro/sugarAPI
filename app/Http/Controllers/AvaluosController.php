@@ -86,7 +86,7 @@ class AvaluosController extends BaseController
         $data = $avaluo->toArray();
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
         $data['date'] = date("Y/m/d",strtotime($data['date']."- 5 hours")); //Poner fecha UTF
-        $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 30 days"));//Fecha de aprobación
+        $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 3 days"));//Fecha de aprobación
         $pdf = PDF::loadView('appraisal.pdf', $data);
         return $pdf->stream($avaluo->alias . '.pdf');
     }
