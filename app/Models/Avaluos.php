@@ -100,7 +100,7 @@ class Avaluos extends Model
 
     public function coordinator()
     {
-        return $this->hasOne(Users::class, 'id', 'user')->selectRaw('id,id as code, CONCAT(first_name , " ",last_name) as name');
+        return $this->hasOne(Users::class, 'id', 'assigned_user_id')->selectRaw('id,id as code, CONCAT(first_name , " ",last_name) as name');
     }
 
     public function client()
@@ -150,7 +150,7 @@ class Avaluos extends Model
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment, referido as referred')
+                         observacion as observation, comentario as comment, referido as referred,assigned_user_id')
             ->where('estado_avaluo','<>','C') // Avaluo caducado
             ->where('estado_avaluo','<>','X') // Avaluo Vacio eliminado
             ->where('deleted',0)
@@ -174,7 +174,7 @@ class Avaluos extends Model
                          CONVERT(precio_final,UNSIGNED INTEGER) as priceFinal, CONVERT(precio_nuevo,UNSIGNED INTEGER) as priceNew,
                          CONVERT(precio_aprobado,UNSIGNED INTEGER) as priceApproved ,CONVERT(precio_nuevo_mod,UNSIGNED INTEGER) as priceNewEdit,
                          CONVERT(precio_final_mod,UNSIGNED INTEGER) as priceFinalEdit, estado_avaluo as status, fecha_aprobacion as date,
-                         observacion as observation, comentario as comment, referido as referred')
+                         observacion as observation, comentario as comment, referido as referred,assigned_user_id')
             ->where('estado_avaluo','<>','N') // Avaluo Vacio
             ->where('estado_avaluo','<>','X') // Avaluo Vacio eliminado
             ->where('deleted',0)
