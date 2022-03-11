@@ -120,7 +120,7 @@ class AvaluosController extends BaseController
                 $mail->subject = 'Tu avalúo ha sido aprobado!';
                 break;
         }
-        Log::info('Correo Avaluos.', ['id'=> $id,'Correo' => $correo]);
+        Log::info('Correo Avaluos.', ['id'=> $id,'Estado' => $avaluo->estado_avaluo,'Correo' => $correo]);
         if(isset($correo)){
             Mail::to($correo)->send(new Appraisal($mail));
         }
