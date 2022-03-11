@@ -38,15 +38,14 @@ class AvaluoClass {
         $avaluo->team_id = 1;
         $avaluo->team_set_id = 1;
         $avaluo->created_by = $this->user_id_c;
-        
+        $avaluo->modified_user_id = $this->user_id_c;
         if(!is_null($this->id) || !$this->id){
             $avaluoTmp = Avaluos::find($this->id);
             if($avaluoTmp){
                 $avaluo = $avaluoTmp;
+                $avaluo->modified_user_id = $this->assigned_user_id;
             }
         }
-        
-        $avaluo->modified_user_id = $this->assigned_user_id;
         $avaluo->description = $this->description;
         $avaluo->placa = $this->placa;
         $avaluo->marca = $this->marca;
