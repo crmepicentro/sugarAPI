@@ -46,12 +46,12 @@ class  WsLog {
 
     if($cadena_adicional){
       $cadena_adicional = json_encode($request->datos_adicionales);
-      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response')
+      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response','source')
                                 ->where('datos_sugar_crm','=', $cadena_principal)
                                 ->where('datos_adicionales','=', $cadena_adicional)->first();
     }else{
-      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response')
-                                ->where('datos_sugar_crm','=', $cadena_principal)->first();  
+      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response','source')
+                                ->where('datos_sugar_crm','=', $cadena_principal)->first();
     }
 
   }
