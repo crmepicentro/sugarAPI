@@ -151,6 +151,7 @@ class AvaluosController extends BaseController
     private function fillAvaluo(AvaluosRequest $request)
     {
         $avaluo = new AvaluoClass();
+        Log::info('Avaluos Ingreso', $request->all());
         $avaluo->id = $request->id;
         $avaluo->contact_id_c = $request->contact;
         $avaluo->user_id_c = $request->user;

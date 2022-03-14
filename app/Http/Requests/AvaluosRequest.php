@@ -82,7 +82,12 @@ class AvaluosRequest extends FormRequest
 
     public function getCoordinatorId() : string
     {
-        return json_decode($this->get('coordinator'))->code;
+        if($this->has('coordinator')){
+            $coordinador =  json_decode($this->get('coordinator'));
+            if(isset($coordinador->code))
+                return $coordinador->code;
+        }
+        return null;
     }
 
     public function getColorName() : string
