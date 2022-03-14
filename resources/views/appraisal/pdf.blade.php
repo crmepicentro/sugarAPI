@@ -182,6 +182,7 @@
     </div>
     <br>
     <div class="footer">
+    * Precio sujeto a una aprobación de control legal.   
     <table width="100%" border="0" cellspacing="0" cellpadding="0"  style="padding-bottom: 25px;">
           <tr >
             <td class="img-header">
