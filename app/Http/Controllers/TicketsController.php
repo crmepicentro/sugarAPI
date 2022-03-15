@@ -129,6 +129,7 @@ class TicketsController extends BaseController
 
         //buscamos que el dato entrante no se encuentre en el log de transaccion para ya no volver a ingresar
         $dataLog = WsLog::getDuplicadoLog($request);
+
         //bandera que permitira registrar en log solo si es nuevo el ticket
         $reprocesoLog = false;
         if($dataLog != null){
