@@ -144,7 +144,9 @@ class TicketsTest extends TestCase
     {
         $this->dataTicket['datosSugarCRM']['numero_identificacion'] = $this->faker->numerify('##########');
         $response = $this->json('POST', $this->baseUrl . 'tickets', $this->dataTicket);
+        
         $content_created = json_decode($response->content());
+        
         $response->assertStatus(200);
 
         $data = [
@@ -154,7 +156,7 @@ class TicketsTest extends TestCase
         ];
 
         $response = $this->json('POST', $this->baseUrl . 'close_ticket/'. $content_created->data->ticket_id, $data);
-
+        
         $content_update = json_decode($response->content());
         $response->assertStatus(200);
         $this->assertEquals($content_update->data->ticket_id, $content_created->data->ticket_id);
@@ -164,6 +166,7 @@ class TicketsTest extends TestCase
     public function create_contact_ticket_success()
     {
         $response = $this->json('POST', $this->baseUrl . 'tickets', $this->dataTicket);
+     
         $content = json_decode($response->content());
         $response->assertStatus(200);
         $this->assertNotNull($content->data->ticket_id);
