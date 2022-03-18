@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Meetings extends Model
 {
@@ -134,19 +135,14 @@ class Meetings extends Model
     }
 
     public static function updateDuplicateMeetingsStatus(){
-        return \DB::connection(get_connection())->select('
-             update meetings SET
-                status = "Not Held"
-                where id IN
-                (
-                    select id
-                    from
-                    (
-                        select m.id from sugarcrm9.meetings m
-                        where m.STATUS="Planned" AND m.deleted=0  GROUP BY m.name having count(*)>1
-                    ) AS tbl_duplicados
-                )
-        ');
+        
+        $duplicados = \DB::connection(get_connection())->select('select MAX(id) as codigo, name ,count(*) from meetings where status="Planned" AND deleted=0 GROUP BY name having count(*)>1');
+
+        foreach($duplicados as $duplicado){
+            \DB::connection(get_connection())->table('meetings')->where('id', $duplicado->codigo)->update(['status'=>'Not Held']);
+        }
+
+        return $duplicados;
 
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
+
 class setMissedMeetings extends Command
 {
     /**
@@ -57,8 +58,11 @@ class setMissedMeetings extends Command
           }
         }
 
-        Meetings::updateDuplicateMeetingsStatus();
+        $actualizacione = Meetings::updateDuplicateMeetingsStatus();
 
+        //$text = date('Y-m-d H:i:s').' --'.$user->fuente.'--'.get_connection().'--'.$user->connection.' datos encontrados para enviar duplicados clicktocall = ['.count($actualizacione).']';
+        //Storage::append('log_crontab.txt', $text);
+        
         $missedMeetings = Meetings::getMissedMeetings();
 
         //$text = date('Y-m-d H:i:s').' --'.$user->fuente.'--'.get_connection().'--'.$user->connection.' datos encontrados para enviar = ['.count($missedMeetings).']';
