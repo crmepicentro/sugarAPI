@@ -60,9 +60,8 @@ class Reprocesowslog extends Command
 
                 $headers = ['Content-Type' => 'application/json', 'Authorization' => "Bearer ".env("TOKEN_REPROCESO")];
 
-
                 $response = Http::withHeaders($headers)->post(env("APP_URL")."/".$item->route, $array);
-                print_r($response);
+
                 $statusCode = $response->status();
                 $responseBody = json_decode($response->getBody(), true);
                 $res = json_encode(["REPROCESO" => $responseBody]);

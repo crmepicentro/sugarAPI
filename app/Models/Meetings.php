@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Meetings extends Model
 {
@@ -124,12 +125,23 @@ class Meetings extends Model
                 and date(date_start) < date(now())
                 AND STATUS="Planned" AND deleted=0;
         ');
-/* 
+/*
         return \DB::connection(get_connection())->select('
             select * from meetings
             where date(date_start) >= date(DATE_SUB(NOW(),INTERVAL 2 day))
             AND STATUS="Planned" AND deleted=0;
         '); */
+
+    }
+
+    public static function updateDuplicateMeetingsStatus(){
+        
+        $duplicados = \DB::connection(get_connection())->select('select MAX(id) as codigo, name ,count(*) from meetings where status="Planned" AND deleted=0 GROUP BY name having count(*)>1');
+
+        foreach($duplicados as $duplicado){
+            \DB::connection(get_connection())->table('meetings')->where('id', $duplicado->codigo)->update(['status'=>'Not Held']);
+        }
+        return $duplicados;
 
     }
 }

@@ -135,31 +135,24 @@ class TicketsController extends BaseController
         if($dataLog != null){
             //bandera que indicara si el proceso es nuevo o se reprocesara si la bandera indica TRUE no guardar en el log el reproceso
                 $datosLog = strpos($dataLog->response,'Undefined');
-                //return response()->json(["datosLog"=>$datosLog])->setStatusCode(200);
                 if(!$datosLog){
                     //Se responde si el ticket ya esta ingresado y el mensaje su fuera diferente de undefined
-                    //return response()->json(["data"=>"El ticket ya se encuentra registrado en el log con el mendaje de : ".$dataLog->response])->setStatusCode(200);
                     return response()->json(["data"=>"El ticket ya se encuentra registrado."])->setStatusCode(200);
-
                 }else{
-
                     // si entra en esta validacion indicara que se inicia el reproceso del ticket
                     // Se utilizara las credenciales del usuario que realizo el ingreso tomando desde el log y consultandolo en usuarios
                     $user_auth = User::where('fuente',  $dataLog->source)->first();
                     $reprocesoLog = true;
-                    //$user_auth = Auth::loginUsingId($user->id);
-                    //return response()->json(["data"=>$user_auth])->setStatusCode(200);
                 }
         }
 
         //si la respuesta es false entrara normalmente a trabajar con las credenciales del token que fueron enviadas desde la consulta//
         //caso contrario se utilizaran las credenciales del usuario que realizo la transaccion anteriormente.
-        if(!$reprocesoLog){
-            //validacion para nuevos registro
+        if(!$reprocesoLog) {
+            //registro solo para nuevos
             $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
             $user_auth = Auth::user();
         }
-            //$user_auth = Auth::user();
 
         try {
             \DB::connection(get_connection())->beginTransaction();
@@ -221,8 +214,8 @@ class TicketsController extends BaseController
             if(!$reprocesoLog){
                 return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
             }else{
-                $a = json_encode($this->response->item($ticket, new TicketsTransformer));
-                return response()->json($a)->setStatusCode(200);
+                $updatedatalog = json_encode($this->response->item($ticket, new TicketsTransformer));
+                return response()->json($updatedatalog)->setStatusCode(200);
             }
 
             //return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
