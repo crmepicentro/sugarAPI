@@ -30,19 +30,23 @@ class AvaluoClass {
     public function createOrUpdate()
     {
         $avaluo = new Avaluos();
+        $avaluo->contact_id_c = $this->contact_id_c;
+        $avaluo->user_id_c = $this->user_id_c;
+        $avaluo->assigned_user_id = $this->assigned_user_id;
+        $avaluo->referido = $this->referido;
+        $avaluo->deleted = '0';
+        $avaluo->team_id = 1;
+        $avaluo->team_set_id = 1;
         $avaluo->created_by = $this->user_id_c;
+        $avaluo->modified_user_id = $this->user_id_c;
         if(!is_null($this->id) || !$this->id){
             $avaluoTmp = Avaluos::find($this->id);
             if($avaluoTmp){
                 $avaluo = $avaluoTmp;
+                $avaluo->modified_user_id = $this->assigned_user_id;
             }
         }
-
-        $avaluo->modified_user_id = $this->user_id_c;
         $avaluo->description = $this->description;
-        $avaluo->contact_id_c = $this->contact_id_c;
-        $avaluo->user_id_c = $this->user_id_c;
-        $avaluo->assigned_user_id = $this->assigned_user_id;
         $avaluo->placa = $this->placa;
         $avaluo->marca = $this->marca;
         $avaluo->modelo = $this->modelo;
@@ -58,10 +62,6 @@ class AvaluoClass {
         $avaluo->estado_avaluo = $this->estado_avaluo;
         $avaluo->observacion = $this->observacion;
         $avaluo->comentario = $this->comentario;
-        $avaluo->referido = $this->referido;
-        $avaluo->deleted = '0';
-        $avaluo->team_id = 1;
-        $avaluo->team_set_id = 1;
         $avaluo->save();
 
         return $avaluo;

@@ -62,10 +62,11 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('c2cOmnichannel', 'App\Http\Controllers\OmnichannelController@sendToOmnichannel');
     $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
     $api->post('sendEmail', 'App\Http\Controllers\EmailController@sendMeetingAsesor');
-    $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
     $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
 
     $api->post('getCedulaDatabook', 'App\Http\Controllers\FieldsCedulaDataBook@dataBook');
+
+    $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
 });
 
 $api->version('v1', function ($api) {

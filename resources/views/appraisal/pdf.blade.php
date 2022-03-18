@@ -148,7 +148,7 @@
             <table width="95%" border="0" cellspacing="0" cellpadding="5" style="margin:10px 20px 10px 20px;">
               @foreach($checklist as $key => $item)   
                 @if(($key % 2) == 0) <tr> @endif                         
-                    <td ><span class="campos_b">{{ mb_convert_case($item['description'], MB_CASE_UPPER, "UTF-8") }}: </span><span class="respuesta">{{$statusCheck[$item['option']]}} @if($item['cost'] > 0)- ${{$item['cost']}}@endif</span></td>
+                    <td ><span class="campos_b">{{ mb_convert_case($item['description'], MB_CASE_UPPER, "UTF-8") }}: </span><span class="respuesta">{{$statusCheck[$item['option']]}}</span></td>
                 @if(($key % 2) != 0) </tr> @endif                         
               @endforeach         
             </table>
@@ -182,6 +182,7 @@
     </div>
     <br>
     <div class="footer">
+    * Precio sujeto a una aprobación de control legal.   
     <table width="100%" border="0" cellspacing="0" cellpadding="0"  style="padding-bottom: 25px;">
           <tr >
             <td class="img-header">

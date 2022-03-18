@@ -13,10 +13,12 @@ use App\Models\Companies;
 use App\Models\EmailAddrBeanRel;
 use App\Models\EmailAddreses;
 use App\Models\TalksTraffic;
+use App\Services\PricingClass;
 use Illuminate\Support\Facades\Mail;
 use AvaluoTransformer;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PDF;
 
 class AvaluosController extends BaseController
@@ -56,7 +58,9 @@ class AvaluosController extends BaseController
     public function edit($id)
     {
         $avaluo = Avaluos::getAvaluo($id);
-        $avaluo = $this->formatData($avaluo);
+        if($avaluo){
+            $avaluo = $this->formatData($avaluo);
+        }
         return response()->json([
             'avaluo' => $avaluo
         ]);
@@ -73,23 +77,29 @@ class AvaluosController extends BaseController
     public function pdf($id)
     {
         $avaluo = Avaluos::getAvaluo($id);
+        //Solo cuando esta aprobado
+        if($avaluo->status != 'A'){
+            $pdf = PDF::loadHtml(' ');
+            return $pdf->stream($avaluo->alias . '.pdf');
+        }
         $avaluo = $this->formatData($avaluo);
         $data = $avaluo->toArray();
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
         $data['date'] = date("Y/m/d",strtotime($data['date']."- 5 hours")); //Poner fecha UTF
-        $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 30 days"));//Fecha de aprobación
+        $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 3 days"));//Fecha de aprobación
         $pdf = PDF::loadView('appraisal.pdf', $data);
         return $pdf->stream($avaluo->alias . '.pdf');
     }
 
     public function correo($id,Request $request){
-        $avaluo = Avaluos::getAvaluo($id);
+        $avaluo = Avaluos::find($id);
         $mail = new \stdClass();
         $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
-        switch ($avaluo->status) {
+        $correo = null;
+        switch ($avaluo->estado_avaluo) {
             case 'N': //Avaluo nuevo asignado
-                $correo = $this->searchEmail($avaluo->coordinator->id);
-                $mail->text = 'Te han asignado el avalúo '.$avaluo->alias.'.  Por favor ingresar al siguiente enlace para realizarlo: ';
+                $correo = $this->searchEmail($avaluo->assigned_user_id);
+                $mail->text = 'Te han asignado el avalúo '.$avaluo->name.'.  Por favor ingresar al siguiente enlace para realizarlo: ';
                 $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
                 $mail->link2 = env('APP_URL').$request->bearerToken().'/appraisal?id_avaluo='.$id;
                 $mail->subject = 'Avalúo Asignado';
@@ -98,20 +108,26 @@ class AvaluosController extends BaseController
                 //$correo = $this->searchEmail($avaluo->coordinator->id);
                 $correo = $this->searchEmail('aa791cfa-7832-a585-1747-55b011f6393b');// Usuario aprobador
                 // Añadir logica para enviar correo al aprobador de ese coordinador hacer push a la variable $correo
-                $mail->text = 'Tienes el avalúo '.$avaluo->alias.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
+                $mail->text = 'Tienes el avalúo '.$avaluo->name.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
                 $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
                 $mail->subject = 'Nueva Solicitud de Aprobación';
                 break;
             case 'A': // Avaluo aprobado
-                $correo = $this->searchEmail($avaluo->coordinator->id);
-                $mail->text = ' El avalúo '.$avaluo->alias.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
+                $correo = $this->searchEmail($avaluo->assigned_user_id);
+                $mail->text = ' El avalúo '.$avaluo->name.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
                 //$mail->link = route('appraisalPDF', ['id' => $id]);
                 $mail->link = $url_sugar.'/custom/Backend/Applications/Avaluos/pdf/index.php?id='.$id;
                 $mail->subject = 'Tu avalúo ha sido aprobado!';
                 break;
         }
+        Log::info('Correo Avaluos.', ['id'=> $id,'Estado' => $avaluo->estado_avaluo,'Correo' => $correo]);
         if(isset($correo)){
             Mail::to($correo)->send(new Appraisal($mail));
+        }
+        if($avaluo->estado_avaluo == 'A'){
+            if($avaluo->precio_nuevo != $avaluo->precio_nuevo_mod){
+                PricingClass::historyPricing($avaluo->modelo_descripcion,$avaluo->id,$avaluo->precio_nuevo_mod,$avaluo->comentario,$avaluo->date_entered,$avaluo->fecha_aprobacion);
+            }
         }
     }
 
@@ -135,6 +151,7 @@ class AvaluosController extends BaseController
     private function fillAvaluo(AvaluosRequest $request)
     {
         $avaluo = new AvaluoClass();
+        Log::info('Avaluos Ingreso', $request->all());
         $avaluo->id = $request->id;
         $avaluo->contact_id_c = $request->contact;
         $avaluo->user_id_c = $request->user;
