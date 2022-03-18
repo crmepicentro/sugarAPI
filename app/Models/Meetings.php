@@ -141,7 +141,6 @@ class Meetings extends Model
         foreach($duplicados as $duplicado){
             \DB::connection(get_connection())->table('meetings')->where('id', $duplicado->codigo)->update(['status'=>'Not Held']);
         }
-
         return $duplicados;
 
     }
