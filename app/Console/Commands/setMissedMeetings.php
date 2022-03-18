@@ -46,30 +46,32 @@ class setMissedMeetings extends Command
      */
     public function handle()
     {
-      
+
         $user_auth = Auth::user();
 
         if(!$user_auth){
-          $user = Auth::loginUsingId(51);
+          $user = Auth::loginUsingId(49);
 
           if($user->fuente !== 'tests_source'){
             $user->connection = 'prod';
           }
         }
-        
+
+        Meetings::updateDuplicateMeetingsStatus();
+
         $missedMeetings = Meetings::getMissedMeetings();
 
         //$text = date('Y-m-d H:i:s').' --'.$user->fuente.'--'.get_connection().'--'.$user->connection.' datos encontrados para enviar = ['.count($missedMeetings).']';
         //Storage::append('log_crontab.txt', $text);
-  
+
         foreach ($missedMeetings as $meet){
           $meeting = Meetings::find($meet->id);
-        
+
 
           if($meeting->prospeccion()->first()){
-           
+
             $callInconcert = $this->sendCallToInconcert($meeting);
-              
+
             $dataToSend = $callInconcert->createData();
             $response_inconcert = $callInconcert->create($dataToSend);
 
@@ -109,7 +111,7 @@ class setMissedMeetings extends Command
       if($ticket) {
         $tipo_transaccion = $ticket->ticketsCstm->tipo_transaccion_c;
         $call = Calls::where('parent_id', $ticket->id)->first();
-        
+
         if($call) {
           $callInconcert->category_id = $call->callsCstm->categoria_llamada_c;
           $callInconcert->type = $call->callsCstm->tipo_llamada_c;
@@ -134,7 +136,7 @@ class setMissedMeetings extends Command
       $callInconcert->linea_negocio = getLineaNegocio($ticket->linea_negocio) ?? null;
 
       $callInconcert->prospeccionId = $prospeccion->id;
-      $callInconcert->user_name_asesor = $prospeccion->assigned_user_id; 
+      $callInconcert->user_name_asesor = $prospeccion->assigned_user_id;
 
           $user_ascesor =  Users::where('id', $prospeccion->assigned_user_id)->select('first_name', 'last_name')->first();
           $callInconcert->name_user_name_asesor = $user_ascesor->first_name + ' ' +$user_ascesor->last_name;

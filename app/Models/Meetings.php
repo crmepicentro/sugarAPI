@@ -124,12 +124,29 @@ class Meetings extends Model
                 and date(date_start) < date(now())
                 AND STATUS="Planned" AND deleted=0;
         ');
-/* 
+/*
         return \DB::connection(get_connection())->select('
             select * from meetings
             where date(date_start) >= date(DATE_SUB(NOW(),INTERVAL 2 day))
             AND STATUS="Planned" AND deleted=0;
         '); */
+
+    }
+
+    public static function updateDuplicateMeetingsStatus(){
+        return \DB::connection(get_connection())->select('
+             update meetings SET
+                status = "Not Held"
+                where id IN
+                (
+                    select id
+                    from
+                    (
+                        select m.id from sugarcrm9.meetings m
+                        where m.STATUS="Planned" AND m.deleted=0  GROUP BY m.name having count(*)>1
+                    ) AS tbl_duplicados
+                )
+        ');
 
     }
 }
