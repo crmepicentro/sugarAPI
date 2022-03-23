@@ -13,9 +13,9 @@ class FieldsCedulaDataBook extends Controller
 {
     public function dataBook(Request $request){
 
-        $idCotizacion = $request->DatosDataBook['idCotizacion'];
+        $idCotizacion = $request->CreditoDataBook['idCotizacion'];
         //$tipo_identificacion = $request->DatosDataBook['tipo_identificacion'];
-        $compania = $request->DatosDataBook['compania'];
+        $compania = $request->CreditoDataBook['compania'];
         $cedula = "1710295377";
         $tipo_identificacion="C";
         
