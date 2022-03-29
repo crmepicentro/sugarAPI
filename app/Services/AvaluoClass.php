@@ -43,7 +43,7 @@ class AvaluoClass
         $avaluo->team_set_id = 1;
         $avaluo->created_by = $this->user_id_c;
         $avaluo->modified_user_id = $this->user_id_c;
-        if (!isset($this->id)) {
+        if (isset($this->id)) {
             $avaluoTmp = Avaluos::find($this->id);
             if ($avaluoTmp) {
                 $avaluo = $avaluoTmp;
