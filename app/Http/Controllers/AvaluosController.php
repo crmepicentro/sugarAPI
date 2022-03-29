@@ -27,12 +27,7 @@ class AvaluosController extends BaseController
     {
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
-        $newAvaluo = $avaluo->createOrUpdate();
-        if ($request->getTraffic() !== null){
-            $newAvaluo->traffic()->attach($request->getTraffic(), ['id' => createdID(), 'date_modified' => Carbon::now()]);
-            $talk = TalksTraffic::where('cb_negociacion_cb_traficocontrolcb_traficocontrol_idb', $request->getTraffic())->pluck('cb_negociacion_cb_traficocontrolcb_negociacion_ida')->first();
-            $newAvaluo->talk()->attach($talk, ['id' => createdID(), 'date_modified' => Carbon::now()]);
-        } 
+        $newAvaluo = $avaluo->createOrUpdate($request->getTraffic());
 
         try {
             if ($request->has('checklist')) {
