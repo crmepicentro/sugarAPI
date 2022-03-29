@@ -25,10 +25,10 @@ class AvaluosController extends BaseController
 {
     public function create(AvaluosRequest $request)
     {
+        return false;
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate($request->getTraffic());
-
         try {
             if ($request->has('checklist')) {
                 $checkLists = $request->getCheckList();
@@ -42,7 +42,7 @@ class AvaluosController extends BaseController
                 $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
             }
             DB::connection(get_connection())->commit();
-            $this->correo($newAvaluo->id,$request);
+            $this->correo($newAvaluo->id, $request);
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
@@ -53,7 +53,7 @@ class AvaluosController extends BaseController
     public function edit($id)
     {
         $avaluo = Avaluos::getAvaluo($id);
-        if($avaluo){
+        if ($avaluo) {
             $avaluo = $this->formatData($avaluo);
         }
         return response()->json([
@@ -73,72 +73,75 @@ class AvaluosController extends BaseController
     {
         $avaluo = Avaluos::getAvaluo($id);
         //Solo cuando esta aprobado
-        if($avaluo->status != 'A'){
+        if ($avaluo->status != 'A') {
             $pdf = PDF::loadHtml(' ');
             return $pdf->stream($avaluo->alias . '.pdf');
         }
         $avaluo = $this->formatData($avaluo);
         $data = $avaluo->toArray();
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
-        $data['date'] = date("Y/m/d",strtotime($data['date']."- 5 hours")); //Poner fecha UTF
-        $data['dateValid'] = date("Y/m/d",strtotime($data['date']."+ 3 days"));//Fecha de aprobación
+        $data['date'] = date("Y/m/d", strtotime($data['date'] . "- 5 hours")); //Poner fecha UTF
+        $data['dateValid'] = date("Y/m/d", strtotime($data['date'] . "+ 3 days"));//Fecha de aprobación
         $pdf = PDF::loadView('appraisal.pdf', $data);
         return $pdf->stream($avaluo->alias . '.pdf');
     }
 
-    public function correo($id,Request $request){
+    public function correo($id, Request $request)
+    {
         $avaluo = Avaluos::find($id);
         $mail = new \stdClass();
-        $url_sugar = Companies::where('id',auth()->user()->compania)->pluck('domain')->first();
+        $url_sugar = Companies::where('id', auth()->user()->compania)->pluck('domain')->first();
         $correo = null;
         switch ($avaluo->estado_avaluo) {
             case 'N': //Avaluo nuevo asignado
                 $correo = $this->searchEmail($avaluo->assigned_user_id);
-                $mail->text = 'Te han asignado el avalúo '.$avaluo->name.'.  Por favor ingresar al siguiente enlace para realizarlo: ';
-                $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
-                $mail->link2 = env('APP_URL').$request->bearerToken().'/appraisal?id_avaluo='.$id;
+                $mail->text = 'Te han asignado el avalúo ' . $avaluo->name . '.  Por favor ingresar al siguiente enlace para realizarlo: ';
+                $mail->link = $url_sugar . '/#cbav_AvaluosCRM/' . $id;
+                $mail->link2 = env('APP_URL') . $request->bearerToken() . '/appraisal?id_avaluo=' . $id;
                 $mail->subject = 'Avalúo Asignado';
                 break;
             case 'P': //Avaluo por aprobar
                 //$correo = $this->searchEmail($avaluo->coordinator->id);
                 $correo = $this->searchEmail('aa791cfa-7832-a585-1747-55b011f6393b');// Usuario aprobador
                 // Añadir logica para enviar correo al aprobador de ese coordinador hacer push a la variable $correo
-                $mail->text = 'Tienes el avalúo '.$avaluo->name.' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
-                $mail->link = $url_sugar.'/#cbav_AvaluosCRM/'.$id;
+                $mail->text = 'Tienes el avalúo ' . $avaluo->name . ' pendiente por aprobar. Ingresa al siguiente enlace para aprobar:';
+                $mail->link = $url_sugar . '/#cbav_AvaluosCRM/' . $id;
                 $mail->subject = 'Nueva Solicitud de Aprobación';
                 break;
             case 'A': // Avaluo aprobado
                 $correo = $this->searchEmail($avaluo->assigned_user_id);
-                $mail->text = ' El avalúo '.$avaluo->name.' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
+                $mail->text = ' El avalúo ' . $avaluo->name . ' ha sido aprobado. Ingresa al siguiente enlace para imprimir la oferta';
                 //$mail->link = route('appraisalPDF', ['id' => $id]);
-                $mail->link = $url_sugar.'/custom/Backend/Applications/Avaluos/pdf/index.php?id='.$id;
+                $mail->link = $url_sugar . '/custom/Backend/Applications/Avaluos/pdf/index.php?id=' . $id;
                 $mail->subject = 'Tu avalúo ha sido aprobado!';
                 break;
         }
-        Log::info('Correo Avaluos.', ['id'=> $id,'Estado' => $avaluo->estado_avaluo,'Correo' => $correo]);
-        if(isset($correo)){
+        Log::info('Correo Avaluos.', ['id' => $id, 'Estado' => $avaluo->estado_avaluo, 'Correo' => $correo]);
+        if (isset($correo)) {
             Mail::to($correo)->send(new Appraisal($mail));
         }
-        if($avaluo->estado_avaluo == 'A'){
-            if($avaluo->precio_nuevo != $avaluo->precio_nuevo_mod){
-                PricingClass::historyPricing($avaluo->modelo_descripcion,$avaluo->id,$avaluo->precio_nuevo_mod,$avaluo->comentario,$avaluo->date_entered,$avaluo->fecha_aprobacion);
+        if ($avaluo->estado_avaluo == 'A') {
+            if ($avaluo->precio_nuevo != $avaluo->precio_nuevo_mod) {
+                PricingClass::historyPricing($avaluo->modelo_descripcion, $avaluo->id, $avaluo->precio_nuevo_mod, $avaluo->comentario, $avaluo->date_entered, $avaluo->fecha_aprobacion);
             }
         }
     }
 
-    private function formatData($avaluo){
+    private function formatData($avaluo)
+    {
         $avaluo->document = $avaluo->clientCstm->document;
         $avaluo->name = $avaluo->client->name;
         return $avaluo;
     }
 
-    private function searchEmail($id){
+    private function searchEmail($id)
+    {
         $correo = env('CORREO_PRUEBA');
         if (App::environment('production')) {
             $emails = EmailAddrBeanRel::where('bean_id', $id)
-                                        ->where('primary_address', 1)
-                                        ->where('deleted', 0)->pluck('email_address_id');
-            $correo = EmailAddreses::whereIn('id', $emails) ->where('deleted', 0)->select('email_address')->pluck('email_address')->first();
+                ->where('primary_address', 1)
+                ->where('deleted', 0)->pluck('email_address_id');
+            $correo = EmailAddreses::whereIn('id', $emails)->where('deleted', 0)->select('email_address')->pluck('email_address')->first();
         }
         return $correo;
     }
