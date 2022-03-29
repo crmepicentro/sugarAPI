@@ -149,7 +149,7 @@ class AvaluosController extends BaseController
     {
         $avaluo = new AvaluoClass();
         Log::info('Avaluos Ingreso', $request->all());
-        Log::info('Avaluos ID', $request->id);
+        Log::info('Avaluos ID', is_null($request->id));
         $avaluo->id = $request->id;
         $avaluo->contact_id_c = $request->contact;
         $avaluo->user_id_c = $request->user;
