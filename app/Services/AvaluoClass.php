@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use App\Models\TalksTraffic;
 use App\Models\Avaluos;
 
 class AvaluoClass
