@@ -87,7 +87,7 @@ class AvaluosRequest extends FormRequest
             if(isset($coordinador->code))
                 return $coordinador->code;
         }
-        return null;
+        return false;
     }
 
     public function getColorName() : string
