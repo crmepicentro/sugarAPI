@@ -25,7 +25,6 @@ class AvaluosController extends BaseController
 {
     public function create(AvaluosRequest $request)
     {
-        return false;
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate($request->getTraffic());
@@ -150,6 +149,7 @@ class AvaluosController extends BaseController
     {
         $avaluo = new AvaluoClass();
         Log::info('Avaluos Ingreso', $request->all());
+        Log::info('Avaluos ID', $request->id);
         $avaluo->id = $request->id;
         $avaluo->contact_id_c = $request->contact;
         $avaluo->user_id_c = $request->user;
