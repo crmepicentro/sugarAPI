@@ -248,4 +248,63 @@ function get_domain_company()
 function getAttachObject() {
     return ['id'=> createdID(), 'date_modified' => Carbon::now()];
 }
+
+function getGenero($genero){
+    $generos = [
+            "M" => "MASCULINO",
+            "F" => "FEMENINO"
+    ];
+
+    if(isset($generos[$genero])) {
+        return $generos[$genero];
+    }
+
+    return $genero;
+}
+
+function getEstadoCivil($estadocivi){
+    $estadosCivil = [
+            "S" => "SOLTERO",
+            "C" => "CASADO",
+            "D" => "DIVORCIADO",
+            "U" => "UNION LIBRE",
+            "V" => "VIUDO",
+            "W" => "CASADO CON DISOLUCION DE LA SOCIEDAD CONYUGAL",
+
+    ];
+
+    if(isset($estadosCivil[$estadocivi])) {
+        return $estadosCivil[$estadocivi];
+    }
+
+    return $estadocivi;
+}
+
+function getTipoCliente($tipocliente){
+    $tiposCliente = [
+            "01" => "PERSONA NATURAL",
+            "02" => "EMPRESA PRIVADA",
+            "03" => "EMPRESA PUBLICA"
+    ];
+
+    if(isset($tiposCliente[$tipocliente])) {
+        return $tiposCliente[$tipocliente];
+    }
+
+    return $tipocliente;
+}
+
+function getTipoIdentificacion($tipoIdentificacion){
+    $tiposIdentificaciones = [
+            "C" => "CEDULA",
+            "P" => "PASAPORTE",
+            "R" => "RUC"
+    ];
+
+    if(isset($tiposIdentificaciones[$tipoIdentificacion])) {
+        return $tiposIdentificaciones[$tipoIdentificacion];
+    }
+
+    return $tipoIdentificacion;
+}
 ?>
