@@ -30,13 +30,10 @@ class Opportunities extends Model
         $this->setConnection(get_connection());
     }
 
-    public function talks()
-    {
-        //return $this->belongsToMany(RelatedModel, pivot_table_name, foreign_key_of_current_model_in_pivot_table, foreign_key_of_other_model_in_pivot_table);
-        return $this->belongsToMany(
-            Talks::class,
-            'cb_negociacion_opportunities_c',
-            'cb_negociacion_opportunitiesopportunities_idb',
-        'cb_negociacion_opportunitiescb_negociacion_ida');
+    public function opportunitiesCstm(){
+        return $this->hasOne(OpportunitiesCstm::class, 'id_c', 'id');
     }
+
+    
+
 }
