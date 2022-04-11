@@ -22,8 +22,8 @@ class FieldsCedulaDataBook extends Controller
     public function dataBook(Request $request){
 
         try {
-            $idCotizacion = $request->CreditoDataBook['idCotizacion']; 
-            $compania = $request->CreditoDataBook['compania'];
+            $idCotizacion = $request->DataCredito['idCotizacion']; 
+            $compania = $request->DataCredito['compania'];
             $opportunities = OpportunitiesCstm::opportunitiesCstmContacts($idCotizacion);
 
             $emails = EmailAddrBeanRel::where('bean_id', $opportunities->id)
