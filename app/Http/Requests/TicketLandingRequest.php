@@ -42,7 +42,7 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
             'datosSugarCRM.email' => 'required|email:rfc,dns',
-            'datosSugarCRM.concesionario' => 'required|in:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca)',
+            'datosSugarCRM.concesionario' => 'required|in:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca),Ambato (Automotores Carlos Larrea)',
             'datosSugarCRM.formulario' => 'required|in:'. $this->getForms()
         ];
 
@@ -78,7 +78,7 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.formulario.in' => 'Formulario inválido, valores válidos'. $this->getForms(),
             'datosSugarCRM.porcentaje_discapacidad.in' => 'Porcentaje_discapacidad no contiene un valor válido, valores válidos: 30_49,50_74,75_84,85_100',
             'datosSugarCRM.concesionario.required' => 'Concesionario es requerido',
-            'datosSugarCRM.concesionario.in' => 'Concesionario es inválido, valores válidos:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca)',
+            'datosSugarCRM.concesionario.in' => 'Concesionario es inválido, valores válidos:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca),Ambato (Automotores Carlos Larrea)',
         ];
     }
 

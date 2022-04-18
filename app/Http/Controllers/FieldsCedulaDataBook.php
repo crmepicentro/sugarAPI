@@ -22,6 +22,7 @@ class FieldsCedulaDataBook extends Controller
     public function dataBook(Request $request){
 
         try {
+            
             $idCotizacion = $request->DataCredito['idCotizacion']; 
             $compania = $request->DataCredito['compania'];
             $opportunities = OpportunitiesCstm::opportunitiesCstmContacts($idCotizacion);
