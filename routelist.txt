@@ -1,0 +1,8 @@
++--------+----------+---------------------+-------------+------------------------------------------------------------+------------+
+| Domain | Method   | URI                 | Name        | Action                                                     | Middleware |
++--------+----------+---------------------+-------------+------------------------------------------------------------+------------+
+|        | GET|HEAD | api_docs            | apidoc      | Mpociot\ApiDoc\Http\Controller@html                        |            |
+|        | GET|HEAD | api_docs.json       | apidoc.json | Mpociot\ApiDoc\Http\Controller@json                        |            |
+|        | GET|HEAD | samaniego           |             | Closure                                                    | web        |
+|        | GET|HEAD | sanctum/csrf-cookie |             | Laravel\Sanctum\Http\Controllers\CsrfCookieController@show | web        |
++--------+----------+---------------------+-------------+------------------------------------------------------------+------------+

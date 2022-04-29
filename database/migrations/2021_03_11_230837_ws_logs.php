@@ -33,6 +33,6 @@ class WsLogs extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('ws_logs');
     }
 }

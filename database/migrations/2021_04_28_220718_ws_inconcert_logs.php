@@ -36,6 +36,6 @@ class WsInconcertLogs extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('ws_inconcert_logs');
     }
 }

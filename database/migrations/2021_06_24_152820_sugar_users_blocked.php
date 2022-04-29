@@ -33,6 +33,6 @@ class SugarUsersBlocked extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('sugar_users_blocked');
     }
 }

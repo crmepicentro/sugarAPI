@@ -1,0 +1,31 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\DetalleGestionOportunidades;
+use App\Models\GestionNuevo;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
+
+class GestionNuevoSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        foreach (DetalleGestionOportunidades::all() as $detalle) {
+            $factor = [
+                0,0,1,2,1,2,3,1,0,0,1,0,0,1,2,0,0,0,5
+            ];
+            $elige = Arr::random($factor);
+            if($elige > 0) {
+                GestionNuevo::factory($elige)->create([
+                    'detalle_gestion_oportunidad_id' => $detalle->id,
+                ]);
+            }
+        }
+    }
+}

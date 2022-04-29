@@ -41,6 +41,18 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+        'pv_data_cabe' => [
+            'driver' => 'local',
+            'root' => storage_path('app/pvdata_header'),
+        ],
+        'pv_data_cabe_deta' => [
+            'driver' => 'local',
+            'root' => storage_path('app/pvdata_detail'),
+        ],
+        'pv_data_cabe_pdf_auto' => [
+            'driver' => 'local',
+            'root' => storage_path('app/pvdata_pdf_auto_delete'),
+        ],
 
         's3' => [
             'driver' => 's3',

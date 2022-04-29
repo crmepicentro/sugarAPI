@@ -30,6 +30,6 @@ class Companies extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('companies');
     }
 }
