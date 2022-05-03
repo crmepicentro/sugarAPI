@@ -30,6 +30,8 @@ class CreateGestionAgendadoDetalleOportunidadesTable extends Migration
             $table->text('asunto_agendamiento')->nullable();
             $table->longText('observacion_agendamiento')->nullable();
 
+            $table->longText('observacion_cita')->nullable();
+
             $table->text('motivo_perdida');
 
             $table->timestamps();

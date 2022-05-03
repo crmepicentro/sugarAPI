@@ -16,8 +16,8 @@
                 '20' => 'COCA',
             ], null, ['class' => 'form-control', 'style' => 'width: 100%', 'data-placeholder' => 'Escoja Uno..']) }}
         <div class="mb-4">
-            <label class="form-label" for="example-textarea-input">Comentario</label>
-            <textarea class="form-control" id="example-textarea-input" name="example-textarea-input" rows="4" placeholder="Comentario.."></textarea>
+            <label class="form-label" for="comentario_nuevacita">Comentario</label>
+            <textarea class="form-control" id="comentario_nuevacita" name="comentario_nuevacita" rows="4" placeholder="Comentario.."></textarea>
         </div>
         </p>
     @endif
@@ -43,21 +43,21 @@
         <h3><i class="fa fa-info-circle"></i>Recordatorios.</h3>
         <div class="row">
             <div class="mb-4">
-                <label class="form-label" for="example-textarea-input">Asunto</label>
-                <input class="form-control" name="example-textarea-input" placeholder="Asunto.." />
+                <label class="form-label" for="agenda_asunto">Asunto</label>
+                <input class="form-control" name="agenda_asunto" id="agenda_asunto" placeholder="Asunto.." />
             </div>
             <div class="mb-4">
-                <label class="form-label" for="example-textarea-input">Comentario</label>
-                <textarea class="form-control" id="example-textarea-input" name="example-textarea-input" rows="4" placeholder="Comentario.."></textarea>
+                <label class="form-label" for="comentario_asunto">Comentario</label>
+                <textarea class="form-control" id="comentario_asunto" name="comentario_asunto" rows="4" placeholder="Comentario.."></textarea>
             </div>
             <div class="row">
                 <div class="col-xl-7 mb-4">
-                    <label class="form-label" for="example-flatpickr-default">Fecha de Agenda</label>
-                    <input type="text" class="js-flatpickr form-control " id="example-flatpickr-datetime" name="example-flatpickr-datetime" data-enable-time="true" readonly="readonly">
+                    <label class="form-label" for="agenda_fecha">Fecha de Agenda</label>
+                    <input type="text" class="js-flatpickr form-control " id="agenda_fecha" name="agenda_fecha" data-date-format="d/m/Y H:m" data-enable-time="true" readonly="readonly">
                 </div>
             </div>
         </div>
-
+        <script>Dashmix.helpersOnLoad(['js-flatpickr']);</script>
         @foreach($recordatorios as $recordatorio)
             {{ Form::hidden('id_recordatorio[]', $recordatorio) }}
         @endforeach

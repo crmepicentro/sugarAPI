@@ -17,10 +17,10 @@ class GestionAgendadoDetalleOportunidadesObserver
         where('detalle_gestion_oportunidad_id',$gestionAgendadoDetalleOportunidades->detalle_gestion_oportunidad_id)
         //->where('gestion_agendado_id',$gestionAgendadoDetalleOportunidades->gestion_agendado_id) // se borra incluso agendas de otras oportunidades realizadas por otras personas
             ->get();
-
         foreach ($gestionesDetalleop as $gestion) {
             $gestion->activo = 1;
             $gestion->save();
+            $gestion->delete();
         }
     }
     /**

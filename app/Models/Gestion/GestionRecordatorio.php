@@ -3,15 +3,15 @@
 namespace App\Models\Gestion;
 
 use App\Models\GestionAgendadoDetalleOportunidades;
+use App\Observers\GestionAgendadoDetalleOportunidadesObserver;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GestionRecordatorio extends GestionAgendadoDetalleOportunidades
 {
-    use HasFactory, SoftDeletes;
-
-
+    public static function boot() {
+        parent::boot();
+        GestionRecordatorio::observe(new GestionAgendadoDetalleOportunidadesObserver());
+    }
     /**
      * The "booted" method of the model.
      *

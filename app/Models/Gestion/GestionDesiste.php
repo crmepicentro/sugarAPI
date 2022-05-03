@@ -6,13 +6,12 @@ use App\Models\GestionAgendadoDetalleOportunidades;
 use App\Observers\GestionAgendadoDetalleOportunidadesObserver;
 use Illuminate\Database\Eloquent\Builder;
 
-class GestionCita extends GestionAgendadoDetalleOportunidades
+class GestionDesiste extends GestionAgendadoDetalleOportunidades
 {
     public static function boot() {
         parent::boot();
-        GestionCita::observe(new GestionAgendadoDetalleOportunidadesObserver());
+        GestionDesiste::observe(new GestionAgendadoDetalleOportunidadesObserver());
     }
-
     /**
      * The "booted" method of the model.
      *
@@ -21,7 +20,7 @@ class GestionCita extends GestionAgendadoDetalleOportunidades
     protected static function booted()
     {
         static::addGlobalScope('tipo_gestion', function (Builder $builder) {
-            $builder->where('tipo_gestion', 'cita');
+            $builder->where('tipo_gestion', 'recordatorio');
         });
     }
 
@@ -31,10 +30,9 @@ class GestionCita extends GestionAgendadoDetalleOportunidades
      * @var array
      */
     protected $attributes = [ // consultar en el super, al ser protected no puede heredar de static.
-        'tipo_gestion' => 'cita',
+        'tipo_gestion' => 'perdido',
         'activo' => '0',// GestionAgendadoDetalleOportunidades::$ESTADO_ACTIVO,
         'estado_s3s' => '0',// GestionAgendadoDetalleOportunidades::$ESTADO_INICIAL_S3S,
-        'motivo_perdida' => '-SMP-',// gestionAgendadoDetalleOportunidades::$SIN_MOTIVO_PERDIDA,
         'fecha_agendamiento' => null,
     ];
 

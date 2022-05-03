@@ -31,6 +31,7 @@ class GestionAgendadoDetalleOportunidades extends Model
         'asunto_agendamiento',
         'observacion_agendamiento',
         'motivo_perdida',
+        'observacion_cita',
     ];
 
 

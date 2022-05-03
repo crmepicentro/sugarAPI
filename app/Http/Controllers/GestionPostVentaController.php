@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Auto;
 use App\Models\Gestion\GestionCita;
+use App\Models\Gestion\GestionDesiste;
+use App\Models\Gestion\GestionRecordatorio;
 use App\Models\GestionAgendado;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -28,7 +31,39 @@ class GestionPostVentaController extends Controller
         return view('postventas.gestion.gestion_data_requisitos', compact('gestion', 'auto', 'nuevacitas', 'recordatorios', 'desistes'));
     }
     public function gestion_do_final(GestionAgendado $gestionAgendado, Auto $auto, Request $request){
-        dd($request->all());
+
+        if($request->has('id_cita')){
+            foreach ($request->id_cita as $cita){
+                $cita = GestionCita::create([
+                    'detalle_gestion_oportunidad_id' => $cita,
+                    'gestion_agendado_id' => $gestionAgendado->id,
+                    'observacion_cita' => $request->comentario_nuevacita,
+                ]);
+            }
+        }
+        if($request->has('id_recordatorio')){
+            foreach ($request->id_recordatorio as $cita2){
+                $cita = GestionRecordatorio::create([
+                    'detalle_gestion_oportunidad_id' => $cita2,
+                    'gestion_agendado_id' => $gestionAgendado->id,
+                    'asunto_agendamiento' => $request->agenda_asunto,
+                    'observacion_agendamiento' => $request->comentario_asunto,
+                    'fecha_agendamiento' => Carbon::createFromFormat('d/m/Y H:m',$request->agenda_fecha),
+                ]);
+            }
+        }
+        if($request->has('id_desiste')){
+            foreach ($request->id_desiste as $cita3){
+                $cita = GestionDesiste::create([
+                    'detalle_gestion_oportunidad_id' => $cita3,
+                    'gestion_agendado_id' => $gestionAgendado->id,
+                    'motivo_perdida' => $request->razon_desestimiento,
+                ]);
+            }
+
+        }
+
+        dd($gestionAgendado,$auto,$request->all());
     }
     public function decodificaOportunidades($array_codigos_codificados)
     {
