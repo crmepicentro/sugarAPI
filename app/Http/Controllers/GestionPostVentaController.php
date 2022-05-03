@@ -32,8 +32,10 @@ class GestionPostVentaController extends Controller
     }
     public function gestion_do_final(GestionAgendado $gestionAgendado, Auto $auto, Request $request){
 
+        $do_s3s = false;
         if($request->has('id_cita')){
             foreach ($request->id_cita as $cita){
+                $do_s3s = true;
                 $cita = GestionCita::create([
                     'detalle_gestion_oportunidad_id' => $cita,
                     'gestion_agendado_id' => $gestionAgendado->id,
@@ -62,8 +64,14 @@ class GestionPostVentaController extends Controller
             }
 
         }
-        dd($gestionAgendado,$auto,$request->all());
+        if($do_s3s) {
+            return view('postventas.gestion.s3s_gestion', compact('gestionAgendado', 'auto'));
+        }else{
+            return view('postventas.gestion.finaliza_gestion', compact('gestionAgendado', 'auto'));
+        }
+
     }
+
     public function decodificaOportunidades($array_codigos_codificados)
     {
         $array_codigos_decodificados = [];
