@@ -62,7 +62,6 @@ class GestionPostVentaController extends Controller
             }
 
         }
-
         dd($gestionAgendado,$auto,$request->all());
     }
     public function decodificaOportunidades($array_codigos_codificados)

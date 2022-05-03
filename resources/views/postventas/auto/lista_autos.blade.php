@@ -149,9 +149,9 @@
             //do stuff
             all_is_done=true;
             //$("#form_master"+id).submit();
-            console.log(eval("nuevacita"+id));
+            {{--console.log(eval("nuevacita"+id));
             console.log(eval("recordatorio"+id));
-            console.log(eval("desiste"+id));
+            console.log(eval("desiste"+id));--}}
             //alert('all done lanzar fomrulario.');
             var url_post = '{{ route('postventa.gestion') }}';
 
@@ -193,8 +193,36 @@
                 console.log(data)
                 if(all_is_done==false){
                     e.preventDefault();
-                    var fd = new FormData(this);
-                    alert('all done lanzar fomrulario.');
+                    envia_post_data_final(id,data);
+                }
+            });
+        }
+        function envia_post_data_final(id,data){
+            //do stuff
+            all_is_done=true;
+            //$("#form_master"+id).submit();
+            {{--console.log(eval("nuevacita"+id));
+            console.log(eval("recordatorio"+id));
+            console.log(eval("desiste"+id));--}}
+            //alert('all done lanzar fomrulario.');
+            var url_post = $("#form_fin_gestion"+id).attr('action');
+            $.ajax({
+                url: url_post,
+                type:"POST",
+                data: data,
+                success:function(response){
+                    //console.log(response);
+                    if(response) {
+                        console.log(response)
+                        $("#cuertpo_postOportunidades").html(response);
+                        $("#modal-post-oportunidades").modal('show');
+                    }
+                },
+                error: function(error) {
+                    alert('Error al enviar los datos.: '+JSON.stringify(error));
+                    console.error('Error 2xjo');
+                    console.error(error);
+                    console.log(error);
                 }
             });
         }

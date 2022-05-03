@@ -72,6 +72,6 @@
     </div>
 </div>
 <script>
-
+    submitFormFinGestion({{$auto->id}});
 </script>
 {{ Form::close() }}
