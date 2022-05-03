@@ -20,14 +20,15 @@ class CreateGestionAgendadoDetalleOportunidadesTable extends Migration
             $table->foreign('detalle_gestion_oportunidad_id','fk_detallegestion')->references('id')->on('pvt_detalle_gestion_oportunidades');
             $table->unsignedBigInteger('gestion_agendado_id');
             $table->foreign('gestion_agendado_id','fk_gestion_agendados')->references('id')->on('pvt_gestion_agendados');
+
             $table->enum('tipo_gestion',['cita','recordatorio','perdido']);
             $table->integer('activo')->default(\App\Models\GestionAgendadoDetalleOportunidades::$ESTADO_ACTIVO);
 
             $table->integer('estado_s3s')->default(\App\Models\GestionAgendadoDetalleOportunidades::$ESTADO_INICIAL_S3S);
 
-            $table->dateTime('fecha_agendamiento');
-            $table->text('asunto_agendamiento');
-            $table->longText('observacion_agendamiento');
+            $table->dateTime('fecha_agendamiento')->nullable();
+            $table->text('asunto_agendamiento')->nullable();
+            $table->longText('observacion_agendamiento')->nullable();
 
             $table->text('motivo_perdida');
 

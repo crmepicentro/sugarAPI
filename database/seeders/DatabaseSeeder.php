@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             AutoSeeder::class,
             ConductorAutoSeeder::class,
             DetalleGestionOportunidadesSeeder::class,
-            GestionNuevoSeeder::class,
+            GestionCitaSeeder::class,
             GestionAgendadoSeeder::class,
             GestionAgendadoDetalleOportunidadesSeeder::class,
         ]);*/

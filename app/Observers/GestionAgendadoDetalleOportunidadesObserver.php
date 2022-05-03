@@ -3,14 +3,13 @@
 namespace App\Observers;
 
 use App\Models\GestionAgendadoDetalleOportunidades;
-use Illuminate\Support\Facades\Log;
 
 class GestionAgendadoDetalleOportunidadesObserver
 {
     /**
-     * Borrar todos los elementos de GestionNuevo.
+     * Borrar todos los elementos de GestionCita.
      *
-     * @param  \App\Models\GestionNuevo  $gestionNuevo
+     * @param  \App\Models\Gestion\GestionCita  $gestionCita
      * @return void
      */
     private function BorradoGestionesAntiguas(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades){

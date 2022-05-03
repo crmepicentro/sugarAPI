@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionNuevo;
+use App\Models\Gestion\GestionCita;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
-class GestionNuevoSeeder extends Seeder
+class GestionCitaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,7 +22,7 @@ class GestionNuevoSeeder extends Seeder
             ];
             $elige = Arr::random($factor);
             if($elige > 0) {
-                GestionNuevo::factory($elige)->create([
+                GestionCita::factory($elige)->create([
                     'detalle_gestion_oportunidad_id' => $detalle->id,
                 ]);
             }

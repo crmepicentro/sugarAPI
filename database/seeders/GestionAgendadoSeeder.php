@@ -6,9 +6,7 @@ use App\Models\Auto;
 use App\Models\DetalleGestionOportunidades;
 use App\Models\GestionAgendado;
 use App\Models\GestionAgendadoDetalleOportunidades;
-use App\Models\GestionNuevo;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 
 class GestionAgendadoSeeder extends Seeder
 {

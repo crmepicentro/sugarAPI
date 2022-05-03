@@ -74,5 +74,13 @@ class DetalleGestionOportunidades extends Model
             'codServ' => $this->codServ,
         ]));
     }
+    public function getClaveunicaprincipals3sAttribute($value)
+    {
+        return [
+            'codAgencia' => $this->codAgencia,
+            'ordTaller' => $this->ordTaller,
+            'codServ' => $this->codServ,
+        ];
+    }
 }
 

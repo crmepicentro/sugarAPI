@@ -69,7 +69,6 @@
                 </div>
                 <div class="block-content block-content-full text-end bg-body">
                     <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
                 </div>
             </div>
         </div>
@@ -168,6 +167,7 @@
                     }
                 },
                 error: function(error) {
+                    alert('Error al enviar los datos.: '+JSON.stringify(error));
                     console.error('Error 2xjo');
                     console.error(error);
                     console.log(error);
@@ -183,6 +183,18 @@
                     e.preventDefault();
                     var fd = new FormData(this);
                     envia_post_data(id,fd.get('_token'),data);
+                }
+            });
+        }
+        function submitFormFinGestion(id){
+            var all_is_done=false;
+            $("#form_fin_gestion"+id).submit(function(e){
+                data = $("#form_fin_gestion"+id).serializeArray();
+                console.log(data)
+                if(all_is_done==false){
+                    e.preventDefault();
+                    var fd = new FormData(this);
+                    alert('all done lanzar fomrulario.');
                 }
             });
         }

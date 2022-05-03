@@ -3,17 +3,17 @@
 namespace Database\Factories;
 
 use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionNuevo;
+use App\Models\Gestion\GestionCita;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class GestionNuevoFactory extends Factory
+class GestionCitaFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = GestionNuevo::class;
+    protected $model = GestionCita::class;
 
     /**
      * Define the model's default state.

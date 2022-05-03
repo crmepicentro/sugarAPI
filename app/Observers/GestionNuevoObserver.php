@@ -2,73 +2,73 @@
 
 namespace App\Observers;
 
-use App\Models\GestionNuevo;
+use App\Models\Gestion\GestionCita;
 
-class GestionNuevoObserver
+class GestionCitaObserver
 {
     /**
-     * Borrar todos los elementos de GestionNuevo.
+     * Borrar todos los elementos de GestionCita.
      *
-     * @param  \App\Models\GestionNuevo  $gestionNuevo
+     * @param  \App\Models\Gestion\GestionCita  $gestionCita
      * @return void
      */
-    public function BorradoGestionesAntiguas(GestionNuevo $gestionNuevo){
-        $gestiones = GestionNuevo::where('detalle_gestion_oportunidad_id',$gestionNuevo->detalle_gestion_oportunidades_id)->get();
+    public function BorradoGestionesAntiguas(GestionCita $gestionCita){
+        $gestiones = GestionCita::where('detalle_gestion_oportunidad_id',$gestionCita->detalle_gestion_oportunidades_id)->get();
         foreach ($gestiones as $gestion) {
             $gestion->delete();
         }
     }
     /**
-     * Handle the GestionNuevo "created" event.
+     * Handle the GestionCita "created" event.
      *
-     * @param  \App\Models\GestionNuevo  $gestionNuevo
+     * @param  \App\Models\Gestion\GestionCita  $gestionCita
      * @return void
      */
-    public function creating(GestionNuevo $gestionNuevo)
+    public function creating(GestionCita $gestionCita)
     {
-        $this->BorradoGestionesAntiguas($gestionNuevo);
+        $this->BorradoGestionesAntiguas($gestionCita);
     }
 
     /**
-     * Handle the GestionNuevo "updated" event.
+     * Handle the GestionCita "updated" event.
      *
-     * @param  \App\Models\GestionNuevo  $gestionNuevo
+     * @param  \App\Models\Gestion\GestionCita  $gestionCita
      * @return void
      */
-    public function updating(GestionNuevo $gestionNuevo)
+    public function updating(GestionCita $gestionCita)
     {
-        $this->BorradoGestionesAntiguas($gestionNuevo);
+        $this->BorradoGestionesAntiguas($gestionCita);
     }
 
     /**
-     * Handle the GestionNuevo "deleted" event.
+     * Handle the GestionCita "deleted" event.
      *
-     * @param  \App\Models\GestionNuevo  $gestionNuevo
+     * @param  \App\Models\Gestion\GestionCita  $gestionCita
      * @return void
      */
-    public function deleted(GestionNuevo $gestionNuevo)
-    {
-        //
-    }
-
-    /**
-     * Handle the GestionNuevo "restored" event.
-     *
-     * @param  \App\Models\GestionNuevo  $gestionNuevo
-     * @return void
-     */
-    public function restored(GestionNuevo $gestionNuevo)
+    public function deleted(GestionCita $gestionCita)
     {
         //
     }
 
     /**
-     * Handle the GestionNuevo "force deleted" event.
+     * Handle the GestionCita "restored" event.
      *
-     * @param  \App\Models\GestionNuevo  $gestionNuevo
+     * @param  \App\Models\Gestion\GestionCita  $gestionCita
      * @return void
      */
-    public function forceDeleted(GestionNuevo $gestionNuevo)
+    public function restored(GestionCita $gestionCita)
+    {
+        //
+    }
+
+    /**
+     * Handle the GestionCita "force deleted" event.
+     *
+     * @param  \App\Models\Gestion\GestionCita  $gestionCita
+     * @return void
+     */
+    public function forceDeleted(GestionCita $gestionCita)
     {
         //
     }
