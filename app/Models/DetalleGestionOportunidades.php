@@ -59,6 +59,21 @@ class DetalleGestionOportunidades extends Model
     {
         return md5("{$this->codAgencia}|{$this->ordTaller}|{$this->codServ}");
     }
+
+    /**
+     * Filtro de detalle oporunidades para gestionar.
+     * @param $value
+     * @return false|string
+     */
+    public function scopeAgestionar($query)
+    {
+        return $query->Where(function($query) {
+            $query
+                ->whereNull('perdida_fecha')
+                ->whereNull('ganado_fecha');
+        });
+    }
+
     public function getClaveunicaprincipaljsonAttribute($value)
     {
         return json_encode([

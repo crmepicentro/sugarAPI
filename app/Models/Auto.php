@@ -34,5 +34,8 @@ class Auto extends Model
     public function detalleGestionOportunidades()    {
         return $this->hasMany(DetalleGestionOportunidades::class, 'auto_id', 'id');
     }
+    public function detalleGestionOportunidadesagestionar()    {
+        return $this->hasMany(DetalleGestionOportunidades::class, 'auto_id', 'id')->agestionar();
+    }
 
 }
