@@ -1,4 +1,5 @@
 @php( $script_add = "")
+@php($contador_elementos = 0)
 @if($auto->detalleGestionOportunidadesagestionar->count() > 0)
     {{ Form::open(['route' => 'postventa.gestion' , 'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_master'.$auto->id]) }}
     <table class="table-striped table-sm">
@@ -67,6 +68,7 @@
                     FECHA DE FACTURA GANADA
                 </td>
                 @if($oportunidad->cita_fecha == null)
+                    @php($contador_elementos ++)
                 <td>
                     <div class="form-check">
                         {{ Form::checkbox($oportunidad->claveunicaprincipal64."['cita']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal",'id' => "id-cita$oportunidad->claveunicaprincipal"]) }}
@@ -104,6 +106,7 @@
                 @endif
             </tr>
             @if($loop->last)
+                @if($contador_elementos > 0)
                 <tr>
                     <td colspan="8">&nbsp;</td>
                     <td>
@@ -127,13 +130,18 @@
                     <td colspan="8">&nbsp;</td>
                     <td colspan="3">
                         <div class="row">
-                            <button type="submit" class="btn btn-success btn-info col-12 total_accion_{{ $auto->id }}"  data-auto="{{ $auto->id }}" data-porte="{{$loop->index + 1}}" >
+                            <button type="submit" class="btn btn-success btn-info col-12 total_accion_{{ $auto->id }}"  data-auto="{{ $auto->id }}" data-porte="{{$contador_elementos}}" >
                                 <i class="fa fa-floppy-disk me-1"></i>
                                 Guardar Auto
                             </button>
                         </div>
                     </td>
                 </tr>
+                @else                                       
+                    <tr>
+                        <td colspan="11">&nbsp;</td>
+                    </tr>
+                @endif
             @endif
         @endforeach
         </tbody>
