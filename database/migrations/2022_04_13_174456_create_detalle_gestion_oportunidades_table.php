@@ -46,6 +46,9 @@ class CreateDetalleGestionOportunidadesTable extends Migration
             $table->string('franquicia');
 
 
+            $table->dateTime('cita_fecha')->nullable();
+            $table->string('s3s_codigo_seguimiento')->nullable();
+
             $table->dateTime('facturacion_fecha')->nullable();
             $table->string('facturacion_agente')->nullable();
 

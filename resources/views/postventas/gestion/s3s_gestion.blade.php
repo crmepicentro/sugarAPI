@@ -32,7 +32,8 @@
                 target="PromoteFirefoxWindowName"
                 onclick="openFFPromotionPopup(); return false;"
                 title="Apertura de ventana del S3S"
-            >Promote Firefox adoption</a></p>
+                class="btn btn-lg rounded-pill btn-hero btn-success me-1 mb-3"
+            ><i class="fa fa-fw fa-play me-1"></i> Envia Datos a S3S</a></p>
     </pre>
 </code>
 
