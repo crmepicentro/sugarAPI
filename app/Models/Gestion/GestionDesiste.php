@@ -34,6 +34,7 @@ class GestionDesiste extends GestionAgendadoDetalleOportunidades
         'activo' => '0',// GestionAgendadoDetalleOportunidades::$ESTADO_ACTIVO,
         'estado_s3s' => '0',// GestionAgendadoDetalleOportunidades::$ESTADO_INICIAL_S3S,
         'fecha_agendamiento' => null,
+        'agencia_cita' => null,
     ];
 
 

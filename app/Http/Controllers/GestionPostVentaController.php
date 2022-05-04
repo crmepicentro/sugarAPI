@@ -31,7 +31,6 @@ class GestionPostVentaController extends Controller
         return view('postventas.gestion.gestion_data_requisitos', compact('gestion', 'auto', 'nuevacitas', 'recordatorios', 'desistes'));
     }
     public function gestion_do_final(GestionAgendado $gestionAgendado, Auto $auto, Request $request){
-
         $do_s3s = false;
         if($request->has('id_cita')){
             foreach ($request->id_cita as $cita){
@@ -39,6 +38,7 @@ class GestionPostVentaController extends Controller
                 $cita = GestionCita::create([
                     'detalle_gestion_oportunidad_id' => $cita,
                     'gestion_agendado_id' => $gestionAgendado->id,
+                    'agencia_cita' => $request->nuevacitas,
                     'observacion_cita' => $request->comentario_nuevacita,
                 ]);
             }
@@ -73,16 +73,10 @@ class GestionPostVentaController extends Controller
 
     }
     public function s3spostdatacore(GestionAgendado $gestionAgendado, Auto $auto){
-        dd($gestionAgendado);
         return
-            "<h1>Datos del auto para gestionar</h1><code><pre>
-                ['gestion_id' => $gestionAgendado->codigo_seguimiento,
-                    'gestion_comentario' => $gestionAgendado->fecha_agendado,
-                    'codAgencia'=> 15,
-                    'placa_auto'=> $auto->placa,
-                    'user_name'=> 'MA_TORO',
-                    'oportunidades'=>".$gestionAgendado->detalleoportunidad->pluck('claveunicaprincipals3s').",
-                ];</pre></code>";
+            "<h1>Datos del auto para gestionar</h1><code><pre>".
+            print_r($gestionAgendado->citas3s,true).
+            "</pre></code>";
     }
 
     public function decodificaOportunidades($array_codigos_codificados)

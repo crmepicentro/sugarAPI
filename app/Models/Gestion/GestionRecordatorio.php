@@ -34,6 +34,7 @@ class GestionRecordatorio extends GestionAgendadoDetalleOportunidades
         'activo' => '0',// GestionAgendadoDetalleOportunidades::$ESTADO_ACTIVO,
         'estado_s3s' => '0',// GestionAgendadoDetalleOportunidades::$ESTADO_INICIAL_S3S,
         'motivo_perdida' => '-SMP-',// gestionAgendadoDetalleOportunidades::$SIN_MOTIVO_PERDIDA,
+        'agencia_cita' => null,
     ];
 
 
