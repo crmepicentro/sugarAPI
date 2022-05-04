@@ -1,23 +1,38 @@
+@include('postventas.gestion.finaliza_gestion',[ 'autorefresca' => false])
 <script>
-    function basicPopup(url) {
-        popupWindow = window.open(url,'popUpWindow','height=900,width=900,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes');
+    var windowObjectReference = null; // global variable
+
+    function openFFPromotionPopup() {
+        if(windowObjectReference == null || windowObjectReference.closed)
+            /* if the pointer to the window object in memory does not exist
+               or if such pointer exists but the window was closed */
+
+        {
+            windowObjectReference = window.open("{{ route('postventa.s3spostdatacore',['gestionAgendado'=> $gestionAgendado, 'auto' => $auto] ) }}",
+                "PromoteFirefoxWindowName", "resizable,scrollbars,status");
+            recargasitio_sobresscrito();
+            /* then create it. The new window will be created and
+               will be brought on top of any other window. */
+        }
+        else
+        {
+            windowObjectReference.focus();
+            /* else the window reference must exist and the window
+               is not closed; therefore, we can bring it back on top of any other
+               window with the focus() method. There would be no need to re-create
+               the window or to reload the referenced resource. */
+        };
     }
-    //basicPopup('https://www.google.com');
 </script>
 <h1>S3S sistema</h1>
 <code >
     <pre>
-         {{
-    print_r(
-	["gestion_id" => $gestionAgendado->codigo_seguimiento,
-    "gestion_comentario" => $gestionAgendado->fecha_agendado,
-	"codAgencia"=> "15",
-	"placa_auto"=> $auto->placa,
-
-	"user_name"=> "MA_TORO",
-	"oportunidades"=>$gestionAgendado->detalleoportunidad->pluck('claveunicaprincipals3s'),
-])
-}}
+        <p><a
+                href="{{ route('postventa.s3spostdatacore',['gestionAgendado'=> $gestionAgendado, 'auto' => $auto] ) }}"
+                target="PromoteFirefoxWindowName"
+                onclick="openFFPromotionPopup(); return false;"
+                title="Apertura de ventana del S3S"
+            >Promote Firefox adoption</a></p>
     </pre>
 </code>
 

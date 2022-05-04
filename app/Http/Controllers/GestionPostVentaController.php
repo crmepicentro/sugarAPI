@@ -67,9 +67,22 @@ class GestionPostVentaController extends Controller
         if($do_s3s) {
             return view('postventas.gestion.s3s_gestion', compact('gestionAgendado', 'auto'));
         }else{
-            return view('postventas.gestion.finaliza_gestion', compact('gestionAgendado', 'auto'));
+            $autorefresca = true;
+            return view('postventas.gestion.finaliza_gestion', compact('gestionAgendado', 'auto', 'autorefresca'));
         }
 
+    }
+    public function s3spostdatacore(GestionAgendado $gestionAgendado, Auto $auto){
+        dd($gestionAgendado);
+        return
+            "<h1>Datos del auto para gestionar</h1><code><pre>
+                ['gestion_id' => $gestionAgendado->codigo_seguimiento,
+                    'gestion_comentario' => $gestionAgendado->fecha_agendado,
+                    'codAgencia'=> 15,
+                    'placa_auto'=> $auto->placa,
+                    'user_name'=> 'MA_TORO',
+                    'oportunidades'=>".$gestionAgendado->detalleoportunidad->pluck('claveunicaprincipals3s').",
+                ];</pre></code>";
     }
 
     public function decodificaOportunidades($array_codigos_codificados)

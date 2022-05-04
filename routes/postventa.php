@@ -10,6 +10,7 @@ Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_final/{ge
 Route::get('/vehiculos/faces/jsp/consulta/masters/list.jsp',PostVentaIndiceController::class)->name('postventa.indice');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}',PostVentaListaServiciosController::class)->name('postventa.edita');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}/{id_auto}',PostVentaEditaController::class)->name('postventa.edita_auto');
+Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore'])->name('postventa.s3spostdatacore');
 Route::get('s3s_sistema', function ( \App\Http\Requests\Request $request) {
     dd($request);
 })->name('postventa.tests3s');;
