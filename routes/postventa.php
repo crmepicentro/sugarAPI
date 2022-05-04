@@ -11,6 +11,7 @@ Route::get('/vehiculos/faces/jsp/consulta/masters/list.jsp',PostVentaIndiceContr
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}',PostVentaListaServiciosController::class)->name('postventa.edita');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}/{id_auto}',PostVentaEditaController::class)->name('postventa.edita_auto');
 Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore'])->name('postventa.s3spostdatacore');
+Route::get('/vehiculos/faces/jsp/consulta/masters/respuesta_s3ssistemacore/{codigo_seguimiento}',[GestionPostVentaController::class,'s3spostdatacore_respuesta'])->name('postventa.s3spostdatacorerespuesta');
 Route::get('s3s_sistema', function ( \App\Http\Requests\Request $request) {
     dd($request);
 })->name('postventa.tests3s');;

@@ -68,6 +68,6 @@ class GestionAgendadoDetalleOportunidades extends Model
     }
     public function detalleoportunidad()
     {
-        return $this->belongsTo(DetalleGestionOportunidades::class, 'id', 'detalle_gestion_oportunidad_id');
+        return $this->belongsTo(DetalleGestionOportunidades::class, 'detalle_gestion_oportunidad_id', 'id');
     }
 }

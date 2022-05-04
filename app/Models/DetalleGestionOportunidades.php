@@ -40,6 +40,9 @@ class DetalleGestionOportunidades extends Model
         'tipoServ',
         'franquicia',
 
+        'cita_fecha',
+        's3s_codigo_seguimiento',
+
         'facturacion_fecha',
         'facturacion_agente',
 

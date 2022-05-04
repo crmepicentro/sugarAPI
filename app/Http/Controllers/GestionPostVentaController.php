@@ -75,6 +75,18 @@ class GestionPostVentaController extends Controller
     public function s3spostdatacore(GestionAgendado $gestionAgendado, Auto $auto){
         return view('postventas.gestion.simula_s3s', compact('gestionAgendado'));;
     }
+    public function s3spostdatacore_respuesta($codigo_seguimiento, Request $request){
+        $codigo_seguimiento = GestionAgendado::where('codigo_seguimiento', $codigo_seguimiento)->first();
+        $contador_actualizacion = 0;
+        foreach ($codigo_seguimiento->citas as $cita){
+            $contador_actualizacion++;
+            $cita->detalleoportunidad->update([
+                'cita_fecha' => Carbon::now(),
+                's3s_codigo_seguimiento' => $request->respuesta,
+            ]);
+        }
+        return "<h1>Se Actualizó ($contador_actualizacion) oportunidades.</h1> <script>setTimeout(function() { window.opener.location.reload(true); window.close();}, 3000) </script>";
+    }
 
     public function decodificaOportunidades($array_codigos_codificados)
     {
