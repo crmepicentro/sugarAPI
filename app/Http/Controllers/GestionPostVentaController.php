@@ -73,10 +73,7 @@ class GestionPostVentaController extends Controller
 
     }
     public function s3spostdatacore(GestionAgendado $gestionAgendado, Auto $auto){
-        return
-            "<h1>Datos del auto para gestionar</h1><code><pre>".
-            print_r($gestionAgendado->citas3s,true).
-            "</pre></code>";
+        return view('postventas.gestion.simula_s3s', compact('gestionAgendado'));;
     }
 
     public function decodificaOportunidades($array_codigos_codificados)
