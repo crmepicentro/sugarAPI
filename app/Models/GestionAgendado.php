@@ -26,6 +26,11 @@ class GestionAgendado extends Model
     {
         return $this->belongsToMany(DetalleGestionOportunidades::class, 'pvt_gestion_agendado_detalle_op', 'gestion_agendado_id', 'detalle_gestion_oportunidad_id');
     }
+    public function detalleoportunidadcitas()
+    {
+        return $this->belongsToMany(DetalleGestionOportunidades::class, 'pvt_gestion_agendado_detalle_op', 'gestion_agendado_id', 'detalle_gestion_oportunidad_id')
+            ->where('tipo_gestion','=', 'cita');
+    }
     /**
      * dar atributo de respuesta en json para el sistema s3s
      */
@@ -49,9 +54,15 @@ class GestionAgendado extends Model
          * ON pvt_gestion_agendado_detalle_op.gestion_agendado_id = pvt_gestion_agendados.id
          * WHERE pvt_gestion_agendados.id = 1";
          */
+        $param = 'cita';
         $as_autos = Auto::join('pvt_detalle_gestion_oportunidades', 'pvt_detalle_gestion_oportunidades.auto_id', '=', 'pvt_autos.id')
             ->selectRaw('DISTINCT  pvt_gestion_agendados.codigo_seguimiento, pvt_gestion_agendado_detalle_op.observacion_cita, pvt_gestion_agendado_detalle_op.agencia_cita,  pvt_autos.placa,  pvt_gestion_agendados.users_id,  pvt_gestion_agendado_detalle_op.gestion_agendado_id')
-            ->join('pvt_gestion_agendado_detalle_op', 'pvt_gestion_agendado_detalle_op.detalle_gestion_oportunidad_id', '=', 'pvt_detalle_gestion_oportunidades.id')
+            //->join('pvt_gestion_agendado_detalle_op', 'pvt_gestion_agendado_detalle_op.detalle_gestion_oportunidad_id', '=', 'pvt_detalle_gestion_oportunidades.id')
+            ->join('pvt_gestion_agendado_detalle_op', function($join) use ($param)
+            {
+                $join->on('pvt_gestion_agendado_detalle_op.detalle_gestion_oportunidad_id', '=', 'pvt_detalle_gestion_oportunidades.id')
+                    ->where('tipo_gestion','=', $param);
+            })
             ->join('pvt_gestion_agendados', 'pvt_gestion_agendado_detalle_op.gestion_agendado_id', '=', 'pvt_gestion_agendados.id')
             ->where('pvt_gestion_agendados.id', '=', $this->id)
             ->get();
@@ -62,7 +73,7 @@ class GestionAgendado extends Model
                 'codAgencia'=> $as_auto->agencia_cita,
                 'placa_auto'=> $as_auto->placa,
                 'user_name'=> $as_auto->users_id,
-                'oportunidades'=>$this->detalleoportunidad->pluck('claveunicaprincipals3s')->toArray(),
+                'oportunidades'=>$this->detalleoportunidadcitas->pluck('claveunicaprincipals3s')->toArray(),
             ];
         }
         return $repuesta_data;
