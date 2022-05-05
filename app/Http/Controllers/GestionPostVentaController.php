@@ -10,6 +10,7 @@ use App\Models\GestionAgendado;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class GestionPostVentaController extends Controller
 {
@@ -64,6 +65,12 @@ class GestionPostVentaController extends Controller
         }
         if($request->has('id_desiste')){
             foreach ($request->id_desiste as $cita3){
+                $request->validate([
+                    'razon_desestimiento' => [
+                        'required',
+                        Rule::notIn(['0']),
+                    ],
+                ]);
                 $cita = GestionDesiste::create([
                     'detalle_gestion_oportunidad_id' => $cita3,
                     'gestion_agendado_id' => $gestionAgendado->id,

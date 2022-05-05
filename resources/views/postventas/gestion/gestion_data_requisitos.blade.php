@@ -28,10 +28,11 @@
         <h3><i class="fa fa-info-circle"></i>Razon de desestimiento.</h3>
         <p>
             {{ Form::select('razon_desestimiento', [
+                '0' => '--Seleccione una opción --',
                 '1' => 'Razon 1',
                 '2' => 'Razon 2',
                 '3' => 'Razon 3',
-            ], null, ['class' => 'form-control', 'style' => 'width: 100%', 'data-placeholder' => 'Escoja Uno..']) }}
+            ], null, ['class' => 'form-control', 'style' => 'width: 100%', 'data-placeholder' => 'Escoja Uno..', 'id'=>'razon_desestimiento']) }}
         </p>
         @foreach($desistes as $desiste)
             {{ Form::hidden('id_desiste[]', $desiste) }}
