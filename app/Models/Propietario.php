@@ -31,7 +31,7 @@ class Propietario extends Model
     public function autosgestion()
     {
         return $this->hasMany(Auto::class, 'propietario_id', 'id')
-            ->selectRaw('pvt_autos.id,pvt_autos.placa,modelo,descVehiculo, IF(count(agendado_fecha) >0 ,count(agendado_fecha), sum( IFNULL(gestion_fecha, 1) )) as cantidadOportunidades')
+            ->selectRaw('pvt_autos.id,pvt_autos.placa,modelo,descVehiculo')
             ->join('pvt_detalle_gestion_oportunidades', 'auto_id', 'pvt_autos.id')
             ->whereNull('perdida_fecha')
             ->whereNull('ganado_fecha')
