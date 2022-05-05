@@ -25,7 +25,7 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-        <img src="/docs/images/logo.png" width="230px"/>
+        <img src="/docs/images/logo.png" />
                     <div class="lang-selector">
                                   <a href="#" data-language-name="bash">bash</a>
                                   <a href="#" data-language-name="javascript">javascript</a>
@@ -37,14 +37,18 @@
             <ul class="search-results"></ul>
               <div id="toc">
       </div>
-
+                    <ul class="toc-footer">
+                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+                            </ul>
             </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-          <h1>Info</h1>
-          <p>Bienvenido a la documentación "API SUGAR EPICENTRO DIGITAL"</p>
-          <!-- END_INFO -->
+          <!-- START_INFO -->
+<h1>Info</h1>
+<p>Welcome to the generated API reference.
+<a href="{{ route("apidoc.json") }}">Get Postman Collection</a></p>
+<!-- END_INFO -->
 <h1>Asesores</h1>
 <p>Api para Obtener asesores</p>
 <!-- START_00dbeb8940289d032b92cdc45e9b945e -->
@@ -297,7 +301,7 @@ print_r(json_decode((string) $body));</code></pre>
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
-    -d '{"email":"mart@hotmail.com","password":"Hol@MunD0"}'
+    -d '{"autorizador":"mart_admin@hotmail.com","email":"mart@hotmail.com","password":"Hol@MunD0","environment":"dev"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://api-sugarcrm.casabaca.com/api/login"
@@ -310,8 +314,10 @@ let headers = {
 };
 
 let body = {
+    "autorizador": "mart_admin@hotmail.com",
     "email": "mart@hotmail.com",
-    "password": "Hol@MunD0"
+    "password": "Hol@MunD0",
+    "environment": "dev"
 }
 
 fetch(url, {
@@ -332,8 +338,10 @@ $response = $client-&gt;post(
             'Authorization' =&gt; 'Bearer {token}',
         ],
         'json' =&gt; [
+            'autorizador' =&gt; 'mart_admin@hotmail.com',
             'email' =&gt; 'mart@hotmail.com',
             'password' =&gt; 'Hol@MunD0',
+            'environment' =&gt; 'dev',
         ],
     ]
 );
@@ -366,6 +374,12 @@ print_r(json_decode((string) $body));</code></pre>
 </thead>
 <tbody>
 <tr>
+<td><code>autorizador</code></td>
+<td>email</td>
+<td>required</td>
+<td>El email del usuario autorizador.</td>
+</tr>
+<tr>
 <td><code>email</code></td>
 <td>email</td>
 <td>required</td>
@@ -375,6 +389,13 @@ print_r(json_decode((string) $body));</code></pre>
 <td><code>password</code></td>
 <td>string</td>
 <td>required</td>
+<td>El password del usuario</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td>string</td>
+<td>required</td>
+<td>Valores válidos: dev, prod</td>
 </tr>
 </tbody>
 </table>
@@ -438,6 +459,223 @@ print_r(json_decode((string) $body));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/logout</code></p>
 <!-- END_00e7e21641f05de650dbe13f242c6f2c -->
+<h1>Avaluos</h1>
+<p>APIs para crear, actualizar Avaluos</p>
+<!-- START_aaf671e787e153d60542cd54abafc989 -->
+<h2>api/getAvaluos</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/getAvaluos" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/getAvaluos"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'http://api-sugarcrm.casabaca.com/api/getAvaluos',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/getAvaluos</code></p>
+<!-- END_aaf671e787e153d60542cd54abafc989 -->
+<!-- START_886ecfa9e7067df464ed5ece912fcb4f -->
+<h2>api/getAvaluo/{id}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/getAvaluo/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/getAvaluo/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'http://api-sugarcrm.casabaca.com/api/getAvaluo/1',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/getAvaluo/{id}</code></p>
+<!-- END_886ecfa9e7067df464ed5ece912fcb4f -->
+<!-- START_191fa79438deda52615343540127f4c1 -->
+<h2>api/createUpdateAvaluo</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "http://api-sugarcrm.casabaca.com/api/createUpdateAvaluo" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/createUpdateAvaluo"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'http://api-sugarcrm.casabaca.com/api/createUpdateAvaluo',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/createUpdateAvaluo</code></p>
+<!-- END_191fa79438deda52615343540127f4c1 -->
+<!-- START_8036f05f3ef71a61c9e02baae9e1d948 -->
+<h2>api/pdf/{id}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/pdf/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/pdf/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'http://api-sugarcrm.casabaca.com/api/pdf/1',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/pdf/{id}</code></p>
+<!-- END_8036f05f3ef71a61c9e02baae9e1d948 -->
+<!-- START_c75db24ebac03538f61ed8062f316a0f -->
+<h2>api/correo/{id}</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/correo/1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/correo/1"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'http://api-sugarcrm.casabaca.com/api/correo/1',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/correo/{id}</code></p>
+<!-- END_c75db24ebac03538f61ed8062f316a0f -->
 <h1>Landing Pages</h1>
 <p>API para crear, actualizar landing pages</p>
 <!-- START_f24644e7d8f231a4b87c73b05b64be4e -->
@@ -2434,7 +2672,7 @@ print_r(json_decode((string) $body));</code></pre>
 <tr>
 <td><code>datosSugarCRM.numero_identificacion</code></td>
 <td>string</td>
-<td>required</td>
+<td>optional</td>
 <td>ID del client.</td>
 </tr>
 <tr>

@@ -100,5 +100,5 @@ class TicketClass {
     $dataTicketCstm->save();
   }
 
-  
+
 }
