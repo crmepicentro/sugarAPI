@@ -289,7 +289,7 @@ class Servicios3sController extends Controller
                 'tipoServ'  => $s3sdato_detalle['tipoServ'],
                 'franquicia' => $s3sdato_detalle['franquicia'],
 
-                'facturacion_fecha' => Carbon::now()->subday(1),
+                'facturacion_fecha' => null,
 
                 'perdida_fecha' => null,
                 'perdida_agente' => null,
@@ -297,6 +297,9 @@ class Servicios3sController extends Controller
 
                 'ganado_fecha' => null,
                 'ganado_factura' => null,
+
+                'gestion_fecha' => null,
+                'gestion_tipo'  => 'nuevo',
             ]);
             $propietario->save();
         }
@@ -328,7 +331,7 @@ class Servicios3sController extends Controller
             'tipoServ'  => $s3sdato_detalle['tipoServ'],
             'franquicia' => $s3sdato_detalle['franquicia'],
 
-            'facturacion_fecha'=>Carbon::now()->subday(1),
+            'facturacion_fecha' => null,
 
 
             'perdida_fecha' =>null,
@@ -337,6 +340,9 @@ class Servicios3sController extends Controller
 
             'ganado_fecha' =>null,
             'ganado_factura' =>null,
+
+            'gestion_fecha' =>null,
+            'gestion_tipo'  => 'nuevo',
 
         ]);
         $propietario->save();

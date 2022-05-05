@@ -53,6 +53,9 @@ class DetalleGestionOportunidades extends Model
         'ganado_fecha',
         'ganado_factura',
 
+        'gestion_fecha',
+        'gestion_tipo',
+
         'estado_momento_consulta',
 
     ];

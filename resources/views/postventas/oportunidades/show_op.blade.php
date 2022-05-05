@@ -61,8 +61,8 @@
                 <td>
                     {{ $oportunidad->codServ }}|{{ $oportunidad->descServ }}
                 </td>
-                <td>
-                    FECHA DE GESTIÓN
+                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
+                    {{ $oportunidad->gestion_fecha }}
                 </td>
                 <td>
                     FECHA DE FACTURA GANADA
@@ -137,7 +137,7 @@
                         </div>
                     </td>
                 </tr>
-                @else                                       
+                @else
                     <tr>
                         <td colspan="11">&nbsp;</td>
                     </tr>
