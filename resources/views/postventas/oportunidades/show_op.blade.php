@@ -8,29 +8,41 @@
             <th>
                 OR
             </th>
-            <th>
-                ASESOR
+            <th title="ASESOR">
+                AS
             </th>
             <th>
-                FECHA FACTURA
+                FECHA
             </th>
             <th>
-                USUARIO
+                TIPO
             </th>
             <th>
-                MONTO
+                FR
             </th>
             <th>
-                TIPO DE TRABAJO
+                CODIGO
             </th>
             <th>
-                FECHA DE GESTIÓN
+                DETALLE
             </th>
             <th>
-                FECHA DE FACTURA GANADA
+                CANTIDAD
+            </th>
+            <th>
+                VALOR UNITARIO
+            </th>
+            <th>
+                VALOR TOTAL
             </th>
             <th>
                 Nueva Cita
+            </th>
+            <th>
+                FECHA GESTIÓN
+            </th>
+            <th>
+                NUEVA CITA
             </th>
             <th>
                 Recordatorio
@@ -47,25 +59,36 @@
                     {{ $oportunidad->ordTaller}}
                 </td>
                 <td>
-                    {{ $oportunidad->nomOrdAsesor }}
+                    <strong title="{{ $oportunidad->nomOrdAsesor }}">{{ $oportunidad->codOrdAsesor }}</strong>
                 </td>
                 <td>
-                    {{ $oportunidad->ordFchaCierre }}
+                    <span title="{{ $oportunidad->ordFchaCierre }}">{{ \Carbon\Carbon::createFromFormat(config('constants.pv_dateFormat'),$oportunidad->ordFchaCierre)->locale('es')->format('d-M') }}</span>
                 </td>
                 <td>
-                    USUARIO
+                    {{ $oportunidad->tipoServ }}
+                </td>
+                <td>
+                    {{ $oportunidad->franquicia }}
+                </td>
+                <td>
+                    {{ $oportunidad->codServ }}
+                </td>
+                <td>
+                    {{ $oportunidad->descServ }}
+                <td>
+                    {{ $oportunidad->cantidad }}
+                </td>
+                <td>
+                    ${{ $oportunidad->cargosCobrar }}
                 </td>
                 <td>
                     ${{ $oportunidad->cantidad * $oportunidad->cargosCobrar }}
                 </td>
-                <td>
-                    {{ $oportunidad->codServ }}|{{ $oportunidad->descServ }}
-                </td>
                 <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
                     {{ $oportunidad->gestion_fecha }}
                 </td>
-                <td>
-                    FECHA DE FACTURA GANADA
+                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
+                    {{ $oportunidad->gestion_fecha }}
                 </td>
                 @if($oportunidad->cita_fecha == null)
                     @php($contador_elementos ++)
@@ -108,7 +131,7 @@
             @if($loop->last)
                 @if($contador_elementos > 0)
                 <tr>
-                    <td colspan="8">&nbsp;</td>
+                    <td colspan="12">&nbsp;</td>
                     <td>
 
                         <button class="btn btn-hero btn-success ejecutaCita{{ $auto->id }}"  data-auto="{{ $auto->id }}">
@@ -127,7 +150,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="8">&nbsp;</td>
+                    <td colspan="12">&nbsp;</td>
                     <td colspan="3">
                         <div class="row">
                             <button type="submit" class="btn btn-success btn-info col-12 total_accion_{{ $auto->id }}"  data-auto="{{ $auto->id }}" data-porte="{{$contador_elementos}}" >
