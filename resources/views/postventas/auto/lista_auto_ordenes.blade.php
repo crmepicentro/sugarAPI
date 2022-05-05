@@ -1,4 +1,3 @@
-<h1>Ordenes</h1>
 <div class="row">
     <div class="col-12 order-3 col-sm-12 order-sm-3 col-md-10 order-md-0">
         <table class="table-striped table-sm">
