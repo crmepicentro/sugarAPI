@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <script>Dashmix.helpersOnLoad(['js-flatpickr']);</script>
+        <script>Dashmix.helpersOnLoad(['js-flatpickr','jq-validation']); </script>
         @foreach($recordatorios as $recordatorio)
             {{ Form::hidden('id_recordatorio[]', $recordatorio) }}
         @endforeach

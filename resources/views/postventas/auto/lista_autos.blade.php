@@ -168,7 +168,7 @@
                 },
                 error: function(error) {
                     alert('Error al enviar los datos.: '+JSON.stringify(error));
-                    console.error('Error 2xjo');
+                    console.error('Error Dfg90');
                     console.error(error);
                     console.log(error);
                 }
@@ -197,7 +197,13 @@
                 }
             });
         }
+        function quitavalidacion(){
+            $(".v4lp4r4z0").remove();
+            $('input').removeClass('is-invalid');
+            $('textarea').removeClass('is-invalid');
+        }
         function envia_post_data_final(id,data){
+            quitavalidacion()
             //do stuff
             all_is_done=true;
             //$("#form_master"+id).submit();
@@ -213,16 +219,24 @@
                 success:function(response){
                     //console.log(response);
                     if(response) {
-                        console.log(response)
                         $("#cuertpo_postOportunidades").html(response);
                         $("#modal-post-oportunidades").modal('show');
                     }
                 },
                 error: function(error) {
-                    alert('Error al enviar los datos.: '+JSON.stringify(error));
                     console.error('Error 2xjo');
-                    console.error(error);
-                    console.log(error);
+                    //alert('Error al enviar los datos.: '+JSON.stringify(error));
+                    if(error.status==419){
+                        alert('Su sesión ha expirado, porfavor vuelva a iniciar sesión.');
+                    }
+                    if(error.status==422){
+                        var errors = error.responseJSON.errors;
+                        $.each(errors, function (key, value) {
+                            $("#"+key).attr("title", value).addClass("is-invalid").after( "<p class='v4lp4r4z0 invalid-feedback animated fadeIn'>"+value+"</p>" );
+
+                        });
+                    }
+
                 }
             });
         }

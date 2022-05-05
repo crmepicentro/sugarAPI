@@ -32,6 +32,8 @@
     <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{ asset('js/plugins/flatpickr/flatpickr.min.js')}}"></script>
     <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/jquery-validation/additional-methods.js') }}"></script>
     <script>
         /*
          *  Document   : be_comp_dialogs.js

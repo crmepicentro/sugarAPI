@@ -34,6 +34,9 @@ class GestionPostVentaController extends Controller
         $do_s3s = false;
         if($request->has('id_cita')){
             foreach ($request->id_cita as $cita){
+                $request->validate([
+                    'nuevacitas' => 'required',
+                ]);
                 $do_s3s = true;
                 $cita = GestionCita::create([
                     'detalle_gestion_oportunidad_id' => $cita,
@@ -45,6 +48,11 @@ class GestionPostVentaController extends Controller
         }
         if($request->has('id_recordatorio')){
             foreach ($request->id_recordatorio as $cita2){
+                $request->validate([
+                    'agenda_asunto' => 'required',
+                    'comentario_asunto' => 'required',
+                    'agenda_fecha' => 'required|date',
+                ]);
                 $cita = GestionRecordatorio::create([
                     'detalle_gestion_oportunidad_id' => $cita2,
                     'gestion_agendado_id' => $gestionAgendado->id,
