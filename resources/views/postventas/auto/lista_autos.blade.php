@@ -169,6 +169,9 @@
                 error: function(error) {
                     alert('Error al enviar los datos.: '+JSON.stringify(error));
                     console.error('Error Dfg90');
+                    if(error.status==419){
+                        alert('Su sesión ha expirado, porfavor vuelva a iniciar sesión.');
+                    }
                     console.error(error);
                     console.log(error);
                 }

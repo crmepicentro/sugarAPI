@@ -55,7 +55,7 @@ class GestionPostVentaController extends Controller
                 $request->validate([
                     'agenda_asunto' => 'required',
                     'comentario_asunto' => 'required',
-                    'agenda_fecha' => 'required|date',
+                    'agenda_fecha' => 'required|date_format:"d/m/Y H:m"',
                 ]);
                 $cita = GestionRecordatorio::create([
                     'detalle_gestion_oportunidad_id' => $cita2,

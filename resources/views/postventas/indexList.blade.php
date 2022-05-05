@@ -40,7 +40,7 @@
                     <tr>
                         <td class="text-center">{{$loop->index + 1}}</td>
                         <td class="fw-semibold">
-                            <a href="be_pages_generic_blank.html">{{ $lista_oportunidade->nombre_propietario }}</a>
+                            <a href="#">{{ $lista_oportunidade->nombre_propietario }}</a>
                         </td>
                         <td class="d-none d-sm-table-cell">
                             {{ $lista_oportunidade->email_propietario }}
@@ -55,11 +55,11 @@
                         <td class="d-none d-sm-table-cell">{{ 'M' }}</td>
                         <td class="d-none d-sm-table-cell">{{ 'VHC' }}</td>
                         <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->Min_created_at_masterGestion }}</td>
-                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->Min_created_at_masterGestion }}</td>
                         <td><a href="{{ route('postventa.edita', $lista_oportunidade->id) }}" >
                                 <i class="fa fa-play"></i>
                             </a>
                         </td>
+                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->Min_created_at_masterGestion }}</td>
                         <td>{{ $lista_oportunidade->Min_created_at_masterGestion }}</td>
                         <td>{{ $lista_oportunidade->Min_created_at_masterGestion }}</td>
                     </tr>

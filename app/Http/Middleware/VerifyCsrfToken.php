@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
       //
+        '/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_data',
+        '/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_final/*/*',
     ];
 }
