@@ -48,6 +48,7 @@ class DetalleGestionOportunidades extends Model
 
         'perdida_fecha',
         'perdida_agente',
+        'perdida_motivo',
 
         'ganado_fecha',
         'ganado_factura',

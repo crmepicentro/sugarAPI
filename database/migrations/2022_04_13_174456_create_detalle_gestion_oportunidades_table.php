@@ -54,6 +54,7 @@ class CreateDetalleGestionOportunidadesTable extends Migration
 
             $table->dateTime('perdida_fecha')->nullable();
             $table->string('perdida_agente')->nullable();
+            $table->string('perdida_motivo')->nullable();
 
             $table->dateTime('ganado_fecha')->nullable();
             $table->string('ganado_factura')->nullable();

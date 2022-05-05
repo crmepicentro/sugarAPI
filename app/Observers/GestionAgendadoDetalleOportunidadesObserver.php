@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\GestionAgendadoDetalleOportunidades;
+use Carbon\Carbon;
 
 class GestionAgendadoDetalleOportunidadesObserver
 {
@@ -32,6 +33,16 @@ class GestionAgendadoDetalleOportunidadesObserver
     public function creating(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)
     {
         $this->BorradoGestionesAntiguas($gestionAgendadoDetalleOportunidades);
+    }
+
+    public function created(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)
+    {
+        if ($gestionAgendadoDetalleOportunidades->tipo_gestion == 'perdido') {
+            $gestionAgendadoDetalleOportunidades->detalleoportunidad->perdida_fecha = Carbon::now();
+            $gestionAgendadoDetalleOportunidades->detalleoportunidad->perdida_agente = 1;//auth()->user()->id,
+            $gestionAgendadoDetalleOportunidades->detalleoportunidad->perdida_motivo = $gestionAgendadoDetalleOportunidades->motivo_perdida;
+            $gestionAgendadoDetalleOportunidades->detalleoportunidad->save();
+        }
     }
 
     /**

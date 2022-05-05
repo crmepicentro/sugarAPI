@@ -201,6 +201,7 @@
             $(".v4lp4r4z0").remove();
             $('input').removeClass('is-invalid');
             $('textarea').removeClass('is-invalid');
+            $('select').removeClass('is-invalid');
         }
         function envia_post_data_final(id,data){
             quitavalidacion()

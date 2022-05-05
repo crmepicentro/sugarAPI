@@ -293,6 +293,7 @@ class Servicios3sController extends Controller
 
                 'perdida_fecha' => null,
                 'perdida_agente' => null,
+                'perdida_motivo' => null,
 
                 'ganado_fecha' => null,
                 'ganado_factura' => null,
@@ -332,6 +333,7 @@ class Servicios3sController extends Controller
 
             'perdida_fecha' =>null,
             'perdida_agente' =>null,
+            'perdida_motivo' =>null,
 
             'ganado_fecha' =>null,
             'ganado_factura' =>null,
