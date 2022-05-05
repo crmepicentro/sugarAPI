@@ -36,7 +36,10 @@ class GestionPostVentaController extends Controller
         if($request->has('id_cita')){
             foreach ($request->id_cita as $cita){
                 $request->validate([
-                    'nuevacitas' => 'required',
+                    'nuevacitas' => [
+                        'required',
+                        Rule::notIn(['---']),
+                    ],
                 ]);
                 $do_s3s = true;
                 $cita = GestionCita::create([
