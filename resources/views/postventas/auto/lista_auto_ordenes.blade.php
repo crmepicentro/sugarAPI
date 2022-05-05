@@ -25,6 +25,7 @@
             @foreach(\App\Models\DetalleGestionOportunidades::
         selectRaw('ordTaller, max(nomOrdAsesor) as nomOrdAsesor, max(ordFchaCierre) as ordFchaCierre, (sum(cantidad) * sum(cargosCobrar)) as monto ')
         ->where('auto_id', '=', $auto->id)
+        ->agestionar()
         ->groupby('ordTaller')->get() as $oportunidad)
                 <tr>
                     <td>
