@@ -19,15 +19,27 @@
                 <th>
                     MONTO
                 </th>
+                <th>
+                    1ER GESTION
+                </th>
+                <th>
+                    1ER GESTION ESTADO
+                </th>
+                <th>
+                    GESTION FUTURA
+                </th>
+                <th>
+                    GESTION ESTADO
+                </th>
             </tr>
             </thead>
             <tbody>
             @foreach(\App\Models\DetalleGestionOportunidades::
-        selectRaw('ordTaller, max(nomOrdAsesor) as nomOrdAsesor, max(ordFchaCierre) as ordFchaCierre, (sum(cantidad) * sum(cargosCobrar)) as monto ')
+        selectRaw('ordTaller, max(nomOrdAsesor) as nomOrdAsesor, max(ordFchaCierre) as ordFchaCierre, (sum(cantidad) * sum(cargosCobrar)) as monto, min(gestion_fecha) as primer_gestion, min(gestion_tipo) as primer_gestion_estado, min(agendado_fecha) as gestion_futura, max(gestion_tipo) as ultima_gestion_estado')
         ->where('auto_id', '=', $auto->id)
         ->agestionar()
         ->groupby('ordTaller')->get() as $oportunidad)
-                <tr>
+                <tr id="{{ $auto->id }}">
                     <td>
                         {{ $oportunidad->ordTaller}}
                     </td>
@@ -42,6 +54,31 @@
                     </td>
                     <td>
                         ${{ $oportunidad->monto }}
+                    </td>
+                    <td>
+                        {{ $oportunidad->primer_gestion }}
+                    </td>
+                    <td>
+                        {{ __($oportunidad->primergestioestado) }}
+                    </td>
+                    <td>
+                        {{ $oportunidad->gestion_futura }}
+                    </td>
+                    <td>
+                        @foreach($oportunidad->gestionestados as $gestionestado)
+                            @switch($gestionestado)
+                                @case('cita')
+                                <span class="badge rounded-pill bg-success">{{ __($gestionestado) }}</span>
+                                @break
+                                @case('recordatorio')
+                                <span class="badge rounded-pill bg-primary">{{ __($gestionestado) }}</span>
+                                @break
+                                @case('perdido')
+                                <span class="badge rounded-pill bg-warning">{{ __($gestionestado) }}</span>
+                                @break
+                            @endswitch
+
+                        @endforeach
                     </td>
                 </tr>
             @endforeach

@@ -106,5 +106,50 @@ class DetalleGestionOportunidades extends Model
             'codServ' => $this->codServ,
         ];
     }
+
+    /**
+     * Funcion solo para FUncion en Listado Auto Ordenes
+     * @return mixed
+     */
+    public function getPrimergestioestadoAttribute()
+    {
+        if($this->id != null){
+            $dato = GestionAgendadoDetalleOportunidades::where('detalle_gestion_oportunidad_id', $this->id)->orderby('created_at','desc')->first();
+            if($dato != null){
+                return $dato->tipo_gestion;
+            }
+        }
+        $todos = DetalleGestionOportunidades::where('ordTaller', $this->ordTaller)->select('id')->get()->pluck('id')->toArray();
+        $dato = GestionAgendadoDetalleOportunidades::whereIn('detalle_gestion_oportunidad_id', $todos )->orderby('created_at','desc')->first();
+        if($dato != null){
+            return $dato->tipo_gestion;
+        }
+        return 'Sin Gestion';
+    }
+    /**
+     * Funcion solo para FUncion en Listado Auto Ordenes
+     * @return mixed
+     */
+    public function getGestionestadosAttribute($value)
+    {
+        if($this->id != null){
+            $dato = GestionAgendadoDetalleOportunidades::where('detalle_gestion_oportunidad_id', $this->id)->orderby('created_at','desc')->first();
+            if($dato != null){
+                return $dato->tipo_gestion;
+            }
+        }
+        $todos = DetalleGestionOportunidades::where('ordTaller', $this->ordTaller)->select('id')->get()->pluck('id')->toArray();
+        $dato = GestionAgendadoDetalleOportunidades::whereIn('detalle_gestion_oportunidad_id', $todos )
+            ->selectRaw('tipo_gestion,\'\' as calocho')
+            ->groupby('tipo_gestion')
+            ->get()
+            ;
+        if($dato != null && $dato->count() > 0){
+            return $dato->pluck('tipo_gestion')
+                ->toArray();
+        }
+        return [];
+        //return 'Sin Gestion';
+    }
 }
 
