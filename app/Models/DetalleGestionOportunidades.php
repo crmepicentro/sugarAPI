@@ -53,6 +53,8 @@ class DetalleGestionOportunidades extends Model
         'ganado_fecha',
         'ganado_factura',
 
+        'agendado_fecha',
+
         'gestion_fecha',
         'gestion_tipo',
 

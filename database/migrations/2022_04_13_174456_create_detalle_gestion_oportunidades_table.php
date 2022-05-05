@@ -59,6 +59,8 @@ class CreateDetalleGestionOportunidadesTable extends Migration
             $table->dateTime('ganado_fecha')->nullable();
             $table->string('ganado_factura')->nullable();
 
+            $table->dateTime('agendado_fecha')->nullable();
+
             $table->dateTime('gestion_fecha')->nullable();
             $table->enum('gestion_tipo',['nuevo','cita','recordatorio','perdido']);
 

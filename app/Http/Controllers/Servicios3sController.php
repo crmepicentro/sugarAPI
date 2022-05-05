@@ -298,8 +298,12 @@ class Servicios3sController extends Controller
                 'ganado_fecha' => null,
                 'ganado_factura' => null,
 
+                'agendado_fecha' => null,
+
                 'gestion_fecha' => null,
                 'gestion_tipo'  => 'nuevo',
+
+
             ]);
             $propietario->save();
         }
@@ -340,6 +344,8 @@ class Servicios3sController extends Controller
 
             'ganado_fecha' =>null,
             'ganado_factura' =>null,
+
+            'agendado_fecha' => null,
 
             'gestion_fecha' =>null,
             'gestion_tipo'  => 'nuevo',

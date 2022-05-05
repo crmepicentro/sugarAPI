@@ -44,6 +44,15 @@ class GestionAgendadoDetalleOportunidadesObserver
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_fecha = Carbon::now();
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_tipo = $gestionAgendadoDetalleOportunidades->tipo_gestion;
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->save();
+        }elseif ($gestionAgendadoDetalleOportunidades->tipo_gestion == 'recordatorio') {
+            $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_fecha = Carbon::now();
+            $original = Carbon::parse($gestionAgendadoDetalleOportunidades->detalleoportunidad->agendado_fecha);
+            $nuevo = Carbon::parse($gestionAgendadoDetalleOportunidades->fecha_agendamiento);
+            if($nuevo->lte($original)){// less than or equals
+                $gestionAgendadoDetalleOportunidades->detalleoportunidad->agendado_fecha = $gestionAgendadoDetalleOportunidades->fecha_agendamiento;
+            }
+            $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_tipo = $gestionAgendadoDetalleOportunidades->tipo_gestion;
+            $gestionAgendadoDetalleOportunidades->detalleoportunidad->save();
         }else{
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_fecha = Carbon::now();
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_tipo = $gestionAgendadoDetalleOportunidades->tipo_gestion;
