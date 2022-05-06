@@ -65,7 +65,7 @@ GROUP BY pvt_propietarios.id,
          pvt_detalle_gestion_oportunidades.cita_fecha,
          pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento,
          pvt_autos.id
-ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', 'cita', 'nuevo', 'perdido'), MIN(pvt_detalle_gestion_oportunidades.gestion_fecha) DESC";
+ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', 'cita', 'nuevo', 'perdido'), pvt_detalle_gestion_oportunidades.agendado_fecha ASC,MIN(pvt_detalle_gestion_oportunidades.gestion_fecha) DESC";
 
         $lista_oportunidades = \DB::select($data_list, ['N']);
 
