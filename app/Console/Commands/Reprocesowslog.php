@@ -64,10 +64,14 @@ class Reprocesowslog extends Command
 
                 $statusCode = $response->status();
                 $responseBody = json_decode($response->getBody(), true);
-                $res = json_encode(["REPROCESO" => $responseBody]);
 
+                if($responseBody != null){
+                    $res = json_encode(["REPROCESO" => $responseBody]);
+                }else{
+                    $error = json_decode($response,true);
+                    $res = json_encode(["UNDEFINED" => $error]);
+                }
                 $result = Wslog::updateResponse($item->id,$res);
-
             }
         }
 
