@@ -30,7 +30,7 @@ class Tickets extends Model
 
         $this->setConnection(get_connection());
     }
-
+ 
     public function ticketsCstm()
     {
         return $this->hasOne(TicketsCstm::class, 'id_c', 'id');
