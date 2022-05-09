@@ -693,192 +693,6 @@ print_r(json_decode((string) $body));
 
 <!-- END_c75db24ebac03538f61ed8062f316a0f -->
 
-#FormsTGO
-
-
-<!-- START_41017e4fcaf1cca0c88b37763a0857ac -->
-## api/sumate
-> Example request:
-
-```bash
-curl -X GET \
-    -G "http://api-sugarcrm.casabaca.com/api/sumate" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"
-```
-
-```javascript
-const url = new URL(
-    "http://api-sugarcrm.casabaca.com/api/sumate"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-```php
-
-$client = new \GuzzleHttp\Client();
-$response = $client->get(
-    'http://api-sugarcrm.casabaca.com/api/sumate',
-    [
-        'headers' => [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer {token}',
-        ],
-    ]
-);
-$body = $response->getBody();
-print_r(json_decode((string) $body));
-```
-
-
-> Example response (200):
-
-```json
-false
-```
-
-### HTTP Request
-`GET api/sumate`
-
-
-<!-- END_41017e4fcaf1cca0c88b37763a0857ac -->
-
-<!-- START_bb59b6bccf1caefad055b8876d423c35 -->
-## api/destinos
-> Example request:
-
-```bash
-curl -X GET \
-    -G "http://api-sugarcrm.casabaca.com/api/destinos" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"
-```
-
-```javascript
-const url = new URL(
-    "http://api-sugarcrm.casabaca.com/api/destinos"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-```php
-
-$client = new \GuzzleHttp\Client();
-$response = $client->get(
-    'http://api-sugarcrm.casabaca.com/api/destinos',
-    [
-        'headers' => [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer {token}',
-        ],
-    ]
-);
-$body = $response->getBody();
-print_r(json_decode((string) $body));
-```
-
-
-> Example response (200):
-
-```json
-false
-```
-
-### HTTP Request
-`GET api/destinos`
-
-
-<!-- END_bb59b6bccf1caefad055b8876d423c35 -->
-
-<!-- START_02eaf8a15e6b2d27cd6abc657c050a18 -->
-## api/negocios
-> Example request:
-
-```bash
-curl -X GET \
-    -G "http://api-sugarcrm.casabaca.com/api/negocios" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Authorization: Bearer {token}"
-```
-
-```javascript
-const url = new URL(
-    "http://api-sugarcrm.casabaca.com/api/negocios"
-);
-
-let headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers: headers,
-})
-    .then(response => response.json())
-    .then(json => console.log(json));
-```
-
-```php
-
-$client = new \GuzzleHttp\Client();
-$response = $client->get(
-    'http://api-sugarcrm.casabaca.com/api/negocios',
-    [
-        'headers' => [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer {token}',
-        ],
-    ]
-);
-$body = $response->getBody();
-print_r(json_decode((string) $body));
-```
-
-
-> Example response (200):
-
-```json
-false
-```
-
-### HTTP Request
-`GET api/negocios`
-
-
-<!-- END_02eaf8a15e6b2d27cd6abc657c050a18 -->
-
 #Landing Pages
 
 
@@ -3736,5 +3550,188 @@ print_r(json_decode((string) $body));
 
 
 <!-- END_510595bdd6c92cdf3136d3ecdd71f935 -->
+
+<!-- START_41017e4fcaf1cca0c88b37763a0857ac -->
+## api/sumate
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/sumate" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/sumate"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->get(
+    'http://api-sugarcrm.casabaca.com/api/sumate',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+false
+```
+
+### HTTP Request
+`GET api/sumate`
+
+
+<!-- END_41017e4fcaf1cca0c88b37763a0857ac -->
+
+<!-- START_bb59b6bccf1caefad055b8876d423c35 -->
+## api/destinos
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/destinos" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/destinos"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->get(
+    'http://api-sugarcrm.casabaca.com/api/destinos',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+false
+```
+
+### HTTP Request
+`GET api/destinos`
+
+
+<!-- END_bb59b6bccf1caefad055b8876d423c35 -->
+
+<!-- START_02eaf8a15e6b2d27cd6abc657c050a18 -->
+## api/negocios
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/negocios" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}"
+```
+
+```javascript
+const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/negocios"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->get(
+    'http://api-sugarcrm.casabaca.com/api/negocios',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+false
+```
+
+### HTTP Request
+`GET api/negocios`
+
+
+<!-- END_02eaf8a15e6b2d27cd6abc657c050a18 -->
 
 

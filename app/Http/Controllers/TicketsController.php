@@ -61,7 +61,7 @@ class TicketsController extends BaseController
      * Ticket - Interacción
      *
      * @bodyParam  datosSugarCRM.numero_identificacion string ID del client. Example: 1719932079
-     * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
+     * @bodyParam  datosSugarCRM.tipo_identificacion string Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
      * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
      * @bodyParam  datosSugarCRM.user_name string Es requerido si la fuente es inConcert. UserName válido del asesor en SUGAR. Example: CG_RAMOS
      * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: FREDDY ROBERTO
@@ -238,8 +238,8 @@ class TicketsController extends BaseController
             "team_id" => 1,
             "team_set_id" => 1,
             "created_by" => $user_call_center->id,
-            "numero_identificacion" => isset($dataRequest['numero_identificacion']) ? $dataRequest['numero_identificacion'] : "" ,
-            "tipo_identificacion" => $dataRequest['tipo_identificacion'],
+            "numero_identificacion" => isset($dataRequest['numero_identificacion']) ? $dataRequest['numero_identificacion'] : "",
+            "tipo_identificacion" => isset($dataRequest['tipo_identificacion']) ? $dataRequest['tipo_identificacion'] : "",
             "brinda_identificacion" => 1,
             "nombres" => $dataRequest['nombres'],
             "apellidos" => $dataRequest['apellidos'],
@@ -346,7 +346,7 @@ class TicketsController extends BaseController
 
     public function createUpdateTicket($dataTicket, $type_filter = 'numero_identificacion', $statusTofind = [1, 4])
     {
-        $identificacion = isset($dataTicket["numero_identificacion"])?$dataTicket["numero_identificacion"]:"";
+        $identificacion = isset($dataTicket["numero_identificacion"]) ? $dataTicket["numero_identificacion"] : "";
         if (!empty($identificacion)) {
             $ticket = Tickets::where($type_filter, $dataTicket[$type_filter])
                 ->where('deleted', 0)
@@ -358,7 +358,7 @@ class TicketsController extends BaseController
 
         $ticketClass = $this->createDataTicket($dataTicket);
 
-        if (!isset($ticket) ) {
+        if (!isset($ticket)) {
             $ticket = $ticketClass->create();
             if (!empty($identificacion)) {
                 $contact = $this->createContactTicket($dataTicket);
@@ -390,8 +390,8 @@ class TicketsController extends BaseController
         $ticketClass = new TicketClass();
         $ticketClass->estado = $dataTicket["estado"];
         $ticketClass->created_by = $dataTicket["created_by"];
-        $ticketClass->numero_identificacion = isset($dataTicket["numero_identificacion"])?$dataTicket["numero_identificacion"]:"";
-        $ticketClass->tipo_identificacion = $dataTicket["tipo_identificacion"];
+        $ticketClass->numero_identificacion = isset($dataTicket["numero_identificacion"]) ? $dataTicket["numero_identificacion"] : "";
+        $ticketClass->tipo_identificacion = isset($dataTicket["tipo_identificacion"]) ? $dataTicket["tipo_identificacion"] : "";
         $ticketClass->brinda_identificacion = $dataTicket["brinda_identificacion"];
         $ticketClass->nombres = $dataTicket["nombres"];
         $ticketClass->apellidos = $dataTicket["apellidos"];
@@ -435,8 +435,8 @@ class TicketsController extends BaseController
         $interactionClass->cb_agencias_id_c = $cbAgencias;
         $interactionClass->estado = $estado;
         $interactionClass->fuente = $dataTicket["fuente"];
-        $interactionClass->numero_identificacion = $dataTicket["numero_identificacion"];
-        $interactionClass->tipo_identificacion = $dataTicket["tipo_identificacion"];
+        $interactionClass->numero_identificacion = isset($dataTicket["numero_identificacion"]) ? $dataTicket["numero_identificacion"] : "";
+        $interactionClass->tipo_identificacion = isset($dataTicket["tipo_identificacion"]) ? $dataTicket["tipo_identificacion"] : "N";
         $interactionClass->nombres = $dataTicket["nombres"];
         $interactionClass->apellidos = $dataTicket["apellidos"];
         $interactionClass->celular = $dataTicket["celular"];
@@ -1188,6 +1188,7 @@ class TicketsController extends BaseController
                     "interaccion_id" => $ticket->id_interaction,
                 ];
             } */
+
             //---------------------------
             $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
             $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
