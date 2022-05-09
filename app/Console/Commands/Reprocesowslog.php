@@ -63,16 +63,15 @@ class Reprocesowslog extends Command
                 $response = Http::withHeaders($headers)->post(env("APP_URL")."/".$item->route, $array);
 
                 $statusCode = $response->status();
+                $responseBody = json_decode($response->getBody(), true);
 
-                    $responseBody = json_decode($response->getBody(), true);
                 if($responseBody != null){
                     $res = json_encode(["REPROCESO" => $responseBody]);
-                    $result = Wslog::updateResponse($item->id,$res);
+                }else{
+                    $error = json_decode($response,true);
+                    $res = json_encode(["UNDEFINED" => $error]);
                 }
-
-
-
-
+                $result = Wslog::updateResponse($item->id,$res);
             }
         }
 
