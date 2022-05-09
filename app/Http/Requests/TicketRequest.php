@@ -30,7 +30,6 @@ class TicketRequest extends FormRequest
         $user_auth = Auth::user();
 
         $validations = [
-            'datosSugarCRM.numero_identificacion' => 'required',
             'datosSugarCRM.tipo_identificacion' => 'required_with_all:datosSugarCRM.numero_identificacion|in:C,P,R',
             'datosSugarCRM.nombres' => 'required',
             'datosSugarCRM.apellidos' => 'required',
@@ -74,7 +73,7 @@ class TicketRequest extends FormRequest
         return [
             'datosSugarCRM.id_interaccion_inconcert.required' => 'El id de inconcert es requerido',
             'datosSugarCRM.fuente_descripcion.required' => 'Nombre del formulario es requerido',
-            'datosSugarCRM.numero_identificacion.required' => 'Identificación es requerida',
+            /*'datosSugarCRM.numero_identificacion.required' => 'Identificación es requerida',*/
             'datosSugarCRM.numero_identificacion.min' => 'Identificación debe tener al menos 10 caracteres',
             'datosSugarCRM.asunto.required_with_all' => 'Asunto es requerido si existe comentario del cliente',
             'datosSugarCRM.tipo_identificacion.required_with_all' => 'Tipo de identificación es requerida para el número de identificación',

@@ -70,8 +70,10 @@ class AuthController extends Controller
     /**
      * Crear un token de usuario
      *
+     * @bodyParam  autorizador email required El email del usuario autorizador. Example: mart_admin@hotmail.com
      * @bodyParam  email email required El email del usuario. Example: mart@hotmail.com
-     * @bodyParam  password string required Example:Hol@MunD0
+     * @bodyParam  password string required El password del usuario Example:Hol@MunD0
+     * @bodyParam  environment string required Valores válidos: dev, prod Example:dev
      *
      * @response  200 {
      *  "status_code": "200",

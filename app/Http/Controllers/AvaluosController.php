@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use PDF;
 
+/**
+ * @group Avaluos
+ * APIs para crear, actualizar Avaluos
+ */
+
 class AvaluosController extends BaseController
 {
     public function create(AvaluosRequest $request)

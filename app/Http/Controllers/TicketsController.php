@@ -60,8 +60,8 @@ class TicketsController extends BaseController
     /**
      * Ticket - Interacción
      *
-     * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
-     * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
+     * @bodyParam  datosSugarCRM.numero_identificacion string ID del client. Example: 1719932079
+     * @bodyParam  datosSugarCRM.tipo_identificacion string Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
      * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com
      * @bodyParam  datosSugarCRM.user_name string Es requerido si la fuente es inConcert. UserName válido del asesor en SUGAR. Example: CG_RAMOS
      * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: FREDDY ROBERTO
@@ -132,23 +132,23 @@ class TicketsController extends BaseController
 
         //bandera que permitira registrar en log solo si es nuevo el ticket
         $reprocesoLog = false;
-        if($dataLog != null){
+        if ($dataLog != null) {
             //bandera que indicara si el proceso es nuevo o se reprocesara si la bandera indica TRUE no guardar en el log el reproceso
-                $datosLog = strpos($dataLog->response,'Undefined');
-                if(!$datosLog){
-                    //Se responde si el ticket ya esta ingresado y el mensaje su fuera diferente de undefined
-                    return response()->json(["data"=>"El ticket ya se encuentra registrado."])->setStatusCode(200);
-                }else{
-                    // si entra en esta validacion indicara que se inicia el reproceso del ticket
-                    // Se utilizara las credenciales del usuario que realizo el ingreso tomando desde el log y consultandolo en usuarios
-                    $user_auth = User::where('fuente',  $dataLog->source)->first();
-                    $reprocesoLog = true;
-                }
+            $datosLog = strpos($dataLog->response, 'Undefined');
+            if (!$datosLog) {
+                //Se responde si el ticket ya esta ingresado y el mensaje su fuera diferente de undefined
+                return response()->json(["data" => "El ticket ya se encuentra registrado."])->setStatusCode(200);
+            } else {
+                // si entra en esta validacion indicara que se inicia el reproceso del ticket
+                // Se utilizara las credenciales del usuario que realizo el ingreso tomando desde el log y consultandolo en usuarios
+                $user_auth = User::where('fuente', $dataLog->source)->first();
+                $reprocesoLog = true;
+            }
         }
 
         //si la respuesta es false entrara normalmente a trabajar con las credenciales del token que fueron enviadas desde la consulta//
         //caso contrario se utilizaran las credenciales del usuario que realizo la transaccion anteriormente.
-        if(!$reprocesoLog) {
+        if (!$reprocesoLog) {
             //registro solo para nuevos
             $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
             $user_auth = Auth::user();
@@ -157,14 +157,14 @@ class TicketsController extends BaseController
         try {
             \DB::connection(get_connection())->beginTransaction();
 
-            $validateRequest =  $this->fillOptionalDataWithNull($request->datosSugarCRM);
+            $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
 
-            $type_filter = $request->datosSugarCRM['numero_identificacion'] ? 'numero_identificacion' : 'ticket_id';
+            /*$type_filter = isset($request->datosSugarCRM['numero_identificacion']) ? 'numero_identificacion' : 'ticket_id';*/
+            $type_filter = isset($request->datosSugarCRM['numero_identificacion']) ? 'numero_identificacion' : 'numero_identificacion';
 
-            if(in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"] )) {
+            if (in_array($user_auth->fuente, $this->sourcesOmniChannel) && !isset($validateRequest["medio"])) {
                 $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
-
             //agrega nombre del Asesor y no lo tiene agrega uno dinamicamente
             if (isset($request->datosSugarCRM['user_name'])) {
                 $user = Users::get_user($request->datosSugarCRM['user_name']);
@@ -175,17 +175,16 @@ class TicketsController extends BaseController
                 $user = Users::find($userRandom->id);
             }
 
+            $dataTicket = $this->cleanDataTicket($user, $user_auth, $validateRequest);
 
-            $dataTicket= $this->cleanDataTicket($user, $user_auth, $validateRequest);
-
-            $ticket= $this->createUpdateTicket($dataTicket, $type_filter);
+            $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
 
             $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $user->usersCstm->cb_agencias_id_c);
 
             $interaction = $interactionClass->create($ticket);
             $ticket->id_interaction = $interaction->id;
 
-            if(!$reprocesoLog){
+            if (!$reprocesoLog) {
                 $dataUpdateWS = [
                     "response" => json_encode($this->response->item($ticket, new TicketsTransformer)),
                     "ticket_id" => $ticket->id,
@@ -211,19 +210,19 @@ class TicketsController extends BaseController
                 $dataInconcert = $this->getDataInconcert($request, $user_auth, $ticket);
                 $this->createTicketInconcert($dataInconcert);
             }
-            if(!$reprocesoLog){
+            if (!$reprocesoLog) {
                 return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
-            }else{
+            } else {
                 $updatedatalog = json_encode($this->response->item($ticket, new TicketsTransformer));
                 return response()->json($updatedatalog)->setStatusCode(200);
             }
 
             //return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
 
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             \DB::connection(get_connection())->rollBack();
-            if(!$reprocesoLog){
-                $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+            if (!$reprocesoLog) {
+                $this->errorExceptionWsLog($e, $user_auth, $ws_logs);
             }
             return response()->json(['error' => $e->getMessage() . ' - Notifique a SUGAR CRM Casabaca'], 500);
 
@@ -233,13 +232,14 @@ class TicketsController extends BaseController
 
     public function cleanDataTicket($user_call_center, $user_token, $dataRequest)
     {
+
         return [
             "estado" => 1,
             "team_id" => 1,
             "team_set_id" => 1,
             "created_by" => $user_call_center->id,
-            "numero_identificacion" => $dataRequest['numero_identificacion'],
-            "tipo_identificacion" => $dataRequest['tipo_identificacion'],
+            "numero_identificacion" => isset($dataRequest['numero_identificacion']) ? $dataRequest['numero_identificacion'] : "",
+            "tipo_identificacion" => isset($dataRequest['tipo_identificacion']) ? $dataRequest['tipo_identificacion'] : "",
             "brinda_identificacion" => 1,
             "nombres" => $dataRequest['nombres'],
             "apellidos" => $dataRequest['apellidos'],
@@ -346,20 +346,24 @@ class TicketsController extends BaseController
 
     public function createUpdateTicket($dataTicket, $type_filter = 'numero_identificacion', $statusTofind = [1, 4])
     {
-        if ($dataTicket[$type_filter]) {
+        $identificacion = isset($dataTicket["numero_identificacion"]) ? $dataTicket["numero_identificacion"] : "";
+        if (!empty($identificacion)) {
             $ticket = Tickets::where($type_filter, $dataTicket[$type_filter])
                 ->where('deleted', 0)
                 ->whereIn('estado', $statusTofind)
                 ->first();
+        } else {
+            $dataTicket['estado'] = 99;
         }
 
         $ticketClass = $this->createDataTicket($dataTicket);
 
-        if (!$ticket) {
+        if (!isset($ticket)) {
             $ticket = $ticketClass->create();
-            $contact = $this->createContactTicket($dataTicket);
-
-            $ticket->contacts()->attach($contact->id, getAttachObject());
+            if (!empty($identificacion)) {
+                $contact = $this->createContactTicket($dataTicket);
+                $ticket->contacts()->attach($contact->id, getAttachObject());
+            }
         } else {
             $ticket->date_modified = Carbon::now();
             $ticket->modified_user_id = $dataTicket["created_by"];
@@ -386,8 +390,8 @@ class TicketsController extends BaseController
         $ticketClass = new TicketClass();
         $ticketClass->estado = $dataTicket["estado"];
         $ticketClass->created_by = $dataTicket["created_by"];
-        $ticketClass->numero_identificacion = $dataTicket["numero_identificacion"];
-        $ticketClass->tipo_identificacion = $dataTicket["tipo_identificacion"];
+        $ticketClass->numero_identificacion = isset($dataTicket["numero_identificacion"]) ? $dataTicket["numero_identificacion"] : "";
+        $ticketClass->tipo_identificacion = isset($dataTicket["tipo_identificacion"]) ? $dataTicket["tipo_identificacion"] : "";
         $ticketClass->brinda_identificacion = $dataTicket["brinda_identificacion"];
         $ticketClass->nombres = $dataTicket["nombres"];
         $ticketClass->apellidos = $dataTicket["apellidos"];
@@ -431,8 +435,8 @@ class TicketsController extends BaseController
         $interactionClass->cb_agencias_id_c = $cbAgencias;
         $interactionClass->estado = $estado;
         $interactionClass->fuente = $dataTicket["fuente"];
-        $interactionClass->numero_identificacion = $dataTicket["numero_identificacion"];
-        $interactionClass->tipo_identificacion = $dataTicket["tipo_identificacion"];
+        $interactionClass->numero_identificacion = isset($dataTicket["numero_identificacion"]) ? $dataTicket["numero_identificacion"] : "";
+        $interactionClass->tipo_identificacion = isset($dataTicket["tipo_identificacion"]) ? $dataTicket["tipo_identificacion"] : "N";
         $interactionClass->nombres = $dataTicket["nombres"];
         $interactionClass->apellidos = $dataTicket["apellidos"];
         $interactionClass->celular = $dataTicket["celular"];
@@ -949,7 +953,7 @@ class TicketsController extends BaseController
 
             return $this->response->item($ticket, new TicketCallTransformer)->setStatusCode(200);
 
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
 
             \DB::connection(get_connection())->rollBack();
 
@@ -1056,11 +1060,11 @@ class TicketsController extends BaseController
 
             return $this->response->item($call, new CallTransformer)->setStatusCode(200);
 
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
 
             \DB::connection(get_connection())->rollBack();
 
-            $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+            $this->errorExceptionWsLog($e, $user_auth, $ws_logs);
 
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
@@ -1105,7 +1109,7 @@ class TicketsController extends BaseController
 
     public function landingTicket(TicketLandingRequest $request)
     {
-        
+
         //\DB::connection(get_connection())->beginTransaction();
 
         $user_auth = Auth::user();
@@ -1123,16 +1127,16 @@ class TicketsController extends BaseController
             $line = $landingPage->business_line_id;
             $agency = AgenciesLandingPages::where('name', $concesionario)->where('id_form', $landingPage->id)->first();
             $positionComercial = $landingPage->user_assigned_position;
-             
+
             if ($agency) {
                 $comercialUser = Users::getRandomAsesorByAgency($agency->id_sugar, $line, $positionComercial, $dias, $landingPage->medio);
             } else {
                 $comercialUser = Users::getRandomAsesorUIO($line, $positionComercial, $dias, $landingPage->medio);
             }
-            
+
             $type_filter = 'numero_identificacion';
             $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
-            
+
             //Condicion solo ingresara si el token con el que se realiza la consulta es de Carlos Larrea
             //@compania = 1 casabaca
             //@compania = 4 Carlos Larrea
@@ -1142,14 +1146,14 @@ class TicketsController extends BaseController
 
                     $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
                     $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
-                    
+
                     $userAssigned = Users::where('id', $comercialUser[0]->usuario)->first();
                     $dataTicket["linea_negocio"] = getIdLineaNegocioToWebServiceID($line);
-        
+
                     $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $userAssigned->usersCstm->cb_agencias_id_c);
                     $interaction = $interactionClass->create($ticket);
                     $ticket->id_interaction = $interaction->id;
-        
+
                     $dataUpdateWS = [
                         "response" => json_encode($this->response->item($ticket, new TicketsTransformer)),
                         "ticket_id" => $ticket->id,
@@ -1160,7 +1164,7 @@ class TicketsController extends BaseController
 
                 }else{
                     $dataUpdateWS = [
-                        "response" => "Integracion NO REALIZADA con ".$concesionario." con data Sugar Carlos Larrea", 
+                        "response" => "Integracion NO REALIZADA con ".$concesionario." con data Sugar Carlos Larrea",
                         "environment" => get_connection(),
                         "source" => $user_auth->fuente,
                     ];
@@ -1168,7 +1172,7 @@ class TicketsController extends BaseController
             }else{
                 $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
                 $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
-                
+
                 $userAssigned = Users::where('id', $comercialUser[0]->usuario)->first();
                 $dataTicket["linea_negocio"] = getIdLineaNegocioToWebServiceID($line);
 
@@ -1184,10 +1188,11 @@ class TicketsController extends BaseController
                     "interaccion_id" => $ticket->id_interaction,
                 ];
             } */
+
             //---------------------------
             $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
             $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
-            
+
             $userAssigned = Users::where('id', $comercialUser[0]->usuario)->first();
             $dataTicket["linea_negocio"] = getIdLineaNegocioToWebServiceID($line);
 
@@ -1209,11 +1214,11 @@ class TicketsController extends BaseController
 
             return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
 
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
 
             \DB::connection(get_connection())->rollBack();
 
-             $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
+            $this->errorExceptionWsLog($e, $user_auth, $ws_logs);
 
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
@@ -1238,7 +1243,8 @@ class TicketsController extends BaseController
     }
 
     /* funcion que captura el error y guarda en wsLog */
-    public function errorExceptionWsLog($e,$user,$ws_logs){
+    public function errorExceptionWsLog($e, $user, $ws_logs)
+    {
         $dataErrorWS = [
             "response" => json_encode($e->getMessage()),
             "environment" => get_connection(),
