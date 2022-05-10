@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>API Reference</title>
 
-    <link rel="stylesheet" href="{{ asset('/docs/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/docs/css/style.css') }}"/>
     <script src="{{ asset('/docs/js/all.js') }}"></script>
 
 
     <script>
-        $(function() {
-            setupLanguages(["bash","javascript","php"]);
+        $(function () {
+            setupLanguages(["bash", "javascript", "php"]);
         });
     </script>
 </head>
@@ -21,11 +21,11 @@
 <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="/docs/images/navbar.png" />
+        <img src="/docs/images/navbar.png"/>
       </span>
 </a>
 <div class="tocify-wrapper">
-    <img src="/docs/images/logo.png" />
+    <img src="/docs/images/logo.png"/>
     <div class="lang-selector">
         <a href="#" data-language-name="bash">bash</a>
         <a href="#" data-language-name="javascript">javascript</a>
@@ -1009,7 +1009,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.client.tipo_identificacion</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Tipo de identificación del ciente a cotizar, valores válidos  C(Cedula),P(Pasaporte), R(RUC).</td>
+                <td>Tipo de identificación del ciente a cotizar, valores válidos C(Cedula),P(Pasaporte), R(RUC).</td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.client.numero_identificacion</code></td>
@@ -1221,7 +1221,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.date_start</code></td>
                 <td>date</td>
                 <td>required</td>
-                <td>Fecha de llamada con zona Horaria UTC,  Formato:Y-m-d H:i.</td>
+                <td>Fecha de llamada con zona Horaria UTC, Formato:Y-m-d H:i.</td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.duration_hours</code></td>
@@ -1239,7 +1239,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.direction</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound (Saliente)</td>
+                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound
+                    (Saliente)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.type</code></td>
@@ -1275,7 +1277,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.client.tipo_identificacion</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Tipo de identificación del ciente a cotizar, valores válidos  C(Cedula),P(Pasaporte), R(RUC).</td>
+                <td>Tipo de identificación del ciente a cotizar, valores válidos C(Cedula),P(Pasaporte), R(RUC).</td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.client.numero_identificacion</code></td>
@@ -1537,7 +1539,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.date_start</code></td>
                 <td>date</td>
                 <td>required</td>
-                <td>Fecha de llamada con zona Horaria UTC,  Formato:Y-m-d H:i.</td>
+                <td>Fecha de llamada con zona Horaria UTC, Formato:Y-m-d H:i.</td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.duration_hours</code></td>
@@ -1561,7 +1563,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.direction</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound (Saliente)</td>
+                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound
+                    (Saliente)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.type</code></td>
@@ -1627,37 +1631,49 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.meeting.type</code></td>
                 <td>numeric</td>
                 <td>required</td>
-                <td>Tipo de cita es requerido si la llamada es tipo cita, valores válidos  1 (Cita Física / Normal),2 (Virtual).</td>
+                <td>Tipo de cita es requerido si la llamada es tipo cita, valores válidos 1 (Cita Física / Normal),2
+                    (Virtual).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.visit_type</code></td>
                 <td>numeric</td>
                 <td>required</td>
-                <td>Tipo de visita es requerido si la llamada es tipo cita, valores válidos  1 (Primera Visita),2 (Be-back), 3(Visita Anterior).</td>
+                <td>Tipo de visita es requerido si la llamada es tipo cita, valores válidos 1 (Primera Visita),2
+                    (Be-back), 3(Visita Anterior).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.linea_negocio</code></td>
                 <td>numeric</td>
                 <td>required</td>
-                <td>Linea de negocio es requerido si la llamada es tipo cita, valores válidos  1(Postventa),2(Nuevos), 3(Seminuevos), 4(Exonerados).</td>
+                <td>Linea de negocio es requerido si la llamada es tipo cita, valores válidos 1(Postventa),2(Nuevos),
+                    3(Seminuevos), 4(Exonerados).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.marca</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Marca del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Marca del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte
+                        la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.modelo</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Modelo del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Modelo del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte
+                        la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.client.tipo_identificacion</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Tipo de identificación del ciente es requerido si la llamada es tipo cita, valores válidos  C(Cedula),P(Pasaporte), R(RUC).</td>
+                <td>Tipo de identificación del ciente es requerido si la llamada es tipo cita, valores válidos
+                    C(Cedula),P(Pasaporte), R(RUC).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.client.numero_identificacion</code></td>
@@ -1669,7 +1685,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.meeting.client.gender</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Género del cliente es requerido si la llamada es tipo cita. valores válidos: F (Femenino),M (Masculino)</td>
+                <td>Género del cliente es requerido si la llamada es tipo cita. valores válidos: F (Femenino),M
+                    (Masculino)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.client.names</code></td>
@@ -1836,7 +1854,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.motivo_cierre</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Motivo para cerrar un ticket - Valores válidos: 1(No aplica a financiamiento), 2(Sólo Información), 3(No Contactado), 4(Desiste), 5(Compra Futura)</td>
+                <td>Motivo para cerrar un ticket - Valores válidos: 1(No aplica a financiamiento), 2(Sólo Información),
+                    3(No Contactado), 4(Desiste), 5(Compra Futura)
+                </td>
             </tr>
             </tbody>
         </table>
@@ -2262,7 +2282,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.date_start</code></td>
                 <td>date</td>
                 <td>required</td>
-                <td>Fecha de llamada con zona Horaria UTC,  Formato:Y-m-d H:i.</td>
+                <td>Fecha de llamada con zona Horaria UTC, Formato:Y-m-d H:i.</td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.duration_hours</code></td>
@@ -2286,7 +2306,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.direction</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound (Saliente)</td>
+                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound
+                    (Saliente)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.type</code></td>
@@ -2334,13 +2356,17 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.ticket.motivo_cierre</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Motivo para cerrar un ticket - Valores válidos: abandono_chat,solo_informacion,desiste,no_contesta,compra_futura</td>
+                <td>Motivo para cerrar un ticket - Valores válidos:
+                    abandono_chat,solo_informacion,desiste,no_contesta,compra_futura
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.status</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Estado es requerido si la llamada es tipo cita, valores válidos: Planned (Planificada), Held (Realizada)</td>
+                <td>Estado es requerido si la llamada es tipo cita, valores válidos: Planned (Planificada), Held
+                    (Realizada)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.date</code></td>
@@ -2382,37 +2408,49 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.meeting.type</code></td>
                 <td>numeric</td>
                 <td>required</td>
-                <td>Tipo de cita es requerido si la llamada es tipo cita, valores válidos  1 (Cita Física / Normal),2 (Virtual).</td>
+                <td>Tipo de cita es requerido si la llamada es tipo cita, valores válidos 1 (Cita Física / Normal),2
+                    (Virtual).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.visit_type</code></td>
                 <td>numeric</td>
                 <td>required</td>
-                <td>Tipo de visita es requerido si la llamada es tipo cita, valores válidos  1 (Primera Visita),2 (Be-back), 3(Visita Anterior).</td>
+                <td>Tipo de visita es requerido si la llamada es tipo cita, valores válidos 1 (Primera Visita),2
+                    (Be-back), 3(Visita Anterior).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.linea_negocio</code></td>
                 <td>numeric</td>
                 <td>required</td>
-                <td>Linea de negocio es requerido si la llamada es tipo cita, valores válidos  1(Postventa),2(Nuevos), 3(Seminuevos), 4(Exonerados).</td>
+                <td>Linea de negocio es requerido si la llamada es tipo cita, valores válidos 1(Postventa),2(Nuevos),
+                    3(Seminuevos), 4(Exonerados).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.marca</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Marca del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Marca del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte
+                        la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.modelo</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Modelo del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Modelo del vehículo - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte
+                        la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.client.tipo_identificacion</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Tipo de identificación del ciente es requerido si la llamada es tipo cita, valores válidos  C(Cedula),P(Pasaporte), R(RUC).</td>
+                <td>Tipo de identificación del ciente es requerido si la llamada es tipo cita, valores válidos
+                    C(Cedula),P(Pasaporte), R(RUC).
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.client.numero_identificacion</code></td>
@@ -2424,7 +2462,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.meeting.client.gender</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Género del cliente es requerido si la llamada es tipo cita. valores válidos: F (Femenino),M (Masculino)</td>
+                <td>Género del cliente es requerido si la llamada es tipo cita. valores válidos: F (Femenino),M
+                    (Masculino)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.meeting.client.names</code></td>
@@ -2675,7 +2715,7 @@ print_r(json_decode((string) $body));</code></pre>
             <tr>
                 <td><code>datosSugarCRM.tipo_identificacion</code></td>
                 <td>string</td>
-                <td>required</td>
+                <td>optional</td>
                 <td>Valores válidos: C(Cedula),P(Pasaporte), R(RUC)</td>
             </tr>
             <tr>
@@ -2778,19 +2818,25 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.porcentaje_discapacidad</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Porcentaje de discapacidad del cliente, , valores válidos: 30_49 (Del 30% al 49%),50_74 (Del 50% al 74%),75_84 (Del 75% al 84%),85_100(Del 85% al 100%)</td>
+                <td>Porcentaje de discapacidad del cliente, , valores válidos: 30_49 (Del 30% al 49%),50_74 (Del 50% al
+                    74%),75_84 (Del 75% al 84%),85_100(Del 85% al 100%)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.marca</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Marca del vehículo (Requerido para CarMatch) - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Marca del vehículo (Requerido para CarMatch) - <a
+                        href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.modelo</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Modelo del vehículo (Requerido para CarMatch) - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Modelo del vehículo (Requerido para CarMatch) - <a
+                        href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.precio</code></td>
@@ -2808,7 +2854,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.anioMin</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Año Mínimo  del vehículo (Requerido para CarMatch)</td>
+                <td>Año Mínimo del vehículo (Requerido para CarMatch)</td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.anioMax</code></td>
@@ -2856,7 +2902,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datos_adicionales.fields.0.key</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Nombre del campo 1 del formulario  formulario</td>
+                <td>Nombre del campo 1 del formulario formulario</td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields.0.nombre</code></td>
@@ -2868,7 +2914,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datos_adicionales.fields.1.key</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Nombre del campo 2 del formulario  formulario</td>
+                <td>Nombre del campo 2 del formulario formulario</td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields.1.nombre</code></td>
@@ -2880,7 +2926,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datos_adicionales.fields.2.key</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Nombre del campo n del formulario  formulario</td>
+                <td>Nombre del campo n del formulario formulario</td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields.2.nombre</code></td>
@@ -3134,13 +3180,17 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.marca</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Marca del vehículo (Requerido para CarMatch) - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Marca del vehículo (Requerido para CarMatch) - <a
+                        href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.modelo</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Modelo del vehículo (Requerido para CarMatch) - <a href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.</td>
+                <td>Modelo del vehículo (Requerido para CarMatch) - <a
+                        href="{{ asset('/docs/TablaModelosMarcas.xlsx') }}" TARGET="_blank">consulte la tabla.</a>.
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.comentario_cliente</code></td>
@@ -3158,7 +3208,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.porcentaje_discapacidad</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Porcentaje de discapacidad del cliente, , valores válidos: 30_49 (Del 30% al 49%),50_74 (Del 50% al 74%),75_84 (Del 75% al 84%),85_100(Del 85% al 100%)</td>
+                <td>Porcentaje de discapacidad del cliente, , valores válidos: 30_49 (Del 30% al 49%),50_74 (Del 50% al
+                    74%),75_84 (Del 75% al 84%),85_100(Del 85% al 100%)
+                </td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields</code></td>
@@ -3170,7 +3222,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datos_adicionales.fields.0.key</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Estado Civil del campo 1 del formulario  formulario</td>
+                <td>Estado Civil del campo 1 del formulario formulario</td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields.0.nombre</code></td>
@@ -3182,7 +3234,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datos_adicionales.fields.1.key</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Fecha de Nacimiento del campo 2 del formulario  formulario</td>
+                <td>Fecha de Nacimiento del campo 2 del formulario formulario</td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields.1.nombre</code></td>
@@ -3578,7 +3630,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.date_start</code></td>
                 <td>date</td>
                 <td>required</td>
-                <td>Fecha de llamada con zona Horaria UTC,  Formato:Y-m-d H:i.</td>
+                <td>Fecha de llamada con zona Horaria UTC, Formato:Y-m-d H:i.</td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.duration_hours</code></td>
@@ -3596,7 +3648,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.direction</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound (Saliente)</td>
+                <td>Indica si la llamada es entrante o saliente Valores válidos: Inbound (Entrante),Outbound
+                    (Saliente)
+                </td>
             </tr>
             <tr>
                 <td><code>datosSugarCRM.ticket_id</code></td>
@@ -3614,7 +3668,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datos_adicionales.fields.0.key</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Estado Civil del campo 1 del formulario  formulario</td>
+                <td>Estado Civil del campo 1 del formulario formulario</td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields.0.nombre</code></td>
@@ -3626,7 +3680,7 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datos_adicionales.fields.1.key</code></td>
                 <td>string</td>
                 <td>optional</td>
-                <td>Fecha de Nacimiento del campo 2 del formulario  formulario</td>
+                <td>Fecha de Nacimiento del campo 2 del formulario formulario</td>
             </tr>
             <tr>
                 <td><code>datos_adicionales.fields.1.nombre</code></td>
@@ -3757,7 +3811,9 @@ print_r(json_decode((string) $body));</code></pre>
                 <td><code>datosSugarCRM.motivo_cierre</code></td>
                 <td>string</td>
                 <td>required</td>
-                <td>Motivo para cerrar un ticket - Valores válidos: abandono_chat,solo_informacion,desiste,no_contesta,compra_futura</td>
+                <td>Motivo para cerrar un ticket - Valores válidos:
+                    abandono_chat,solo_informacion,desiste,no_contesta,compra_futura
+                </td>
             </tr>
             </tbody>
         </table>
@@ -3903,6 +3959,7 @@ print_r(json_decode((string) $body));</code></pre>
             </tbody>
         </table>
         <!-- END_995795dea562b0b100b5648b0a1afdeb -->
+    </div>
     <div class="dark-box">
         <div class="lang-selector">
             <a href="#" data-language-name="bash">bash</a>
