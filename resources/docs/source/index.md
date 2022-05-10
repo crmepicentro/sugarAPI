@@ -2092,7 +2092,7 @@ print_r(json_decode((string) $body));
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     `datosSugarCRM.numero_identificacion` | string |  optional  | ID del client.
-        `datosSugarCRM.tipo_identificacion` | string |  required  | Valores válidos: C(Cedula),P(Pasaporte), R(RUC)
+        `datosSugarCRM.tipo_identificacion` | string |  optional  | Valores válidos: C(Cedula),P(Pasaporte), R(RUC)
         `datosSugarCRM.email` | email |  required  | Email válido del cliente.
         `datosSugarCRM.user_name` | string |  optional  | Es requerido si la fuente es inConcert. UserName válido del asesor en SUGAR.
         `datosSugarCRM.nombres` | string |  required  | Nombres del cliente.
