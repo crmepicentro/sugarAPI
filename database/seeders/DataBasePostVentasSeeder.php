@@ -20,10 +20,7 @@ class DataBasePostVentasSeeder extends Seeder
         DB::unprepared(file_get_contents($path));
         $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'pvt_autos2022-04-25 09-54-01.sql');
         DB::unprepared(file_get_contents($path));
-        $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'pvt_conductors2022-04-25 09-54-01.sql');
-        DB::unprepared(file_get_contents($path));
-        $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'pvt_conductor_autos2022-04-25 09-54-01.sql');
-        DB::unprepared(file_get_contents($path));
+
         $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'pvt_detalle_gestion_oportunidades2022-04-25 09-54-01.sql');
         DB::unprepared(file_get_contents($path));
         $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'pvt_gestion_agendados2022-04-25 09-54-01.sql');

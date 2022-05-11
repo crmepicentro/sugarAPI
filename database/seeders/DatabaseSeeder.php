@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             PropietarioSeeder::class,
             ConductorSeeder::class,
             AutoSeeder::class,
-            ConductorAutoSeeder::class,
+
             DetalleGestionOportunidadesSeeder::class,
             GestionCitaSeeder::class,
             GestionAgendadoSeeder::class,

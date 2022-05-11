@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CargaFacturasDia;
 use App\Models\Auto;
+use App\Models\AutoFactura;
+use App\Models\AutoUsuarioauto;
 use App\Models\DetalleGestionOportunidades;
+use App\Models\Factura;
 use App\Models\Propietario;
+use App\Models\Usuarioauto;
 use App\Models\Ws_logs;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -172,6 +176,8 @@ class Servicios3sController extends Controller
         foreach ($s3sdatos['listaOrdenTallerDetalle'] as $s3sdato){
             $propietario = $this->guardar_propietario($s3sdato,$ws_logs);
             $auto_cabecera = $this->guardar_auto($s3sdato , $propietario, $ws_logs);
+            $this->guardar_usuarioauto($s3sdato ,  $ws_logs,$auto_cabecera['auto']);
+            $this->guardar_factura($s3sdato , $ws_logs,$auto_cabecera['auto']);
             $auto           = $auto_cabecera['auto'] ;
             $codAgencia     = $auto_cabecera['codAgencia'] ;
             $codOrdenTaller = $auto_cabecera['codOrdenTaller'] ;
@@ -218,6 +224,54 @@ class Servicios3sController extends Controller
         $propietario->save();
         return $propietario;
     }
+    private function guardar_usuarioauto($s3sdato,Ws_logs $ws_logs,Auto $auto){
+        if(trim($s3sdato['nomUsuarioVista']) == '' && trim($s3sdato['fonoCelUsuarioVisita']) == ''  && trim($s3sdato['mailUsuarioVisita']) == ''
+        ){
+            return null;
+        }
+        $usuarioAuto = Usuarioauto::firstOrCreate([
+            'nomUsuarioVista'       => $s3sdato['nomUsuarioVista'],
+            'fonoCelUsuarioVisita'  => $s3sdato['fonoCelUsuarioVisita'],
+            'mailUsuarioVisita'     => trim($s3sdato['mailUsuarioVisita']),
+        ]);
+        $usuarioAuto->save();
+        AutoUsuarioauto::create([
+            'autos_id'          => $auto->id,
+            'usuarioautos_id'   => $usuarioAuto->id,
+        ]);
+    }
+    private function guardar_factura($s3sdato,Ws_logs $ws_logs,Auto $auto){
+        $factura = Factura::where('codCliFactura',$s3sdato['codCliFactura'])->first();
+        if($factura != null ){
+            $factura->update([
+                'ciCliFactura'      => $s3sdato['ciCliFactura'],
+                'nomCliFactura'     => $s3sdato['nomCliFactura'],
+                'mail1CliFactura'   => $s3sdato['mail1CliFactura'],
+                'mali2CliFactura'   => $s3sdato['mali2CliFactura'],
+                'fonoCliDomFactura' => $s3sdato['fonoCliDomFactura'],
+                'fonoCliTrabFactura'    => $s3sdato['fonoCliTrabFactura'],
+                'fonoCliCelFactura'     => $s3sdato['fonoCliCelFactura'],
+
+            ]);
+            $factura->save();
+        }
+        $factura = Factura::firstOrCreate([
+            'codCliFactura'     => $s3sdato['codCliFactura'],
+            'ciCliFactura'      => $s3sdato['ciCliFactura'],
+            'nomCliFactura'     => $s3sdato['nomCliFactura'],
+            'mail1CliFactura'   => $s3sdato['mail1CliFactura'],
+            'mali2CliFactura'   => $s3sdato['mali2CliFactura'],
+            'fonoCliDomFactura' => $s3sdato['fonoCliDomFactura'],
+            'fonoCliTrabFactura'    => $s3sdato['fonoCliTrabFactura'],
+            'fonoCliCelFactura'     => $s3sdato['fonoCliCelFactura'],
+        ]);
+        $factura->save();
+        AutoFactura::create([
+            'autos_id'          => $auto->id,
+            'factura_id'   => $factura->id,
+        ]);
+        return $factura;
+    }
     private function guardar_auto($s3sdato , Propietario $propietario, Ws_logs $ws_logs){
         $auto = Auto::where('id_auto_s3s',$s3sdato['numcbs'])->first();
         if($auto != null ){
@@ -226,6 +280,7 @@ class Servicios3sController extends Controller
                 'id_auto_s3s' => $s3sdato['numcbs'],
                 'id_ws_logs' => $ws_logs->id,
                 'placa'  => $s3sdato['placaVehiculo'],
+                'chasis' => $s3sdato['chasisVehiculo'],
                 'modelo' => $s3sdato['modeloVehiculo'],
                 'descVehiculo' => $s3sdato['descVehiculo'],
                 'marcaVehiculo' => $s3sdato['marcaVehiculo'],
