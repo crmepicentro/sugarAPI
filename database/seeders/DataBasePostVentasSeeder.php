@@ -29,7 +29,7 @@ class DataBasePostVentasSeeder extends Seeder
         DB::unprepared(file_get_contents($path));
         $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'pvt_gestion_nuevos2022-04-25 09-54-01.sql');
         DB::unprepared(file_get_contents($path));*/
-        $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'seeder_20220427.sql');
+        $path = base_path('database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR.'seed_data'.DIRECTORY_SEPARATOR.'sql_sugarcrm_20220511.sql');
         DB::unprepared(file_get_contents($path));
 
     }
