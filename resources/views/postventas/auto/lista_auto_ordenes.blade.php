@@ -34,7 +34,7 @@
             </thead>
             <tbody>
             @foreach(\App\Models\DetalleGestionOportunidades::
-        selectRaw('ordTaller, max(codOrdAsesor) as codOrdAsesor,max(nomOrdAsesor) as nomOrdAsesor, max(ordFchaCierre) as ordFchaCierre, (sum(cantidad) * sum(cargosCobrar)) as monto, min(gestion_fecha) as primer_gestion, min(gestion_tipo) as primer_gestion_estado, min(agendado_fecha) as gestion_futura, max(gestion_tipo) as ultima_gestion_estado')
+        selectRaw('ordTaller, max(nomUsuarioVista) as nomUsuarioVista, max(codOrdAsesor) as codOrdAsesor,max(nomOrdAsesor) as nomOrdAsesor, max(ordFchaCierre) as ordFchaCierre, (sum(cantidad) * sum(cargosCobrar)) as monto, min(gestion_fecha) as primer_gestion, min(gestion_tipo) as primer_gestion_estado, min(agendado_fecha) as gestion_futura, max(gestion_tipo) as ultima_gestion_estado')
         ->where('auto_id', '=', $auto->id)
         ->agestionar()
         ->groupby('ordTaller')->get() as $oportunidad)
@@ -49,7 +49,7 @@
                         {{ $oportunidad->ordFchaCierre }}
                     </td>
                     <td>
-                        USUARIO
+                        {{ $oportunidad->nomUsuarioVista }}
                     </td>
                     <td>
                         ${{ $oportunidad->monto }}

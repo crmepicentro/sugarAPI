@@ -144,12 +144,12 @@ class Servicios3sController extends Controller
             'ejecutar' => 'required|in:ecHuWh2mf80V3FlWA3LW9wn2Hjkka9asZmuOirYGZYROU5ejlVoyzo2aJ437sxRO0OfpoCZOFXp6ryLjQrIBS79fgb6Ry3LeK7SgwTTg',
         ]);
 
-        for ($i=0; $i < 90; $i++) {
+        for ($i=0; $i < 190; $i++) {
             $year = Carbon::now()->year;
             $month = Carbon::now()->month;
-            $day = Carbon::now()->subDays($i + 2 )->day;
+            $day = Carbon::now()->day;
             $tz = config('constants.pv_timezone');
-            $fecha_inicial = Carbon::createFromDate($year, $month, $day, $tz); //2022-04-10 no tiene datos
+            $fecha_inicial = Carbon::createFromDate($year, $month, $day, $tz)->subDays($i + 2 ); //2022-04-10 no tiene datos
             CargaFacturasDia::dispatch($fecha_inicial);
         }
         return response()->json([
@@ -344,6 +344,9 @@ class Servicios3sController extends Controller
                 'tipoServ'  => $s3sdato_detalle['tipoServ'],
                 'franquicia' => $s3sdato_detalle['franquicia'],
 
+                'codCliFactura'  => $s3sdato['codCliFactura'],
+                'nomUsuarioVista' => $s3sdato['nomUsuarioVista'],
+
                 'facturacion_fecha' => null,
 
                 'perdida_fecha' => null,
@@ -389,6 +392,9 @@ class Servicios3sController extends Controller
 
             'tipoServ'  => $s3sdato_detalle['tipoServ'],
             'franquicia' => $s3sdato_detalle['franquicia'],
+
+            'codCliFactura'  => $s3sdato['codCliFactura'],
+            'nomUsuarioVista' => $s3sdato['nomUsuarioVista'],
 
             'facturacion_fecha' => null,
 
