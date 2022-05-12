@@ -126,12 +126,12 @@ class TicketsController extends BaseController
      */
     public function store(TicketRequest $request)
     {
-
+        $reprocesoLog = false;
+/*
         //buscamos que el dato entrante no se encuentre en el log de transaccion para ya no volver a ingresar
         $dataLog = WsLog::getDuplicadoLog($request);
 
         //bandera que permitira registrar en log solo si es nuevo el ticket
-        $reprocesoLog = false;
         if ($dataLog != null) {
             //bandera que indicara si el proceso es nuevo o se reprocesara si la bandera indica TRUE no guardar en el log el reproceso
             $datosLog = strpos($dataLog->response, 'Undefined');
@@ -153,6 +153,9 @@ class TicketsController extends BaseController
             $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
             $user_auth = Auth::user();
         }
+*/
+        $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
+        $user_auth = Auth::user();
 
         try {
             \DB::connection(get_connection())->beginTransaction();
@@ -210,14 +213,8 @@ class TicketsController extends BaseController
                 $dataInconcert = $this->getDataInconcert($request, $user_auth, $ticket);
                 $this->createTicketInconcert($dataInconcert);
             }
-            if (!$reprocesoLog) {
-                return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
-            } else {
-                $updatedatalog = json_encode($this->response->item($ticket, new TicketsTransformer));
-                return response()->json($updatedatalog)->setStatusCode(200);
-            }
 
-            //return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
+            return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
 
         } catch (\Exception $e) {
             \DB::connection(get_connection())->rollBack();
@@ -617,8 +614,8 @@ class TicketsController extends BaseController
     {
         $ticket = Tickets::find($id);
         $ticket->estado = $status;
-        $ticket->proceso = $motivo;
         if (empty($ticket->ticketsCstm->fecha_primera_modificacion_c)) {
+            $ticket->proceso = $motivo;
             $ticket->ticketsCstm->fecha_primera_modificacion_c = Carbon::now();
         }
         $ticket->save();
