@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -64,6 +65,17 @@ class DetalleGestionOportunidades extends Model
         'estado_momento_consulta',
 
     ];
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('facturado', function (Builder $builder) {
+            $builder->where('facturado', '=', 'N');
+        });
+    }
     public function getClaveunicaprincipalAttribute($value)
     {
         return md5("{$this->codAgencia}|{$this->ordTaller}|{$this->codServ}");
@@ -81,6 +93,10 @@ class DetalleGestionOportunidades extends Model
                 ->whereNull('perdida_fecha')
                 ->whereNull('ganado_fecha');
         });
+    }
+    public function scopeFacturado($query)
+    {
+        return $query->Where('facturado', '=', 'N');
     }
 
     public function getClaveunicaprincipaljsonAttribute($value)

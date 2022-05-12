@@ -9,6 +9,115 @@
     <!-- Dynamic Table Full -->
     <div class="block block-rounded">
         <div class="block-header block-header-default">
+            <h3 class="block-title">Filtros de Gestion PostVentas</h3>
+        </div>
+        <div class="block-content">
+            <!-- Multiple Items -->
+
+            <div id="accordion2" role="tablist" aria-multiselectable="true">
+                <div class="block block-rounded mb-1">
+                    <div class="block-header block-header-default" role="tab" id="accordion2_h1">
+                        <a class="fw-semibold" data-bs-toggle="collapse" data-bs-parent="#accordion2" href="#accordion2_q1" aria-expanded="true" aria-controls="accordion2_q1">Filtros de Gestion PostVentas</a>
+                    </div>
+                    <div id="accordion2_q1" class="collapse show" role="tabpanel" aria-labelledby="accordion2_h1">
+
+                        <div class="block-content space-y-2">
+                            {{ Form::open(['route' => 'postventa.indice', 'method' => 'GET', 'class' => 'row row-cols-lg-auto g-3 align-items-center',]) }}
+                            @php($campo = 'search_cliente')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                            </div>
+                            @php($campo = 'search_correo')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                            </div>
+                            @php($campo = 'search_telefono')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                            </div>
+                            @php($campo = 'search_agenente')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                            </div>
+                            @php($campo = 'search_orden')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                <select class="js-select2 form-select form-control" id="example-select2-multiple" name="{{ $campo }}" style="width: 100%;" data-placeholder="{{ __('fo.'.$campo) }}" multiple>
+                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
+                                    <option value="1" selected>HTML</option>
+                                    <option value="2" selected>CSS</option>
+                                    <option value="3">JavaScript</option>
+                                    <option value="4">PHP</option>
+                                    <option value="5">MySQL</option>
+                                    <option value="6">Ruby</option>
+                                    <option value="7">Angular</option>
+                                    <option value="8">React</option>
+                                    <option value="9">Vue.js</option>
+                                </select>
+
+                            </div>
+                            @php($campo = 'search_oportunidades')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                            </div>
+                            @php($campo = 'search_placa')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                            </div>
+                             @php($campo = 'search_fechaGestion')
+                            <div class="col-12">
+                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                <div class="mb-4">
+                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
+                                        <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    </div>
+                                </div>
+                            </div>
+                            @php($campo = 'search_fechaFactura')
+                            <div class="col-12">
+                                <div class="mb-4">
+                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
+                                        <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    </div>
+                                </div>
+                            </div>
+                            @php($campo = 'search_fechaCita')
+                            <div class="col-12">
+                                <div class="mb-4">
+                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
+                                        <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                            </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Multiple Items -->
+        </div>
+    </div>
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
             <h3 class="block-title">
                 Dynamic Table <small>Full</small>
             </h3>
@@ -81,6 +190,11 @@
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css')}}">
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css')}}">
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables-responsive-bs5/css/responsive.bootstrap5.min.css')}}">
+
+    <link rel="stylesheet" href="{{ asset('js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/flatpickr/flatpickr.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
 @endsection
 @section('js_after')
     <!-- jQuery (required for DataTables plugin) -->
@@ -99,7 +213,16 @@
     <script src="{{ asset('js/plugins/datatables-buttons/buttons.print.min.js')}}"></script>
     <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js')}}"></script>
 
+    <script src="{{ asset('js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{ asset('js/plugins/flatpickr/flatpickr.min.js')}}"></script>
+    <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/jquery-validation/additional-methods.js') }}"></script>
+
+    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- Page JS Code -->
+    <script>Dashmix.helpersOnLoad(['js-flatpickr', 'jq-datepicker', 'jq-colorpicker', 'jq-maxlength', 'jq-select2', 'jq-rangeslider', 'jq-pw-strength']);</script>
     @include('postventas.datatable_js')
 @endsection
+
 
