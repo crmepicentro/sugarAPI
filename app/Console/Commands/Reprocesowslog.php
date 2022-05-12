@@ -49,12 +49,13 @@ class Reprocesowslog extends Command
 
             $myObj = new \stdClass();
             $myObj->datosSugarCRM = json_decode($item->datos_sugar_crm);
+            $myObj->environment = $item->environment;
             $array = json_decode(json_encode($myObj), true);
 
             /*
             agregar token de produccion a variables de entorno para reprocesar los datos
             */
-            if($item->route === "api/tickets/"){
+            if($item->route === "api/tickets/" && $item->environment ==="sugar_prod"){
                 //se guarda json enviado en archivo de log provicional para ver si se proceso
                 Storage::append('log_crontabreprocesos.txt',json_encode($array));
 

@@ -149,7 +149,7 @@ class TicketsController extends BaseController
         //si la respuesta es false entrara normalmente a trabajar con las credenciales del token que fueron enviadas desde la consulta//
         //caso contrario se utilizaran las credenciales del usuario que realizo la transaccion anteriormente.
         if(!$reprocesoLog) {
-            //registro solo para nuevos
+            //registro solo para nuevos storeAfter
             $ws_logs = WsLog::storeBefore($request, 'api/tickets/');
             $user_auth = Auth::user();
         }
@@ -215,7 +215,7 @@ class TicketsController extends BaseController
                 return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
             }else{
                 $updatedatalog = json_encode($this->response->item($ticket, new TicketsTransformer));
-                return response()->json($updatedatalog)->setStatusCode(200);
+                return response()->json($updatedatalog)->setStatusCode(301);
             }
 
             //return $this->response->item($ticket, new TicketsTransformer)->setStatusCode(200);
@@ -1105,7 +1105,7 @@ class TicketsController extends BaseController
 
     public function landingTicket(TicketLandingRequest $request)
     {
-        
+
         //\DB::connection(get_connection())->beginTransaction();
 
         $user_auth = Auth::user();
@@ -1123,71 +1123,20 @@ class TicketsController extends BaseController
             $line = $landingPage->business_line_id;
             $agency = AgenciesLandingPages::where('name', $concesionario)->where('id_form', $landingPage->id)->first();
             $positionComercial = $landingPage->user_assigned_position;
-             
+
             if ($agency) {
                 $comercialUser = Users::getRandomAsesorByAgency($agency->id_sugar, $line, $positionComercial, $dias, $landingPage->medio);
             } else {
                 $comercialUser = Users::getRandomAsesorUIO($line, $positionComercial, $dias, $landingPage->medio);
             }
-            
+
             $type_filter = 'numero_identificacion';
             $validateRequest = $this->fillOptionalDataWithNull($request->datosSugarCRM);
-            
-            //Condicion solo ingresara si el token con el que se realiza la consulta es de Carlos Larrea
-            //@compania = 1 casabaca
-            //@compania = 4 Carlos Larrea
-            /* if($user_auth->compania == 4){
-                //return  response()->json(['prueba ' => 'carlos larrea'], 200);
-                if($concesionario == "Ambato (Automotores Carlos Larrea)"){
 
-                    $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
-                    $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
-                    
-                    $userAssigned = Users::where('id', $comercialUser[0]->usuario)->first();
-                    $dataTicket["linea_negocio"] = getIdLineaNegocioToWebServiceID($line);
-        
-                    $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $userAssigned->usersCstm->cb_agencias_id_c);
-                    $interaction = $interactionClass->create($ticket);
-                    $ticket->id_interaction = $interaction->id;
-        
-                    $dataUpdateWS = [
-                        "response" => json_encode($this->response->item($ticket, new TicketsTransformer)),
-                        "ticket_id" => $ticket->id,
-                        "environment" => get_connection(),
-                        "source" => $user_auth->fuente,
-                        "interaccion_id" => $ticket->id_interaction,
-                    ];
-
-                }else{
-                    $dataUpdateWS = [
-                        "response" => "Integracion NO REALIZADA con ".$concesionario." con data Sugar Carlos Larrea", 
-                        "environment" => get_connection(),
-                        "source" => $user_auth->fuente,
-                    ];
-                }
-            }else{
-                $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
-                $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
-                
-                $userAssigned = Users::where('id', $comercialUser[0]->usuario)->first();
-                $dataTicket["linea_negocio"] = getIdLineaNegocioToWebServiceID($line);
-
-                $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $userAssigned->usersCstm->cb_agencias_id_c);
-                $interaction = $interactionClass->create($ticket);
-                $ticket->id_interaction = $interaction->id;
-
-                $dataUpdateWS = [
-                    "response" => json_encode($this->response->item($ticket, new TicketsTransformer)),
-                    "ticket_id" => $ticket->id,
-                    "environment" => get_connection(),
-                    "source" => $user_auth->fuente,
-                    "interaccion_id" => $ticket->id_interaction,
-                ];
-            } */
             //---------------------------
             $dataTicket = $this->cleanDataLandingTicket($comercialUser[0]->usuario, $user_auth, $validateRequest, $landingPage);
             $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
-            
+
             $userAssigned = Users::where('id', $comercialUser[0]->usuario)->first();
             $dataTicket["linea_negocio"] = getIdLineaNegocioToWebServiceID($line);
 
@@ -1241,8 +1190,8 @@ class TicketsController extends BaseController
     public function errorExceptionWsLog($e,$user,$ws_logs){
         $dataErrorWS = [
             "response" => json_encode($e->getMessage()),
-            "environment" => get_connection(),
-            "source" => $user->fuente,
+            //"environment" => get_connection(),
+            //"source" => $user->fuente,
         ];
         WsLog::storeAfter($ws_logs, $dataErrorWS);
     }
