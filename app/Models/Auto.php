@@ -37,5 +37,55 @@ class Auto extends Model
     public function detalleGestionOportunidadesagestionar()    {
         return $this->hasMany(DetalleGestionOportunidades::class, 'auto_id', 'id')->agestionar();
     }
+    /**
+     * Dar usuarios de auto
+     */
+    public function usuaariosautos()
+    {
+        return $this->belongsToMany(
+            Usuarioauto::class,
+            AutoUsuarioauto::class,
+            'autos_id',
+            'usuarioautos_id',
+            'id',
+            'id'
+        );
+    }
+    public function usuaariosautosunicos()
+    {
+        return $this->belongsToMany(
+            Usuarioauto::class,
+            AutoUsuarioauto::class,
+            'autos_id',
+            'usuarioautos_id',
+            'id',
+            'id'
+        )->distinct();
+    }
+    /**
+     * Dar facturas de auto
+     */
+    public function facturas()
+    {
+        return $this->belongsToMany(
+            Factura::class,
+            AutoFactura::class,
+            'autos_id',
+            'factura_id',
+            'id',
+            'id'
+        );
+    }
+    public function facturasunicos()
+    {
+        return $this->belongsToMany(
+            Factura::class,
+            AutoFactura::class,
+            'autos_id',
+            'factura_id',
+            'id',
+            'id'
+        )->distinct();
+    }
 
 }

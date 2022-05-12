@@ -11,11 +11,15 @@
     <div class="block-content tab-content overflow-hidden">
         <div class="tab-pane fade fade-right active show" id="btabs-animated-slideright-home" role="tabpanel" aria-labelledby="btabs-animated-slideright-home-tab">
             <h4 class="fw-normal">Usuarios</h4>
-            <p>Content slides in to the right..</p>
+            @foreach($auto->usuaariosautosunicos as $usuario)
+                <p>{{ $usuario->nomUsuarioVista }}|{{ $usuario->fonoCelUsuarioVisita }}|{{ $usuario->mailUsuarioVisita }}</p>
+            @endforeach
         </div>
         <div class="tab-pane fade fade-right" id="btabs-animated-slideright-profile" role="tabpanel" aria-labelledby="btabs-animated-slideright-profile-tab">
             <h4 class="fw-normal">Factura</h4>
-            <p>Content slides in to the right..</p>
+            @foreach($auto->facturasunicos as $factura)
+                <p>{{ $factura->ciCliFactura }}|{{ $factura->nomCliFactura }}|{{ $factura->mail1CliFactura }}|{{ $factura->mali2CliFactura }}</p>
+            @endforeach
         </div>
     </div>
 </div>
