@@ -52,11 +52,10 @@
         </div>
         <div class="col-6">
             <div class="block-content">
-                {{ $propietario->email_propietario }} |
-                {{ $propietario->email_propietario_2 }} |
-                {{ $propietario->telefono_domicilio }} |
-                {{ $propietario->telefono_trabajo }} |
-                {{ $propietario->telefono_celular }} |
+                {{ $propietario->email_propietario }} {{ ($propietario->email_propietario_2 != '' )?" | ".$propietario->email_propietario_2:"" }}|
+                {{ $propietario->telefono_domicilio ?? $propietario->telefono_domicilio ?? $propietario->telefono_celular ?? 'No tiene' }}
+                {{ ($propietario->telefono_trabajo != '' )?" | ".$propietario->telefono_trabajo:"" }}
+                {{ ($propietario->telefono_celular != '' )?" | ".$propietario->telefono_celular:"" }}
             </div>
         </div>
     </div>
