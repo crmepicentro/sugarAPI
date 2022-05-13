@@ -8,16 +8,23 @@ use Illuminate\Support\Facades\Log;
 
 class StrapiController extends Controller
 {
+    /*
+        Variable: $dataFile ( Se ecuentra en el foreach, linea: 21 )
+        Remplazo:
+            Antes: $dataFile->...
+            Ahoara: $dataFile['...']
+        Lineas_alteradas: 23, 24, 25, 27, 36, 42
+    */
     public function storeFilesAppraisals($request, $idAvaluo, $placa, $coordinator){
-        $pics =  json_decode($request->pics);
+        $pics =  $request->pics;
         $fileField = 'files.images';
        foreach ($pics as $dataFile)
         {
-            if($request->file($dataFile->name) && !$dataFile->multiple) {
-                $fileName = $idAvaluo . $placa . '_' . $dataFile->name . '.'. $request->file($dataFile->name)->getClientOriginalExtension();
-                $responseStrapi = Http::attach($fileField, $request->file($dataFile->name)->getContent(), $fileName)
+            if($request->file($dataFile['name']) && !$dataFile['multiple']) {
+                $fileName = $idAvaluo . $placa . '_' . $dataFile['name'] . '.'. $request->file($dataFile['name'])->getClientOriginalExtension();
+                $responseStrapi = Http::attach($fileField, $request->file($dataFile['name'])->getContent(), $fileName)
                 ->post(env('STRAPI_URL'). '/appraisal-images', [
-                    'data' => json_encode(['id_avaluo_sugar' => strval($idAvaluo), 'name' => $dataFile->name, 'multiple' => boolval($dataFile->multiple)])
+                    'data' => json_encode(['id_avaluo_sugar' => strval($idAvaluo), 'name' => $dataFile['name'], 'multiple' => boolval($dataFile['multiple'])])
                 ]);
                 $data = $responseStrapi->json();
                 Log::info('Guardar Imagenes Avaluos.', [$responseStrapi->status()]);
@@ -26,13 +33,13 @@ class StrapiController extends Controller
                 $this->createImageObject($data['images'][0]['url'], $data['name'],  $data['id'], $idAvaluo, $coordinator);
             }
 
-            if($dataFile->multiple) {
+            if($dataFile['multiple']) {
                 $countExtrasImages = 0;
                 $extrasFiles = "";
 
                 while (isset($request->file('extraPicture')[$countExtrasImages])){
                     $fileContent = $request->file('extraPicture')[$countExtrasImages]->getContent();
-                    $fileName = $idAvaluo . $placa . '_' .  $dataFile->name . $countExtrasImages .'.' . $request->file('extraPicture')[$countExtrasImages]->getClientOriginalExtension();
+                    $fileName = $idAvaluo . $placa . '_' .  $dataFile['name'] . $countExtrasImages .'.' . $request->file('extraPicture')[$countExtrasImages]->getClientOriginalExtension();
                     if($countExtrasImages == 0){
                         $extrasFiles = Http::attach($fileField, $fileContent, $fileName);
                     }else{

@@ -41,9 +41,9 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
             'fuente' => 'required',
-            'fuente_id' => 'required|exists:App\Models\Fuente,id',
+            'fuente_id' => 'required',
             'medios' => 'required',
-            'compania' => 'required|exists:App\Models\Companies,id'
+            'compania' => 'required'
         ]);
 
         if($validator->fails())

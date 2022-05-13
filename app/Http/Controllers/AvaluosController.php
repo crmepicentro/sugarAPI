@@ -9,6 +9,7 @@ use App\Services\ChecklistAvaluoClass;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
+use App\Models\AvaluosBonos;
 use App\Models\Companies;
 use App\Models\EmailAddrBeanRel;
 use App\Models\EmailAddreses;
@@ -25,14 +26,16 @@ class AvaluosController extends BaseController
 {
     public function create(AvaluosRequest $request)
     {
+        // return response()->json(['telmo' => $request->getBrandId()], 200);
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate($request->getTraffic());
+
         try {
             if ($request->has('checklist')) {
                 $checkLists = $request->getCheckList();
                 foreach ($checkLists as $checkList) {
-                    $checkList = new ChecklistAvaluoClass($checkList->id, $checkList->description, $request->getCoordinatorId(), $checkList->option, $checkList->observation ?? null, $checkList->cost ?? 0, $newAvaluo->id);
+                    $checkList = new ChecklistAvaluoClass($checkList['id'], $checkList['description'], $request->getCoordinatorId(), $checkList['option'], $checkList['observation'] ?? null, $checkList['cost'] ?? 0, $newAvaluo->id);
                     $checkList->create();
                 }
             }
@@ -41,7 +44,13 @@ class AvaluosController extends BaseController
                 $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
             }
             DB::connection(get_connection())->commit();
-            $this->correo($newAvaluo->id, $request);
+            AvaluosBonos::updateOrCreate(
+                ['id_c' => $newAvaluo->id],[
+                'id_c' => $newAvaluo->id,
+                'bonotoyota_c' => $request->bonoToyota,
+                'bono1001_c'=> $request->bonoMilUnCarros
+            ]);
+            // $this->correo($newAvaluo->id, $request); // descomentar
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
@@ -68,21 +77,33 @@ class AvaluosController extends BaseController
         ]);
     }
 
-    public function pdf($id)
+    public function pdf($id, $compania=null)
     {
         $avaluo = Avaluos::getAvaluo($id);
-        //Solo cuando esta aprobado
-        if ($avaluo->status != 'A') {
-            $pdf = PDF::loadHtml(' ');
-            return $pdf->stream($avaluo->alias . '.pdf');
-        }
+        $bono = AvaluosBonos::where('id_c', $id)->first();
+        // //Solo cuando esta aprobado
+        // if ($avaluo->status != 'A') {
+        //     $pdf = PDF::loadHtml(' ');
+        //     return $pdf->stream($avaluo->alias . '.pdf');
+        // }
         $avaluo = $this->formatData($avaluo);
         $data = $avaluo->toArray();
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
         $data['date'] = date("Y/m/d", strtotime($data['date'] . "- 5 hours")); //Poner fecha UTF
         $data['dateValid'] = date("Y/m/d", strtotime($data['date'] . "+ 3 days"));//Fecha de aprobación
-        $pdf = PDF::loadView('appraisal.pdf', $data);
-        return $pdf->stream($avaluo->alias . '.pdf');
+        $data['bonoToyota'] = $bono->bonotoyota_c;
+        $data['bonoMil'] = $bono->bono1001_c;
+
+
+        return response()->json(['error' => $data], 200);
+        if ($compania == 'autoconsa') {
+            $pdf = PDF::loadView('appraisal.pdfAuto', $data);
+            return $pdf->stream($avaluo->alias . '.pdf');
+        }
+        if ($compania == '1001carros' || $compania == null) {
+            $pdf = PDF::loadView('appraisal.pdfMil', $data);
+            return $pdf->stream($avaluo->alias . '.pdf');
+        }
     }
 
     public function correo($id, Request $request)
