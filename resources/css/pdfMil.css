@@ -222,3 +222,15 @@
 .bb-border-yellow{
     border:2px solid #FFC000;
 }
+
+.bb-pa-11{
+    padding: 11px;
+}
+
+.bb-py-22{
+    padding: 22px;
+}
+
+.bb-bottom-0{
+    bottom: 0;
+}

@@ -4,7 +4,7 @@
 
 }
 
-@font-face {
+/* @font-face {
     font-family: 'MarkProBlack_1';
     src: url(/fonts/MarkProBlack_1.eot?06f87ba621022a8fed6faf7874f6edbb);
     src: url(/fonts/MarkProBlack_1.eot?06f87ba621022a8fed6faf7874f6edbb) format('embedded-opentype'),
@@ -14,28 +14,39 @@
          url(/fonts/MarkProBlack_1.svg?700037d5eade9129db555f348347f141#MarkProBlack_1) format('svg');
          font-weight: normal;
          font-style: normal;
-}
+} */
 
 @font-face {
+    font-family: 'MarkProBlack_1';
+    src: url('../fonts/MarkProBlack_1.eot');
+    src: url('../fonts/MarkProBlack_1.eot') format('embedded-opentype'),
+         url('../fonts/MarkProBlack_1.woff2') format('woff2'),
+         url('../fonts/MarkProBlack_1.woff') format('woff'),
+         url('../fonts/MarkProBlack_1.ttf') format('truetype'),
+         url('../fonts/MarkProBlack_1.svg#MarkProBlack_1') format('svg');
+         font-weight: normal;
+         font-style: normal;
+}
+@font-face {
     font-family: 'MarkProBlackItalic';
-    src: url(/fonts/MarkProBlackItalic.eot?6269314aaf04710e3c140fa38dfa6dbb);
-    src: url(/fonts/MarkProBlackItalic.eot?6269314aaf04710e3c140fa38dfa6dbb) format('embedded-opentype'),
-         url(/fonts/MarkProBlackItalic.woff2?4c96b9e6afa5ad7b3e9fcbfa10c82c8e) format('woff2'),
-         url(/fonts/MarkProBlackItalic.woff?1fa67801dd0d3fdc70031b9b8076c0f9) format('woff'),
-         url(/fonts/MarkProBlackItalic.ttf?5c29046d3cbed38cf48135d2d366ceda) format('truetype'),
-         url(/fonts/MarkProBlackItalic.svg?b9d3dc9c1e69efeea29ba5b5d8cd95bd#MarkProBlackItalic) format('svg');
+    src: url('../fonts/MarkProBlackItalic.eot');
+    src: url('../fonts/MarkProBlackItalic.eot') format('embedded-opentype'),
+         url('../fonts/MarkProBlackItalic.woff2') format('woff2'),
+         url('../fonts/MarkProBlackItalic.woff') format('woff'),
+         url('../fonts/MarkProBlackItalic.ttf') format('truetype'),
+         url('../fonts/MarkProBlackItalic.svg#MarkProBlackItalic') format('svg');
          font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MarkProBook';
-    src: url(/fonts/MarkProBook.eot?e09663a7aee2c21bdd6d7cf614b7b3dd);
-    src: url(/fonts/MarkProBook.eot?e09663a7aee2c21bdd6d7cf614b7b3dd) format('embedded-opentype'),
-         url(/fonts/MarkProBook.woff2?11351d220dca010216457f18aadaadfe) format('woff2'),
-         url(/fonts/MarkProBook.woff?d9615e90e3fee41e0d91d49a896ca0dd) format('woff'),
-         url(/fonts/MarkProBook.ttf?20a2b42b2a58358468ddfdf7cffe8379) format('truetype'),
-         url(/fonts/MarkProBook.svg?219128b371adf639d244ecb296c721fd#MarkProBook) format('svg');
+    src: url('../fonts/MarkProBook.eot');
+    src: url('../fonts/MarkProBook.eot') format('embedded-opentype'),
+         url('../fonts/MarkProBook.woff2') format('woff2'),
+         url('../fonts/MarkProBook.woff') format('woff'),
+         url('../fonts/MarkProBook.ttf') format('truetype'),
+         url('../fonts/MarkProBook.svg#MarkProBook') format('svg');
          font-weight: normal;
     font-style: normal;
 }
@@ -66,10 +77,10 @@
     padding:0 15px;
 }
 .bb-mt-15{
-    margin-top: 15px;
+    margin-top: 5px;
 }
 .bb-mb-15{
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 .bb-line-h-1{
     line-height: 1;
@@ -223,3 +234,20 @@
     border:2px solid #FFC000;
 }
 
+.bb-pa-11{
+    padding: 11px;
+}
+.bb-pa-9{
+    padding: 9px;
+}
+.bb-py-22{
+    padding: 22px;
+}
+
+.bb-bottom-0{
+    bottom: 0;
+}
+
+.bb-border-l-tranparent{
+    border-left-color: transparent !important;
+}

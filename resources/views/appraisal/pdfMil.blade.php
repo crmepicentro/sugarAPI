@@ -6,7 +6,7 @@
 <body>
     <div class="bb-mb-30">
         <div>
-            <img class="bb-w-100" src="{{ public_path('images/pdfMil/cabecera-logo.jpg') }}" >
+            <img class="bb-w-full" src="{{ public_path('images/pdfMil/cabecera-logo.jpg') }}" >
         </div>
     </div>
 
@@ -14,38 +14,38 @@
         <table cellspacing="0" class="bb-w-full bb-px-15">
             <tr>
                 <td class="bb-w-50">
-                   <div class="bb-font-black bb-mt-15 bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">Nombre: {{ mb_convert_case($name, MB_CASE_UPPER, "UTF-8") }}</div></td>
+                   <div class="bb-font-black bb-mt-15 bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">Nombre: <span class="bb-font-book">{{ mb_convert_case($name, MB_CASE_UPPER, "UTF-8") }}</span></div></td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mt-15 bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">Marca: {{ mb_convert_case($brand['name'], MB_CASE_UPPER, "UTF-8") }}</div>
+                    <div class="bb-font-black bb-mt-15 bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">Marca: <span class="bb-font-book">{{ mb_convert_case($brand['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">Cédula:</div>
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Cédula:</div>
                 </td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">Modelo: {{ mb_convert_case($model['name'], MB_CASE_UPPER, "UTF-8") }}</div>
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Modelo: <span class="bb-font-book">{{ mb_convert_case($model['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">Placa: {{$plate}}</div>
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Placa: <span class="bb-font-book">{{$plate}}</span></div>
                 </td>
                 <td class=" bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">Descripción: {{ mb_convert_case($description['description'], MB_CASE_UPPER, "UTF-8") }}</div>
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Descripción: <span class="bb-font-book">{{ mb_convert_case($description['description'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">Año: {{$year}}</div>
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Año: <span class="bb-font-book">{{$year}}</span></div>
                 </td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">Color: {{ mb_convert_case($color['name'], MB_CASE_UPPER, "UTF-8") }}</div>
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Color: <span class="bb-font-book">{{ mb_convert_case($color['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">Kilometraje: {{$mileage}} {{ mb_convert_case($unity, MB_CASE_UPPER, "UTF-8") }}</div>
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Kilometraje: <span class="bb-font-book">{{$mileage}} {{ mb_convert_case($unity, MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
                 <td class="bb-w-50"></td>
             </tr>
@@ -58,57 +58,56 @@
         <tbody>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[0]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[0]['option']]}}
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[0]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[0]['option']]}}</span>
                     </div>
                 </td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[1]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[1]['option']]}}
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[2]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[2]['option']]}}
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[3]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[3]['option']]}}
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[1]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[1]['option']]}}</span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[4]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[4]['option']]}}
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[2]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[2]['option']]}}</span>
                     </div>
                 </td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[5]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[5]['option']]}}
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[6]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[6]['option']]}}
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[7]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[7]['option']]}}
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[3]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[3]['option']]}}</span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[8]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[8]['option']]}}
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        <span class="bb-font-book">{{ mb_convert_case($checklist[4]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[4]['option']]}}</span>
                     </div>
+                </td>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[5]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[5]['option']]}}</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[6]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[6]['option']]}}</span>
+                    </div>
+                </td>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[7]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[7]['option']]}}</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[8]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[8]['option']]}}</span>
                 </td>
                 <td class="bb-w-50"></td>
             </tr>
@@ -168,12 +167,12 @@
                         </tr>
                     </table>
                 </td>
-                <td class="bb-pd-20"></td>
+                <td style="padding: 10px"></td>
                 <td class="bb-w-50">
                     <table class="bb-w-100" cellspacing="0">
                         <tr>
                             <td class="bb-w-50">
-                                <div class="bb-pa-11 bb-font-black  bb-text-17 bb-text-white bb-radius-l-y bb-bg-blue bb-border bb-text-uppercase bb-text-center">BONO 1001CARROS.COM</div>
+                                <div class="bb-pa-9 bb-font-black  bb-text-17 bb-text-white bb-radius-l-y bb-bg-blue bb-border bb-text-uppercase bb-text-center">BONO 1001CARROS.COM</div>
                             </td>
                             <td class=" bb-w-50">
                                 <div class="bb-pd-20 bb-font-black bb-text-uppercase bb-radius-r-y bb-text-blue bb-border bb-text-center bb-text-20">
@@ -192,16 +191,25 @@
     <table cellspacing="0" class="bb-w-85  bb-mx-auto">
         <tr>
             <td class="bb-w-50">
-                <div class="bb-mx-auto bb-border-yellow bb-bg-yellow bb-radius-l-y">
-                    <div class="bb-float-l">img</div>
-                    <div class="bb-font-black bb-text-35 bb-text-blue  bb-text-center">oferta</div>
+                <div class="bb-bg-yellow bb-border-yellow bb-radius-l-y bb-pd-20">
+                    <table cellspacing="0" class="bb-mx-auto">
+                        <tr>
+                            <td>
+                                <div><img style="width: 56px" src="{{ public_path('images/pdfMil/icon-oferta.png') }}"></div>
+                            </td>
+                            <td style="padding: 5px"></td>
+                            <td>
+                                <div class="bb-font-black bb-text-uppercase bb-text-35 bb-text-blue bb-text-center">oferta</div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </td>
 
             <td class="bb-w-50">
                 <div class="bb-relative">
-                    <div class= "bb-font-black  bb-text-35 bb-radius-r-y bb-text-blue bb-border bb-text-center ">${{number_format($priceApproved,2,".",",")}}</div>
-                    <div class="bb-text-12 bb-font-black  bb-text-blue bb-absolute bb-position-custom">*El valor de la oferta incluye bonos</div>
+                    <div class= "bb-font-black  bb-text-35 bb-radius-r-y bb-text-blue bb-border bb-border-l-tranparent bb-text-center bb-pd-20">${{number_format($priceApproved,2,".",",")}}</div>
+                    {{-- <div class="bb-text-12 bb-font-black  bb-text-blue bb-absolute bb-position-custom">*El valor de la oferta incluye bonos</div> --}}
                 </div>
             </td>
 
@@ -212,24 +220,24 @@
     <table class="bb-w-85 bb-mx-auto">
         <tr>
             <td class="bb-w-50">
-                <table>
+                <table class="bb-w-full">
                     <tr>
                         <td>
                             <tr class="bb-px-5 bb-py-5 bb-pl-none bb-w-50">
-                                <div class= "bb-font-black bb-form-text bb-text-17 bb-text-blue bb-ml-30">Coordinador: {{$coordinator['name']}}</div>
+                                <div class= "bb-font-black bb-form-text bb-text-17 bb-line-h-1 bb-text-blue bb-ml-30">Coordinador: <span class="bb-font-book">{{$coordinator['name']}}</span></div>
                             </tr>
                             <tr class="bb-px-5 bb-py-5 bb-pl-none bb-w-50">
-                                <div class= "bb-font-black bb-form-text bb-text-17 bb-text-blue bb-ml-30">Avalúo: {{$alias}}</div>
+                                <div class= "bb-font-black bb-form-text bb-text-17 bb-line-h-1 bb-text-blue bb-ml-30">Avalúo: <span class="bb-font-book">{{$alias}}</span></div>
                             </tr>
                             <tr class="bb-px-5 bb-py-5 bb-pl-none bb-w-50">
-                                <div class= "bb-font-black bb-form-text bb-text-17 bb-text-blue bb-ml-30">Fecha: {{$date}}</div>
+                                <div class= "bb-font-black bb-form-text bb-text-17 bb-line-h-1 bb-text-blue bb-ml-30">Fecha: <span class="bb-font-book">{{$date}}</span></div>
                             </tr>
                         </td>
                     </tr>
                 </table>
             </td>
             <td class="bb-w-50">
-                <table>
+                <table class="bb-w-full">
                     <tr>
                         <td class="bb-px-5 bb-py-5 bb-pl-none bb-w-50 ">
                             <div class= "bb-font-black bb-form-text bb-text-25 bb-text-blue bb-text-center" >Oferta válida hasta:</div>
@@ -245,7 +253,7 @@
 </div>
 
 
-<img class="bb-w-full bb-mt-auto bb-mb-0" src="{{ public_path('images/pdfMil/footer-pdf-mil.jpg') }}" >
+<img class="bb-w-full bb-mt-auto bb-mb-0 bb-absolute bb-bottom-0" src="{{ public_path('images/pdfMil/footer-pdf-mil.jpg') }}" >
 
 </body>
 </html>

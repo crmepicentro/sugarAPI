@@ -26,7 +26,6 @@ class AvaluosController extends BaseController
 {
     public function create(AvaluosRequest $request)
     {
-        // return response()->json(['telmo' => $request->getBrandId()], 200);
         DB::connection(get_connection())->beginTransaction();
         $avaluo = $this->fillAvaluo($request);
         $newAvaluo = $avaluo->createOrUpdate($request->getTraffic());
@@ -95,7 +94,6 @@ class AvaluosController extends BaseController
         $data['bonoMil'] = $bono->bono1001_c;
 
 
-        return response()->json(['error' => $data], 200);
         if ($compania == 'autoconsa') {
             $pdf = PDF::loadView('appraisal.pdfAuto', $data);
             return $pdf->stream($avaluo->alias . '.pdf');
