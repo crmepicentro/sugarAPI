@@ -33,7 +33,7 @@ class AvaluosController extends BaseController
             if ($request->has('checklist')) {
                 $checkLists = $request->getCheckList();
                 foreach ($checkLists as $checkList) {
-                    $checkList = new ChecklistAvaluoClass($checkList['id'], $checkList['description'], $request->getCoordinatorId(), $checkList['option'], $checkList['observation'] ?? null, $checkList['cost'] ?? 0, $newAvaluo->id);
+                    $checkList = new ChecklistAvaluoClass($checkList->id, $checkList->description, $request->getCoordinatorId(), $checkList->option, $checkList->observation ?? null, $checkList->cost ?? 0, $newAvaluo->id);
                     $checkList->create();
                 }
             }
@@ -48,7 +48,7 @@ class AvaluosController extends BaseController
                 'bonotoyota_c' => $request->bonoToyota,
                 'bono1001_c'=> $request->bonoMilUnCarros
             ]);
-            // $this->correo($newAvaluo->id, $request); // descomentar
+            $this->correo($newAvaluo->id, $request); // descomentar
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();

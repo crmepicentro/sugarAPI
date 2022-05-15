@@ -8,15 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 class StrapiController extends Controller
 {
-    /*
-        Variable: $dataFile ( Se ecuentra en el foreach, linea: 21 )
-        Remplazo:
-            Antes: $dataFile->...
-            Ahoara: $dataFile['...']
-        Lineas_alteradas: 23, 24, 25, 27, 36, 42
-    */
     public function storeFilesAppraisals($request, $idAvaluo, $placa, $coordinator){
-        $pics =  $request->pics;
+        $pics =  json_decode($request->pics);
         $fileField = 'files.images';
        foreach ($pics as $dataFile)
         {
