@@ -21,33 +21,27 @@
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Cédula:</div>
-                </td>
-                <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Modelo: <span class="bb-font-book">{{ mb_convert_case($model['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
-            </tr>
-            <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Placa: <span class="bb-font-book">{{$plate}}</span></div>
                 </td>
+            </tr>
+            <tr>
                 <td class=" bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Descripción: <span class="bb-font-book">{{ mb_convert_case($description['description'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
-            </tr>
-            <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Año: <span class="bb-font-book">{{$year}}</span></div>
                 </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Color: <span class="bb-font-book">{{ mb_convert_case($color['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
-                </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Color: <span class="bb-font-book">{{ mb_convert_case($color['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
+                </td>
+                <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Kilometraje: <span class="bb-font-book">{{$mileage}} {{ mb_convert_case($unity, MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
-                <td class="bb-w-50"></td>
             </tr>
         </table>
     </div>
