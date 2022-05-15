@@ -83,7 +83,7 @@
                 <tr>
                     <td class="bb-w-50">
                         <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                            <span class="bb-font-book">{{ mb_convert_case($checklist[4]['description'], MB_CASE_TITLE, "UTF-8") }}: {{$statusCheck[$checklist[4]['option']]}}</span>
+                            {{ mb_convert_case($checklist[4]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$checklist[4]['option']]}}</span>
                         </div>
                     </td>
                     <td class="bb-w-50">
