@@ -8,14 +8,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AvaluosRequest extends FormRequest
 {
-
-    /*
-        Metodos: getBrandId, getCoordinatorId, getColorId, getModelId, getDescriptionId, getCheckList
-        Remplazo:
-            Antes: return json_decode($this->get('...'))->...;
-            Ahora: return $this->get('...')['...'];
-    */
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -85,8 +77,7 @@ class AvaluosRequest extends FormRequest
 
     public function getBrandId() : string
     {
-        // return json_decode($this->get('brand'))->id;
-        return $this->get('brand')['id'];
+        return json_decode($this->get('brand'))->id;
     }
 
     public function getCoordinatorId() : string
@@ -106,8 +97,7 @@ class AvaluosRequest extends FormRequest
 
     public function getColorId() : string
     {
-        // return json_decode($this->get('color'))->id;
-        return $this->get('color')['id'];
+        return json_decode($this->get('color'))->id;
     }
 
     public function getModelName() : string
@@ -117,20 +107,17 @@ class AvaluosRequest extends FormRequest
 
     public function getModelId() : string
     {
-        // return json_decode($this->get('model'))->id;
-        return $this->get('model')['id'];
+        return json_decode($this->get('model'))->id;
     }
 
     public function getDescriptionId() : string
     {
-        // return json_decode($this->get('description'))->id;
-        return $this->get('description')['id'];
+        return json_decode($this->get('description'))->id;
     }
 
     public function getCheckList() : array
     {
-        // return json_decode($this->get('checklist'));
-        return $this->get('checklist');
+        return json_decode($this->get('checklist'));
     }
 
     public function getTraffic() : string
