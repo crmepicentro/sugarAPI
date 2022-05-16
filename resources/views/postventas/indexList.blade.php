@@ -47,7 +47,7 @@
                             <div class="col-12">
                                 <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
                                 {{ Form::select($campo, \App\Models\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), null,
-                                    ['class' => 'js-select2 form-select form-control', 'style' => 'width: 100%', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
+                                    ['class' => 'js-select2 form-select form-control', 'style' => 'width: 400px', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
 
                             </div>
                             @php($campo = 'search_oportunidades')
