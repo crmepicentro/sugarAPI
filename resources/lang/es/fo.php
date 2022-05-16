@@ -14,14 +14,16 @@ return [
     */
 
     'search_cliente' => 'Cliente',
-    'search_correo' => 'Email',
-    'search_telefono' => 'Teléfono',
-    'search_agenente' => 'Agente',
+    'search_chasis' => 'Chasis',
     'search_placa' => 'Placa',
+    'search_asesor' => 'Asesor',
+    'search_orden' => 'O/R - Nro',
+    'search_oportunidades' => 'Descripcion de la Tarea',
+    'search_agencia' => 'Agencia',
+    'search_telefono' => 'Teléfono',
+
     'search_fechaGestion' => 'Fecha de gestión',
     'search_fechaFactura' => 'Fecha de factura',
     'search_fechaCita' => 'Fecha de cita',
-    'search_oportunidades' => 'Oportunidades',
-    'search_orden' => 'Ordenes',
 
 ];

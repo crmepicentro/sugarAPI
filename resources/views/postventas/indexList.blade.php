@@ -22,84 +22,119 @@
                     <div id="accordion2_q1" class="collapse show" role="tabpanel" aria-labelledby="accordion2_h1">
 
                         <div class="block-content space-y-2">
-                            {{ Form::open(['route' => 'postventa.indice', 'method' => 'GET', 'class' => 'row row-cols-lg-auto g-3 align-items-center',]) }}
-                            @php($campo = 'search_cliente')
-                            <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
-                            </div>
-                            @php($campo = 'search_correo')
-                            <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
-                            </div>
-                            @php($campo = 'search_telefono')
-                            <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
-                            </div>
-                            @php($campo = 'search_agenente')
-                            <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
-                            </div>
-                            @php($campo = 'search_orden')
-                            <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                {{ Form::select($campo, \App\Models\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), null,
-                                    ['class' => 'js-select2 form-select form-control', 'style' => 'width: 400px', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
-
-                            </div>
-                            @php($campo = 'search_oportunidades')
-                            <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
-                            </div>
-                            @php($campo = 'search_placa')
-                            <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
-                            </div>
-                             @php($campo = 'search_fechaGestion')
-                            <div class="col-12">
-                                <label class="" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                <div class="mb-4">
-                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
-                                        <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                            {{ Form::open(['route' => 'postventa.indice', 'method' => 'GET', 'class' => ' g-3 align-items-center',]) }}
+                            <div class="form-group row">
+                                <div class="col-3">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_cliente')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::text('search_cliente', request($campo), ['class' => 'form-control col-12', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_chasis')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_placa')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_asesor')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
                                     </div>
                                 </div>
                             </div>
-                            @php($campo = 'search_fechaFactura')
-                            <div class="col-12">
-                                <label class="" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                <div class="mb-4">
-                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
-                                        <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                            <div class="form-group row">
+                                <div class="col-3">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_orden')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_oportunidades')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::select($campo, \App\Models\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), null,
+                                   ['class' => 'js-select2 form-select form-control col-12', 'style' => '', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_agencia')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-4">
                                     </div>
                                 </div>
                             </div>
-                            @php($campo = 'search_fechaCita')
-                            <div class="col-12">
-                                <label class="" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                <div class="mb-4">
-                                    <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
-                                        <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
-                                        <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_fechaGestion')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                            <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                            <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
+                                            <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_fechaFactura')
+                                        <div class="mb-4">
+                                            {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                            <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                                <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                                <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
+                                                <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-
-
-
-                            <div>
-                                <button type="submit" class="btn btn-primary">Buscar</button>
+                            <div class="form-group row">
+                                <div class="col-6">
+                                    <div class="mb-4">
+                                        @php($campo = 'search_fechaCita')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                            <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                            <span class="input-group-text fw-semibold"> <i class="fa fa-fw fa-arrow-right"></i> </span>
+                                            <input type="text" class="form-control" id="example-daterange2" name="example-daterange2" placeholder="To" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6"><div class="mb-4"></div></div>
                             </div>
+
+                            <div class="form-group row">
+                                <div class="col-10">
+                                    <div class="mb-4">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-4">
+                                        <button type="submit" class="btn btn-primary">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+
                             {{ Form::close() }}
                         </div>
                     </div>
@@ -111,7 +146,7 @@
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">
-                Dynamic Table <small>Full</small>
+                Post<small>Ventas</small>
             </h3>
         </div>
         <div class="block-content block-content-full">
@@ -156,7 +191,7 @@
                         <td class="d-none d-sm-table-cell">{{ 'R' }}</td>
                         <td class="d-none d-sm-table-cell">{{ 'F' }}</td>
                         <td class="d-none d-sm-table-cell">{{ 'M' }}</td>
-                        <td class="d-none d-sm-table-cell">{{ 'VHC' }}</td>
+                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->cantidad_autos }}</td>
                         <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
 <!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
                         <td><a href="{{ route('postventa.edita', $lista_oportunidade->id) }}" >
