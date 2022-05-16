@@ -46,18 +46,8 @@
                             @php($campo = 'search_orden')
                             <div class="col-12">
                                 <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
-                                <select class="js-select2 form-select form-control" id="example-select2-multiple" name="{{ $campo }}" style="width: 100%;" data-placeholder="{{ __('fo.'.$campo) }}" multiple>
-                                    <option></option><!-- Required for data-placeholder attribute to work with Select2 plugin -->
-                                    <option value="1" selected>HTML</option>
-                                    <option value="2" selected>CSS</option>
-                                    <option value="3">JavaScript</option>
-                                    <option value="4">PHP</option>
-                                    <option value="5">MySQL</option>
-                                    <option value="6">Ruby</option>
-                                    <option value="7">Angular</option>
-                                    <option value="8">React</option>
-                                    <option value="9">Vue.js</option>
-                                </select>
+                                {{ Form::select($campo, \App\Models\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), null,
+                                    ['class' => 'js-select2 form-select form-control', 'style' => 'width: 100%', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
 
                             </div>
                             @php($campo = 'search_oportunidades')
@@ -72,7 +62,7 @@
                             </div>
                              @php($campo = 'search_fechaGestion')
                             <div class="col-12">
-                                <label class="visually-hidden" for="example-if-email">{{ __('fo.'.$campo) }}</label>
+                                <label class="" for="example-if-email">{{ __('fo.'.$campo) }}</label>
                                 <div class="mb-4">
                                     <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                         <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
@@ -83,6 +73,7 @@
                             </div>
                             @php($campo = 'search_fechaFactura')
                             <div class="col-12">
+                                <label class="" for="example-if-email">{{ __('fo.'.$campo) }}</label>
                                 <div class="mb-4">
                                     <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                         <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">
@@ -93,6 +84,7 @@
                             </div>
                             @php($campo = 'search_fechaCita')
                             <div class="col-12">
+                                <label class="" for="example-if-email">{{ __('fo.'.$campo) }}</label>
                                 <div class="mb-4">
                                     <div class="input-daterange input-group" data-date-format="mm/dd/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
                                         <input type="text" class="form-control" id="example-daterange1" name="example-daterange1" placeholder="From" data-week-start="1" data-autoclose="true" data-today-highlight="true">

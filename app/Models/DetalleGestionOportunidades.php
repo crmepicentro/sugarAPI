@@ -170,5 +170,9 @@ class DetalleGestionOportunidades extends Model
         return [];
         //return 'Sin Gestion';
     }
+    public function scopeDaroportunidadeslist($query)
+    {
+        return $query->whereIn('gestion_tipo',['nuevo','cita','recordatorio'])->groupby('codServ','descServ')->select('codServ','descServ')->get();
+    }
 }
 

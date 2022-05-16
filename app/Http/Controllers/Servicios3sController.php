@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CargaFacturasDetalleDia;
 use App\Jobs\CargaFacturasDia;
 use App\Models\Auto;
 use App\Models\AutoFactura;
@@ -135,7 +136,7 @@ class Servicios3sController extends Controller
         }else{
             $fecha_inicial = Carbon::createFromDate($request->fecha);
         }
-        CargaFacturasDia::dispatch($fecha_inicial);
+        CargaFacturasDia::dispatch($fecha_inicial)->onQueue('cargaCabecera');
 
     }
     public function consultaApiCabecera_bulk( Request $request)
@@ -150,7 +151,7 @@ class Servicios3sController extends Controller
             $day = Carbon::now()->day;
             $tz = config('constants.pv_timezone');
             $fecha_inicial = Carbon::createFromDate($year, $month, $day, $tz)->subDays($i + 2 ); //2022-04-10 no tiene datos
-            CargaFacturasDia::dispatch($fecha_inicial);
+            CargaFacturasDia::dispatch($fecha_inicial)->onQueue('cargaCabecera');
         }
         return response()->json([
             'mensaje' => 'Proceso iniciado',
@@ -181,16 +182,7 @@ class Servicios3sController extends Controller
             $auto           = $auto_cabecera['auto'] ;
             $codAgencia     = $auto_cabecera['codAgencia'] ;
             $codOrdenTaller = $auto_cabecera['codOrdenTaller'] ;
-            $detalle = $this->consultaApiDetalleCabecera_main($codAgencia, $codOrdenTaller);
-            $ws_logs = Ws_logs::find($detalle['ws_logs']);
-
-            if($detalle['nomMensaje'] == 'EXITO' ){
-                foreach ($detalle['listaOrdenTallerCL'] as $detalle_dato){
-                    $this->guardar_detalle_orden($s3sdato,$detalle_dato, $auto, $ws_logs);
-                }
-            }
-
-
+            CargaFacturasDetalleDia::dispatch($codAgencia , $codOrdenTaller,$s3sdato,$auto)->onQueue('cargaDetalle');
         }
 
         return $s3sdatos;
@@ -310,7 +302,7 @@ class Servicios3sController extends Controller
         $Retunr_auto['codOrdenTaller'] = $s3sdato['ordTaller'];
         return $Retunr_auto;
     }
-    private function guardar_detalle_orden($s3sdato,$s3sdato_detalle, Auto $auto, Ws_logs $ws_logs){
+    public function guardar_detalle_orden($s3sdato,$s3sdato_detalle, Auto $auto, Ws_logs $ws_logs){
         $propietario = DetalleGestionOportunidades::where('codAgencia',$s3sdato_detalle['codAgencia'])
             ->where('ordTaller',$s3sdato_detalle['ordTaller'])
             ->where('codServ',$s3sdato_detalle['codServ'])
