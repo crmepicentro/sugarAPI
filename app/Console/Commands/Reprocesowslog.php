@@ -47,32 +47,25 @@ class Reprocesowslog extends Command
 
         foreach ($ErrorLogs as $item){
 
-            $myObj = new \stdClass();
-            $myObj->datosSugarCRM = json_decode($item->datos_sugar_crm);
-            $array = json_decode(json_encode($myObj), true);
+            if($item->route == "api/tickets/" && $item->environment ==="sugar_prod"){
+                $datos = json_decode($item->datos_sugar_crm,true);
 
-            /*
-            agregar token de produccion a variables de entorno para reprocesar los datos
-            */
-            if($item->route === "api/tickets/"){
-                //se guarda json enviado en archivo de log provicional para ver si se proceso
-                Storage::append('log_crontabreprocesos.txt',json_encode($array));
+                $datosenvio = [ "datosSugarCRM" => $datos ];
 
+                Storage::append('log_crontabreprocesos.txt',json_encode($datosenvio));
                 $headers = ['Content-Type' => 'application/json', 'Authorization' => "Bearer ".env("TOKEN_REPROCESO")];
+                $response = Http::withHeaders($headers)->post(env("APP_URL")."/".$item->route,$datosenvio);
 
-                $response = Http::withHeaders($headers)->post(env("APP_URL")."/".$item->route, $array);
-
-                $statusCode = $response->status();
                 $responseBody = json_decode($response->getBody(), true);
+                //$statusCode = $response->status();
+                //print_r($responseBody);
+                if($responseBody != null || $responseBody != "undefined"){
+                    //$res = json_encode(["REPROCESO" => $responseBody]);
+                    Wslog::deleteWpLogId($item->id);
 
-                if($responseBody != null){
-                    $res = json_encode(["REPROCESO" => $responseBody]);
-                }else{
-                    $error = json_decode($response,true);
-                    $res = json_encode(["UNDEFINED" => $error]);
                 }
-                $result = Wslog::updateResponse($item->id,$res);
             }
+
         }
 
         //$text = date('Y-m-d H:i:s').' --'.$user->fuente.'--'.get_connection().'--'.$user->connection.' total datos encontrados para reproceso = ['.count($ErrorLog).']';

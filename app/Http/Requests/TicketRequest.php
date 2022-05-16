@@ -65,6 +65,7 @@ class TicketRequest extends FormRequest
           $validations['datosSugarCRM.combustible'] = 'required|in:gasolina,diesel';
         }
 
+
         return $validations;
     }
 

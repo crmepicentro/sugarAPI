@@ -44,26 +44,28 @@ class  WsLog
 
     public static function getDuplicadoLog($request)
     {
+    $cadena_principal = json_encode($request->datosSugarCRM);
+    $cadena_adicional = $request->datos_adicionales;
+    //la cadena no es igual porque agregue un campo reproceso hay que eliminar el campo reproceso para comparar con el log
+    if($cadena_adicional){
+      $cadena_adicional = json_encode($request->datos_adicionales);
+      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response','source')
+                                ->where('datos_sugar_crm','=', $cadena_principal)
+                                ->where('datos_adicionales','=', $cadena_adicional)->first();
+    }else{
 
-        $cadena_principal = json_encode($request->datosSugarCRM);
-        $cadena_adicional = $request->datos_adicionales;
-
-        if ($cadena_adicional) {
-            $cadena_adicional = json_encode($request->datos_adicionales);
-            return DB::table('ws_logs')->select('id', 'route', 'datos_sugar_crm', 'datos_adicionales', 'response', 'source')
-                ->where('datos_sugar_crm', '=', $cadena_principal)
-                ->where('datos_adicionales', '=', $cadena_adicional)->first();
-        } else {
-            return DB::table('ws_logs')->select('id', 'route', 'datos_sugar_crm', 'datos_adicionales', 'response', 'source')
-                ->where('datos_sugar_crm', '=', $cadena_principal)->first();
-        }
-
+      return DB::table('ws_logs')->select('id','route','datos_sugar_crm','datos_adicionales','response','source')
+                                ->where('datos_sugar_crm','=', $cadena_principal)->first();
     }
 
-    public static function updateResponse($id, $response)
-    {
-        return DB::table('ws_logs')->where('id', $id)
-            ->update(['response' => $response]);
-    }
+  }
 
+  public static function updateResponse($id,$response){
+    return DB::table('ws_logs')->where('id', $id)
+                              ->update(['response' => $response]);
+  }
+    public static function deleteWpLogId($id){
+        DB::table('ws_logs')->delete($id);
+
+    }
 }
