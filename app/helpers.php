@@ -307,4 +307,8 @@ function getTipoIdentificacion($tipoIdentificacion){
 
     return $tipoIdentificacion;
 }
+
+function getReproceso(){
+    return false;
+}
 ?>
