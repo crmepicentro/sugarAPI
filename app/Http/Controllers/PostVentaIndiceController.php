@@ -36,7 +36,8 @@ class PostVentaIndiceController extends Controller
       FROM pvt_detalle_gestion_oportunidades oportunidades_inter_ca1
         INNER JOIN pvt_autos auto_inter_ca1
           ON oportunidades_inter_ca1.auto_id = auto_inter_ca1.id
-      WHERE oportunidades_inter_ca1.agendado_fecha = pvt_detalle_gestion_oportunidades.agendado_fecha
+      WHERE pvt_detalle_gestion_oportunidades.facturado = 'N'
+      AND oportunidades_inter_ca1.agendado_fecha = pvt_detalle_gestion_oportunidades.agendado_fecha
       AND auto_inter_ca1.id = pvt_autos.id
       AND oportunidades_inter_ca1.ganado_fecha = pvt_detalle_gestion_oportunidades.ganado_fecha
       AND oportunidades_inter_ca1.gestion_tipo = pvt_detalle_gestion_oportunidades.gestion_tipo
@@ -49,7 +50,7 @@ FROM pvt_autos pvt_autos
   INNER JOIN pvt_propietarios pvt_propietarios
     ON pvt_autos.propietario_id = pvt_propietarios.id
   INNER JOIN pvt_detalle_gestion_oportunidades pvt_detalle_gestion_oportunidades
-    ON pvt_detalle_gestion_oportunidades.auto_id = pvt_autos.id
+    ON pvt_detalle_gestion_oportunidades.auto_id = pvt_autos.id AND pvt_detalle_gestion_oportunidades.facturado = 'N'
   LEFT OUTER JOIN pvt_gestion_agendado_detalle_op pvt_gestion_agendado_detalle_op
     ON pvt_gestion_agendado_detalle_op.detalle_gestion_oportunidad_id = pvt_detalle_gestion_oportunidades.id
 GROUP BY pvt_propietarios.id,

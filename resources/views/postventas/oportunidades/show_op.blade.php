@@ -137,7 +137,7 @@
             @if($loop->last)
                 @if($contador_elementos > 0)
                 <tr>
-                    <td colspan="12">&nbsp;</td>
+                    <td colspan="13">&nbsp;</td>
                     <td>
 
                         <button class="btn btn-hero btn-success ejecutaCita{{ $auto->id }}"  data-auto="{{ $auto->id }}">
@@ -156,7 +156,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="12">&nbsp;</td>
+                    <td colspan="13">&nbsp;</td>
                     <td colspan="3">
                         <div class="row">
                             <button type="submit" class="btn btn-success btn-info col-12 total_accion_{{ $auto->id }}"  data-auto="{{ $auto->id }}" data-porte="{{$contador_elementos}}" >
@@ -168,7 +168,7 @@
                 </tr>
                 @else
                     <tr>
-                        <td colspan="11">&nbsp;</td>
+                        <td colspan="12">&nbsp;</td>
                     </tr>
                 @endif
             @endif
