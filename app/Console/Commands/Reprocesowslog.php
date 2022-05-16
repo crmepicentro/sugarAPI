@@ -60,8 +60,9 @@ class Reprocesowslog extends Command
                 //$statusCode = $response->status();
                 //print_r($responseBody);
                 if($responseBody != null || $responseBody != "undefined"){
-                    //$res = json_encode(["REPROCESO" => $responseBody]);
-                    Wslog::deleteWpLogId($item->id);
+                    $res = json_encode(["REPROCESO"=> "Correcto"]);
+                    //Wslog::deleteWpLogId($item->id);
+                    WsLog::updateResponse($item->id,$res);
 
                 }
             }
