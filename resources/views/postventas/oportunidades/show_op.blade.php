@@ -8,6 +8,9 @@
             <th>
                 OR
             </th>
+            <th>
+                CL
+            </th>
             <th title="ASESOR">
                 AS
             </th>
@@ -57,6 +60,9 @@
             <tr>
                 <td title="Id Oportunidad: {{ $oportunidad->id }}">
                     {{ $oportunidad->ordTaller}}
+                </td>
+                <td>
+                    {{ $oportunidad->tipoCL }}
                 </td>
                 <td>
                     <strong title="{{ $oportunidad->nomOrdAsesor }}">{{ $oportunidad->codOrdAsesor }}</strong>
