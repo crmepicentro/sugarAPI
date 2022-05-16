@@ -48,7 +48,7 @@ class AvaluosController extends BaseController
                 'bonotoyota_c' => $request->bonoToyota,
                 'bono1001_c'=> $request->bonoMilUnCarros
             ]);
-            $this->correo($newAvaluo->id, $request); // descomentar
+            $this->correo($newAvaluo->id, $request);
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
@@ -79,11 +79,11 @@ class AvaluosController extends BaseController
     {
         $avaluo = Avaluos::getAvaluo($id);
         $bono = AvaluosBonos::where('id_c', $id)->first();
-        // //Solo cuando esta aprobado
-        // if ($avaluo->status != 'A') {
-        //     $pdf = PDF::loadHtml(' ');
-        //     return $pdf->stream($avaluo->alias . '.pdf');
-        // }
+        //Solo cuando esta aprobado
+        if ($avaluo->status != 'A') {
+            $pdf = PDF::loadHtml(' ');
+            return $pdf->stream($avaluo->alias . '.pdf');
+        }
         $avaluo = $this->formatData($avaluo);
         $data = $avaluo->toArray();
         $data['statusCheck'] = ['A' => 'APROBADO', 'R' => 'REPARAR', 'E' => 'REEMPLAZAR', 'NA' => 'NO APLICA'];
@@ -92,7 +92,7 @@ class AvaluosController extends BaseController
         $data['bonoToyota'] = $bono->bonotoyota_c;
         $data['bonoMil'] = $bono->bono1001_c;
 
-
+        return response()->json(['error' => $data], 500);
         if ($compania == 'autoconsa') {
             $pdf = PDF::loadView('appraisal.pdfAuto', $data);
             return $pdf->stream($avaluo->alias . '.pdf');
