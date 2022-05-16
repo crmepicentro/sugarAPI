@@ -196,7 +196,6 @@ class TicketsController extends BaseController
         }catch(\Exception $e){
             \DB::connection(get_connection())->rollBack();
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
-
         }
     }
 
