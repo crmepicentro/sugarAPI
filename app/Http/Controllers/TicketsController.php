@@ -133,7 +133,7 @@ class TicketsController extends BaseController
 
         if(!$get_user_auth["registrolog"]){
             if($get_user_auth["message"] != null){
-                return response()->json(["data"=>"El ticket ya se encuentra registrado"])->setStatusCode(200);
+                return response()->json(["data"=>$get_user_auth["message"]])->setStatusCode(200);
             }
         }
 
