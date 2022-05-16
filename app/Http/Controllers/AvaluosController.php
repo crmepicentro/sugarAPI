@@ -37,10 +37,10 @@ class AvaluosController extends BaseController
                     $checkList->create();
                 }
             }
-            if ($request->has('pics')) {
-                $strappiController = new StrapiController();
-                $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
-            }
+            // if ($request->has('pics')) {
+            //     $strappiController = new StrapiController();
+            //     $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
+            // }
             DB::connection(get_connection())->commit();
             AvaluosBonos::updateOrCreate(
                 ['id_c' => $newAvaluo->id],[
@@ -48,7 +48,7 @@ class AvaluosController extends BaseController
                 'bonotoyota_c' => $request->bonoToyota,
                 'bono1001_c'=> $request->bonoMilUnCarros
             ]);
-            $this->correo($newAvaluo->id, $request);
+            // $this->correo($newAvaluo->id, $request);
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
