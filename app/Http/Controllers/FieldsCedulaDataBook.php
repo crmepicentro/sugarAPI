@@ -28,8 +28,6 @@ class FieldsCedulaDataBook extends Controller
             $compania = $request->DataCredito['compania'];
 
             $opportunities = OpportunitiesCstm::opportunitiesCstmContacts($idCotizacion);
-            if(!$opportunities)
-                throw new Exception('$opportunities esta vacia');
 
             $emails = EmailAddrBeanRel::where('bean_id', $opportunities->id)
                                         ->where('primary_address', 1)
