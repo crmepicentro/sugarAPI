@@ -36,7 +36,6 @@ class  WsLog
         $ws_logs->save();
     }
 
-
     public static function getErrorlogs()
     {
         return DB::table('ws_logs')->select('id', 'route', 'datos_sugar_crm', 'datos_adicionales', 'response')->where('response', 'like', '%Undefined%')->get();

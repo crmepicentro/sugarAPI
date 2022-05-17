@@ -172,7 +172,7 @@ class TicketsController extends BaseController
                 "interaccion_id" => $interaction->id,
             ];
 
-                WsLog::storeAfter($ws_logs, $dataUpdateWS);
+            WsLog::storeAfter($ws_logs, $dataUpdateWS);
 
 
             \DB::connection(get_connection())->commit();
