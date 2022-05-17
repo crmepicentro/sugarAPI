@@ -8,8 +8,8 @@ use App\Helpers\WsLog;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\App;
 
-use App\Models\OpportunitiesCstm; 
-use App\Models\Opportunities; 
+use App\Models\OpportunitiesCstm;
+use App\Models\Opportunities;
 use App\Models\EmailAddrBeanRel;
 use App\Models\EmailAddreses;
 use App\Models\Users;
@@ -17,22 +17,27 @@ use App\Models\Nationality;
 use App\Models\Agencies;
 
 
+
 class FieldsCedulaDataBook extends Controller
 {
     public function dataBook(Request $request){
 
         try {
-            
-            $idCotizacion = $request->DataCredito['idCotizacion']; 
+
+            $idCotizacion = $request->DataCredito['idCotizacion'];
             $compania = $request->DataCredito['compania'];
+
             $opportunities = OpportunitiesCstm::opportunitiesCstmContacts($idCotizacion);
+            if(!$opportunities)
+                throw new Exception('$opportunities esta vacia');
 
             $emails = EmailAddrBeanRel::where('bean_id', $opportunities->id)
                                         ->where('primary_address', 1)
                                         ->where('deleted', 0)->pluck('email_address_id');
+
             $email= EmailAddreses::whereIn('id', $emails) ->where('deleted', 0)->select('email_address')->first();
             $nacionality = Nationality::find($opportunities['nacionalidad_c']);
-            
+
             $genero = Array(
                 "id"=>$opportunities['genero_c'],
                 "nombre"=>getGenero($opportunities['genero_c'])
@@ -54,7 +59,7 @@ class FieldsCedulaDataBook extends Controller
             );
 
             $agencia = Agencies::where('id', $opportunities['cb_agencias_id_c'])->select('id','name')->first();
-           
+
             //return response()->json(["databook"=>$opportunities],200);
 
              //$resDataBook = $this->getfieldCedulaDataBook($opportunities->numero_identificacion_c,$opportunities->tipo_identificacion_c,$compania);
@@ -71,7 +76,7 @@ class FieldsCedulaDataBook extends Controller
                 "FechaNacimiento"=>$opportunities['birthdate'],
                 "Nacionalidad"=>$nacionality,
                 "EstadoCivil"=>$estadoCivil,
-                
+
                 //"Provincia_casa"=>$opportunities['provincia_c'],
                 //"Parroquia_casa"=>$opportunities['parroquia_c'],
                 //"Ciudad_casa"=>$opportunities['ciudad_c'],
@@ -108,7 +113,7 @@ class FieldsCedulaDataBook extends Controller
                 "FechaCotizacion"=>$opportunities['fecha_cotizacion_c'],
                 "Asesor"=>$opportunities['username_c'],
                 "NombreAsesor"=>$opportunities['nombres_apellidos_c'],
-                "Agencia"=>$agencia, 
+                "Agencia"=>$agencia,
             );
 
             $data = Array(
@@ -116,12 +121,12 @@ class FieldsCedulaDataBook extends Controller
                 "DatosGenerales"=>$datoGenerales,
                 "DatosAdicionales"=>$datosAdicionales,
             );
-    
+
             return response()->json(["data"=>$data],200);
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
-        }  
+        }
 
     }
 
