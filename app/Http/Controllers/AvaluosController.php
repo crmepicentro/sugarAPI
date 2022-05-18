@@ -37,10 +37,10 @@ class AvaluosController extends BaseController
                     $checkList->create();
                 }
             }
-            // if ($request->has('pics')) {
-            //     $strappiController = new StrapiController();
-            //     $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
-            // }
+            if ($request->has('pics')) {
+                $strappiController = new StrapiController();
+                $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
+            }
             DB::connection(get_connection())->commit();
             AvaluosCstm::updateOrCreate(
                 ['id_c' => $newAvaluo->id],[
