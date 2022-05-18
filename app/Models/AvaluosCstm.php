@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AvaluosCstm extends Model
 {
     use HasFactory;
-    protected $connection = 'sugar_prod';
+    protected $connection = 'sugar_dev';
     protected $table = 'cbav_avaluoscrm_cstm';
     protected $primaryKey = "id_c";
     public $incrementing = false;

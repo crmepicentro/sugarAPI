@@ -46,14 +46,14 @@ class AvaluosController extends BaseController
                 $strappiController = new StrapiController();
                 $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
             }
+                AvaluosCstm::updateOrCreate(
+                    ['id_c' => $newAvaluo->id],[
+                    'id_c' => $newAvaluo->id,
+                    'bonotoyota_c' => $request->bonoToyota,
+                    'bono1001_c'=> $request->bonoMilUnCarros
+                ]);
             DB::connection(get_connection())->commit();
-            AvaluosCstm::updateOrCreate(
-                ['id_c' => $newAvaluo->id],[
-                'id_c' => $newAvaluo->id,
-                'bonotoyota_c' => $request->bonoToyota,
-                'bono1001_c'=> $request->bonoMilUnCarros
-            ]);
-            // $this->correo($newAvaluo->id, $request);
+            $this->correo($newAvaluo->id, $request);
             return $this->response->item($newAvaluo, new AvaluoTransformer)->setStatusCode(200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
