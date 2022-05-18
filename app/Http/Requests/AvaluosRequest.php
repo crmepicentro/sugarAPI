@@ -83,9 +83,7 @@ class AvaluosRequest extends FormRequest
     public function getCoordinatorId() : string
     {
         if($this->has('coordinator')){
-            $coordinador = $this->get('coordinator');
-            if(isset($coordinador->code))
-                return $coordinador->code;
+            return json_decode($this->get('coordinator'))->code;
         }
         return false;
     }
