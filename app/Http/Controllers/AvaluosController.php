@@ -49,8 +49,8 @@ class AvaluosController extends BaseController
                 AvaluosCstm::updateOrCreate(
                     ['id_c' => $newAvaluo->id],[
                     'id_c' => $newAvaluo->id,
-                    'bonotoyota_c' => $request->bonoToyota,
-                    'bono1001_c'=> $request->bonoMilUnCarros
+                    'bonotoyota_c' => $request->bonoToyota != null ? $request->bonoToyota : 0,
+                    'bono1001_c'=> $request->bonoMilUnCarros != null ? $request->bonoMilUnCarros : 0
                 ]);
             DB::connection(get_connection())->commit();
             $this->correo($newAvaluo->id, $request);
