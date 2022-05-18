@@ -9,7 +9,7 @@ use App\Services\ChecklistAvaluoClass;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Avaluos;
-use App\Models\AvaluosBonos;
+use App\Models\AvaluosCstm;
 use App\Models\Companies;
 use App\Models\EmailAddrBeanRel;
 use App\Models\EmailAddreses;
@@ -42,7 +42,7 @@ class AvaluosController extends BaseController
             //     $strappiController->storeFilesAppraisals($request, $newAvaluo->id, $newAvaluo->placa, $request->getCoordinatorId());
             // }
             DB::connection(get_connection())->commit();
-            AvaluosBonos::updateOrCreate(
+            AvaluosCstm::updateOrCreate(
                 ['id_c' => $newAvaluo->id],[
                 'id_c' => $newAvaluo->id,
                 'bonotoyota_c' => $request->bonoToyota,
@@ -78,7 +78,7 @@ class AvaluosController extends BaseController
     public function pdf($id, $compania=null)
     {
         $avaluo = Avaluos::getAvaluo($id);
-        $bono = AvaluosBonos::where('id_c', $id)->first();
+        $bono = AvaluosCstm::where('id_c', $id)->first();
         //Solo cuando esta aprobado
         if ($avaluo->status != 'A') {
             $pdf = PDF::loadHtml(' ');
