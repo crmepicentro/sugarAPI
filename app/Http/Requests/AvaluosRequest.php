@@ -84,8 +84,8 @@ class AvaluosRequest extends FormRequest
     {
         if($this->has('coordinator')){
             $coordinador = $this->get('coordinator');
-            if(isset($coordinador['code']))
-                return $coordinador['code'];
+            if(isset($coordinador->code))
+                return $coordinador->code;
         }
         return false;
     }
