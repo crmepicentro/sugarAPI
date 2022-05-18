@@ -60,9 +60,9 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->put('coupons/', 'App\Http\Controllers\CouponsController@update');
     $api->post('coupons/validate', 'App\Http\Controllers\CouponsController@validateCoupon');
     $api->post('c2cOmnichannel', 'App\Http\Controllers\OmnichannelController@sendToOmnichannel');
-    $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
+    // $api->get('pdf/{id}/{compania?}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
     $api->post('sendEmail', 'App\Http\Controllers\EmailController@sendMeetingAsesor');
-    $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
+    $api->get('pdf/{id}/{compania?}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
 
     $api->post('getCreditoDataBook', 'App\Http\Controllers\FieldsCedulaDataBook@dataBook');
 
