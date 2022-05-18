@@ -92,7 +92,6 @@ class AvaluosController extends BaseController
         $data['bonoToyota'] = $bono->bonotoyota_c;
         $data['bonoMil'] = $bono->bono1001_c;
 
-        return response()->json(['error' => $data], 500);
         if ($compania == 'autoconsa') {
             $pdf = PDF::loadView('appraisal.pdfAuto', $data);
             return $pdf->stream($avaluo->alias . '.pdf');
