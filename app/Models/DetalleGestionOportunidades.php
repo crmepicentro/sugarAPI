@@ -174,5 +174,9 @@ class DetalleGestionOportunidades extends Model
     {
         return $query->whereIn('gestion_tipo',['nuevo','cita','recordatorio'])->groupby('codServ','descServ')->select('codServ','descServ')->get();
     }
+    public function scopeDaroestadoslist($query)
+    {
+        return $query->where('facturado','N')->groupby('gestion_tipo','gestion_tipo')->select('gestion_tipo','gestion_tipo')->get();
+    }
 }
 
