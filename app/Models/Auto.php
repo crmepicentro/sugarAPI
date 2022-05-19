@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Auto extends Model
 {
@@ -125,6 +126,40 @@ class Auto extends Model
             where('ordTaller' ,'like', "%$search_orden%")
                 ->select('auto_id')->get()->pluck('auto_id');
             return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
+    public function scopeOportunidades($query, $search_oportunidades){
+        if($search_oportunidades != null && count($search_oportunidades) > 0){
+
+            $add_value = "";
+            $porte_k = count($search_oportunidades);
+            $j = 1;
+            foreach ($search_oportunidades as $k){
+                $add_value .= "?";
+                if( $j++ < $porte_k ){
+                    $add_value .= ",";
+                }
+            }
+            $data_select_raw = "select `auto_id`
+from (
+select auto_id,codServ from pvt_detalle_gestion_oportunidades
+where `facturado` = 'N' group by auto_id,codServ) as templ
+where `codServ` in ( $add_value )
+ group by `auto_id` having COUNT(*) >= ?";
+
+            $search_oportunidades[] = count($search_oportunidades) ;
+
+
+            $detalleGestioOportunidades = DB::select($data_select_raw, $search_oportunidades );
+            $arr = [];
+            foreach($detalleGestioOportunidades as $row)
+            {
+                $arr[] = $row->auto_id ;
+            }
+
+
+            return $query->whereIntegerInRaw('pvt_autos.id', $arr);
         }
         return $query;
     }

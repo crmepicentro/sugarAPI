@@ -42,8 +42,8 @@
             <div class="mb-4">
                 @php($campo = 'search_oportunidades')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::select($campo, \App\Models\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), null,
-           ['class' => 'js-select2 form-select form-control col-12', 'style' => '', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
+                {{ Form::select($campo."[]", \App\Models\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), request($campo),
+           ['class' => 'js-select2 form-select form-control col-12', 'style' => 'width:100%', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
             </div>
         </div>
         <div class="col-3">
