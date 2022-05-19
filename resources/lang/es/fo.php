@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'search_cliente' => 'Cliente',
+    'search_cliente' => 'Cliente/Correo',
     'search_chasis' => 'Chasis',
     'search_placa' => 'Placa',
     'search_asesor' => 'Asesor',

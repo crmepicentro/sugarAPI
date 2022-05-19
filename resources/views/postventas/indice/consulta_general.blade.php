@@ -5,28 +5,28 @@
             <div class="mb-4">
                 @php($campo = 'search_cliente')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control col-12', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                {{ Form::text($campo, request($campo), ['class' => 'form-control col-12', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
             </div>
         </div>
         <div class="col-3">
             <div class="mb-4">
                 @php($campo = 'search_chasis')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
             </div>
         </div>
         <div class="col-3">
             <div class="mb-4">
                 @php($campo = 'search_placa')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
             </div>
         </div>
         <div class="col-3">
             <div class="mb-4">
                 @php($campo = 'search_asesor')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::text('search_cliente', request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+                {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
             </div>
         </div>
     </div>

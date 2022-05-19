@@ -18,8 +18,10 @@ class PostVentaIndiceController extends Controller
      */
     public function __invoke(Request $request)
     {
+        $porte_paginacion = 20;
 
         $data_list = "SELECT
+    'Original' as select_original,
   pvt_propietarios.id,
   pvt_propietarios.nombre_propietario,
   pvt_propietarios.email_propietario,
@@ -98,6 +100,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
             ->selectRaw('
+            \'lista_oportunidades\' as select_original,
             pvt_propietarios.id as id_p,
   pvt_propietarios.nombre_propietario,
   pvt_propietarios.email_propietario,
@@ -117,7 +120,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ')
             ->havingRaw("primer_gestion_v2 = '' ")
             ->paginate(
-                $perPage = 15, $columns = ['*'], $pageName = 'gestion_p'
+                $perPage = $porte_paginacion, $columns = ['*'], $pageName = 'gestion_p'
             );
         ;
         $lista_recordatorio = Auto::join((new Propietario)->getTable(), 'pvt_autos.propietario_id', '=', 'pvt_propietarios.id')
@@ -143,6 +146,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
             ->selectRaw('
+            \'lista_recordatorio\' as select_original,
             pvt_propietarios.id as id_p,
   pvt_propietarios.nombre_propietario,
   pvt_propietarios.email_propietario,
@@ -162,7 +166,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ')
             ->havingRaw("primer_gestion_v2 <>'' ")
             ->paginate(
-                $perPage = 10, $columns = ['*'], $pageName = 'recorda_p'
+                $perPage = $porte_paginacion, $columns = ['*'], $pageName = 'recorda_p'
             );
         ;
         $lista_consultageneral = Auto::join((new Propietario)->getTable(), 'pvt_autos.propietario_id', '=', 'pvt_propietarios.id')
@@ -188,6 +192,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
             ->selectRaw('
+             \'lista_consultageneral\' as select_original,
             pvt_propietarios.id as id_p,
   pvt_propietarios.nombre_propietario,
   pvt_propietarios.email_propietario,
@@ -205,11 +210,16 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   pvt_autos.id,
   count(pvt_autos.id) AS cantidad_autos
             ')
-            ->havingRaw("primer_gestion_v2 <>'' ")
+            ->nombrepropietario($request->search_cliente)
+            ->chasis($request->search_chasis)
+            ->placa($request->search_placa)
+            ->nombreasesor($request->search_asesor)
+            ->ordtaller($request->search_orden)
             ->paginate(
                 $perPage = 10, $columns = ['*'], $pageName = 'consugeneral_p'
             );
         ;
+        //dd($request->all());
         //dd($autos->first());
         return view('postventas.indexList', compact('lista_oportunidades','lista_recordatorio','lista_consultageneral'));
     }

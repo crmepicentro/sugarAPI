@@ -87,5 +87,45 @@ class Auto extends Model
             'id'
         )->distinct();
     }
-
+    public function scopeNombrepropietario($query, $nombre_propietario){
+        if($nombre_propietario != null && trim($nombre_propietario) != ''){
+            $propietarios = Propietario::where('nombre_propietario' ,'like', "%$nombre_propietario%")
+                ->orwhere('email_propietario' ,'like', "%$nombre_propietario%")
+                ->orwhere('email_propietario_2' ,'like', "%$nombre_propietario%")
+                ->select('id')->get()->pluck('id');
+            return $query->whereIntegerInRaw('propietario_id', $propietarios);
+        }
+        return $query;
+    }
+    public function scopeChasis($query, $search_chasis){
+        if($search_chasis != null && trim($search_chasis) != ''){
+            return $query->where('chasis', 'LIKE', "%$search_chasis%");
+        }
+        return $query;
+    }
+    public function scopePlaca($query, $search_placa){
+        if($search_placa != null && trim($search_placa) != ''){
+            return $query->where('placa', 'LIKE', "%$search_placa%");
+        }
+        return $query;
+    }
+    public function scopeNombreasesor($query, $search_asesor){
+        if($search_asesor != null && trim($search_asesor) != ''){
+            $detalleGestioOportunidades = DetalleGestionOportunidades::
+            where('codOrdAsesor' ,'like', "%$search_asesor%")
+                ->orwhere('nomOrdAsesor' ,'like', "%$search_asesor%")
+                ->select('auto_id')->get()->pluck('auto_id');
+            return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
+    public function scopeOrdtaller($query, $search_orden){
+        if($search_orden != null && trim($search_orden) != ''){
+            $detalleGestioOportunidades = DetalleGestionOportunidades::
+            where('ordTaller' ,'like', "%$search_orden%")
+                ->select('auto_id')->get()->pluck('auto_id');
+            return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
 }
