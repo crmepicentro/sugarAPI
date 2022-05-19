@@ -163,4 +163,24 @@ where `codServ` in ( $add_value )
         }
         return $query;
     }
+    public function scopeAgencia($query, $search_agencia){
+        if($search_agencia != null && trim($search_agencia) != ''){
+            $detalleGestioOportunidades = DetalleGestionOportunidades::
+            where('codAgencia' ,'like', "%$search_agencia%")
+            ->orWhere('nomAgencia' ,'like', "%$search_agencia%")
+                ->select('auto_id')->get()->pluck('auto_id');
+            return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
+    //gestion_tipo
+    public function scopeGestiontipo($query, $search_estados){
+        if($search_estados != null && trim($search_estados) != ''){
+            $detalleGestioOportunidades = DetalleGestionOportunidades::
+            where('gestion_tipo' ,'=', $search_estados)
+                ->select('auto_id')->get()->pluck('auto_id');
+            return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
 }
