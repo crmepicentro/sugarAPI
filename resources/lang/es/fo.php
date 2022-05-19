@@ -21,6 +21,7 @@ return [
     'search_oportunidades' => 'Descripcion de la Tarea',
     'search_agencia' => 'Agencia',
     'search_telefono' => 'Teléfono',
+    'search_estados' => 'Estados',
 
     'search_fechaGestion' => 'Fecha de gestión',
     'search_fechaFactura' => 'Fecha de factura',

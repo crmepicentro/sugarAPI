@@ -78,6 +78,10 @@
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-4">
+                                        @php($campo = 'search_estados')
+                                        {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
+                                        {{ Form::select($campo, \App\Models\DetalleGestionOportunidades::daroestadoslist()->pluck('gestion_tipo','gestion_tipo'), null,
+                                   ['class' => 'js-select2 form-select form-control col-12', 'style' => '', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
                                     </div>
                                 </div>
                             </div>
@@ -143,73 +147,111 @@
             <!-- END Multiple Items -->
         </div>
     </div>
-    <div class="block block-rounded">
-        <div class="block-header block-header-default">
-            <h3 class="block-title">
-                Post<small>Ventas</small>
-            </h3>
-        </div>
-        <div class="block-content block-content-full">
-            <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _js/pages/be_tables_datatables.js -->
-            <table class="table table-bordered table-striped table-vcenter js-dataTable-full table-sm">
-                <thead>
-                <tr>
-                    <th class="text-center">#</th>
-                    <th>Cliente</th>
-                    <th class="d-none d-sm-table-cell" style="width: 30%;">Mail</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">Teléfono</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">RFM</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">R</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">F</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">M</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">VHC</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Fecha</th>
-<!--                    <th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Estado</th>-->
-                    <th style="width: 15%;"><i class="fa fa-play"></i></th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Fecha</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">Cita Fecha</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Estado</th>
-                    <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Or</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($lista_oportunidades as $lista_oportunidade)
-                    <tr>
-                        <td class="text-center">{{$loop->index + 1}}</td>
-                        <td class="fw-semibold">
-                            <a href="#">{{ $lista_oportunidade->nombre_propietario }}</a>
-                        </td>
-                        <td class="d-none d-sm-table-cell">
-                            {{ $lista_oportunidade->email_propietario }} {{ ($lista_oportunidade->email_propietario_2 != '' )?" | ".$lista_oportunidade->email_propietario_2:"" }}
-                        </td>
-                        <td class="d-none d-sm-table-cell">
-                            {{ $lista_oportunidade->telefono_domicilio ?? $lista_oportunidade->telefono_domicilio ?? $lista_oportunidade->telefono_celular ?? 'No tiene' }}
-                            {{ ($lista_oportunidade->telefono_trabajo != '' )?" | ".$lista_oportunidade->telefono_trabajo:"" }}
-                            {{ ($lista_oportunidade->telefono_celular != '' )?" | ".$lista_oportunidade->telefono_celular:"" }}
-                        </td>
-                        <td class="d-none d-sm-table-cell">{{ 'RFM' }}</td>
-                        <td class="d-none d-sm-table-cell">{{ 'R' }}</td>
-                        <td class="d-none d-sm-table-cell">{{ 'F' }}</td>
-                        <td class="d-none d-sm-table-cell">{{ 'M' }}</td>
-                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->cantidad_autos }}</td>
-                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
-<!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
-                        <td><a href="{{ route('postventa.edita', $lista_oportunidade->id) }}" >
-                                <i class="fa fa-play"></i>
-                            </a>
-                        </td>
-                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->agendado_fecha }}</td>
-                        <td>{{ __($lista_oportunidade->cita_fecha) }}</td>
-                        <td>{{ __($lista_oportunidade->gestion_tipo) }}</td>
-                        <td>{{ $lista_oportunidade->s3s_codigo_seguimiento }}</td>
-                    </tr>
-                @endforeach
+    <!-- Vertical Block Tabs Default Style (Right) -->
+    <div class="block block-rounded row flex-md-row-reverse g-0">
+        <ul class="nav nav-tabs nav-tabs-block justify-content-end justify-content-md-start flex-md-column col-md-2" role="tablist">
+            <li class="nav-item d-md-flex flex-md-column">
+                <button class="nav-link text-md-start active" id="btabs-vertical2-home-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-home" role="tab" aria-controls="btabs-vertical2-home" aria-selected="true">
+                    <i class="fa fa-fw fa-home opacity-50 me-1 d-none d-sm-inline-block"></i> Gestión Inicial
+                </button>
+            </li>
+            <li class="nav-item d-md-flex flex-md-column">
+                <button class="nav-link text-md-start" id="btabs-vertical2-profile-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-profile" role="tab" aria-controls="btabs-vertical2-profile" aria-selected="false">
+                    <i class="fa fa-fw fa-user-circle opacity-50 me-1 d-none d-sm-inline-block"></i> Profile
+                </button>
+            </li>
+            <li class="nav-item d-md-flex flex-md-column">
+                <button class="nav-link text-md-start" id="btabs-vertical2-settings-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-settings" role="tab" aria-controls="btabs-vertical2-settings" aria-selected="false">
+                    <i class="fa fa-fw fa-cog opacity-50 me-1 d-none d-sm-inline-block"></i> Settings
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content col-md-10">
+            <div class="block-content tab-pane active" id="btabs-vertical2-home" role="tabpanel" aria-labelledby="btabs-vertical2-home-tab">
+                <h4 class="fw-semibold">Gestión Inicial</h4>
 
-                </tbody>
-            </table>
+                <!-- Dynamic Table Full -->
+                <div class="block block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">
+                            Post<small>Ventas</small>
+                        </h3>
+                    </div>
+                    <div class="block-content block-content-full">
+                        <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/be_tables_datatables.min.js which was auto compiled from _js/pages/be_tables_datatables.js -->
+                        <table class="table table-bordered table-striped table-vcenter js-dataTable-full table-sm">
+                            <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Cliente</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">Teléfono</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">RFM</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">R</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">F</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">M</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">VHC</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Fecha</th>
+                                <!--                    <th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Estado</th>-->
+                                <th style="width: 15%;"><i class="fa fa-play"></i></th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Fecha</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">Cita Fecha</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Estado</th>
+                                <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Or</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($lista_oportunidades as $lista_oportunidade)
+                                <tr>
+                                    <td class="text-center">{{$loop->index + 1}}</td>
+                                    <td class="fw-semibold">
+                                        <a href="#">{{ $lista_oportunidade->nombre_propietario }}</a>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                        {{ $lista_oportunidade->telefono_domicilio ?? $lista_oportunidade->telefono_domicilio ?? $lista_oportunidade->telefono_celular ?? 'No tiene' }}
+                                        {!! ($lista_oportunidade->telefono_trabajo != '' )?"<br>".$lista_oportunidade->telefono_trabajo:"" !!}
+                                        {!! ($lista_oportunidade->telefono_celular != '' )?"<br>".$lista_oportunidade->telefono_celular:"" !!}
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">{{ 'RFM' }}</td>
+                                    <td class="d-none d-sm-table-cell">{{ 'R' }}</td>
+                                    <td class="d-none d-sm-table-cell">{{ 'F' }}</td>
+                                    <td class="d-none d-sm-table-cell">{{ 'M' }}</td>
+                                    <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->cantidad_autos }}</td>
+                                    <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
+                                    <!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
+                                    <td><a href="{{ route('postventa.edita', $lista_oportunidade->id) }}" >
+                                            <i class="fa fa-play"></i>
+                                        </a>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->agendado_fecha }}</td>
+                                    <td>{{ __($lista_oportunidade->cita_fecha) }}</td>
+                                    <td>{{ __($lista_oportunidade->gestion_tipo) }}</td>
+                                    <td>{{ $lista_oportunidade->s3s_codigo_seguimiento }}</td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ $lista_oportunidades->links() }}
+                </div>
+                <!-- END Dynamic Table Full -->
+
+            </div>
+            <div class="block-content tab-pane" id="btabs-vertical2-profile" role="tabpanel" aria-labelledby="btabs-vertical2-profile-tab">
+                <h4 class="fw-semibold">Profile Content</h4>
+                <p class="fs-sm">
+                    Mauris tincidunt tincidunt turpis in porta. Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus. Nam commodo turpis id lectus scelerisque vulputate. Integer sed dolor erat. Fusce erat ipsum, varius vel euismod sed, tristique et lectus? Etiam egestas fringilla enim, id convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum quis nisi. Quisque egestas nisl id lectus facilisis scelerisque? Proin rhoncus dui at ligula vestibulum ut facilisis ante sodales! Suspendisse potenti. Aliquam tincidunt.
+                </p>
+            </div>
+            <div class="block-content tab-pane" id="btabs-vertical2-settings" role="tabpanel" aria-labelledby="btabs-vertical2-settings-tab">
+                <h4 class="fw-semibold">Settings Content</h4>
+                <p class="fs-sm">
+                    Integer fermentum tincidunt auctor. Vestibulum ullamcorper, odio sed rhoncus imperdiet, enim elit sollicitudin orci, eget dictum leo mi nec lectus. Nam commodo turpis id lectus scelerisque vulputate. Integer sed dolor erat. Fusce erat ipsum, varius vel euismod sed, tristique et lectus? Etiam egestas fringilla enim, id convallis lectus laoreet at. Fusce purus nisi, gravida sed consectetur ut, interdum quis nisi. Quisque egestas nisl id lectus facilisis scelerisque? Proin rhoncus dui at ligula vestibulum ut facilisis ante sodales! Suspendisse potenti. Aliquam tincidunt sollicitudin sem nec ultrices. Sed at mi velit.
+                </p>
+            </div>
         </div>
     </div>
-    <!-- END Dynamic Table Full -->
+    <!-- END Vertical Block Tabs Default Style (Right) -->
 
     <!-- END Page Content -->
 @endsection

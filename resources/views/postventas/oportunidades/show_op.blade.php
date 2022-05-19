@@ -30,22 +30,22 @@
                 DETALLE
             </th>
             <th>
-                CANTIDAD
+                CANT
+            </th>
+            <th style="text-align: end">
+                VALOR<br/>UNI
+            </th>
+            <th style="text-align: end">
+                VALOR<br/>TOT
             </th>
             <th>
-                VALOR UNITARIO
-            </th>
-            <th>
-                VALOR TOTAL
-            </th>
-            <th>
-                Nueva Cita
+                NUEVA<br/>CITA
             </th>
             <th>
                 FECHA GESTIÓN
             </th>
             <th>
-                NUEVA CITA
+                Nueva<br/>cita
             </th>
             <th>
                 Recordatorio
@@ -84,17 +84,19 @@
                 <td>
                     {{ $oportunidad->cantidad }}
                 </td>
-                <td>
-                    ${{ $oportunidad->cargosCobrar }}
+                <td style="text-align: end">
+                    {{ $oportunidad->cargosCobrar }}
                 </td>
-                <td>
-                    ${{ $oportunidad->cantidad * $oportunidad->cargosCobrar }}
-                </td>
-                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
-                    {{ $oportunidad->gestion_fecha }}
+                <td style="text-align: end">
+                    {{ $oportunidad->cantidad * $oportunidad->cargosCobrar }}
                 </td>
                 <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
-                    {{ $oportunidad->gestion_fecha }}
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br/>
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}
+                </td>
+                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br/>
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}
                 </td>
                 @if($oportunidad->cita_fecha == null)
                     @php($contador_elementos ++)

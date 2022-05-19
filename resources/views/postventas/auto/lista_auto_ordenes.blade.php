@@ -7,10 +7,10 @@
                     OR
                 </th>
                 <th>
-                    ASESOR
+                    AS
                 </th>
                 <th>
-                    FECHA FACTURA
+                    FECHA
                 </th>
                 <th>
                     USUARIO
@@ -51,26 +51,37 @@
                     <td>
                         {{ $oportunidad->nomUsuarioVista }}
                     </td>
-                    <td>
-                        ${{ $oportunidad->monto }}
+                    <td style="text-align: end;">
+                        <span>{{ $oportunidad->monto }}</span>
                     </td>
                     <td>
-                        {{ $oportunidad->primer_gestion }}
+                        {{ \Carbon\Carbon::create($oportunidad->primer_gestion)->format('y-m-d H:i') }}
                     </td>
                     <td>
-                        {{ __($oportunidad->primergestioestado) }}
+                        @switch($oportunidad->primergestioestado)
+                            @case('cita')
+                            <span class="badge rounded-pill bg-success" title="{{ \Carbon\Carbon::create($oportunidad->gestion_futura)->diffForHumans() }}">{{ __($oportunidad->primergestioestado) }}</span>
+                            @break
+                            @case('recordatorio')
+                            <span class="badge rounded-pill bg-primary" title="{{ \Carbon\Carbon::create($oportunidad->gestion_futura)->diffForHumans() }}">{{ __($oportunidad->primergestioestado) }}</span>
+                            @break
+                            @case('perdido')
+                            <span class="badge rounded-pill bg-warning">{{ __($oportunidad->primergestioestado) }}</span>
+                            @break
+                        @endswitch
+                        {{ __() }}
                     </td>
                     <td>
-                        {{ $oportunidad->gestion_futura }}
+                        {{ \Carbon\Carbon::create($oportunidad->gestion_futura)->format('y-m-d H:i') }}
                     </td>
                     <td>
                         @foreach($oportunidad->gestionestados as $gestionestado)
                             @switch($gestionestado)
                                 @case('cita')
-                                <span class="badge rounded-pill bg-success">{{ __($gestionestado) }}</span>
+                                <span class="badge rounded-pill bg-success" >{{ __($gestionestado) }}</span>
                                 @break
                                 @case('recordatorio')
-                                <span class="badge rounded-pill bg-primary">{{ __($gestionestado) }}</span>
+                                <span class="badge rounded-pill bg-primary" >{{ __($gestionestado) }}</span>
                                 @break
                                 @case('perdido')
                                 <span class="badge rounded-pill bg-warning">{{ __($gestionestado) }}</span>

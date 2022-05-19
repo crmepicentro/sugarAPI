@@ -20,6 +20,14 @@
             <label class="form-label" for="comentario_nuevacita">Comentario</label>
             <textarea class="form-control" id="comentario_nuevacita" name="comentario_nuevacita" rows="4" placeholder="Comentario.."></textarea>
         </div>
+        <div class="mb-4">
+            <label class="form-label" for="comentario_nuevacita">Fecha, Hora y Agente</label>
+            <br>
+            <a class="btn btn-sm btn-hero btn-dark me-1 mb-3" href="http://talleres.casabaca.com/externo/reservar-cita/ajax-listar-asesores?sucursal=005&fecha=2022-05-18"
+             target="_blank" >
+                <i class="fa fa-fw fa-calendar-day me-1"></i> Elige Fecha, Hora y Agente
+            </a>
+        </div>
         </p>
     @endif
     @foreach($nuevacitas as $nuevacita)
