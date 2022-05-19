@@ -98,7 +98,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
             ->selectRaw('
-            pvt_propietarios.id,
+            pvt_propietarios.id as id_p,
   pvt_propietarios.nombre_propietario,
   pvt_propietarios.email_propietario,
   pvt_propietarios.email_propietario_2,
@@ -115,9 +115,102 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   pvt_autos.id,
   count(pvt_autos.id) AS cantidad_autos
             ')
-            ->simplePaginate(13);
+            ->havingRaw("primer_gestion_v2 = '' ")
+            ->paginate(
+                $perPage = 15, $columns = ['*'], $pageName = 'gestion_p'
+            );
+        ;
+        $lista_recordatorio = Auto::join((new Propietario)->getTable(), 'pvt_autos.propietario_id', '=', 'pvt_propietarios.id')
+            ->join((new DetalleGestionOportunidades)->getTable(), function ($join) {
+                $join->on('pvt_detalle_gestion_oportunidades.auto_id', '=', 'pvt_autos.id')
+                    ->where('pvt_detalle_gestion_oportunidades.facturado', '=', 'N');
+            })
+            ->leftjoin((new GestionAgendadoDetalleOportunidades)->getTable(), 'pvt_gestion_agendado_detalle_op.detalle_gestion_oportunidad_id', '=', 'pvt_detalle_gestion_oportunidades.id')
+            ->groupBy('pvt_propietarios.id')
+            ->groupBy('pvt_propietarios.nombre_propietario')
+            ->groupBy('pvt_propietarios.email_propietario')
+            ->groupBy('pvt_propietarios.email_propietario_2')
+            ->groupBy('pvt_propietarios.telefono_domicilio')
+            ->groupBy('pvt_propietarios.telefono_trabajo')
+            ->groupBy('pvt_propietarios.telefono_celular')
+            ->groupBy('pvt_detalle_gestion_oportunidades.agendado_fecha')
+            ->groupBy('pvt_detalle_gestion_oportunidades.ganado_fecha')
+            ->groupBy('pvt_detalle_gestion_oportunidades.gestion_tipo')
+            ->groupBy('pvt_detalle_gestion_oportunidades.cita_fecha')
+            ->groupBy('pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento')
+            ->groupBy('pvt_autos.id')
+            ->orderByRaw('FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, \'recordatorio\', \'cita\', \'nuevo\', \'perdido\')')
+            ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
+            ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
+            ->selectRaw('
+            pvt_propietarios.id as id_p,
+  pvt_propietarios.nombre_propietario,
+  pvt_propietarios.email_propietario,
+  pvt_propietarios.email_propietario_2,
+  pvt_propietarios.telefono_domicilio,
+  pvt_propietarios.telefono_trabajo,
+  pvt_propietarios.telefono_celular,
+  pvt_detalle_gestion_oportunidades.cita_fecha,
+  pvt_detalle_gestion_oportunidades.agendado_fecha,
+  pvt_detalle_gestion_oportunidades.ganado_fecha,
+  pvt_detalle_gestion_oportunidades.gestion_tipo,
+  pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento,
+  MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
+  \'Canada\' AS primer_gestion_estado_v2,
+  pvt_autos.id,
+  count(pvt_autos.id) AS cantidad_autos
+            ')
+            ->havingRaw("primer_gestion_v2 <>'' ")
+            ->paginate(
+                $perPage = 10, $columns = ['*'], $pageName = 'recorda_p'
+            );
+        ;
+        $lista_consultageneral = Auto::join((new Propietario)->getTable(), 'pvt_autos.propietario_id', '=', 'pvt_propietarios.id')
+            ->join((new DetalleGestionOportunidades)->getTable(), function ($join) {
+                $join->on('pvt_detalle_gestion_oportunidades.auto_id', '=', 'pvt_autos.id')
+                    ->where('pvt_detalle_gestion_oportunidades.facturado', '=', 'N');
+            })
+            ->leftjoin((new GestionAgendadoDetalleOportunidades)->getTable(), 'pvt_gestion_agendado_detalle_op.detalle_gestion_oportunidad_id', '=', 'pvt_detalle_gestion_oportunidades.id')
+            ->groupBy('pvt_propietarios.id')
+            ->groupBy('pvt_propietarios.nombre_propietario')
+            ->groupBy('pvt_propietarios.email_propietario')
+            ->groupBy('pvt_propietarios.email_propietario_2')
+            ->groupBy('pvt_propietarios.telefono_domicilio')
+            ->groupBy('pvt_propietarios.telefono_trabajo')
+            ->groupBy('pvt_propietarios.telefono_celular')
+            ->groupBy('pvt_detalle_gestion_oportunidades.agendado_fecha')
+            ->groupBy('pvt_detalle_gestion_oportunidades.ganado_fecha')
+            ->groupBy('pvt_detalle_gestion_oportunidades.gestion_tipo')
+            ->groupBy('pvt_detalle_gestion_oportunidades.cita_fecha')
+            ->groupBy('pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento')
+            ->groupBy('pvt_autos.id')
+            ->orderByRaw('FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, \'recordatorio\', \'cita\', \'nuevo\', \'perdido\')')
+            ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
+            ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
+            ->selectRaw('
+            pvt_propietarios.id as id_p,
+  pvt_propietarios.nombre_propietario,
+  pvt_propietarios.email_propietario,
+  pvt_propietarios.email_propietario_2,
+  pvt_propietarios.telefono_domicilio,
+  pvt_propietarios.telefono_trabajo,
+  pvt_propietarios.telefono_celular,
+  pvt_detalle_gestion_oportunidades.cita_fecha,
+  pvt_detalle_gestion_oportunidades.agendado_fecha,
+  pvt_detalle_gestion_oportunidades.ganado_fecha,
+  pvt_detalle_gestion_oportunidades.gestion_tipo,
+  pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento,
+  MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
+  \'Canada\' AS primer_gestion_estado_v2,
+  pvt_autos.id,
+  count(pvt_autos.id) AS cantidad_autos
+            ')
+            ->havingRaw("primer_gestion_v2 <>'' ")
+            ->paginate(
+                $perPage = 10, $columns = ['*'], $pageName = 'consugeneral_p'
+            );
         ;
         //dd($autos->first());
-        return view('postventas.indexList', compact('lista_oportunidades'));
+        return view('postventas.indexList', compact('lista_oportunidades','lista_recordatorio','lista_consultageneral'));
     }
 }

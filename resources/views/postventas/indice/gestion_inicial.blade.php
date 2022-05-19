@@ -1,3 +1,4 @@
+
 <!-- Dynamic Table Full -->
 <div class="block block-rounded">
     <table class="table table-bordered table-striped table-vcenter table-sm">
@@ -39,7 +40,7 @@
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->cantidad_autos }}</td>
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
                 <!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
-                <td><a href="{{ route('postventa.edita', $lista_oportunidade->id) }}" >
+                <td><a href="{{ route('postventa.edita', $lista_oportunidade->id_p) }}" >
                         <i class="fa fa-play"></i>
                     </a>
                 </td>
@@ -52,6 +53,6 @@
 
         </tbody>
     </table>
-    {{ $lista_oportunidades->links() }}
+    {{ $lista_oportunidades->links('vendor.pagination.bootstrap-4') }}
 </div>
 <!-- END Dynamic Table Full -->
