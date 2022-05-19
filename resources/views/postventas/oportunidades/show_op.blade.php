@@ -2,7 +2,7 @@
 @php($contador_elementos = 0)
 @if($auto->detalleGestionOportunidadesagestionar->count() > 0)
     {{ Form::open(['route' => 'postventa.gestion' , 'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_master'.$auto->id]) }}
-    <table class="table-striped table-sm">
+    <table class="table-striped table-sm" style="width: 100%">
         <thead>
         <tr class="bg-body-dark">
             <th>
@@ -91,12 +91,12 @@
                     {{ $oportunidad->cantidad * $oportunidad->cargosCobrar }}
                 </td>
                 <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
-                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br/>
-                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
+                    <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}</small>
                 </td>
                 <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
-                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br/>
-                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
+                    <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}</small>
                 </td>
                 @if($oportunidad->cita_fecha == null)
                     @php($contador_elementos ++)
