@@ -55,8 +55,8 @@ use TicketUpdateTransformer;
  * APIs para crear, actualizar tickets y crear interacciones
  */
 class TicketsController extends BaseController
-{
-    public $sourcesOmniChannel = ['inconcert', '1800', 'facebook', 'whatsapp'];
+{   /* esto se utiliza para evitar leer y enviar datos a inconcert */
+    public $sourcesOmniChannel = ['inconcert', '1800', 'facebook', 'whatsapp', 'ticket_manual'];
 
     /**
      * Ticket - Interacción
