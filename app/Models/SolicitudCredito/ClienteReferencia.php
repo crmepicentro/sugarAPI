@@ -12,7 +12,7 @@ class ClienteReferencia extends Model
         cambiar la conexion
         protected $connection = 'sugar_dev';
     */
-    protected $table='bb_solicitud_credito';
+    protected $table='bb_solicitud_cliente_referencias';
     protected $fillable=[
         'institucion_1',
         'cuenta_tipo_1',
@@ -42,6 +42,9 @@ class ClienteReferencia extends Model
         'empresa_nombre_2',
         'empresa_ciudad_2',
         'empresa_telefono_2',
+        'empresa_nombre_3',
+        'empresa_ciudad_3',
+        'empresa_telefono_3',
         'compra_nombre_completo',
         'compra_correo',
         'compra_celular',

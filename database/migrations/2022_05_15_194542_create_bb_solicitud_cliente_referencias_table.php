@@ -43,6 +43,9 @@ class CreateBbSolicitudClienteReferenciasTable extends Migration
             $table->string('empresa_nombre_2')->nullable();
             $table->string('empresa_ciudad_2')->nullable();
             $table->string('empresa_telefono_2')->nullable();
+            $table->string('empresa_nombre_3')->nullable();
+            $table->string('empresa_ciudad_3')->nullable();
+            $table->string('empresa_telefono_3')->nullable();
             $table->string('compra_nombre_completo')->nullable();
             $table->string('compra_correo')->nullable();
             $table->string('compra_celular')->nullable();

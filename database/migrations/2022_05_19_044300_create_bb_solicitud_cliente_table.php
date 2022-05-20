@@ -46,6 +46,7 @@ class CreateBbSolicitudClienteTable extends Migration
             $table->double('entidades_bancarias')->nullable();
             $table->double('otros_gastos')->nullable();
             $table->double('gastos_total')->nullable();
+            $table->char('persona_tipo')->nullable();
             $table->unsignedBigInteger('empresa_id')->nullable();
             $table->unsignedBigInteger('referencias_id')->nullable();
             $table->timestamps();

@@ -12,7 +12,7 @@ class SolicitudCliente extends Model
         cambiar la conexion
         protected $connection = 'sugar_dev';
     */
-    protected $table='bb_solicitud_credito';
+    protected $table='bb_solicitud_cliente';
     protected $fillable=[
         'nombre_completo',
         'cedula',
@@ -46,6 +46,7 @@ class SolicitudCliente extends Model
         'otros_gastos',
         'gastos_total',
         'empresa_id',
-        'referencias_id'
+        'referencias_id',
+        'persona_tipo'
     ];
 }

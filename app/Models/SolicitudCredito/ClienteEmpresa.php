@@ -13,7 +13,7 @@ class ClienteEmpresa extends Model
         protected $connection = 'sugar_dev';
     */
 
-    protected $table='bb_solicitud_credito';
+    protected $table='bb_solicitud_cliente_empresa';
     protected $fillable=[
         'nombre',
         'situacion_laboral',
