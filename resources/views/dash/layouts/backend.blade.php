@@ -91,7 +91,7 @@
 
     'sidebar-dark page-header-dark dark-mode'   Enable dark mode (light sidebar/header is not supported with dark mode)
 -->
-<div id="page-container" class="page-header-dark main-content-boxed">
+<div id="page-container" class="page-header-dark main-content-boxed page-footer-fixed">
 
     <!-- Header -->
 
@@ -404,8 +404,21 @@
     <!-- END Main Container -->
 
     <!-- Footer -->
-    <footer id="page-footer" class="footer-static bg-body-extra-light">
-
+    <footer id="page-footer" class="bg-body-extra-light">
+        <div class="content py-0">
+            <div class="row fs-sm">
+                <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-end">
+                    <a type="button" class="btn btn-outline-secondary" href="{{ route('postventa.indice') }}">
+                        <i class="si si-home"></i>
+                    </a>
+                </div>
+                <div class="col-sm-6 order-sm-1 text-center text-sm-start">
+                    <a type="button" class="btn btn-outline-secondary" href="{{ redirect()->back()->getTargetUrl() }}">
+                        <i class="fa fa-fw fa-arrow-left "></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </footer>
     <!-- END Footer -->
 </div>
