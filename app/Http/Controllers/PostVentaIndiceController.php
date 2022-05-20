@@ -217,6 +217,9 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->ordtaller($request->search_orden)
             ->oportunidades($request->search_oportunidades)
             ->gestiontipo($request->search_estados)
+            ->gestionfecha($request->search_fechaGestion_from, $request->search_fechaGestion_to)
+            ->facturafecha($request->search_fechaFactura_from, $request->search_fechaFactura_to)
+            ->citafecha($request->search_fechacita_from, $request->search_fechacita_to)
             ->paginate(
                 $perPage = 10, $columns = ['*'], $pageName = 'consugeneral_p'
             );

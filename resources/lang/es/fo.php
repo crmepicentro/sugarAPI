@@ -25,6 +25,16 @@ return [
 
     'search_fechaGestion' => 'Fecha de gestión',
     'search_fechaFactura' => 'Fecha de factura',
-    'search_fechaCita' => 'Fecha de cita',
+    'search_fechacita' => 'Fecha de cita',
+
+    'search_fechaGestion_from' => 'Fecha Desde',
+    'search_fechaGestion_to' => 'Fecha Hasta',
+
+    'search_fechaFactura_from' => 'Fecha Desde',
+    'search_fechaFactura_to' => 'Fecha Hasta',
+
+    'search_fechacita_from' => 'Fecha Desde',
+    'search_fechacita_to' => 'Fecha Hasta',
+
 
 ];

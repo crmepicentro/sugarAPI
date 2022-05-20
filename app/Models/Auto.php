@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -178,6 +179,46 @@ where `codServ` in ( $add_value )
         if($search_estados != null && trim($search_estados) != ''){
             $detalleGestioOportunidades = DetalleGestionOportunidades::
             where('gestion_tipo' ,'=', $search_estados)
+                ->select('auto_id')->get()->pluck('auto_id');
+            return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
+    public function scopeGestionfecha($query, $search_fechaGestion_from, $search_fechaGestion_to){
+        if($search_fechaGestion_from != null && trim($search_fechaGestion_from) != '' &&
+            $search_fechaGestion_to != null && trim($search_fechaGestion_to) != ''
+        ){
+            $date_from = Carbon::createFromFormat('d/m/Y',  $search_fechaGestion_from);
+            $date_to = Carbon::createFromFormat('d/m/Y',  $search_fechaGestion_to);
+            $detalleGestioOportunidades = DetalleGestionOportunidades::
+            whereBetween('gestion_fecha' , [$date_from,$date_to])
+                ->select('auto_id')->get()->pluck('auto_id');
+            return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
+    public function scopeFacturafecha($query, $search_fechaFactura_from, $search_fechaFactura_to){
+        if($search_fechaFactura_from != null && trim($search_fechaFactura_from) != '' &&
+            $search_fechaFactura_to != null && trim($search_fechaFactura_to) != ''
+        ){
+            $date_from = Carbon::createFromFormat('d/m/Y',  $search_fechaFactura_from);
+            $date_to = Carbon::createFromFormat('d/m/Y',  $search_fechaFactura_to);
+            $fecha_mysql = str_replace( config('constants.pv_dateFormat'),'%d-%m-%Y', config('constants.pv_dateFormat') );//d-m-Y
+            $detalleGestioOportunidades = DetalleGestionOportunidades::
+            whereRaw( "STR_TO_DATE('ordFchaCierre','$fecha_mysql') Between ? AND ? "  , [$date_from,$date_to])
+                ->select('auto_id')->get()->pluck('auto_id');
+            return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
+        }
+        return $query;
+    }
+    public function scopeCitafecha($query, $search_fechacita_from, $search_fechacita_to){
+        if($search_fechacita_from != null && trim($search_fechacita_from) != '' &&
+            $search_fechacita_to != null && trim($search_fechacita_to) != ''
+        ){
+            $date_from = Carbon::createFromFormat('d/m/Y',  $search_fechacita_from);
+            $date_to = Carbon::createFromFormat('d/m/Y',  $search_fechacita_to);
+            $detalleGestioOportunidades = DetalleGestionOportunidades::
+            whereBetween('cita_fecha' , [$date_from,$date_to])
                 ->select('auto_id')->get()->pluck('auto_id');
             return $query->whereIntegerInRaw('pvt_autos.id', $detalleGestioOportunidades);
         }
