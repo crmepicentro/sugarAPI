@@ -67,6 +67,8 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('getCreditoDataBook', 'App\Http\Controllers\FieldsCedulaDataBook@dataBook');
 
     $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
+
+    $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
 });
 
 $api->version('v1', function ($api) {
