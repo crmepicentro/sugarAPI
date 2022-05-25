@@ -12,7 +12,7 @@ class ClientePatrimonio extends Model
         cambiar la conexion
         protected $connection = 'sugar_dev';
     */
-    protected $table='bb_solicitud_credito';
+    protected $table='bb_solicitud_cliente_patrimonios';
     protected $fillable=[
         'bien_inmueble',
         'ciudad_direccion',
@@ -22,6 +22,7 @@ class ClientePatrimonio extends Model
         'anio',
         'prendado',
         'valor_comercial',
+        'cliente_id',
         'patrimonio_tipo'
     ];
 }

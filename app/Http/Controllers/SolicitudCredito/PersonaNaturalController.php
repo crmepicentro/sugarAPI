@@ -4,21 +4,27 @@ namespace App\Http\Controllers\SolicitudCredito;
 
 use App\Http\Controllers\Controller;
 use App\Models\SolicitudCredito\ClienteEmpresa;
+use App\Models\SolicitudCredito\ClientePatrimonio;
 use App\Models\SolicitudCredito\ClienteReferencia;
 use App\Models\SolicitudCredito\SolicitudCliente;
 use App\Models\SolicitudCredito\SolicitudCredito;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PDF;
 
 class PersonaNaturalController extends Controller
 {
 
     public function create(Request $request)
     {
-        // return response()->json(['success' => $request->empresa['nombre']], 200);
+        $compania = $request->query('compania');
+        // return response()->json(['success' => $compania], 200);
         try {
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
+            // $prueba = $solicitud->generarPDF();
+            // return response()->json(['success' => $prueba], 200);
+
             $solicitud->save();
         //empresa
             $empresa = $this->fillEmpresa($request);
@@ -26,20 +32,42 @@ class PersonaNaturalController extends Controller
         //referencia
             $referencia = $this->fillReferencia($request);
             $referencias_id = $referencia->save();
-
         //cliente
             $cliente = $this->fillCliente($request);
             $cliente->empresa_id = $empresa_id;
             $cliente->referencias_id = $referencias_id;
             $cliente->save();
+            // patrimonio
+            if ($request->patrimonios != null) {
+                foreach ($request->patrimonios as $key => $value) {
+                    $patrimonio = $this->fillPatrimonio($value);
+                    $patrimonio->cliente_id = $cliente->id;
+                    $patrimonio->save();
+                }
+            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
-        //patrimonio
-        // if ($request->patrimonios != null) {
-        //     # code...
-        // }
         return response()->json(['success' => 'Guardado exitoso'], 200);
+    }
+
+    public function pdf(Request $request)
+    {
+        $compania = $request->query('compania');
+        $persona = $request->query('persona');
+        if ($compania=='01' && $persona=='01') {
+            $pdf = PDF::loadView('solicitud.cbNatural');
+        }
+        if ($compania=='01' && $persona=='02') {
+            $pdf = PDF::loadView('solicitud.cbJuridico');
+        }
+        if ($compania=='02' && $persona=='01') {
+            $pdf = PDF::loadView('solicitud.milNatural');
+        }
+        if ($compania=='02' && $persona=='02') {
+            $pdf = PDF::loadView('solicitud.milJuridica');
+        }
+        return $pdf->stream('solicitud.pdf');
     }
 
     private function fillSolicitud(Request $request)
@@ -115,6 +143,21 @@ class PersonaNaturalController extends Controller
         $empresa->cyg_ext_telefono = $res['cygExtTelefono'];
         $empresa->telefono = $res['telefono'];
         return $empresa;
+    }
+
+    public function fillPatrimonio($value)
+    {
+        $patrimonio = new ClientePatrimonio();
+        $patrimonio->bien_inmueble = $value['bienInmueble'];
+        $patrimonio->ciudad_direccion = $value['ciudadDireccion'];
+        $patrimonio->hipotecado = $value['hipotecado'];
+        $patrimonio->marca_vehiculo = $value['marcaVehiculo'];
+        $patrimonio->modelo_vehiculo = $value['modeloVehiculo'];
+        $patrimonio->anio = intval($value['anio']);
+        $patrimonio->prendado = $value['prendado'];
+        $patrimonio->valor_comercial = floatval($value['valorComercial']);
+        $patrimonio->patrimonio_tipo = $value['tipo'];
+        return $patrimonio;
     }
 
     private function fillCliente(Request $request)

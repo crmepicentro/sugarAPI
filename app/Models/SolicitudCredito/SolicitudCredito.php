@@ -2,6 +2,7 @@
 
 namespace App\Models\SolicitudCredito;
 
+use PDF;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,14 +28,22 @@ class SolicitudCredito extends Model
         'id_cb'
     ];
 
-    public function generarPDF($idSolicitud)
+    public function generarPDF()
     {
-        $solicitud = self::where('id_cotizacion', $idSolicitud)->first();
+        $objeto = $this;
+        $solicitud = self::where('id_cotizacion', $objeto->id_cotizacion)->first();
         $cliente = SolicitudCliente::where('cedula', $solicitud->cedula_cliente)
             ->join('bb_solicitud_cliente_empresa', 'bb_solicitud_cliente.empresa_id', '=', 'bb_solicitud_cliente_empresa.id')
             ->join('bb_solicitud_cliente_referencias', 'bb_solicitud_cliente.referencias_id', '=', 'bb_solicitud_cliente_empresa.id')
             ->first();
-        return $cliente;
+        $patrimonios = ClientePatrimonio::where('cliente_id', $cliente->id)->get();
+        $data = [
+            'solicitud'=> $solicitud,
+            'cliente'=> $cliente,
+            'patrimonios'=> $patrimonios
+        ];
+        $pdf = PDF::loadView('solicitud.cbNatural', $data);
+        return $pdf->output();
     }
 
 }
