@@ -53,55 +53,55 @@
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[0]) ? '' : mb_convert_case($checklist[0]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[0]) ? '' : $statusCheck[$checklist[0]['option']]}}</span>
+                        {{ mb_convert_case($checklist[0]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[0]) ? '' : $statusCheck[$checklist[0]['option']]}}</span>
                     </div>
                 </td>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{  isset($checklist[1]) ? '' : mb_convert_case($checklist[1]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[1]) ? '' : $statusCheck[$checklist[1]['option']]}}</span>
+                        {{ mb_convert_case($checklist[1]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[1]) ? '' : $statusCheck[$checklist[1]['option']]}}</span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[2]) ? '' : mb_convert_case($checklist[2]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[2]) ? '' : $statusCheck[$checklist[2]['option']]}}</span>
+                        {{ mb_convert_case($checklist[2]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[2]) ? '' : $statusCheck[$checklist[2]['option']]}}</span>
                     </div>
                 </td>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[3]) ? '' : mb_convert_case($checklist[3]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[3]) ? '' : $statusCheck[$checklist[3]['option']]}}</span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[4]) ? '' : mb_convert_case($checklist[4]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[4]) ? '' : $statusCheck[$checklist[4]['option']]}}</span>
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[5]) ? '' : mb_convert_case($checklist[5]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[5]) ? '' : $statusCheck[$checklist[5]['option']]}}</span>
+                        {{ mb_convert_case($checklist[3]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[3]) ? '' : $statusCheck[$checklist[3]['option']]}}</span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[6]) ? '' : mb_convert_case($checklist[6]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[6]) ? '' : $statusCheck[$checklist[6]['option']]}}</span>
+                        {{ mb_convert_case($checklist[4]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[4]) ? '' : $statusCheck[$checklist[4]['option']]}}</span>
                     </div>
                 </td>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[7]) ? '' : mb_convert_case($checklist[7]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[7]) ? '' : $statusCheck[$checklist[7]['option']]}}</span>
+                        {{ mb_convert_case($checklist[5]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[5]) ? '' : $statusCheck[$checklist[5]['option']]}}</span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ isset($checklist[8]) ? '' : mb_convert_case($checklist[8]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ isset($checklist[8]) ? '' :$statusCheck[$checklist[8]['option']]}}</span>
+                        {{ mb_convert_case($checklist[6]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[6]) ? '' : $statusCheck[$checklist[6]['option']]}}</span>
+                    </div>
+                </td>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[7]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[7]) ? '' : $statusCheck[$checklist[7]['option']]}}</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[8]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{ !isset($checklist[8]) ? '' :$statusCheck[$checklist[8]['option']]}}</span>
                 </td>
                 <td class="bb-w-50"></td>
             </tr>
