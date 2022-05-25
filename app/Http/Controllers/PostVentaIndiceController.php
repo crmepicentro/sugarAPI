@@ -53,7 +53,8 @@ class PostVentaIndiceController extends Controller
     ORDER BY interno1.created_at DESC
     LIMIT 1) AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos
+  count(pvt_autos.id) AS cantidad_autos,
+  max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
 FROM pvt_autos pvt_autos
   INNER JOIN pvt_propietarios pvt_propietarios
     ON pvt_autos.propietario_id = pvt_propietarios.id
@@ -116,7 +117,8 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos
+  count(pvt_autos.id) AS cantidad_autos,
+  max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
             ->havingRaw("primer_gestion_v2 = '' ")
             ->paginate(
@@ -162,7 +164,8 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos
+  count(pvt_autos.id) AS cantidad_autos,
+  max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
             ->havingRaw("primer_gestion_v2 <>'' ")
             ->paginate(
@@ -208,7 +211,8 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos
+  count(pvt_autos.id) AS cantidad_autos,
+  max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
             ->nombrepropietario($request->search_cliente)
             ->chasis($request->search_chasis)

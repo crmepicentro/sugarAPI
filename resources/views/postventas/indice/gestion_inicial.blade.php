@@ -7,11 +7,12 @@
             <th class="text-center">#</th>
             <th>Cliente</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Teléfono</th>
-            <th class="d-none d-sm-table-cell" style="width: 15%;">RFM</th>
-            <th class="d-none d-sm-table-cell" style="width: 15%;">R</th>
-            <th class="d-none d-sm-table-cell" style="width: 15%;">F</th>
-            <th class="d-none d-sm-table-cell" style="width: 15%;">M</th>
-            <th class="d-none d-sm-table-cell" style="width: 15%;">VHC</th>
+            <th class="d-none d-sm-table-cell">RFM</th>
+            <th class="d-none d-sm-table-cell" >R</th>
+            <th class="d-none d-sm-table-cell" >F</th>
+            <th class="d-none d-sm-table-cell" >M</th>
+            <th class="d-none d-sm-table-cell" >VHC</th>
+            <th class="d-none d-sm-table-cell" >Fecha Facturación</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Fecha</th>
             <!--<th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Estado</th>-->
             <th style="width: 15%;"><i class="fa fa-play"></i></th>
@@ -38,6 +39,7 @@
                 <td class="d-none d-sm-table-cell">{{ 'F' }}</td>
                 <td class="d-none d-sm-table-cell">{{ 'M' }}</td>
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->cantidad_autos }}</td>
+                <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->ordFchaCierre }}</td>
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
                 <!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
                 <td><a href="{{ route('postventa.edita', $lista_oportunidade->id_p) }}" >
