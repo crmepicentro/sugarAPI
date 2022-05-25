@@ -53,55 +53,55 @@
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[0]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                        {{ mb_convert_case($checklist[0]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
                     </div>
                 </td>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[1]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                        {{ mb_convert_case($checklist[1]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[2]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                        {{ mb_convert_case($checklist[2]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
                     </div>
                 </td>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[3]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[4]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[5]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                        {{ mb_convert_case($checklist[3]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[6]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                        {{ mb_convert_case($checklist[4]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
                     </div>
                 </td>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[7]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                        {{ mb_convert_case($checklist[5]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
                     <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[8]['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                        {{ mb_convert_case($checklist[6]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                    </div>
+                </td>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[7]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="bb-w-50">
+                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
+                        {{ mb_convert_case($checklist[8]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
                 </td>
                 <td class="bb-w-50"></td>
             </tr>
