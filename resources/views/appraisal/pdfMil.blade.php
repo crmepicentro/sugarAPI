@@ -46,68 +46,22 @@
         </table>
     </div>
 
-    <div class="bb-w-85 bb-mx-auto bb-radius-t-x bb-text-white bb-line-h-1 bb-text-center bb-py-10 bb-text-20 bb-bg-blue bb-font-black bb-border">CONDICIÓN DEL VEHÍCULO</div>
-<div class="bb-mb-30 bb-w-85 bb-border bb-radius-b-x  bb-mx-auto">
-    <table cellspacing="0" class="bb-w-full bb-px-15">
-        <tbody>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[0]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[1]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[2]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[3]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[4]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[5]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[6]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[7]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">
-                        {{ mb_convert_case($checklist[8]->description, MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book"></span>
-                </td>
-                <td class="bb-w-50"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="box pad" style="margin:0px 25px 25px 25px auto;">
+        <div class="bb-w-85 bb-mx-auto bb-radius-t-x bb-text-white bb-line-h-1 bb-text-center bb-py-10 bb-text-20 bb-bg-blue bb-font-black bb-border">CONDICIÓN DEL VEHÍCULO</div>
+        <div class="bb-mb-30 bb-w-85 bb-border bb-radius-b-x  bb-mx-auto">
+            <table cellspacing="0" class="bb-w-full bb-px-15">
+              @foreach($checklist as $key => $item)
+                @if(($key % 2) == 0) <tr> @endif
+                    <td class="bb-w-50">
+                        <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
+                            {{ mb_convert_case($item['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$item['option']]}}</span>
+                        </div>
+                    </td>
+                @if(($key % 2) != 0) </tr> @endif
+              @endforeach
+            </table>
+        </div>
+    </div>
 
 @if ($bonoMil > 0.0 && $bonoToyota < 1.0 )
     <div class="bb-mb-30">
