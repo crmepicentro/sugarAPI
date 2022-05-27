@@ -43,8 +43,8 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
             'datosSugarCRM.email' => 'required|email:rfc,dns',
-            'datosSugarCRM.concesionario' => 'required|in:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca),Ambato (Automotores Carlos Larrea)',
-            'datosSugarCRM.formulario' => 'required|in:' . $this->getForms()
+            'datosSugarCRM.concesionario' => 'required|in:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca),Ambato (Automotores Carlos Larrea),Guayaquil (Toyocosta),Daule (Toyocosta),Quevedo (Toyocosta),Manta (Toyocosta)',
+            'datosSugarCRM.formulario' => 'required|in:'. $this->getForms()
         ];
 
         $landingPageSelected = LandingPages::where('user_login', $user_auth->fuente)
