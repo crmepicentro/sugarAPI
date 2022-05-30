@@ -16,7 +16,7 @@
             </li>
             <li class="nav-item d-md-flex flex-md-column">
                 <button class="nav-link text-md-start" id="btabs-vertical2-profile-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-profile" role="tab" aria-controls="btabs-vertical2-profile" aria-selected="false">
-                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Recordatorio
+                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Gestion Futura
                 </button>
             </li>
             <li class="nav-item d-md-flex flex-md-column">
@@ -37,7 +37,7 @@
                 @include('postventas.indice.gestion_inicial')
             </div>
             <div class="block-content tab-pane" id="btabs-vertical2-profile" role="tabpanel" aria-labelledby="btabs-vertical2-profile-tab">
-                <h4 class="fw-semibold">Recordatorio</h4>
+                <h4 class="fw-semibold">Gestion Futura</h4>
                 <p class="fs-sm">
                     @php( $lista_oportunidades = $lista_recordatorio)
                     @include('postventas.indice.gestion_inicial')

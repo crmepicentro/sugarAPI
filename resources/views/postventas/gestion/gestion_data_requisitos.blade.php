@@ -50,7 +50,7 @@
 
 
     @if(!empty($recordatorios))
-        <h3><i class="fa fa-info-circle"></i>Recordatorios.</h3>
+        <h3><i class="fa fa-info-circle"></i>Gestiones Futuras.</h3>
         <div class="row">
             <div class="mb-4">
                 <label class="form-label" for="agenda_asunto">Asunto</label>

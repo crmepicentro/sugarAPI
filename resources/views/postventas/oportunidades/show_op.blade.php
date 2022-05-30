@@ -48,7 +48,7 @@
                 Nueva<br/>cita
             </th>
             <th>
-                Recordatorio
+                Gestion Futura
             </th>
             <th>
                 Desiste
