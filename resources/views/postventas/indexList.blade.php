@@ -11,7 +11,7 @@
         <ul class="nav nav-tabs nav-tabs-block justify-content-end justify-content-md-start flex-md-column col-md-2" role="tablist">
             <li class="nav-item d-md-flex flex-md-column">
                 <button class="nav-link text-md-start active" id="btabs-vertical2-home-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-home" role="tab" aria-controls="btabs-vertical2-home" aria-selected="true">
-                    <i class="fa fa-fw fa-house opacity-50 me-1 d-none d-sm-inline-block"></i> Gestión Inicial
+                    <i class="fa fa-fw fa-house opacity-50 me-1 d-none d-sm-inline-block"></i> Gestión Citas
                 </button>
             </li>
             <li class="nav-item d-md-flex flex-md-column">
@@ -33,7 +33,7 @@
         </ul>
         <div class="tab-content col-md-10">
             <div class="block-content tab-pane active" id="btabs-vertical2-home" role="tabpanel" aria-labelledby="btabs-vertical2-home-tab">
-                <h4 class="fw-semibold">Gestión Inicial</h4>
+                <h4 class="fw-semibold">Gestión Citas</h4>
                 @include('postventas.indice.gestion_inicial')
             </div>
             <div class="block-content tab-pane" id="btabs-vertical2-profile" role="tabpanel" aria-labelledby="btabs-vertical2-profile-tab">
