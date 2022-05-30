@@ -164,6 +164,7 @@
                     if(response) {
                         $("#cuertpo_postOportunidades").html(response);
                         $("#modal-post-oportunidades").modal('show');
+                        Dashmix.helpersOnLoad(['js-flatpickr','jq-validation','jq-datepicker']);
                     }
                 },
                 error: function(error) {
@@ -225,6 +226,7 @@
                     if(response) {
                         $("#cuertpo_postOportunidades").html(response);
                         $("#modal-post-oportunidades").modal('show');
+                        Dashmix.helpersOnLoad(['js-flatpickr','jq-validation','jq-datepicker']);
                     }
                 },
                 error: function(error) {

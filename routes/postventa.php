@@ -5,6 +5,7 @@ use \App\Http\Controllers\GestionPostVentaController;
 Route::get('/consultaApiCabecera', [Servicios3sController::class, 'consultaApiCabecera']);
 Route::get('/consultaApiCabecera_bulk', [Servicios3sController::class, 'consultaApiCabecera_bulk']);
 Route::get('/consultaHistorial/{placa_vehiculo}', [Servicios3sController::class, 'consultaHistorial_pdf'])->name('postventa.consultaHistorial_pdf');
+Route::get('/consultaDisponibilidad', [Servicios3sController::class, 'consultaDisponibilidad'])->name('postventa.consultaDisponibilidad');
 Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_data',[GestionPostVentaController::class,'gestions3s'])->name('postventa.gestion');// actualizar cambio en VerifyCsrfToken
 Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_final/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'gestion_do_final'])->name('postventa.gestion_do_final');// actualizar cambio en VerifyCsrfToken
 Route::get('/vehiculos/faces/jsp/consulta/masters/list.jsp',PostVentaIndiceController::class)->name('postventa.indice');

@@ -407,4 +407,25 @@ class Servicios3sController extends Controller
         $propietario->save();
         return $propietario;
     }
+    public function consultaDisponibilidad(Request $request){
+        //http://talleres.casabaca.com/externo/reservar-cita/ajax-listar-asesores?sucursal=005&fecha=2022-05-18
+        $sucursal = '005';
+        switch ($request->agencia) {
+            case 19:
+                $sucursal = '005';
+                break;
+            case 1:
+                $sucursal = '005';
+                break;
+            case 2:
+                $sucursal = '005';
+                break;
+        }
+        $response = Http::get('http://talleres.casabaca.com/externo/reservar-cita/ajax-listar-asesores',[
+            'sucursal' => $sucursal,
+            'fecha' => $request->fecha,
+        ]);
+        $response = (Object)$response->json();
+        return response()->json($response);
+    }
 }
