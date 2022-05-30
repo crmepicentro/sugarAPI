@@ -53,7 +53,7 @@ class PostVentaIndiceController extends Controller
     ORDER BY interno1.created_at DESC
     LIMIT 1) AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos,
+  (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
 FROM pvt_autos pvt_autos
   INNER JOIN pvt_propietarios pvt_propietarios
@@ -97,6 +97,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->groupBy('pvt_detalle_gestion_oportunidades.cita_fecha')
             ->groupBy('pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento')
             ->groupBy('pvt_autos.id')
+            ->orderByRaw('max(STR_TO_DATE(pvt_detalle_gestion_oportunidades.ordFchaCierre,\'%d-%m-%Y\'))', 'DESC')
             ->orderByRaw('FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, \'recordatorio\', \'cita\', \'nuevo\', \'perdido\')')
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
@@ -117,7 +118,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos,
+  (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
             ->havingRaw("primer_gestion_v2 = '' ")
@@ -144,6 +145,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->groupBy('pvt_detalle_gestion_oportunidades.cita_fecha')
             ->groupBy('pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento')
             ->groupBy('pvt_autos.id')
+            ->orderByRaw('max(STR_TO_DATE(pvt_detalle_gestion_oportunidades.ordFchaCierre,\'%d-%m-%Y\'))', 'DESC')
             ->orderByRaw('FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, \'recordatorio\', \'cita\', \'nuevo\', \'perdido\')')
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
@@ -164,7 +166,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos,
+  (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
             ->havingRaw("primer_gestion_v2 <>'' ")
@@ -191,6 +193,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->groupBy('pvt_detalle_gestion_oportunidades.cita_fecha')
             ->groupBy('pvt_detalle_gestion_oportunidades.s3s_codigo_seguimiento')
             ->groupBy('pvt_autos.id')
+            ->orderByRaw('max(STR_TO_DATE(pvt_detalle_gestion_oportunidades.ordFchaCierre,\'%d-%m-%Y\'))', 'DESC')
             ->orderByRaw('FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, \'recordatorio\', \'cita\', \'nuevo\', \'perdido\')')
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
@@ -211,7 +214,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   MIN(IFNULL(pvt_gestion_agendado_detalle_op.created_at, \'\')) AS primer_gestion_v2,
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
-  count(pvt_autos.id) AS cantidad_autos,
+  (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
             ->nombrepropietario($request->search_cliente)
