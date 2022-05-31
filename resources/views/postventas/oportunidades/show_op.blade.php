@@ -2,7 +2,7 @@
 @php($contador_elementos = 0)
 @if($auto->detalleGestionOportunidadesagestionar->count() > 0)
     {{ Form::open(['route' => 'postventa.gestion' , 'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_master'.$auto->id]) }}
-    <table class="table-striped table-sm" style="width: 100%">
+    <table class="table table-hover table-vcenter" style="width: 100%">
         <thead>
         <tr class="bg-body-dark">
             <th>
