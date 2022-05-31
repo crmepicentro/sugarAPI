@@ -125,7 +125,7 @@
     <div class="form-group row">
         <div class="col-1">
             <div class="mb-4">
-                <button type="reset" class="btn btn-secondary">Reset</button>
+                <a type="reset" class="btn btn-secondary" href="{{ url()->current() }}">Reset</a>
             </div>
         </div>
         <div class="col-10">

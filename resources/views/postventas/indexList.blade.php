@@ -10,18 +10,23 @@
     <div class="block block-rounded row flex-md-row-reverse g-0">
         <ul class="nav nav-tabs nav-tabs-block justify-content-end justify-content-md-start flex-md-column col-md-2" role="tablist">
             <li class="nav-item d-md-flex flex-md-column">
-                <button class="nav-link text-md-start active" id="btabs-vertical2-home-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-home" role="tab" aria-controls="btabs-vertical2-home" aria-selected="true">
-                    <i class="fa fa-fw fa-house opacity-50 me-1 d-none d-sm-inline-block"></i> Gestión Citas
+                <button class="nav-link text-md-start {{ session('tab')=='xgjo1'?'active':'' }}" id="btabs-vertical2-home-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-home" role="tab" aria-controls="btabs-vertical2-home" aria-selected="{{ session('tab')=='xgjo1'?'true':'false' }}" onclick="$.get( '{{ route('postventa.sessionData',['tab','xgjo1']) }}' )">
+                    <i class="fa fa-fw fa-house opacity-50 me-1 d-none d-sm-inline-block"></i> Gestión Citas {{ session('tab')=='xgjo1'?'*':'' }}
                 </button>
             </li>
             <li class="nav-item d-md-flex flex-md-column">
-                <button class="nav-link text-md-start" id="btabs-vertical2-profile-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-profile" role="tab" aria-controls="btabs-vertical2-profile" aria-selected="false">
-                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Gestion Futura
+                <button class="nav-link text-md-start {{ session('tab')=='xyhuo'?'active':'' }}" id="btabs-vertical2-profile-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-profile" role="tab" aria-controls="btabs-vertical2-profile" aria-selected="{{ session('tab')=='xyhuo'?'true':'false' }}" onclick="$.get( '{{ route('postventa.sessionData',['tab','xyhuo']) }}' )">
+                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Gestion Futura{{ session('tab')=='xyhuo'?'*':'' }}
                 </button>
             </li>
             <li class="nav-item d-md-flex flex-md-column">
-                <button class="nav-link text-md-start" id="btabs-vertical2-settings-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-settings" role="tab" aria-controls="btabs-vertical2-settings" aria-selected="false">
-                    <i class="fa fa-fw fa-filter opacity-50 me-1 d-none d-sm-inline-block"></i> Consulta General
+                <button class="nav-link text-md-start {{ session('tab')=='lpzsd'?'active':'' }}" id="btabs-vertical2-calimba-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-calimba" role="tab" aria-controls="btabs-vertical2-calimba" aria-selected="{{ session('tab')=='lpzsd'?'true':'false' }}" onclick="$.get( '{{ route('postventa.sessionData',['tab','lpzsd']) }}' )">
+                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Gestion Citas Taller{{ session('tab')=='lpzsd'?'*':'' }}
+                </button>
+            </li>
+            <li class="nav-item d-md-flex flex-md-column">
+                <button class="nav-link text-md-start {{ session('tab')=='zopiz'?'active':'' }}" id="btabs-vertical2-settings-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-settings" role="tab" aria-controls="btabs-vertical2-settings" aria-selected="{{ session('tab')=='zopiz'?'true':'false' }}" onclick="$.get( '{{ route('postventa.sessionData',['tab','zopiz']) }}' )">
+                    <i class="fa fa-fw fa-filter opacity-50 me-1 d-none d-sm-inline-block"></i> Consulta General{{ session('tab')=='zopiz'?'*':'' }}
                 </button>
             </li>
 {{--
@@ -32,18 +37,25 @@
             </li>--}}
         </ul>
         <div class="tab-content col-md-10">
-            <div class="block-content tab-pane active" id="btabs-vertical2-home" role="tabpanel" aria-labelledby="btabs-vertical2-home-tab">
-                <h4 class="fw-semibold">Gestión Citas</h4>
+            <div class="block-content tab-pane {{ session('tab')=='xgjo1'?'active':'' }}" id="btabs-vertical2-home" role="tabpanel" aria-labelledby="btabs-vertical2-home-tab">
+                <h4 class="fw-semibold">Gestión Inicial</h4>
                 @include('postventas.indice.gestion_inicial')
             </div>
-            <div class="block-content tab-pane" id="btabs-vertical2-profile" role="tabpanel" aria-labelledby="btabs-vertical2-profile-tab">
+            <div class="block-content tab-pane {{ session('tab')=='xyhuo'?'active':'' }}" id="btabs-vertical2-profile" role="tabpanel" aria-labelledby="btabs-vertical2-profile-tab">
                 <h4 class="fw-semibold">Gestion Futura</h4>
                 <p class="fs-sm">
                     @php( $lista_oportunidades = $lista_recordatorio)
                     @include('postventas.indice.gestion_inicial')
                 </p>
             </div>
-            <div class="block-content tab-pane" id="btabs-vertical2-settings" role="tabpanel" aria-labelledby="btabs-vertical2-settings-tab">
+            <div class="block-content tab-pane {{ session('tab')=='lpzsd'?'active':'' }}" id="btabs-vertical2-calimba" role="tabpanel" aria-labelledby="btabs-vertical2-calimba-tab">
+                <h4 class="fw-semibold">Gestion Citas Taller</h4>
+                <p class="fs-sm">
+                    @php( $lista_oportunidades = $lista_citas)
+                    @include('postventas.indice.gestion_inicial')
+                </p>
+            </div>
+            <div class="block-content tab-pane {{ session('tab')=='zopiz'?'active':'' }}" id="btabs-vertical2-settings" role="tabpanel" aria-labelledby="btabs-vertical2-settings-tab">
                 <h4 class="fw-semibold">Consulta General</h4>
                 <p class="fs-sm">
                     @include('postventas.indice.consulta_general')

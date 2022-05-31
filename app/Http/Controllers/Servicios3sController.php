@@ -428,4 +428,8 @@ class Servicios3sController extends Controller
         $response = (Object)$response->json();
         return response()->json($response);
     }
+    public function setSessionData($session ,$valor, Request $request){
+        $request->session()->put($session, $valor);
+        return session($session);
+    }
 }
