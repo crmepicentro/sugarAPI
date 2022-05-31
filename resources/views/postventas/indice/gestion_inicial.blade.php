@@ -39,7 +39,15 @@
                 <td class="d-none d-sm-table-cell">{{ 'F' }}</td>
                 <td class="d-none d-sm-table-cell">{{ 'M' }}</td>
                 <td class="d-none d-sm-table-cell" title="{{ $lista_oportunidade->cant_op_p }}">{{ $lista_oportunidade->cantidad_autos }} - {{ $lista_oportunidade->cant_op_p }}</td>
-                <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->ordFchaCierre }}</td>
+                <td class="d-none d-sm-table-cell">
+                    @if(\Carbon\Carbon::createFromFormat('d-m-Y', $lista_oportunidade->ordFchaCierre)->greaterThan(\Carbon\Carbon::now()->sub('1 day')))
+                        <span class="badge bg-success"> {{ $lista_oportunidade->ordFchaCierre }}</span>
+                    @elseif( \Carbon\Carbon::createFromFormat('d-m-Y', $lista_oportunidade->ordFchaCierre)->greaterThan(\Carbon\Carbon::now()->sub('2 day')))
+                        <span class="badge bg-warning">{{ $lista_oportunidade->ordFchaCierre }}</span>
+                    @else
+                        <span class="badge bg-danger">{{ $lista_oportunidade->ordFchaCierre }}</span>
+                    @endif
+                </td>
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
                 <!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
                 <td><a href="{{ route('postventa.edita', $lista_oportunidade->id_p) }}" >
