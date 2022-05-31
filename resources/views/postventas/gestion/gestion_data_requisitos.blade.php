@@ -20,15 +20,6 @@
             <label class="form-label" for="comentario_nuevacita">Comentario</label>
             <textarea class="form-control" id="comentario_nuevacita" name="comentario_nuevacita" rows="4" placeholder="Comentario.."></textarea>
         </div>
-        <div class="mb-4">
-            <label class="form-label" for="comentario_nuevacita">Fecha, Hora y Agente</label>
-            <br>
-            <input id="fechaescojeCita" type="text" class="js-datepicker form-control" placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd">
-            <br />
-            <a onclick="lanzar_cita()" class="btn btn-sm btn-hero btn-dark me-1 mb-3" href="#">
-                <i class="fa fa-fw fa-calendar-day me-1"></i> Elige Fecha, Hora y Agente
-            </a>
-        </div>
         </p>
     @endif
     @foreach($nuevacitas as $nuevacita)
@@ -84,38 +75,5 @@
 <script>
     submitFormFinGestion({{$auto->id}});
 </script>
-<script>
-    function lanzar_cita(){
-        jQuery.ajax({
-            url: "{{ route('postventa.consultaDisponibilidad') }}?agencia="+$('#nuevacitas').val()+"&fecha="+$('#fechaescojeCita').val(),
-            data : null,
-            type : "GET",
-            processData: false,
-            contentType: false,
-            success: function(data){
-               console.log(data);
-                $('#citas').html(data);
-            }
-        });
-    }
-    function escojeagente(){
-        Swal.fire({
-            title: '<strong>HTML <u>example</u></strong>',
-            icon: 'info',
-            html:
-                'You can use <b>bold text</b>, ' +
-                '<a href="//sweetalert2.github.io">links</a> ' +
-                'and other HTML tags',
-            showCloseButton: true,
-            showCancelButton: true,
-            focusConfirm: false,
-            confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Great!',
-            confirmButtonAriaLabel: 'Thumbs up, great!',
-            cancelButtonText:
-                '<i class="fa fa-thumbs-down"></i>',
-            cancelButtonAriaLabel: 'Thumbs down'
-        })
-    }
-</script>
+
 {{ Form::close() }}

@@ -19,16 +19,16 @@
                     MONTO
                 </th>
                 <th>
-                    1ER GESTION
+                    1ER<br/> GESTION
                 </th>
                 <th>
-                    1ER GESTION ESTADO
+                    1ER<br/> GESTION<br/> ESTADO
                 </th>
                 <th>
-                    GESTION FUTURA
+                    GESTION<br/> FUTURA
                 </th>
                 <th>
-                    GESTION ESTADO
+                    GESTION<br/> ESTADO
                 </th>
             </tr>
             </thead>
@@ -55,7 +55,8 @@
                         <span>{{ $oportunidad->monto }}</span>
                     </td>
                     <td>
-                        {{ \Carbon\Carbon::create($oportunidad->primer_gestion)->format('y-m-d H:i') }}
+                        {{ \Carbon\Carbon::create($oportunidad->primer_gestion)->format('y-m-d') }}<br>
+                        {{ \Carbon\Carbon::create($oportunidad->primer_gestion)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->primer_gestion)->format('H:i'):'' }}
                     </td>
                     <td>
                         @switch($oportunidad->primergestioestado)
@@ -72,7 +73,8 @@
                         {{ __() }}
                     </td>
                     <td>
-                        {{ \Carbon\Carbon::create($oportunidad->gestion_futura)->format('y-m-d H:i') }}
+                        {{ \Carbon\Carbon::create($oportunidad->gestion_futura)->format('y-m-d') }}<br>
+                        {{ \Carbon\Carbon::create($oportunidad->gestion_futura)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->gestion_futura)->format('H:i'):'' }}
                     </td>
                     <td>
                         @foreach($oportunidad->gestionestados as $gestionestado)

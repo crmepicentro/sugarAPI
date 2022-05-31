@@ -42,13 +42,13 @@
                 NUEVA<br/>CITA
             </th>
             <th>
-                FECHA GESTIÓN
+                FECHA<br/>GESTIÓN
             </th>
             <th>
                 Nueva<br/>cita
             </th>
             <th>
-                Gestion Futura
+                Gestion<br/>Futura
             </th>
             <th>
                 Desiste
@@ -92,11 +92,11 @@
                 </td>
                 <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
                     {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
-                    <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}</small>
+                    <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
                 </td>
                 <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
                     {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
-                    <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') }}</small>
+                    <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
                 </td>
                 @if($oportunidad->cita_fecha == null)
                     @php($contador_elementos ++)
