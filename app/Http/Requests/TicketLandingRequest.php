@@ -42,7 +42,7 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
             'datosSugarCRM.email' => 'required|email:rfc,dns',
-            'datosSugarCRM.concesionario' => 'required|in:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca),Ambato (Automotores Carlos Larrea),Guayaquil (Toyocosta),Daule (Toyocosta),Quevedo (Toyocosta),Manta (Toyocosta)',
+            'datosSugarCRM.concesionario' => 'required|in:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca),Ambato (Automotores Carlos Larrea),Guayaquil (Toyocosta),Daule (Toyocosta),Quevedo (Toyocosta),Manta (Toyocosta),SZK Store El Labrador,SZK Store Los Chillos,SZK Store Quito Sur,SZK Store Cumbayá,SZK Store Tanca Marengo Guayaquil',
             'datosSugarCRM.formulario' => 'required|in:'. $this->getForms()
         ];
 
