@@ -20,11 +20,13 @@ class TicketLandingRequest extends FormRequest
         return true;
     }
 
-    public function getForms(){
+    public function getForms()
+    {
         $user_auth = Auth::user();
         $landingPage = LandingPages::where('user_login', $user_auth->fuente)->pluck('name')->toArray();
         return implode(",", $landingPage);
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -35,9 +37,8 @@ class TicketLandingRequest extends FormRequest
         $user_auth = Auth::user();
         $content = json_decode(request()->content);
 
-        $requestValidations =  [
-            'datosSugarCRM.numero_identificacion' => 'required',
-            'datosSugarCRM.tipo_identificacion' => 'required|in:C,P,R',
+        $requestValidations = [
+            'datosSugarCRM.tipo_identificacion' => 'required_with_all:datosSugarCRM.numero_identificacion|in:C,P,R',
             'datosSugarCRM.nombres' => 'required',
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
@@ -49,11 +50,11 @@ class TicketLandingRequest extends FormRequest
         $landingPageSelected = LandingPages::where('user_login', $user_auth->fuente)
             ->where('name', $content->datosSugarCRM->formulario)
             ->first();
-        if(isset($landingPageSelected->properties_form)){
+        if (isset($landingPageSelected->properties_form)) {
             $properties = $landingPageSelected->properties_form;
             foreach ($properties as $property) {
-                if(isset($property["validations"])){
-                    $objetoSugar = "datosSugarCRM.".$property["value"];
+                if (isset($property["validations"])) {
+                    $objetoSugar = "datosSugarCRM." . $property["value"];
                     $requestValidations[$objetoSugar] = $property["validations"];
                 }
             }
@@ -65,8 +66,9 @@ class TicketLandingRequest extends FormRequest
     public function messages()
     {
         return [
-            'datosSugarCRM.numero_identificacion.required' => 'Número identificación es requerido',
-            'datosSugarCRM.tipo_identificacion.required' => 'Tipo identificación es requerido',
+            /*'datosSugarCRM.numero_identificacion.required' => 'Número identificación es requerido',*/
+            /*'datosSugarCRM.tipo_identificacion.required' => 'Tipo identificación es requerido',*/
+            'datosSugarCRM.tipo_identificacion.required_with_all' => 'Tipo de identificación es requerida para el número de identificación',
             'datosSugarCRM.tipo_identificacion.in' => 'Tipo de identificación no contiene un valor válido, valores válidos: C(Cedula),P(Pasaporte), R(RUC)',
             'datosSugarCRM.nombres.required' => 'Nombres son requeridos',
             'datosSugarCRM.apellidos.required' => 'Apellidos son requeridos',
@@ -75,7 +77,7 @@ class TicketLandingRequest extends FormRequest
             'datosSugarCRM.celular.required' => 'Celular es requerido',
             'datosSugarCRM.celular.numeric' => 'Celular debe ser numérico',
             'datosSugarCRM.telefono.numeric' => 'Telefono debe ser numérico',
-            'datosSugarCRM.formulario.in' => 'Formulario inválido, valores válidos'. $this->getForms(),
+            'datosSugarCRM.formulario.in' => 'Formulario inválido, valores válidos' . $this->getForms(),
             'datosSugarCRM.porcentaje_discapacidad.in' => 'Porcentaje_discapacidad no contiene un valor válido, valores válidos: 30_49,50_74,75_84,85_100',
             'datosSugarCRM.concesionario.required' => 'Concesionario es requerido',
             'datosSugarCRM.concesionario.in' => 'Concesionario es inválido, valores válidos:Santo Domingo (Casabaca),El Coca (Casabaca),Quito (Casabaca),Ambato (Automotores Carlos Larrea)',

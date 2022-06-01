@@ -55,8 +55,8 @@ use TicketUpdateTransformer;
  * APIs para crear, actualizar tickets y crear interacciones
  */
 class TicketsController extends BaseController
-{
-    public $sourcesOmniChannel = ['inconcert', '1800', 'facebook', 'whatsapp'];
+{   /* esto se utiliza para evitar leer y enviar datos a inconcert */
+    public $sourcesOmniChannel = ['inconcert', '1800', 'facebook', 'whatsapp', 'ticket_manual'];
 
     /**
      * Ticket - Interacción
@@ -271,8 +271,8 @@ class TicketsController extends BaseController
             "team_id" => 1,
             "team_set_id" => 1,
             "created_by" => $comercialUser,
-            "numero_identificacion" => $dataRequest['numero_identificacion'],
-            "tipo_identificacion" => $dataRequest['tipo_identificacion'],
+            "numero_identificacion" => isset($dataRequest["numero_identificacion"]) ? $dataRequest["numero_identificacion"] : "",
+            "tipo_identificacion" => isset($dataRequest["tipo_identificacion"]) ? $dataRequest["tipo_identificacion"] : "",
             "brinda_identificacion" => 1,
             "nombres" => $dataRequest['nombres'],
             "apellidos" => $dataRequest['apellidos'],
@@ -1054,8 +1054,8 @@ class TicketsController extends BaseController
      * Ticket - Landing Pages
      *
      * @bodyParam  datosSugarCRM.formulario string required Nombre del Formulario Example: Exonerados
-     * @bodyParam  datosSugarCRM.numero_identificacion string required ID del client. Example: 1719932079
-     * @bodyParam  datosSugarCRM.tipo_identificacion string required Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
+     * @bodyParam  datosSugarCRM.numero_identificacion string optional ID del client. Example: 1719932079
+     * @bodyParam  datosSugarCRM.tipo_identificacion string optional Valores válidos: C(Cedula),P(Pasaporte), R(RUC) Example: C
      * @bodyParam  datosSugarCRM.nombres string required Nombres del cliente. Example: FREDDY ROBERTO
      * @bodyParam  datosSugarCRM.apellidos string required Apellidos del cliente. Example: RODRIGUEZ VARGAS
      * @bodyParam  datosSugarCRM.email email required Email válido del cliente. Example: mart@hotmail.com

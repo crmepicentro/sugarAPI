@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js("resources/js/app.js", "public/js").sourceMaps(false,)
   .vue()
   .sass('resources/sass/app.scss', 'public/css')
+  .postCss('resources/css/pdfMil.css', 'public/css')
   .webpackConfig((webpack) => {
     return {
       plugins: [
