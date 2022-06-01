@@ -199,54 +199,6 @@ class TicketsController extends BaseController
         }
     }
 
-    public function obtenercrediales($request){
-        try{
-            $user_auth = Auth::user();
-            $reprocesoToken = [
-                //"48" => "api_prueba"
-                "49"=> "reproceso_automatico"
-            ];
-            //para reprocesos
-            if(isset($reprocesoToken[$user_auth->id])) {
-                $obtenerCredenciales = $this->findDuplicate($request,true);
-                return $obtenerCredenciales;
-            }else{
-                $validarDuplicado = $this->findDuplicate($request,false);
-                return $validarDuplicado;
-            }
-
-        }catch (Throwable $e) {
-            report($e);
-            return response()->json($e->getMessage())->setStatusCode(500);
-            return false;
-        }
-    }
-    /*
-     * @request = Trama de datos entrante
-     * @estado = indica si se tiene que reprocesar o sera un ingreso nuevo
-     * el token de reprocesos solo podra reprocesar datos que ya estan en el log NO nuevos
-     */
-    public function findDuplicate($request,$estado){
-        $duplicado = WsLog::getDuplicadoLog($request);
-        if($estado === false){
-            if($duplicado == true){
-                $datos = [ "auth"=>null, "registrolog"=>false, "message"=>"El ticket ya se encuentra registrado." ];
-                return $datos;
-            }else{
-                $user = Auth::user();
-                $datos = [ "auth"=>$user, "registrolog"=>true, "message"=>null ];
-                return $datos;
-            }
-        }else{
-            $user = User::where('fuente',  $duplicado->source)->first();
-            //$wsLogdata = $this->getWsLog($duplicado);
-            $datos = [ "auth"=>$user, "registrolog"=>false, "message"=>null ];
-
-            return $datos;
-        }
-
-    }
-
     public function getWsLog($duplicado){
         $ws_logs = new Ws_logs();
 
@@ -1227,6 +1179,54 @@ class TicketsController extends BaseController
             //"source" => $user->fuente,
         ];
         WsLog::storeAfter($ws_logs, $dataErrorWS);
+    }
+
+    public function obtenercrediales($request){
+        try{
+            $user_auth = Auth::user();
+            $reprocesoToken = [
+                //"48" => "api_prueba"
+                "49"=> "reproceso_automatico"
+            ];
+            //para reprocesos
+            if(isset($reprocesoToken[$user_auth->id])) {
+                $obtenerCredenciales = $this->findDuplicate($request,true);
+                return $obtenerCredenciales;
+            }else{
+                $validarDuplicado = $this->findDuplicate($request,false);
+                return $validarDuplicado;
+            }
+
+        }catch (Throwable $e) {
+            report($e);
+            return response()->json($e->getMessage())->setStatusCode(500);
+            return false;
+        }
+    }
+    /*
+     * @request = Trama de datos entrante
+     * @estado = indica si se tiene que reprocesar o sera un ingreso nuevo
+     * el token de reprocesos solo podra reprocesar datos que ya estan en el log NO nuevos
+     */
+    public function findDuplicate($request,$estado){
+        $duplicado = WsLog::getDuplicadoLog($request);
+        if($estado === false){
+            if($duplicado == true){
+                $datos = [ "auth"=>null, "registrolog"=>false, "message"=>"El ticket ya se encuentra registrado." ];
+                return $datos;
+            }else{
+                $user = Auth::user();
+                $datos = [ "auth"=>$user, "registrolog"=>true, "message"=>null ];
+                return $datos;
+            }
+        }else{
+            $user = User::where('fuente',  $duplicado->source)->first();
+            //$wsLogdata = $this->getWsLog($duplicado);
+            $datos = [ "auth"=>$user, "registrolog"=>false, "message"=>null ];
+
+            return $datos;
+        }
+
     }
 
 }
