@@ -64,7 +64,7 @@ class CreateDetalleGestionOportunidadesTable extends Migration
             $table->dateTime('agendado_fecha')->nullable();
 
             $table->dateTime('gestion_fecha')->nullable();
-            $table->enum('gestion_tipo',['nuevo','cita','recordatorio','perdido']);
+            $table->enum('gestion_tipo',['nuevo','cita','recordatorio','perdido','cita_ok','cita_noshow']);
 
             $table->timestamps();
         });
