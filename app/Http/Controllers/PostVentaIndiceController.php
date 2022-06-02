@@ -54,6 +54,7 @@ class PostVentaIndiceController extends Controller
     LIMIT 1) AS primer_gestion_estado_v2,
   pvt_autos.id,
   (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
+  (SELECT COUNT(DISTINCT ordTaller) FROM pvt_detalle_gestion_oportunidades AS CAOD WHERE CAOD.facturado = 'N' AND CAOD.gestion_tipo IN ('nuevo','cita','recordatorio','cita_noshow') AND CAOD.auto_id in (pvt_autos.id) ) AS cantidad_ordenes,
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
 FROM pvt_autos pvt_autos
@@ -120,6 +121,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
   (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
+  (SELECT COUNT(DISTINCT ordTaller) FROM pvt_detalle_gestion_oportunidades AS CAOD WHERE CAOD.facturado = \'N\' AND CAOD.gestion_tipo IN (\'nuevo\',\'cita\',\'recordatorio\',\'cita_noshow\') AND CAOD.auto_id in (pvt_autos.id) ) AS cantidad_ordenes,
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
@@ -169,6 +171,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
   (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
+  (SELECT COUNT(DISTINCT ordTaller) FROM pvt_detalle_gestion_oportunidades AS CAOD WHERE CAOD.facturado = \'N\' AND CAOD.gestion_tipo IN (\'nuevo\',\'cita\',\'recordatorio\',\'cita_noshow\') AND CAOD.auto_id in (pvt_autos.id) ) AS cantidad_ordenes,
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
@@ -219,6 +222,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
   (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
+  (SELECT COUNT(DISTINCT ordTaller) FROM pvt_detalle_gestion_oportunidades AS CAOD WHERE CAOD.facturado = \'N\' AND CAOD.gestion_tipo IN (\'nuevo\',\'cita\',\'recordatorio\',\'cita_noshow\') AND CAOD.auto_id in (pvt_autos.id) ) AS cantidad_ordenes,
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
@@ -269,6 +273,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   \'Canada\' AS primer_gestion_estado_v2,
   pvt_autos.id,
   (SELECT COUNT(conteo_autos) as cuenta_autos FROM (SELECT DISTINCT con_autos.placa AS conteo_autos FROM sugarcrm.pvt_detalle_gestion_oportunidades con_detaut INNER JOIN sugarcrm.pvt_autos con_autos       ON (con_detaut.auto_id = con_autos.id) WHERE (con_detaut.facturado = \'N\' AND con_autos.propietario_id = pvt_propietarios.id) GROUP BY con_autos.placa) AS TEMPAUTO) AS cantidad_autos,
+  (SELECT COUNT(DISTINCT ordTaller) FROM pvt_detalle_gestion_oportunidades AS CAOD WHERE CAOD.facturado = \'N\' AND CAOD.gestion_tipo IN (\'nuevo\',\'cita\',\'recordatorio\',\'cita_noshow\') AND CAOD.auto_id in (pvt_autos.id) ) AS cantidad_ordenes,
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
