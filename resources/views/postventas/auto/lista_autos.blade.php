@@ -16,40 +16,6 @@
     @endforeach
 </div>
 
-<!-- Vertically Centered Default Modal -->
-<div class="modal" id="modal-default-vcenter" tabindex="-1" role="dialog" aria-labelledby="modal-default-vcenter" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Agenda </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pb-1">
-                {!! Form::open(['url' => 'foo/bar']) !!}
-                <div class="mb-4">
-                    <label class="form-label" for="example-textarea-input">Asunto</label>
-                    <input class="form-control" name="example-textarea-input" placeholder="Textarea content.." />
-                </div>
-                <div class="mb-4">
-                    <label class="form-label" for="example-textarea-input">Comentario</label>
-                    <textarea class="form-control" id="example-textarea-input" name="example-textarea-input" rows="4" placeholder="Textarea content.."></textarea>
-                </div>
-                <div class="row">
-                    <div class="col-xl-7 mb-4">
-                        <label class="form-label" for="example-flatpickr-default">Default format</label>
-                        <input type="text" class="js-flatpickr form-control " id="example-flatpickr-datetime" name="example-flatpickr-datetime" data-enable-time="true" readonly="readonly">
-                    </div>
-                </div>
-                {!! Form::close() !!}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-alt-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END Vertically Centered Default Modal -->
 
 <!-- Extra Large Block Modal -->
 <div class="modal" id="modal-post-oportunidades" tabindex="-1" role="dialog" aria-labelledby="modal-post-oportunidades" aria-hidden="true">

@@ -109,9 +109,9 @@
                 <td >
                     <div class="row">
                         <div class="col-6">
-                            <button type="button" class="btn btn-sm btn-info boton{{ $oportunidad->claveunicaprincipal }} pospont{{$oportunidad->claveunicaprincipal}}" data-bs-toggle="modal" data-bs-target="#modal-default-vcenter" >
+                           {{--  <button type="button" class="btn btn-sm btn-info boton{{ $oportunidad->claveunicaprincipal }} pospont{{$oportunidad->claveunicaprincipal}}" >
                                 <i class="fa fa-clock"></i>
-                            </button>
+                            </button>--}}
                         </div>
                         <div class="col-6 form-check">
                             {{ Form::checkbox($oportunidad->claveunicaprincipal64."['recorda']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal recKm",'id' => "id-recorda$oportunidad->claveunicaprincipal"]) }}
@@ -121,11 +121,11 @@
                 </td>
                 <td>
                     <div class="row">
-                        <div class="col-6">
-                            <button type="button" class="btn btn-sm btn-danger js-swal-op-perdida boton{{ $oportunidad->claveunicaprincipal }} perdiot{{$oportunidad->claveunicaprincipal}}" data-auto="{{ $auto->id }}">
+                        {{-- <div class="col-6">
+                            <button type="button" class="btn btn-sm btn-danger boton{{ $oportunidad->claveunicaprincipal }} perdiot{{$oportunidad->claveunicaprincipal}}" data-auto="{{ $auto->id }}">
                                 <i class="fa fa-rectangle-xmark"></i>
                             </button>
-                        </div>
+                        </div>--}}
                         <div class="col-6 form-check">
                             {{ Form::checkbox($oportunidad->claveunicaprincipal64."['perdida']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal perKm",'id' => "id-desistt$oportunidad->claveunicaprincipal"]) }}
                         </div>
