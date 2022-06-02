@@ -30,9 +30,9 @@
         <p>
             {{ Form::select('razon_desestimiento', [
                 '0' => '--Seleccione una opción --',
-                '1' => 'Razon 1',
-                '2' => 'Razon 2',
-                '3' => 'Razon 3',
+                '1' => 'Ya compro en otro taller',
+                '2' => 'No le interesa',
+                '3' => 'No necesito',
             ], null, ['class' => 'form-control', 'style' => 'width: 100%', 'data-placeholder' => 'Escoja Uno..', 'id'=>'razon_desestimiento']) }}
         </p>
         @foreach($desistes as $desiste)

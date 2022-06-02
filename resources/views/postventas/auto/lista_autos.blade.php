@@ -57,7 +57,7 @@
         <div class="modal-content">
             <div class="block block-rounded block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Modal Title</h3>
+                    <h3 class="block-title">Modal Gestión de Oportunidades</h3>
                     <div class="block-options">
                         <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                             <i class="fa fa-fw fa-times"></i>
@@ -80,6 +80,16 @@
     @parent
     <script>
         {!! $accion_opp !!}
+
+        /**
+         * Funcion para mostrar el modal de gestion de oportunidades
+         * @param nombre_campo
+         * @param lineaId
+         * @param deshabilitamasterButon
+         * @param nombre_variable
+         * @param vector_eventos
+         * @param id_auto
+         */
         function checkLine(nombre_campo,lineaId,deshabilitamasterButon,nombre_variable,vector_eventos,id_auto){
             activaBotonMaster(id_auto);
 
@@ -145,16 +155,16 @@
             }
         }
         //
+        /**
+         * Funcion para mostrar el modal de gestion de oportunidades
+         * @param id auto
+         * @param token token de formulario
+         * @param data
+         */
         function envia_post_data(id,token,data){
             //do stuff
             all_is_done=true;
-            //$("#form_master"+id).submit();
-            {{--console.log(eval("nuevacita"+id));
-            console.log(eval("recordatorio"+id));
-            console.log(eval("desiste"+id));--}}
-            //alert('all done lanzar fomrulario.');
             var url_post = '{{ route('postventa.gestion') }}';
-
             $.ajax({
                 url: url_post,
                 type:"POST",
@@ -179,6 +189,11 @@
             });
 
         }
+
+        /**
+         * Funcion para enviar un submit al formulario donde se colocan los detalles de gestion de oportunidades
+         * @param id
+         */
         function submitFomr(id){
             var all_is_done=false;
             $("#form_master"+id).submit(function(e){
@@ -190,6 +205,10 @@
                 }
             });
         }
+        /**
+         * Funcion para enviar un submit a guardar las oportunidades si es una cita manda al s3s para que entregue el numero de cita
+         * @param id
+         */
         function submitFormFinGestion(id){
             var all_is_done=false;
             $("#form_fin_gestion"+id).submit(function(e){
@@ -211,11 +230,7 @@
             quitavalidacion()
             //do stuff
             all_is_done=true;
-            //$("#form_master"+id).submit();
-            {{--console.log(eval("nuevacita"+id));
-            console.log(eval("recordatorio"+id));
-            console.log(eval("desiste"+id));--}}
-            //alert('all done lanzar fomrulario.');
+
             var url_post = $("#form_fin_gestion"+id).attr('action');
             $.ajax({
                 url: url_post,
@@ -247,6 +262,36 @@
             });
         }
 
+        function bt_envioparcial(id,class_name){
+            console.log(id);
+            var campos_cita = document.getElementsByClassName(class_name);
+            const array_citas = [];
+            for (var i = 0; i < campos_cita.length; i++) {
+                if(campos_cita[i].checked) {
+                    //alert (campos_cita[i].value);
+                    console.log(campos_cita[i].name);
+                    var objeto_cita = { 'name' : campos_cita[i].name , 'value' : campos_cita[i].value };
+                    array_citas.push(objeto_cita);
+                }
+            };
+            //
+            data = array_citas;
+            switch (class_name) {
+                case 'citKm':
+                    eval("recordatorio"+id+ " = []");
+                    eval("desiste"+id+ " = []");
+                    break;
+                case 'recKm':
+                    eval("nuevacita"+id+ " = []");
+                    eval("desiste"+id+ " = []");
+                    break;
+                case 'perKm':
+                    eval("nuevacita"+id+ " = []");
+                    eval("recordatorio"+id+ " = []");
+                    break;
+            }
+            envia_post_data(id,'{{ csrf_token() }}',data);
+        }
         submitFomr();
 
     </script>
