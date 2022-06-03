@@ -42,8 +42,12 @@
                 @ NUEVA<br/>CITA
             </th>
             <th>
+                | GESTION<br/>FUTURA
+            </th>
+            <th>
                 * FECHA<br/>GESTIÓN
             </th>
+            <th>+ Estado Global</th>
             <th>
                 Nueva<br/>cita
             </th>
@@ -90,14 +94,19 @@
                 <td style="text-align: end">
                     {{ $oportunidad->cantidad * $oportunidad->cargosCobrar }}
                 </td>
-                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
-                    @ {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
-                    <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
+                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }}">
+                    @ {{ $oportunidad->cita_fecha <> null ?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('y-m-d'):'-' }}<br />
+                    <small>{{ \Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i'):'' }}</small>
+                </td>
+                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->agendado_fecha)->diffForHumans() }}">
+                    | {{ $oportunidad->agendado_fecha <> null ?\Carbon\Carbon::create($oportunidad->agendado_fecha)->format('y-m-d'):'-' }}<br />
+                    <small>{{ \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i'):'' }}</small>
                 </td>
                 <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
                     * {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
                     <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
                 </td>
+                <td>+ {{ __($oportunidad->gestion_tipo) }}</td>
                 @if($oportunidad->cita_fecha == null)
                     @php($contador_elementos ++)
                 <td>
@@ -139,7 +148,7 @@
             @if($loop->last)
                 @if($contador_elementos > 0)
                 <tr>
-                    <td colspan="13">&nbsp;</td>
+                    <td colspan="15">&nbsp;</td>
                     <td>
                         <button type="button" class="btn btn-hero btn-success ejecutaCita{{ $auto->id }}"  data-auto="{{ $auto->id }}" disabled onclick="bt_envioparcial({{ $auto->id }},'citKm')">
                             <i class="fa fa-check"></i>
@@ -157,7 +166,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="13">&nbsp;</td>
+                    <td colspan="15">&nbsp;</td>
                     <td colspan="3">
                         <div class="row">
                             <button type="submit" class="btn btn-success btn-info col-12 total_accion_{{ $auto->id }}"  data-auto="{{ $auto->id }}" data-porte="{{$contador_elementos}}" >
