@@ -40,12 +40,16 @@
             <td class="bb-px-5 bb-py-5">
                 <div class="bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray">Valor a financiar
                     <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div></td>
-            <td class="bb-px-5 bb-py-5 bb-pr-none">
-                <div class="bb-flex">
-                    <div class="bb-bg-gray bb-form-text bb-font-medium bb-text-15 bb-op-1 bb-text-gray">Plazo
-                        <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
-                    <div class="bb-form-text bb-font-medium bb-text-17 bb-op-2 bb-border-me bb-text-center bb-pt-23" >meses</div>
-                </div>
+            <td>
+                <table style="width: 100%" cellspacing="0">
+                    <tr>
+                        <td class="bb-bg-gray">
+                            <div class=" bb-form-text bb-font-medium bb-text-15 bb-op-1 bb-text-gray">Plazo
+                            <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
+                        </td>
+                        <td class="bb-font-medium bb-text-17"  style="outline: 1px solid gray; padding: 10px;">meses</td>
+                    </tr>
+                </table>
             </td>
         </tr>
 
@@ -95,17 +99,25 @@
                 <td  class="bb-px-5 bb-py-5 bb-pl-none bb-width-25">
                     <div class="bb-font-medium bb-form-text bb-text-17 bb-text-black">Tiempo de constitución</div>
                 </td>
-                <td  class="bb-px-5 bb-py-5 bb-pr-none">
-                    <div class="bb-flex">
-                        <div class="bb-bg-gray bb-form-text bb-font-medium bb-text-17 bb-width-20 bb-text-black">Texto</div>
-                        <div class="bb-pd-text bb-font-medium bb-text-17 bb-width-15 bb-border-me bb-text-center" >años</div>
-                    </div>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="bb-bg-gray bb-font-medium bb-text-17 bb-text-black" style="padding: 10px">Texto</td>
+                                <td class="bb-font-medium bb-text-17"  style="outline: 1px solid gray; padding: 10px;">años</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
-                <td class="bb-px-5 bb-py-5 bb-pr-none">
-                    <div class="bb-flex">
-                        <div class="bb-bg-gray bb-form-text bb-font-medium bb-text-17 bb-width-20 bb-text-black">Texto</div>
-                        <div class="bb-pd-text bb-font-medium bb-text-17 bb-width-15 bb-border-me bb-text-center" >meses</div>
-                    </div>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="bb-bg-gray bb-font-medium bb-text-17 bb-text-black" style="padding: 10px">Texto</td>
+                                <td class="bb-font-medium bb-text-17"  style="outline: 1px solid gray; padding: 10px;">meses</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         </table>
@@ -243,11 +255,11 @@
     <table class="bb-width-100">
 
         <tr>
-            <td colspan="2" class="bb-px-5 bb-py-5 bb-pl-none">
-                <div class= "bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray">Provincia
+            <td colspan="1" class="bb-px-5 bb-py-5 bb-pl-none">
+                <div class="bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray">Provincia
                     <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
             </td>
-            <td colspan="2" class="bb-px-5 bb-py-5">
+            <td colspan="1" class="bb-px-5 bb-py-5">
                 <div class=" bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray">Ciudad
                     <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
             </td>
@@ -298,12 +310,18 @@
                 <div class="bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray">Su casa es
                     <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
             </td>
-            <td colspan="4" class="bb-px-5 bb-py-5 bb-pr-none">
-                <div class="bb-flex">
-                    <div class="bb-bg-gray bb-form-text bb-font-medium bb-text-15 bb-op-4 bb-text-gray">Tiempo de residencia
-                        <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
-                    <div class="bb-form-text bb-font-medium bb-text-17 bb-op-3 bb-border-me bb-text-center bb-pt-23" >años</div>
-                </div>
+            <td colspan="4">
+                <table style="width: 100%">
+                    <tbody>
+                        <tr>
+                            <td class="bb-bg-gray bb-form-text bb-font-medium bb-text-15 bb-text-gray">
+                                <div >Tiempo de residencia
+                                <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
+                            </td>
+                            <td class="bb-font-medium bb-text-17" align="center"  style="outline: 1px solid gray; padding: 10px;">años</td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
         </tr>
     </table>
@@ -322,7 +340,6 @@
             <td colspan="2" class="bb-px-5 bb-py-5 bb-pr-none bb-width-18">
                 <div class=" bb-bg-gray bb-font-medium bb-form-text bb-text-17 bb-text-gray ">$</div>
             </td>
-            <td class="bb-width-80"></td>
             <td class="bb-px-5 bb-py-5 bb-pl-none bb-width-15 ">
                 <div class=" bb-font-medium bb-form-text bb-text-17 bb-text-black bb-text-center bb-pb-4">
                     <span >Total pasivos</span>
@@ -447,15 +464,15 @@
     </table>
     <table>
 
-        <div class="bb-max-width bb-mx-auto bb-width-100 bb-ml-0">
+        <div class="bb-max-width bb-mx-auto  bb-ml-0">
             <div class="bb-width-100 bb-text-19 bb-font-semibold bb-mt-30 bb-mb-10 bb-ml-3" >Referencias comerciales</div>
-            <table class="bb-width-100">
+            <table style="width: 100%">
                 <tr >
                     <td class="bb-px-5 bb-py-5 bb-pl-none bb-width-40">
                         <div class= "bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray ">Empresa
                             <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
                     </td>
-                    <td colspan="2" class="bb-px-5 bb-py-5 bb-width-30 ">
+                    <td  class="bb-px-5 bb-py-5 bb-width-30 ">
                         <div class= "bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray ">Ciudad
                             <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
                     </td>
@@ -471,7 +488,7 @@
                         <div class= "bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray ">Empresa
                             <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
                     </td>
-                    <td colspan="2" class="bb-px-5 bb-py-5  ">
+                    <td  class="bb-px-5 bb-py-5  ">
                         <div class= "bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray ">Ciudad
                             <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
                     </td>
@@ -486,7 +503,7 @@
                         <div class= "bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray ">Empresa
                             <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
                     </td>
-                    <td colspan="2" class="bb-px-5 bb-py-5  ">
+                    <td  class="bb-px-5 bb-py-5  ">
                         <div class= "bb-bg-gray bb-font-medium bb-form-text bb-text-15 bb-text-gray ">Ciudad
                             <br><div class="bb-text-black bb-mt-10 bb-text-17">Texto</div></div>
                     </td>

@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\SolicitudCredito\ClienteEmpresa;
 use App\Models\SolicitudCredito\ClientePatrimonio;
 use App\Models\SolicitudCredito\ClienteReferencia;
+use App\Models\SolicitudCredito\SolicitudArchivo;
 use App\Models\SolicitudCredito\SolicitudCliente;
 use App\Models\SolicitudCredito\SolicitudCredito;
 use Carbon\Carbon;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 
 class PersonaNaturalController extends Controller
@@ -18,13 +21,11 @@ class PersonaNaturalController extends Controller
     public function create(Request $request)
     {
         $compania = $request->query('compania');
+        $tipoPersona = $request->query('persona');
         // return response()->json(['success' => $compania], 200);
         try {
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
-            // $prueba = $solicitud->generarPDF();
-            // return response()->json(['success' => $prueba], 200);
-
             $solicitud->save();
         //empresa
             $empresa = $this->fillEmpresa($request);
@@ -41,33 +42,71 @@ class PersonaNaturalController extends Controller
             if ($request->patrimonios != null) {
                 foreach ($request->patrimonios as $key => $value) {
                     $patrimonio = $this->fillPatrimonio($value);
-                    $patrimonio->cliente_id = $cliente->id;
+                    $patrimonio->cliente_id = $cliente->id_cotizacion;
                     $patrimonio->save();
                 }
             }
         } catch (\Exception $e) {
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
-        return response()->json(['success' => 'Guardado exitoso'], 200);
+        return response()->json([
+            'success' => 'Guardado exitoso',
+            'dowmload' => route('dowmload.solicitud.credito',[$compania, $tipoPersona, $solicitud->id_cotizacion])
+        ], 200);
     }
 
     public function pdf(Request $request)
     {
-        $compania = $request->query('compania');
-        $persona = $request->query('persona');
+        $compania = $request->compania;
+        $persona = $request->persona;
         if ($compania=='01' && $persona=='01') {
             $pdf = PDF::loadView('solicitud.cbNatural');
         }
         if ($compania=='01' && $persona=='02') {
             $pdf = PDF::loadView('solicitud.cbJuridico');
         }
-        if ($compania=='02' && $persona=='01') {
-            $pdf = PDF::loadView('solicitud.milNatural');
-        }
-        if ($compania=='02' && $persona=='02') {
-            $pdf = PDF::loadView('solicitud.milJuridica');
-        }
+        // if ($compania=='02' && $persona=='01') {
+        //     $pdf = PDF::loadView('solicitud.milNatural');
+        // }
+        // if ($compania=='02' && $persona=='02') {
+        //     $pdf = PDF::loadView('solicitud.milJuridica');
+        // }
         return $pdf->stream('solicitud.pdf');
+    }
+
+    // valiadar
+    public function uploadFile(Request $request)
+    {
+        $idCotizacion = $request->query('idCotizacion');
+        $tipo = $request->query('tipo');
+        $path = 'solicitudes-credito/solicitud-'.$idCotizacion;
+        $file = $request->file('solicitud');
+        $extension = $file->extension();
+        $nameFile = $tipo.'.'.$extension;
+        $file->storeAs($path, $nameFile);
+        SolicitudArchivo::updateOrCreate([
+            'id_solicitud' => $idCotizacion,
+            'nombre' => $nameFile,
+            'borrado' => 1,
+        ],[
+            'id_solicitud' => $idCotizacion,
+            'nombre' => $nameFile,
+            'borrado' => 0,
+        ]);
+        return response()->json([ 'success' => 'Archivo subido' ], 200);
+    }
+
+    // crear la ruta y validar
+    public function deleteFile(Request $request)
+    {
+        $idCotizacion = $request->query('idCotizacion');
+        $nameFile = SolicitudArchivo::select('nombre')->where('id_solicitud', $idCotizacion)->first()->nombre;
+        $path = 'solicitudes-credito/solicitud-'.$idCotizacion.'/'.$nameFile;
+        Storage::delete($path);
+        SolicitudArchivo::where('id_solicitud', $idCotizacion)
+                            ->where('nombre', $nameFile)
+                            ->update([ 'borrado' => 1 ]);
+        return response()->json([ 'success' => 'Archivo subido' ], 200);
     }
 
     private function fillSolicitud(Request $request)

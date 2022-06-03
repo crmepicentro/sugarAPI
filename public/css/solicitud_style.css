@@ -35,7 +35,7 @@
       url('../fonts/MavenProBold.ttf') format('truetype'),
       url('../fonts/MavenProBold.svg#MavenProBold') format('svg');
       font-weight: normal;
-         font-style: normal;
+        font-style: normal;
   }
 
 .bb-max-width{
@@ -244,11 +244,12 @@
     display: flex;
 }
 .bb-op-1{
-    width: 75%;
+    width: 55px;
 }
 
 .bb-op-2{
-    width: 25%;
+    width: 50px;
+    height: 40px;
 }
 
 .bb-op-3{

@@ -70,8 +70,10 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
 
     $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
     $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
+    $api->post('uploadSolicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
+    $api->get('getCiudades/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@ciudades');
+    $api->get('getProvincias/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@provincias');
 
-    $api->get('prueba/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@pdf');
 });
 
 $api->version('v1', function ($api) {
