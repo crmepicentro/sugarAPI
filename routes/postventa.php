@@ -1,6 +1,7 @@
 <?php
 use \App\Http\Controllers\Servicios3sController;
 use \App\Http\Controllers\GestionPostVentaController;
+use \App\Http\Controllers\ReportePostVentasControllerController;
 
 Route::get('/consultaApiCabecera', [Servicios3sController::class, 'consultaApiCabecera']);
 Route::get('/consultaApiCabecera_bulk', [Servicios3sController::class, 'consultaApiCabecera_bulk']);
@@ -18,3 +19,5 @@ Route::get('s3s_sistema', function ( \App\Http\Requests\Request $request) {
     dd($request);
 })->name('postventa.tests3s');;
 
+
+Route::get('/reporte_postventas/index', [ReportePostVentasControllerController::class, 'index'])->name('postventa.reporte_postventas.index');
