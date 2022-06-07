@@ -234,7 +234,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
-            ->where('gestion_tipo','cita')
+            ->whereIn('gestion_tipo',['cita','cita_ok','cita_noshow'])
             ->havingRaw("primer_gestion_v2 <>'' ")
             ->gestiontipo('cita')
             ->paginate(
