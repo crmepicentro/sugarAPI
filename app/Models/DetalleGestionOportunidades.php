@@ -40,6 +40,7 @@ class DetalleGestionOportunidades extends Model
 
         'tipoServ',
         'franquicia',
+        'codEstOrdTaller',
 
         'codCliFactura',
         'nomUsuarioVista',

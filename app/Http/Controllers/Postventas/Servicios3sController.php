@@ -368,6 +368,7 @@ class Servicios3sController extends Controller
 
                 'tipoServ'  => $s3sdato_detalle['tipoServ'],
                 'franquicia' => $s3sdato_detalle['franquicia'],
+                'codEstOrdTaller' => $s3sdato['codEstOrdTaller'],
 
                 'codCliFactura'  => $s3sdato['codCliFactura'],
                 'nomUsuarioVista' => $s3sdato['nomUsuarioVista'],
@@ -417,6 +418,7 @@ class Servicios3sController extends Controller
 
             'tipoServ'  => $s3sdato_detalle['tipoServ'],
             'franquicia' => $s3sdato_detalle['franquicia'],
+            'codEstOrdTaller' => $s3sdato['codEstOrdTaller'],
 
             'codCliFactura'  => $s3sdato['codCliFactura'],
             'nomUsuarioVista' => $s3sdato['nomUsuarioVista'],

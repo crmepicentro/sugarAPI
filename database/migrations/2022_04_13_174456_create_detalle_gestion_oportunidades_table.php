@@ -44,6 +44,7 @@ class CreateDetalleGestionOportunidadesTable extends Migration
 
             $table->string('tipoServ');
             $table->string('franquicia');
+            $table->string('codEstOrdTaller');
 
             $table->string('codCliFactura')->nullable()->comment('codigo del cliente de la factura, solo informativo');
             $table->string('nomUsuarioVista')->nullable()->comment('nombre del usuario que dejo este auto, solo informativo');
