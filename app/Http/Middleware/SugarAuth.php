@@ -22,12 +22,12 @@ class SugarAuth
         if(Auth::check()){
             return $next($request);
         }
-        $usuario = Users::where('id',$request->userid)->where('deleted',0)->first();
-        if($usuario == null){
-            return redirect()->route('postventas.auth.error');
-        }
         $usuario_logueado = User::where('email' ,  $request->userid)->where('fuente' , 'SugarAuth')->first();
         if($usuario_logueado == null){
+            $usuario = Users::where('id',$request->userid)->where('deleted',0)->first();
+            if($usuario == null){
+                return redirect()->route('postventas.auth.error');
+            }
             $nuevo_usuario = User::create([
                 'name' => $usuario->first_name. ' '. $usuario->last_name,
                 'email' => $request->userid,
