@@ -26,7 +26,7 @@ class Servicios3sController extends Controller
     /** constructor  */
     public function __construct()
     {
-        $this->middleware(['sugarauth']);
+        $this->middleware(['sugarauth'])->except('consultaApiCabecera_bulk');
     }
     public function consultaApiCabecera_main( $fecha_inicial, $fecha_final )
     {
