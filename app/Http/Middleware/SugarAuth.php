@@ -29,7 +29,7 @@ class SugarAuth
                 return redirect()->route('postventas.auth.error');
             }
             $nuevo_usuario = User::create([
-                'name' => $usuario->first_name. ' '. $usuario->last_name,
+                'name' => $usuario->user_name,
                 'email' => $request->userid,
                 'fuente' => 'SugarAuth',
                 'password' => $usuario->user_hash,
