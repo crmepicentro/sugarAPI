@@ -182,6 +182,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
+            ->where('gestion_tipo','recordatorio')
             ->havingRaw("primer_gestion_v2 <>'' ")
             ->gestiontipo('recordatorio')
             ->paginate(
@@ -212,7 +213,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->orderby('pvt_detalle_gestion_oportunidades.agendado_fecha', 'ASC')
             ->orderbyRaw('MIN(pvt_detalle_gestion_oportunidades.gestion_fecha)', 'DESC')
             ->selectRaw('
-            \'lista_recordatorio\' as select_original,
+            \'lista_citas\' as select_original,
             pvt_propietarios.id as id_p,
   pvt_propietarios.nombre_propietario,
   pvt_propietarios.email_propietario,
@@ -233,6 +234,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
   count(pvt_autos.id) AS cant_op_p,
   max(pvt_detalle_gestion_oportunidades.ordFchaCierre) as ordFchaCierre
             ')
+            ->where('gestion_tipo','cita')
             ->havingRaw("primer_gestion_v2 <>'' ")
             ->gestiontipo('cita')
             ->paginate(

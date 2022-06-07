@@ -25,7 +25,7 @@
         <tbody>
         @foreach($lista_oportunidades as $lista_oportunidade)
             <tr>
-                <td class="text-center">{{$loop->index + 1}}</td>
+                <td class="text-center" title="{{$lista_oportunidade->select_original}}">{{$loop->index + 1}}</td>
                 <td class="fw-semibold">
                     <a href="#">{{ $lista_oportunidade->nombre_propietario }}</a>
                 </td>
