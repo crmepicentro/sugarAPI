@@ -8,7 +8,7 @@
                or if such pointer exists but the window was closed */
 
         {
-            windowObjectReference = window.open("{{ route('postventa.s3spostdatacore',['gestionAgendado'=> $gestionAgendado, 'auto' => $auto] ) }}",
+            windowObjectReference = window.open("{{ route('postventa.s3spostdatacore',['gestionAgendado'=> $gestionAgendado, 'auto' => $auto,'userid'=> Auth::user()->email] ) }}",
                 "PromoteFirefoxWindowName", "resizable,scrollbars,status");
             recargasitio_sobresscrito();
             /* then create it. The new window will be created and
@@ -28,7 +28,7 @@
 <code >
     <pre>
         <p><a
-                href="{{ route('postventa.s3spostdatacore',['gestionAgendado'=> $gestionAgendado, 'auto' => $auto] ) }}"
+                href="{{ route('postventa.s3spostdatacore',['gestionAgendado'=> $gestionAgendado, 'auto' => $auto,'userid'=> Auth::user()->email] ) }}"
                 target="PromoteFirefoxWindowName"
                 onclick="openFFPromotionPopup(); return false;"
                 title="Apertura de ventana del S3S"

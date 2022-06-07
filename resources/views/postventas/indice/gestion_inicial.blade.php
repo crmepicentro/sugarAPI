@@ -50,7 +50,7 @@
                 </td>
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
                 <!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
-                <td><a href="{{ route('postventa.edita', $lista_oportunidade->id_p) }}" >
+                <td><a href="{{ route('postventa.edita', ['id' => $lista_oportunidade->id_p,'userid'=> Auth::user()->email]) }}" >
                         <i class="fa fa-play"></i>
                     </a>
                 </td>

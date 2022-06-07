@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'environmentConnection' => \App\Http\Middleware\EnvironmentConnection::class,
+        'sugarauth' => \App\Http\Middleware\SugarAuth::class,
     ];
 }

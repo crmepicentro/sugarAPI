@@ -98,10 +98,10 @@
         </table>
     </div>
     <div class="col-12 order-0 col-sm-12 order-sm-0 col-md-1 order-md-1">
-        <a href="{{ route('postventa.edita_auto',[ 'id' => $propietario->id ,'id_auto'  => $auto->id ]) }}"><i class="fa fa-pen-to-square"></i></a>
+        <a href="{{ route('postventa.edita_auto',[ 'id' => $propietario->id ,'id_auto'  => $auto->id ,'userid'=> Auth::user()->email]) }}"><i class="fa fa-pen-to-square"></i></a>
     </div>
     <div class="col-12 order-1 col-sm-12 order-sm-1 col-md-1 order-md-2">
-        <a href="{{ route('postventa.consultaHistorial_pdf', [ 'placa_vehiculo' => $auto->placa]) }}" target="_blank"><i class="fa fa-file-pdf"></i></a>
+        <a href="{{ route('postventa.consultaHistorial_pdf', [ 'placa_vehiculo' => $auto->placa ,'userid'=> Auth::user()->email]) }}" target="_blank"><i class="fa fa-file-pdf"></i></a>
     </div>
 </div>
 

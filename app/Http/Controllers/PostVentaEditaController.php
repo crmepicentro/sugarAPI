@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PostVentaEditaController extends Controller
 {
+    /** constructor  */
+    public function __construct()
+    {
+        $this->middleware(['sugarauth']);
+    }
     /**
      * Handle the incoming request.
      *

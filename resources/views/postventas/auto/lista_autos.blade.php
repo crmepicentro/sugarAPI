@@ -130,7 +130,7 @@
         function envia_post_data(id,token,data){
             //do stuff
             all_is_done=true;
-            var url_post = '{{ route('postventa.gestion') }}';
+            var url_post = '{{ route('postventa.gestion',['userid'=> Auth::user()->email]) }}';
             $.ajax({
                 url: url_post,
                 type:"POST",

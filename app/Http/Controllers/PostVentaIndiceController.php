@@ -10,13 +10,19 @@ use Illuminate\Http\Request;
 
 class PostVentaIndiceController extends Controller
 {
+    /** constructor  */
+    public function __construct()
+    {
+         $this->middleware(['sugarauth']);
+    }
+
     /**
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function indice(Request $request)
     {
         $porte_paginacion = 20;
 

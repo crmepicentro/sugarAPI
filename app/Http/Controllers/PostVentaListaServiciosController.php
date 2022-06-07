@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PostVentaListaServiciosController extends Controller
 {
+    /** constructor  */
+    public function __construct()
+    {
+        $this->middleware(['sugarauth']);
+    }
     /**
      * Handle the incoming request.
      *

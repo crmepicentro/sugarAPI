@@ -17,7 +17,7 @@
             </div>
         </div>
         <hr>
-        <a href="{{ route('postventa.edita_auto',[ 'id' => $propietario->id ,'id_auto'  => 'all', 'todos_auto' => true ]) }}" class="btn btn-primary">
+        <a href="{{ route('postventa.edita_auto',[ 'id' => $propietario->id ,'id_auto'  => 'all', 'todos_auto' => true ,'userid'=> Auth::user()->email]) }}" class="btn btn-primary">
             <i class="fas fa-car-side"></i> Todos las oportunidades
         </a>
         <hr>

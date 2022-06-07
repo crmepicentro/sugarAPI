@@ -14,6 +14,11 @@ use Illuminate\Validation\Rule;
 
 class GestionPostVentaController extends Controller
 {
+    /** constructor  */
+    public function __construct()
+    {
+        $this->middleware(['sugarauth']);
+    }
     public function gestions3s(Request $request)
     {
         $request->validate([
