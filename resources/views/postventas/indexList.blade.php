@@ -16,12 +16,12 @@
             </li>
             <li class="nav-item d-md-flex flex-md-column">
                 <button class="nav-link text-md-start {{ session('tab')=='xyhuo'?'active':'' }}" id="btabs-vertical2-profile-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-profile" role="tab" aria-controls="btabs-vertical2-profile" aria-selected="{{ session('tab')=='xyhuo'?'true':'false' }}" onclick="$.get( '{{ route('postventa.sessionData',['tab','xyhuo','userid'=> Auth::user()->email]) }}' )">
-                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Gestion Futura{{ session('tab')=='xyhuo'?'*':'' }}
+                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> {{ __('recordatorio') }}{{ session('tab')=='xyhuo'?'*':'' }}
                 </button>
             </li>
             <li class="nav-item d-md-flex flex-md-column">
                 <button class="nav-link text-md-start {{ session('tab')=='lpzsd'?'active':'' }}" id="btabs-vertical2-calimba-tab" data-bs-toggle="tab" data-bs-target="#btabs-vertical2-calimba" role="tab" aria-controls="btabs-vertical2-calimba" aria-selected="{{ session('tab')=='lpzsd'?'true':'false' }}" onclick="$.get( '{{ route('postventa.sessionData',['tab','lpzsd','userid'=> Auth::user()->email]) }}' )">
-                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Gestion Citas Taller{{ session('tab')=='lpzsd'?'*':'' }}
+                    <i class="fa fa-fw fa-calendar-day opacity-50 me-1 d-none d-sm-inline-block"></i> Gestión Citas Taller{{ session('tab')=='lpzsd'?'*':'' }}
                 </button>
             </li>
             <li class="nav-item d-md-flex flex-md-column">
@@ -42,7 +42,7 @@
                 @include('postventas.indice.gestion_inicial')
             </div>
             <div class="block-content tab-pane {{ session('tab')=='xyhuo'?'active':'' }}" id="btabs-vertical2-profile" role="tabpanel" aria-labelledby="btabs-vertical2-profile-tab">
-                <h4 class="fw-semibold">Gestion Futura</h4>
+                <h4 class="fw-semibold">{{ __('recordatorio') }}</h4>
                 <p class="fs-sm">
                     @php( $lista_oportunidades = $lista_recordatorio)
                     @include('postventas.indice.gestion_inicial')

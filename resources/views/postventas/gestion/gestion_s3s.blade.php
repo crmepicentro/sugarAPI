@@ -4,7 +4,7 @@
 @php($title_tdata = 'Gestion de Oportunidades S3S')
 @php($descripcion_tdata = 'Siste de gestion de oportunidades de ventas')
 @section('content')
-    <h1>Gestion de Oportunidades</h1>
+    <h1>Gestión de Oportunidades</h1>
 @endsection
 @section('css_before')
 

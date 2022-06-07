@@ -19,16 +19,16 @@
                     MONTO
                 </th>
                 <th>
-                    1ER<br/> GESTION
+                    1ER<br/> GESTIÓN
                 </th>
                 <th>
-                    1ER<br/> GESTION<br/> ESTADO
+                    1ER<br/> GESTIÓN<br/> ESTADO
                 </th>
                 <th>
-                    GESTION<br/> FUTURA
+                    GESTIÓN<br/> FUTURA
                 </th>
                 <th>
-                    GESTION<br/> ESTADO
+                    GESTIÓN<br/> ESTADO
                 </th>
             </tr>
             </thead>

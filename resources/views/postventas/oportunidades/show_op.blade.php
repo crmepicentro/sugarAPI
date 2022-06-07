@@ -42,7 +42,7 @@
                 @ NUEVA<br/>CITA
             </th>
             <th>
-                | GESTION<br/>FUTURA
+                | GESTIÓN<br/>FUTURA
             </th>
             <th>
                 * FECHA<br/>GESTIÓN
@@ -52,7 +52,7 @@
                 Nueva<br/>cita
             </th>
             <th>
-                Gestion<br/>Futura
+                Gestión<br/>Futura
             </th>
             <th>
                 Desiste
