@@ -408,7 +408,7 @@
         <div class="content py-0">
             <div class="row fs-sm">
                 <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-end">
-                    <a type="button" class="btn btn-outline-secondary" href="{{ route('postventa.indice') }}">
+                    <a type="button" class="btn btn-outline-secondary" href="{{ route('postventa.indice',['userid'=> Auth::user()->email]) }}">
                         <i class="si si-home"></i>
                     </a>
                 </div>
