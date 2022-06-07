@@ -38,16 +38,16 @@
             <th style="text-align: end">
                 VALOR<br/>TOT
             </th>
-            <th>
-                @ NUEVA<br/>CITA
+            <th style="background-color: #59595929;">
+                NUEVA<br/>CITA
             </th>
             <th>
-                | GESTIÓN<br/>FUTURA
+                GESTIÓN<br/>FUTURA
             </th>
-            <th>
-                * FECHA<br/>GESTIÓN
+            <th style="background-color: #ffcaca40;">
+                FECHA<br/>GESTIÓN
             </th>
-            <th>+ Estado Global</th>
+            <th>Estado Global</th>
             <th>
                 Nueva<br/>cita
             </th>
@@ -94,19 +94,19 @@
                 <td style="text-align: end">
                     {{ $oportunidad->cantidad * $oportunidad->cargosCobrar }}
                 </td>
-                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }}">
-                    @ {{ $oportunidad->cita_fecha <> null ?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('y-m-d'):'-' }}<br />
+                <td title="Gestionado Fecha Cita {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }}" style="background-color: #5959590f;">
+                    {{ $oportunidad->cita_fecha <> null ?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('y-m-d'):'-' }}<br />
                     <small>{{ \Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i'):'' }}</small>
                 </td>
-                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->agendado_fecha)->diffForHumans() }}">
-                    | {{ $oportunidad->agendado_fecha <> null ?\Carbon\Carbon::create($oportunidad->agendado_fecha)->format('y-m-d'):'-' }}<br />
+                <td title="Gestionado Fecha agendado {{ \Carbon\Carbon::parse($oportunidad->agendado_fecha)->diffForHumans() }}">
+                    {{ $oportunidad->agendado_fecha <> null ?\Carbon\Carbon::create($oportunidad->agendado_fecha)->format('y-m-d'):'-' }}<br />
                     <small>{{ \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i'):'' }}</small>
                 </td>
-                <td title="Gestionado {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}">
-                    * {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
+                <td title="Gestionado Fecha gestion {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}" style="background-color: #ffcaca40;" >
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
                     <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
                 </td>
-                <td>+ {{ __($oportunidad->gestion_tipo) }}</td>
+                <td>{{ __($oportunidad->gestion_tipo) }}</td>
                 @if($oportunidad->cita_fecha == null)
                     @php($contador_elementos ++)
                 <td>
