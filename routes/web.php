@@ -47,7 +47,11 @@ Route::middleware([UserAuth::class])->group(function () {
     Route::get('listComercialUsers', [SugarUserBlocked::class, 'listComercialUsers']);
 
 });
-Route::get('dowmload/solicitudCredito/{compania}/{persona}/{idCotizacion}/', [PersonaNaturalController::class , 'pdf'])->name('dowmload.solicitud.credito');
+Route::get('solicitudCredito/dowmload/{compania}/{persona}/{idCotizacion}/', [PersonaNaturalController::class , 'pdf'])->name('dowmload.solicitud.credito');
+Route::get('solicitudCredito/file/{idCotizacion}/{nombre}/',function ($idCotizacion, $nombre){
+    $path = storage_path( "app/solicitudes-credito/solicitud-{$idCotizacion}/{$nombre}");
+    return response()->file($path);
+})->name('file.solicitud.credito');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

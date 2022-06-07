@@ -46,13 +46,13 @@ class PersonaNaturalController extends Controller
                     $patrimonio->save();
                 }
             }
+            return response()->json([
+                'success' => 'Guardado exitoso',
+                'dowmload' => route('dowmload.solicitud.credito',[$compania, $tipoPersona, $solicitud->id_cotizacion])
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
-        return response()->json([
-            'success' => 'Guardado exitoso',
-            'dowmload' => route('dowmload.solicitud.credito',[$compania, $tipoPersona, $solicitud->id_cotizacion])
-        ], 200);
     }
 
     public function pdf(Request $request)
@@ -83,30 +83,56 @@ class PersonaNaturalController extends Controller
         $file = $request->file('solicitud');
         $extension = $file->extension();
         $nameFile = $tipo.'.'.$extension;
-        $file->storeAs($path, $nameFile);
-        SolicitudArchivo::updateOrCreate([
-            'id_solicitud' => $idCotizacion,
-            'nombre' => $nameFile,
-            'borrado' => 1,
-        ],[
-            'id_solicitud' => $idCotizacion,
-            'nombre' => $nameFile,
-            'borrado' => 0,
-        ]);
-        return response()->json([ 'success' => 'Archivo subido' ], 200);
+        try {
+            $file->storeAs($path, $nameFile);
+            $files = SolicitudArchivo::updateOrCreate([
+                'id_solicitud' => $idCotizacion,
+                'nombre' => $nameFile,
+                'borrado' => true,
+            ],[
+                'id_solicitud' => $idCotizacion,
+                'nombre' => $nameFile,
+                'borrado' => false,
+            ]);
+            return response()->json(['success' => 'Archivo subido'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
+        }
     }
 
     // crear la ruta y validar
     public function deleteFile(Request $request)
     {
-        $idCotizacion = $request->query('idCotizacion');
-        $nameFile = SolicitudArchivo::select('nombre')->where('id_solicitud', $idCotizacion)->first()->nombre;
-        $path = 'solicitudes-credito/solicitud-'.$idCotizacion.'/'.$nameFile;
-        Storage::delete($path);
-        SolicitudArchivo::where('id_solicitud', $idCotizacion)
-                            ->where('nombre', $nameFile)
-                            ->update([ 'borrado' => 1 ]);
-        return response()->json([ 'success' => 'Archivo subido' ], 200);
+        $idCotizacion = $request->idCotizacion;
+        $nombre = $request->nombre;
+        $path = 'solicitudes-credito/solicitud-'.$idCotizacion.'/'.$nombre;
+        try {
+            Storage::delete($path);
+            SolicitudArchivo::where('id_solicitud', $idCotizacion)
+                                ->where('nombre', $nombre)
+                                ->update([ 'borrado' => true ]);
+            return response()->json([ 'success' => 'Archivo subido' ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
+        }
+    }
+
+    public function showFiles(Request $request)
+    {
+        $data = [];
+        $idCotizacion = $request->idCotizacion;
+        $files = SolicitudArchivo::where('id_solicitud', $idCotizacion)
+                                    ->where('borrado', false)->get();
+        foreach ($files as $file) {
+            list($nombre, $extension) = explode('.', $file->nombre);
+            $data[] = [
+                'nombre' => $file->nombre,
+                'tipo' => $nombre,
+                'extension' => $extension,
+                'url' => route('file.solicitud.credito',[$file->id_solicitud, $file->nombre])
+            ];
+        }
+        return response()->json([ 'files' => $data ], 200);
     }
 
     private function fillSolicitud(Request $request)
