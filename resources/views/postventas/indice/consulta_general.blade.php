@@ -1,5 +1,5 @@
 <div class="block-content space-y-2">
-    {{ Form::open(['route' => 'postventa.indice', 'method' => 'GET', 'class' => ' g-3 align-items-center',]) }}
+    {{ Form::open(['route' => ['postventa.indice',['userid'=> Auth::user()->email]], 'method' => 'GET', 'class' => ' g-3 align-items-center',]) }}
     <div class="form-group row">
         <div class="col-3">
             <div class="mb-4">

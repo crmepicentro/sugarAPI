@@ -1,4 +1,4 @@
-{{ Form::open(['route' => ['postventa.gestion_do_final' ,['gestionAgendado'=> $gestion, 'auto' => $auto]] ,'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_fin_gestion'.$auto->id ]) }}
+{{ Form::open(['route' => ['postventa.gestion_do_final' ,['gestionAgendado'=> $gestion, 'auto' => $auto,'userid'=> Auth::user()->email]] ,'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_fin_gestion'.$auto->id ]) }}
 <div class="p-5">
     <p class="text-muted">
     @if(!empty($nuevacitas))
