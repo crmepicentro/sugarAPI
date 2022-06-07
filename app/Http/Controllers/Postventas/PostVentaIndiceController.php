@@ -8,6 +8,7 @@ use App\Models\DetalleGestionOportunidades;
 use App\Models\GestionAgendadoDetalleOportunidades;
 use App\Models\Propietario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostVentaIndiceController extends Controller
 {
@@ -137,6 +138,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
                 $perPage = $porte_paginacion, $columns = ['*'], $pageName = 'gestion_p'
             );
         ;
+        $lista_oportunidades->appends(['userid'=> Auth::user()->email]);
         $lista_recordatorio = Auto::join((new Propietario)->getTable(), 'pvt_autos.propietario_id', '=', 'pvt_propietarios.id')
             ->join((new DetalleGestionOportunidades)->getTable(), function ($join) {
                 $join->on('pvt_detalle_gestion_oportunidades.auto_id', '=', 'pvt_autos.id')
@@ -188,7 +190,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->paginate(
                 $perPage = $porte_paginacion, $columns = ['*'], $pageName = 'recorda_p'
             );
-        ;
+        $lista_recordatorio->appends(['userid'=> Auth::user()->email]);
         $lista_citas = Auto::join((new Propietario)->getTable(), 'pvt_autos.propietario_id', '=', 'pvt_propietarios.id')
             ->join((new DetalleGestionOportunidades)->getTable(), function ($join) {
                 $join->on('pvt_detalle_gestion_oportunidades.auto_id', '=', 'pvt_autos.id')
@@ -240,7 +242,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
             ->paginate(
                 $perPage = $porte_paginacion, $columns = ['*'], $pageName = 'recorda_p'
             );
-        ;
+        $lista_citas->appends(['userid'=> Auth::user()->email]);
         $lista_consultageneral = Auto::join((new Propietario)->getTable(), 'pvt_autos.propietario_id', '=', 'pvt_propietarios.id')
             ->join((new DetalleGestionOportunidades)->getTable(), function ($join) {
                 $join->on('pvt_detalle_gestion_oportunidades.auto_id', '=', 'pvt_autos.id')
@@ -302,6 +304,7 @@ ORDER BY FIELD(pvt_detalle_gestion_oportunidades.gestion_tipo, 'recordatorio', '
         ;
         //dd($request->all());
         //dd($autos->first());
+        $lista_consultageneral->appends(['userid'=> Auth::user()->email]);
         return view('postventas.indexList', compact('lista_oportunidades','lista_recordatorio','lista_consultageneral','lista_citas'));
     }
 }
