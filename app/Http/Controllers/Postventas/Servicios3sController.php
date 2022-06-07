@@ -149,7 +149,7 @@ class Servicios3sController extends Controller
             'ejecutar' => 'required|in:ecHuWh2mf80V3FlWA3LW9wn2Hjkka9asZmuOirYGZYROU5ejlVoyzo2aJ437sxRO0OfpoCZOFXp6ryLjQrIBS79fgb6Ry3LeK7SgwTTg',
         ]);
 
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 1; $i++) {
             $year = Carbon::now()->year;
             $month = Carbon::now()->month;
             $day = Carbon::now()->day;
@@ -267,8 +267,9 @@ class Servicios3sController extends Controller
     }
     private function guardar_factura($s3sdato,Ws_logs $ws_logs,Auto $auto){
         $factura = Factura::where('codCliFactura',$s3sdato['codCliFactura'])->first();
-        if($factura != null ){
-            $factura->update([
+        if($factura == null ){
+            $factura = Factura::firstOrCreate([
+                'codCliFactura'     => $s3sdato['codCliFactura'],
                 'ciCliFactura'      => $s3sdato['ciCliFactura'],
                 'nomCliFactura'     => $s3sdato['nomCliFactura'],
                 'mail1CliFactura'   => $s3sdato['mail1CliFactura'],
@@ -276,22 +277,10 @@ class Servicios3sController extends Controller
                 'fonoCliDomFactura' => $s3sdato['fonoCliDomFactura'],
                 'fonoCliTrabFactura'    => $s3sdato['fonoCliTrabFactura'],
                 'fonoCliCelFactura'     => $s3sdato['fonoCliCelFactura'],
-
             ]);
             $factura->save();
         }
-        $factura = Factura::firstOrCreate([
-            'codCliFactura'     => $s3sdato['codCliFactura'],
-            'ciCliFactura'      => $s3sdato['ciCliFactura'],
-            'nomCliFactura'     => $s3sdato['nomCliFactura'],
-            'mail1CliFactura'   => $s3sdato['mail1CliFactura'],
-            'mali2CliFactura'   => $s3sdato['mali2CliFactura'],
-            'fonoCliDomFactura' => $s3sdato['fonoCliDomFactura'],
-            'fonoCliTrabFactura'    => $s3sdato['fonoCliTrabFactura'],
-            'fonoCliCelFactura'     => $s3sdato['fonoCliCelFactura'],
-        ]);
-        $factura->save();
-        AutoFactura::create([
+        AutoFactura::firstOrCreate([
             'autos_id'          => $auto->id,
             'factura_id'   => $factura->id,
         ]);
@@ -299,8 +288,8 @@ class Servicios3sController extends Controller
     }
     private function guardar_auto($s3sdato , Propietario $propietario, Ws_logs $ws_logs){
         $auto = Auto::where('id_auto_s3s',$s3sdato['numcbs'])->first();
-        if($auto != null ){
-            $auto->update([
+        if($auto == null ){
+            $auto = Auto::firstOrCreate([
                 'propietario_id' => $propietario->id,
                 'id_auto_s3s' => $s3sdato['numcbs'],
                 'id_ws_logs' => $ws_logs->id,
@@ -315,21 +304,7 @@ class Servicios3sController extends Controller
             ]);
             $auto->save();
         }
-        $auto = Auto::firstOrCreate([
-            'propietario_id' => $propietario->id,
-            'id_auto_s3s' => $s3sdato['numcbs'],
-            'id_ws_logs' => $ws_logs->id,
-            'placa'  => $s3sdato['placaVehiculo'],
-            'chasis' => $s3sdato['chasisVehiculo'],
-            'modelo' => $s3sdato['modeloVehiculo'],
-            'descVehiculo' => $s3sdato['descVehiculo'],
-            'marcaVehiculo' => $s3sdato['marcaVehiculo'],
-            'anioVehiculo' => $s3sdato['anioVehiculo'],
-            'masterLocVehiculo' => $s3sdato['masterLocVehiculo'],
-            'katashikiVehiculo' => $s3sdato['katashikiVehiculo'],
-        ]);
 
-        $auto->save();
         $Retunr_auto['auto'] = $auto;
         $Retunr_auto['codAgencia'] = $s3sdato['codAgencia'];
         $Retunr_auto['codOrdenTaller'] = $s3sdato['ordTaller'];
@@ -340,8 +315,8 @@ class Servicios3sController extends Controller
             ->where('ordTaller',$s3sdato_detalle['ordTaller'])
             ->where('codServ',$s3sdato_detalle['codServ'])
             ->first();
-        if($propietario != null ){
-            $propietario->update([
+        if($propietario == null ){
+            $propietario = DetalleGestionOportunidades::firstOrCreate([
                 'ws_log_id' => $ws_logs->id,
 
                 'auto_id' => $auto->id,
@@ -375,71 +350,22 @@ class Servicios3sController extends Controller
 
                 'facturacion_fecha' => null,
 
-                'perdida_fecha' => null,
-                'perdida_agente' => null,
-                'perdida_motivo' => null,
 
-                'ganado_fecha' => null,
-                'ganado_factura' => null,
+                'perdida_fecha' =>null,
+                'perdida_agente' =>null,
+                'perdida_motivo' =>null,
+
+                'ganado_fecha' =>null,
+                'ganado_factura' =>null,
 
                 'agendado_fecha' => null,
 
-                'gestion_fecha' => null,
+                'gestion_fecha' =>null,
                 'gestion_tipo'  => 'nuevo',
-
 
             ]);
             $propietario->save();
         }
-        $propietario = DetalleGestionOportunidades::firstOrCreate([
-            'ws_log_id' => $ws_logs->id,
-
-            'auto_id' => $auto->id,
-
-            'oportunidad_id' => null,
-
-            'codAgencia' => $s3sdato_detalle['codAgencia'],
-            'nomAgencia' => $s3sdato_detalle['nomAgencia'],
-            'ordTaller'     => $s3sdato_detalle['ordTaller'],
-            'kmVehiculo'    => $s3sdato['kmVehiculo'],
-            'kmRelVehiculo' => $s3sdato['kmRelVehiculo'],
-            'ordFechaCita' => $s3sdato['ordFechaCita'],
-            'ordFechaCrea'  => $s3sdato['ordFechaCrea'],
-            'ordFchaCierre'     => $s3sdato['ordFchaCierre'],
-            'codOrdAsesor'   => $s3sdato['codOrdAsesor'],
-            'nomOrdAsesor'  => $s3sdato['nomOrdAsesor'],
-
-            'codServ' => $s3sdato_detalle['codServ'],
-            'descServ' => $s3sdato_detalle['descServ'],
-            'cantidad'  => $s3sdato_detalle['cantidad'],
-            'cargosCobrar' => $s3sdato_detalle['cargosCobrar'],
-            'tipoCL' => $s3sdato_detalle['tipoCL'],
-            'facturado' => $s3sdato_detalle['facturado'],
-
-            'tipoServ'  => $s3sdato_detalle['tipoServ'],
-            'franquicia' => $s3sdato_detalle['franquicia'],
-            'codEstOrdTaller' => $s3sdato['codEstOrdTaller'],
-
-            'codCliFactura'  => $s3sdato['codCliFactura'],
-            'nomUsuarioVista' => $s3sdato['nomUsuarioVista'],
-
-            'facturacion_fecha' => null,
-
-
-            'perdida_fecha' =>null,
-            'perdida_agente' =>null,
-            'perdida_motivo' =>null,
-
-            'ganado_fecha' =>null,
-            'ganado_factura' =>null,
-
-            'agendado_fecha' => null,
-
-            'gestion_fecha' =>null,
-            'gestion_tipo'  => 'nuevo',
-
-        ]);
-        $propietario->save();
         return $propietario;
     }
     public function consultaDisponibilidad(Request $request){
