@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Postventas;
 
+use App\Http\Controllers\Controller;
 use App\Models\Auto;
 use App\Models\Gestion\GestionCita;
 use App\Models\Gestion\GestionDesiste;
@@ -25,7 +26,7 @@ class GestionPostVentaController extends Controller
             'auto' => 'required|exists:pvt_autos,id',
         ]);
         $gestion = GestionAgendado::create([
-            'users_id' => 1,//auth()->user()->id,
+            'users_id' => auth()->user()->id,
             'codigo_seguimiento' => Str::uuid(),
         ]);
 

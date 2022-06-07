@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Postventas;
 
+use App\Http\Controllers\Controller;
 use App\Jobs\CargaFacturasDetalleDia;
 use App\Jobs\CargaFacturasDia;
 use App\Models\Auto;
@@ -13,17 +14,20 @@ use App\Models\Propietario;
 use App\Models\Usuarioauto;
 use App\Models\Ws_logs;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Response;
 
 class Servicios3sController extends Controller
 {
+    /** constructor  */
+    public function __construct()
+    {
+        $this->middleware(['sugarauth']);
+    }
     public function consultaApiCabecera_main( $fecha_inicial, $fecha_final )
     {
         $url = 'https://s3s.casabaca.com/casabacaWebservices/restOrdenTaller/consultaOrdenTallerDet';
@@ -143,6 +147,35 @@ class Servicios3sController extends Controller
     {
         $request->validate([
             'ejecutar' => 'required|in:ecHuWh2mf80V3FlWA3LW9wn2Hjkka9asZmuOirYGZYROU5ejlVoyzo2aJ437sxRO0OfpoCZOFXp6ryLjQrIBS79fgb6Ry3LeK7SgwTTg',
+        ]);
+
+        for ($i=0; $i < 10; $i++) {
+            $year = Carbon::now()->year;
+            $month = Carbon::now()->month;
+            $day = Carbon::now()->day;
+            $tz = config('constants.pv_timezone');
+            $fecha_inicial = Carbon::createFromDate($year, $month, $day, $tz)->subDays($i ); //2022-04-10 no tiene datos
+            CargaFacturasDia::dispatch($fecha_inicial)->onQueue('cargaCabecera');
+        }
+        return response()->json([
+            'mensaje' => 'Proceso iniciado',
+            'codigo' => '0',
+            'datos' => $i,
+        ]);
+
+
+    }
+    public function insertarRegistrosDeOrdenes ( Request $request)
+    {
+
+        $request->validate([
+            'placaVehiculo' => 'required',
+            'usuarioCrea' => 'required',
+            'ciPropietario' => 'required',
+            'codAgencia' => 'required',
+            'gestionComentario' => 'required',
+            'gestionId' => 'required',
+            'ordTallerRef' => 'required',
         ]);
 
         for ($i=0; $i < 10; $i++) {

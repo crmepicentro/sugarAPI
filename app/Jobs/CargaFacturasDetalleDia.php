@@ -2,10 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\Servicios3sController;
+use App\Http\Controllers\Postventas\Servicios3sController;
 use App\Models\Ws_logs;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;

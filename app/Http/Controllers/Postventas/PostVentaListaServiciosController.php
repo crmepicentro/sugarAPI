@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Postventas;
 
+use App\Http\Controllers\Controller;
 use App\Models\Propietario;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class PostVentaListaServiciosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke($id, Request $request)
+    public function index($id, Request $request)
     {
         $propietario = Propietario::where('id',$id)->first();
         return view('postventas.detallePropietario_listaServicio', compact('propietario'));

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Postventas;
 
+use App\Http\Controllers\Controller;
 use App\Models\Auto;
 use App\Models\Propietario;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class PostVentaEditaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke($id, $id_auto,Request $request)
+    public function index($id, $id_auto,Request $request)
     {
         $propietario = Propietario::where('id',$id)->first();
         if( $request->has('todos_auto') ){

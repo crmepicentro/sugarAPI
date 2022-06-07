@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Postventas;
 
+use App\Http\Controllers\Controller;
 use App\Models\Auto;
 use App\Models\DetalleGestionOportunidades;
 use App\Models\GestionAgendadoDetalleOportunidades;
