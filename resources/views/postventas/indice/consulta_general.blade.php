@@ -126,7 +126,7 @@
     <div class="form-group row">
         <div class="col-1">
             <div class="mb-4">
-                <a type="reset" class="btn btn-secondary" href="{{ url()->current() }}">Reset</a>
+                <a type="reset" class="btn btn-secondary" href="{{ route('postventa.indice',['userid'=> Auth::user()->email]) }}">Reset</a>
             </div>
         </div>
         <div class="col-10">
