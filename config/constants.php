@@ -26,6 +26,8 @@ return [
     'pv_user_servicio' => env('PV_USER_SERVICIO'),
     //config('constants.pv_pass_servicio')
     'pv_pass_servicio' => env('PV_PASS_SERVICIO'),
+    //config('constants.pv_url_servicio')
+    'pv_url_servicio' => env('PV_URL_SERVICIO'),
 
 
 ];

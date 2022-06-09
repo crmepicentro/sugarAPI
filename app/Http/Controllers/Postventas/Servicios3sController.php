@@ -26,11 +26,11 @@ class Servicios3sController extends Controller
     /** constructor  */
     public function __construct()
     {
-        $this->middleware(['sugarauth'])->except('consultaApiCabecera_bulk');
+        $this->middleware(['sugarauth'])->except(['consultaApiCabecera_bulk','consultaOrden']);
     }
     public function consultaApiCabecera_main( $fecha_inicial, $fecha_final )
     {
-        $url = 'https://s3s.casabaca.com/casabacaWebservices/restOrdenTaller/consultaOrdenTallerDet';
+        $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/consultaOrdenTallerDet';
         $getdata = [
             'idEmpresa'         => config('constants.pv_empresa'),
             'codOrdenEstado'    => config('constants.pv_codOrdenEstado'),
@@ -61,9 +61,46 @@ class Servicios3sController extends Controller
         $respuesta['ws_logs'] = $ws_logs->id;
         return $respuesta;
     }
+    public function consultaApiCabecera_orden( $orden )
+    {
+        $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/consultaOrdenTallerDet';
+        $getdata = [
+            'idEmpresa'         => config('constants.pv_empresa'),
+            'codOrdenEstado'    => 0,
+            'fechaInicial'      => Carbon::now()->subYears(4)->format(config('constants.pv_dateFormat')),
+            'fechaFinal'        => Carbon::now()->format(config('constants.pv_dateFormat')),
+            'codOrdenTaller'    => $orden,
+        ];
+        $consulta_id = Str::uuid().'.txt';
+        $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url,$getdata);
+        dd($response->json());
+        $respuesta = $response->json();
+        Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
+        $ws_logs = Ws_logs::create([
+            'route' => 'consultaApiCabecera_main/'.$url,
+            'datos_sugar_crm' => 'Consulta_consultaOrdenTallerDet',
+            'datos_adicionales' => json_encode($getdata),
+            'response' => $consulta_id,
+            'remember_token' => md5(json_encode($respuesta)),
+            "environment" => get_connection(),
+            "source" => md5(json_encode($respuesta)),
+            'interaccion_id' => '-leido-',
+        ]);
+        if( $respuesta['nomMensaje'] == 'ERROR' ){
+            $ws_logs->update([
+                'response' => json_encode($respuesta),
+                'interaccion_id' => '-error-',
+            ]);
+        }
+        $respuesta['ws_logs'] = $ws_logs->id;
+        return $respuesta;
+    }
+    public function consultaOrden(Request $request, $codOrdenTaller){
+        return $this->consultaApiCabecera_orden($codOrdenTaller);
+    }
     public function consultaApiDetalleCabecera_main( $codAgencial , $codOrdenTaller )
     {
-        $url = 'https://s3s.casabaca.com/casabacaWebservices/restOrdenTaller/consultaOrdenTallerCL';
+        $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/consultaOrdenTallerCL';
         $getdata = [
             'idEmpresa'         => config('constants.pv_empresa'),
             'codAgencia'        => $codAgencial,
@@ -107,7 +144,7 @@ class Servicios3sController extends Controller
                 'Content-Disposition' => 'inline; filename="'.$placa_vehiculo."-".Carbon::now()->format(config('constants.pv_dateFormat')).'.pdf'.'"'
             ]);
         }
-        $url = 'https://s3s.casabaca.com/casabacaWebservices/restOrdenTaller/consultaHistorialVehPdf';
+        $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/consultaHistorialVehPdf';
         $getdata = [
             'idEmpresa'         => config('constants.pv_empresa'),
             'placaVehiculo'     => $placa_vehiculo,
@@ -149,7 +186,7 @@ class Servicios3sController extends Controller
             'ejecutar' => 'required|in:ecHuWh2mf80V3FlWA3LW9wn2Hjkka9asZmuOirYGZYROU5ejlVoyzo2aJ437sxRO0OfpoCZOFXp6ryLjQrIBS79fgb6Ry3LeK7SgwTTg',
         ]);
 
-        for ($i=0; $i < 1; $i++) {
+        for ($i=0; $i < 10; $i++) {
             $year = Carbon::now()->year;
             $month = Carbon::now()->month;
             $day = Carbon::now()->day;
