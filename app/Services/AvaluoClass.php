@@ -5,6 +5,8 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\TalksTraffic;
 use App\Models\Avaluos;
+use App\Models\TalksCstm;
+
 
 class AvaluoClass
 {
