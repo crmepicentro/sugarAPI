@@ -80,10 +80,13 @@ class AvaluoClass
         }else{
             $negociationId = TalksTraffic::where('cb_negociacion_cb_traficocontrolcb_traficocontrol_idb', $idtrafic)->pluck('cb_negociacion_cb_traficocontrolcb_negociacion_ida')->first();
             $negociation=TalksCstm::find($negociationId);
-            if($negociation->estado_toma_c=='N' or empty($negociation->estado_toma_c)){
-                $negociation->estado_toma_c='P';
-                $negociation->save();
-            }            
+            if (isset($negociation->estado_toma_c)){
+                if($negociation->estado_toma_c=='N' or empty($negociation->estado_toma_c)){
+                    $negociation->estado_toma_c='P';
+                    $negociation->save();
+                }            
+            }
+            
         }      
         
         
