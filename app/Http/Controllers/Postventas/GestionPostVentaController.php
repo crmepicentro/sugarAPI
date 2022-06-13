@@ -18,7 +18,7 @@ class GestionPostVentaController extends Controller
     /** constructor  */
     public function __construct()
     {
-        $this->middleware(['sugarauth']);
+        $this->middleware(['sugarauth'])->except('s3spostdatacore_consulta');
     }
     public function gestions3s(Request $request)
     {
@@ -97,7 +97,13 @@ class GestionPostVentaController extends Controller
 
     }
     public function s3spostdatacore(GestionAgendado $gestionAgendado, Auto $auto){
+        $registra_cls = Servicios3sController::registrarOrdenTallerCls($gestionAgendado);
+        dd($registra_cls);
         return view('postventas.gestion.simula_s3s', compact('gestionAgendado'));;
+    }
+    public function s3spostdatacore_consulta($codAgencia,$placaVehiculo){
+        $registra_cls = Servicios3sController::conOrdCLsRecuperados($codAgencia,$placaVehiculo);
+        dd($codAgencia,$placaVehiculo,$registra_cls);
     }
     public function s3spostdatacore_respuesta($codigo_seguimiento, Request $request){
         $codigo_seguimiento = GestionAgendado::where('codigo_seguimiento', $codigo_seguimiento)->first();

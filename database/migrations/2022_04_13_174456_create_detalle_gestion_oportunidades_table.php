@@ -51,6 +51,7 @@ class CreateDetalleGestionOportunidadesTable extends Migration
 
             $table->dateTime('cita_fecha')->nullable();
             $table->string('s3s_codigo_seguimiento')->nullable();
+            $table->string('s3s_codigo_estado_taller')->nullable();
 
             $table->dateTime('facturacion_fecha')->nullable();
             $table->string('facturacion_agente')->nullable();

@@ -10,6 +10,7 @@ use App\Models\AutoFactura;
 use App\Models\AutoUsuarioauto;
 use App\Models\DetalleGestionOportunidades;
 use App\Models\Factura;
+use App\Models\GestionAgendado;
 use App\Models\Propietario;
 use App\Models\Usuarioauto;
 use App\Models\Ws_logs;
@@ -26,7 +27,7 @@ class Servicios3sController extends Controller
     /** constructor  */
     public function __construct()
     {
-        $this->middleware(['sugarauth'])->except(['consultaApiCabecera_bulk','consultaOrden']);
+        $this->middleware(['sugarauth'])->except(['consultaApiCabecera_bulk']);
     }
     public function consultaApiCabecera_main( $fecha_inicial, $fecha_final )
     {
@@ -73,31 +74,68 @@ class Servicios3sController extends Controller
         ];
         $consulta_id = Str::uuid().'.txt';
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url,$getdata);
-        dd($response->json());
-        $respuesta = $response->json();
-        Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
-        $ws_logs = Ws_logs::create([
-            'route' => 'consultaApiCabecera_main/'.$url,
-            'datos_sugar_crm' => 'Consulta_consultaOrdenTallerDet',
-            'datos_adicionales' => json_encode($getdata),
-            'response' => $consulta_id,
-            'remember_token' => md5(json_encode($respuesta)),
-            "environment" => get_connection(),
-            "source" => md5(json_encode($respuesta)),
-            'interaccion_id' => '-leido-',
-        ]);
-        if( $respuesta['nomMensaje'] == 'ERROR' ){
-            $ws_logs->update([
-                'response' => json_encode($respuesta),
-                'interaccion_id' => '-error-',
-            ]);
+        if( $response->status() == 200 ) {
+            $respuesta = $response->json();
+            if ($respuesta['nomMensaje'] == 'ERROR') {
+                return [
+                    'header' => [],
+                    'detalle' => [],
+                    'estado' => 'NO_EXISTE',
+                ];
+            } elseif ($respuesta['nomMensaje'] == 'EXITO') {
+                $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/consultaOrdenTallerCL';
+                $getdata = [
+                    'idEmpresa' => config('constants.pv_empresa'),
+                    'codAgencia' => $respuesta['listaOrdenTallerDetalle'][0]['codAgencia'],
+                    'codOrdenTaller' => $orden,
+                ];
+                $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url, $getdata);
+                $respuesta_deta = $response->json();
+                if ($respuesta_deta['nomMensaje'] == 'ERROR') {
+                    return [
+                        'header' => $respuesta['listaOrdenTallerDetalle'][0],
+                        'detalle' => [],
+                        'estado' => 'INCOMPLETO',
+                    ];
+                } elseif ($respuesta_deta['nomMensaje'] == 'EXITO') {
+                    return [
+                        'header' => $respuesta['listaOrdenTallerDetalle'][0],
+                        'detalle' => $respuesta_deta['listaOrdenTallerCL'],
+                        'estado' => 'COMPLETO',
+                    ];
+                }
+            }
         }
-        $respuesta['ws_logs'] = $ws_logs->id;
-        return $respuesta;
+        return [
+            'header' => [],
+            'detalle' => [],
+            'estado' => 'NO_EXISTE',
+        ];
     }
-    public function consultaOrden(Request $request, $codOrdenTaller){
-        return $this->consultaApiCabecera_orden($codOrdenTaller);
+
+    public function registrarOrdenTallerCls(GestionAgendado $gestionAgendado)
+    {
+        $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/registrarOrdenTallerCL';
+        $getdata = $gestionAgendado->citas3s;
+        //dd( json_encode($getdata) );
+        $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
+        $respuesta = $response->json();
+        dd($response,$respuesta,$response->body(), $getdata, $respuesta);
     }
+    public function conOrdCLsRecuperados($codAgencia,$placaVehiculo)
+    {
+        $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/conOrdCLsRecuperados';
+        $getdata = [
+            'idEmpresa' => config('constants.pv_empresa'),
+            'codAgencia' => $codAgencia,
+            'placaVehiculo' => $placaVehiculo,
+        ];
+        $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url, $getdata);
+
+        $respuesta = $response->json();
+        dd('Calambre',$response,$respuesta,$response->body(), $getdata, $respuesta);
+    }
+
     public function consultaApiDetalleCabecera_main( $codAgencial , $codOrdenTaller )
     {
         $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/consultaOrdenTallerCL';

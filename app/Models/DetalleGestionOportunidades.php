@@ -47,6 +47,7 @@ class DetalleGestionOportunidades extends Model
 
         'cita_fecha',
         's3s_codigo_seguimiento',
+        's3s_codigo_estado_taller',
 
         'facturacion_fecha',
         'facturacion_agente',
@@ -122,8 +123,8 @@ class DetalleGestionOportunidades extends Model
     {
         return [
             'codAgencia' => $this->codAgencia,
-            'ordTaller' => $this->ordTaller,
             'codServ' => $this->codServ,
+            'ordTallerRef' => $this->ordTaller,
         ];
     }
 

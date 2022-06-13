@@ -6,6 +6,7 @@ use App\Http\Controllers\Postventas\ReportePostVentasControllerController;
 use App\Http\Controllers\Postventas\Servicios3sController;
 use App\Http\Controllers\Postventas\PostVentaListaServiciosController;
 use App\Http\Controllers\Postventas\PostVentaEditaController;
+use App\Http\Controllers\Postventas\SeguimientoPostVentasController;
 
 Route::get('/consultaApiCabecera', [Servicios3sController::class, 'consultaApiCabecera']);
 Route::get('/consultaApiCabecera_bulk', [Servicios3sController::class, 'consultaApiCabecera_bulk']);
@@ -18,10 +19,14 @@ Route::get('/vehiculos/faces/jsp/consulta/masters/list.jsp',[PostVentaIndiceCont
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}',[PostVentaListaServiciosController::class,'index'])->name('postventa.edita');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}/{id_auto}',[PostVentaEditaController::class,'index'])->name('postventa.edita_auto');
 Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore'])->name('postventa.s3spostdatacore');
+Route::get('/vehiculos/faces/jsp/consulta/masters/recupera_respuesta_s3ssistemacore/{codAgencia}/{placaVehiculo}',[GestionPostVentaController::class,'s3spostdatacore_consulta'])->name('postventa.s3spostdatacore_consulta');
 Route::get('/vehiculos/faces/jsp/consulta/masters/respuesta_s3ssistemacore/{codigo_seguimiento}',[GestionPostVentaController::class,'s3spostdatacore_respuesta'])->name('postventa.s3spostdatacorerespuesta');
+
 Route::get('s3s_sistema', function ( \App\Http\Requests\Request $request) {
     dd($request);
-})->name('postventa.tests3s');;
+})->name('postventa.tests3s');
+Route::get('seguimiento_postventa/{ordTaller}', [SeguimientoPostVentasController::class,'verificarEstadoSeguimientoPostVentas'])->name('postventa.seguimiento.estado_orden');
+
 
 
 Route::get('/reporte_postventas/index', [ReportePostVentasControllerController::class, 'index'])->name('postventa.reporte_postventas.index');
