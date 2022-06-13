@@ -18,6 +18,7 @@ class TalksCstm extends Model
         'fuente_c',
         'medio_c',
         'campaign_id_c',
+        'estado_toma_c',
     ];
 
     public function __construct(array $attributes = array())
