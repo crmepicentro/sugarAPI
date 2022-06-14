@@ -18,7 +18,8 @@ Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_final/{ge
 Route::get('/vehiculos/faces/jsp/consulta/masters/list.jsp',[PostVentaIndiceController::class,'indice'])->name('postventa.indice');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}',[PostVentaListaServiciosController::class,'index'])->name('postventa.edita');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}/{id_auto}',[PostVentaEditaController::class,'index'])->name('postventa.edita_auto');
-Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore'])->name('postventa.s3spostdatacore');
+Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore_registro'])->name('postventa.s3spostdatacore');
+Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore_registro/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore_pantalla'])->name('postventa.s3spostdatacore_pantalla');
 Route::get('/vehiculos/faces/jsp/consulta/masters/recupera_respuesta_s3ssistemacore/{codAgencia}/{placaVehiculo}',[GestionPostVentaController::class,'s3spostdatacore_consulta'])->name('postventa.s3spostdatacore_consulta');
 Route::get('/vehiculos/faces/jsp/consulta/masters/respuesta_s3ssistemacore/{codigo_seguimiento}',[GestionPostVentaController::class,'s3spostdatacore_respuesta'])->name('postventa.s3spostdatacorerespuesta');
 

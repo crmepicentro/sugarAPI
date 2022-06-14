@@ -21,6 +21,10 @@ class GestionAgendado extends Model
         'codigo_seguimiento',
         'codigo_seguimiento_resp_s3s',
     ];
+    public function usuario()
+    {
+        return $this->belongsTo(User::class,  'users_id','id');
+    }
     public function citas()    {
         return $this->hasMany(GestionCita::class, 'gestion_agendado_id', 'id');
     }

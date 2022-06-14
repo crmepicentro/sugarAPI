@@ -120,7 +120,21 @@ class Servicios3sController extends Controller
         //dd( json_encode($getdata) );
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
         $respuesta = $response->json();
-        dd($response,$respuesta,$response->body(), $getdata, $respuesta);
+        $consulta_id = Str::uuid().'.txt';
+        Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
+        $ws_logs = Ws_logs::create([
+            'route' => 'registrarOrdenTallerCls/'.$url,
+            'datos_sugar_crm' => 'registrarOrdenTallerCL',
+            'datos_adicionales' => json_encode($getdata),
+            'response' => $consulta_id,
+            'remember_token' => md5(json_encode($respuesta)),
+            "environment" => get_connection(),
+            "source" => md5(json_encode($respuesta)),
+            'interaccion_id' => '-leido-',
+        ]);
+        $gestionAgendado->codigo_seguimiento_resp_s3s = $respuesta['codTransacion'];
+        $gestionAgendado->save();
+        return $gestionAgendado;
     }
     public function conOrdCLsRecuperados($codAgencia,$placaVehiculo)
     {
