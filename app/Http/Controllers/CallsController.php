@@ -146,7 +146,7 @@ class CallsController extends BaseController
 
                 //bandera para identificar las agencias 
                 //hay que cambiarla segun sea necesario
-                $Shippingtype = false;
+                /*$Shippingtype = false;
               
                 if($dataCall['meeting']['location'] == 'ALTON CUENCA' || $dataCall['meeting']['location'] == 'ALTON GUAYAQUIL' || $dataCall['meeting']['location'] == 'SUZUKI'){
                     $Shippingtype = true;
@@ -173,7 +173,8 @@ class CallsController extends BaseController
 
                     $prospeccion = ProspeccionClass::store($dataProspeccion);
                 }
-                /* $dataProspeccion["created_by"] = $call->created_by;
+                */
+                $dataProspeccion["created_by"] = $call->created_by;
                 $dataProspeccion["team_id"] = 1;
                 $dataProspeccion["team_set_id"] = 1;
                 $dataProspeccion["estado"] = 5;
@@ -190,7 +191,7 @@ class CallsController extends BaseController
                 $dataProspeccion["medio"] = $medio ?? $dataCall['medio'];
                 $dataProspeccion["campaign_id_c"] = $dataCall['campania'] ?? $campania;
 
-                $prospeccion = ProspeccionClass::store($dataProspeccion); */
+                $prospeccion = ProspeccionClass::store($dataProspeccion); 
 
                 $dataContact = $dataMeeting['client'];
                 $contact = new ContactClass();
@@ -228,7 +229,14 @@ class CallsController extends BaseController
                 $meetingClass->parent_id = $ticket->id;
                 $meeting = $meetingClass->create();
 
-                if(!$Shippingtype){
+                $call->prospeccion()->attach($prospeccion->id, getAttachObject());
+                $call->contacts()->attach($contact->id, getAttachObject());
+                $prospeccion->meetings()->attach($meeting->id, getAttachObject());
+                $prospeccion->tickets()->attach($ticket->id, getAttachObject());
+                $meeting->contacts()->attach($contact->id, getAttachObject());
+                $call->meeting = $meeting;
+
+                /*if(!$Shippingtype){
                     $call->prospeccion()->attach($prospeccion->id, getAttachObject());
                     $call->contacts()->attach($contact->id, getAttachObject());
                     $prospeccion->meetings()->attach($meeting->id, getAttachObject());
@@ -241,11 +249,11 @@ class CallsController extends BaseController
                     }
                 }else{
                     $call->meeting = $meeting;
-                }
+                }*/
 
-                /* if($prospeccion->new) {
+                if($prospeccion->new) {
                   $prospeccion->contacts()->attach($contact->id, getAttachObject());
-                } */
+                }
 
                 $dataUpdateWS = [
                     "response" => json_encode($this->response->item($call, new CallMeetingTransformer)),
@@ -259,9 +267,9 @@ class CallsController extends BaseController
 
                 \DB::connection(get_connection())->commit();
 
-                /* return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200); */
+                return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
 
-                if(!$Shippingtype){
+                /*if(!$Shippingtype){
                     return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
                 }else{
                      //Enviamos la informacion a Atom solo cuando las agencias son de cuenca, guayaquil, zuzuky
@@ -308,7 +316,7 @@ class CallsController extends BaseController
                     //return $responseAlton;
                     return response()->json(['error' => $e . ' - Al enviar los datos, Notificar a Alton'], 500);
                     
-                }
+                }*/
 
                 //return $this->response->item($call, new CallMeetingTransformer)->setStatusCode(200);
 
@@ -345,10 +353,10 @@ class CallsController extends BaseController
 
             return $this->response->item($call, new CallTransformer)->setStatusCode(200);
 
-        }catch(\Exception $e){
+        }catch(Throwable $e){
             \DB::connection(get_connection())->rollBack();
             $this->errorExceptionWsLog($e,$user_auth,$ws_logs);
-            return response()->json(['error' => $e->getMessage() . ' - Notifique a SUGAR CRM Casabaca'], 500);
+            return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }
 
