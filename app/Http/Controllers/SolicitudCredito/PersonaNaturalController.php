@@ -74,6 +74,12 @@ class PersonaNaturalController extends Controller
         return $pdf->stream("solicitud.pdf");
     }
 
+    public function pdfView()
+    {
+        $pdf = PDF::loadView("solicitud.cbNatural");
+        return $pdf->stream("solicitud.pdf");
+    }
+
     // valiadar
     public function uploadFile(Request $request)
     {

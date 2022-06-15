@@ -52,6 +52,13 @@ Route::get('solicitudCredito/file/{idCotizacion}/{nombre}/',function ($idCotizac
     $path = storage_path( "app/solicitudes-credito/solicitud-{$idCotizacion}/{$nombre}");
     return response()->file($path);
 })->name('file.solicitud.credito');
+//temporak
+Route::get('pdf', [PersonaNaturalController::class , 'pdfView'])->name('dowmload.solicitud.credito');
+
+Route::get('cuotaAlcance/file/{nombre}/',function ($nombre){
+    $path = storage_path( "app/cuotas-alcance/{$nombre}");
+    return response()->file($path);
+})->name('file.cuota.alcance');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
