@@ -156,6 +156,42 @@
 
         }
 
+        /** verica si laplaca tiene una orden creada
+         *
+         */
+        function consultar_orden_con_placa(agencia,placa, area_div){
+            //do stuff
+            var url_get_data = '{{ route('postventa.s3spostdatacore_consulta',['codAgencia'=>'codagencia__xxx7','placaVehiculo'=> 'placa__xxx8']) }}';
+            url_get_data = url_get_data.replace('codagencia__xxx7',agencia);
+            url_get_data = url_get_data.replace('placa__xxx8',placa);
+            //Dashmix.layout('header_loader_on');
+            $('.proc_'+placa).html('<i class="fa fa-4x fa-circle-notch fa-spin text-danger"></i>');
+            $.ajax({
+                url: url_get_data,
+                type:"GET",
+                data: null,
+                success:function(response){
+                    console.log(response);
+                    if(response) {
+                        $(area_div).html(response);
+                        location.reload();
+                    }
+                },
+                error: function(error) {
+                    alert('Error al enviar los datos.: '+JSON.stringify(error));
+                    console.error('Error Dfg90');
+                    if(error.status==404){
+                        alert('Se dio un error.');
+                        alert(error.responseText);
+                        location.reload()
+                    }
+                    console.error(error);
+                    location.reload()
+                }
+            });
+
+        }
+
         /**
          * Funcion para enviar un submit al formulario donde se colocan los detalles de gestion de oportunidades
          * @param id

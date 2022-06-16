@@ -143,7 +143,10 @@
                     </td>
                 @else
                     @if($oportunidad->gestion_tipo =='cita')
-                        <td colspan="3"> <a href="#consulta_cita">Consulta estado </a></td>
+
+                        <td colspan="3" class="proc_{{ $auto->placa }}">
+                            <button type="button" class="btn btn-primary push" data-toggle="layout" data-action="header_loader_on">Start Header Loader</button>
+                            <a href="javascript: consultar_orden_con_placa({{19}},'{{ $auto->placa }}')" >Consulta estado </a></td>
                     @else
                         <td colspan="3"> <strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
                     @endif

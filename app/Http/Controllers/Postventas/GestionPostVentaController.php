@@ -131,10 +131,12 @@ class GestionPostVentaController extends Controller
         }
         $datos_orden = $this->dar_orden_from_consulta($registra_clss);
         $ordenes_detalles = GestionAgendado::where('codigo_seguimiento', $datos_orden['idGestionSugar'])->first();
+        $almenosundato =false;
         if($registra_clss <> null && $registra_clss['nomMensaje'] == 'EXITO' &&  count($registra_clss['listaClsRecuperados']) >0){
             foreach ($registra_clss['listaClsRecuperados'] as $registra_cls){
                 foreach ($ordenes_detalles->detalleoportunidadcitas as $ordenes_detalle){
                     if($ordenes_detalle->codServ ==  $registra_cls['codServ']){
+                        $almenosundato = true;
                         $ordenes_detalle->oportunidad_id = json_encode(['ordTaller' => $registra_cls['ordTaller'],'codAgencia'=>$registra_cls['codAgencia'],'placa'=>$registra_cls['placaVehiculo'],'codServ'=>$registra_cls['codServ']]);
                         $ordenes_detalle->cita_fecha = Carbon::createFromFormat('d/m/y',$registra_cls['fechaCita']);
                         $ordenes_detalle->s3s_codigo_seguimiento = $registra_cls['ordTaller'];
@@ -143,7 +145,11 @@ class GestionPostVentaController extends Controller
                     }
                 }
             }
-            dd($ordenes_detalles->detalleoportunidadcitas);
+            if($almenosundato){
+                return response()->json(['message' => 'Actualizado'], 200);
+            }else{
+                return response()->json(['error' => 'No se encontraron registros con esa placa.'], 404);
+            }
         }else{
             return response()->json(['error' => 'No se encontraron registros.'], 404);
         }
