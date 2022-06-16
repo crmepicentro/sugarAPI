@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Response;
@@ -118,7 +119,9 @@ class Servicios3sController extends Controller
         $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/registrarOrdenTallerCL';
         $getdata = $gestionAgendado->citas3s;
         //dd( json_encode($getdata) );
+        Log::info(print_r(json_encode($getdata), true));
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
+        Log::error(print_r($response->json(), true));
         $respuesta = $response->json();
         $consulta_id = Str::uuid().'.txt';
         Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
@@ -147,7 +150,7 @@ class Servicios3sController extends Controller
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url, $getdata);
 
         $respuesta = $response->json();
-        dd('Calambre',$response,$respuesta,$response->body(), $getdata, $respuesta);
+        return $respuesta;
     }
 
     public function consultaApiDetalleCabecera_main( $codAgencial , $codOrdenTaller )
@@ -238,12 +241,12 @@ class Servicios3sController extends Controller
             'ejecutar' => 'required|in:ecHuWh2mf80V3FlWA3LW9wn2Hjkka9asZmuOirYGZYROU5ejlVoyzo2aJ437sxRO0OfpoCZOFXp6ryLjQrIBS79fgb6Ry3LeK7SgwTTg',
         ]);
 
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 60; $i++) {
             $year = Carbon::now()->year;
             $month = Carbon::now()->month;
             $day = Carbon::now()->day;
             $tz = config('constants.pv_timezone');
-            $fecha_inicial = Carbon::createFromDate($year, $month, $day, $tz)->subDays($i ); //2022-04-10 no tiene datos
+            $fecha_inicial = Carbon::createFromDate($year, $month, $day, $tz)->subDays( $i ); //2022-04-10 no tiene datos
             CargaFacturasDia::dispatch($fecha_inicial)->onQueue('cargaCabecera');
         }
         return response()->json([

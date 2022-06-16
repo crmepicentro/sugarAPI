@@ -127,6 +127,14 @@ class DetalleGestionOportunidades extends Model
             'ordTallerRef' => $this->ordTaller,
         ];
     }
+    public function getClaveunicaprincipals3svariableAttribute($value)
+    {
+        return [
+            'codAgencia' => "<variable>",
+            'codServ' => $this->codServ,
+            'ordTallerRef' => $this->ordTaller,
+        ];
+    }
 
     /**
      * Funcion solo para FUncion en Listado Auto Ordenes

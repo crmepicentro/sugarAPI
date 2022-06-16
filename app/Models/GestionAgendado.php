@@ -72,6 +72,11 @@ class GestionAgendado extends Model
             ->join('pvt_gestion_agendados', 'pvt_gestion_agendado_detalle_op.gestion_agendado_id', '=', 'pvt_gestion_agendados.id')
             ->where('pvt_gestion_agendados.id', '=', $this->id)
             ->first();
+        $detalle_original = $this->detalleoportunidadcitas->pluck('claveunicaprincipals3svariable')->toArray();
+        $nuevo_detalle = [];
+        foreach ($detalle_original as $key => $value) {
+            $nuevo_detalle[] = array_replace($value,array('codAgencia' => $as_auto->agencia_cita));
+        }
         $repuesta_data = [
             'placaVehiculo' => $as_auto->placa,
             'idEmpresa' => config('constants.pv_empresa'),
@@ -81,7 +86,7 @@ class GestionAgendado extends Model
             'gestionComentario' => $as_auto->observacion_cita,
             'gestionId' => $as_auto->codigo_seguimiento,
             'ordTallerRef'=> '',
-            'oportunidades'=>$this->detalleoportunidadcitas->pluck('claveunicaprincipals3s')->toArray(),
+            'oportunidades'=>$nuevo_detalle,
         ];
         return $repuesta_data;
     }

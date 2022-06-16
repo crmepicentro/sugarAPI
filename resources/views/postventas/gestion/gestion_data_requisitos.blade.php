@@ -8,7 +8,7 @@
                 '---' => 'Escoja una opción...',
                 '03' => 'SERVICIO NORTE',
                 '12' => 'CUMBAYA',
-                '19' => 'SUR',
+                '19' => '19 - SUR',
                 '15' => 'GRANADOS',
                 '18' => 'CONDADO',
                 '23' => 'SANTO DOMINGO',

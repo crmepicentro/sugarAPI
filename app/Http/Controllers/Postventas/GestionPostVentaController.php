@@ -10,6 +10,7 @@ use App\Models\Gestion\GestionRecordatorio;
 use App\Models\GestionAgendado;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -105,9 +106,48 @@ class GestionPostVentaController extends Controller
     public function s3spostdatacore_pantalla(GestionAgendado $gestionAgendado, Auto $auto){
         return view('postventas.gestion.simula_s3s', compact('gestionAgendado','auto'));;
     }
+    public function dar_orden_from_consulta($registra_clss){
+        if($registra_clss['nomMensaje'] == 'EXITO' &&  count($registra_clss['listaClsRecuperados']) >0) {
+            foreach ($registra_clss['listaClsRecuperados'] as $registra_cls) {
+                return ['codServ' => $registra_cls['codServ'], 'idGestionSugar' => $registra_cls['idGestionSugar']];
+            }
+        }else{
+            return ['codServ' => '', 'idGestionSugar' => ''];
+        }
+    }
+    private function set_ordenorden_desiste($ordenes_detalles){
+        foreach ($ordenes_detalles->detalleoportunidadcitas as $ordenes_detalle){
+            $ordenes_detalle->gestion_tipo = 'perdido_taller';
+            $ordenes_detalle->save();
+        }
+    }
     public function s3spostdatacore_consulta($codAgencia,$placaVehiculo){
-        $registra_cls = Servicios3sController::conOrdCLsRecuperados($codAgencia,$placaVehiculo);
-        dd($codAgencia,$placaVehiculo,$registra_cls);
+
+        if (Cache::has($placaVehiculo)) {
+            $registra_clss = Cache::get($placaVehiculo) ;
+        }else{
+            $registra_clss = Servicios3sController::conOrdCLsRecuperados($codAgencia,$placaVehiculo);
+            Cache::put($placaVehiculo, $registra_clss, now()->addHours(12));
+        }
+        $datos_orden = $this->dar_orden_from_consulta($registra_clss);
+        $ordenes_detalles = GestionAgendado::where('codigo_seguimiento', $datos_orden['idGestionSugar'])->first();
+        if($registra_clss <> null && $registra_clss['nomMensaje'] == 'EXITO' &&  count($registra_clss['listaClsRecuperados']) >0){
+            foreach ($registra_clss['listaClsRecuperados'] as $registra_cls){
+                foreach ($ordenes_detalles->detalleoportunidadcitas as $ordenes_detalle){
+                    if($ordenes_detalle->codServ ==  $registra_cls['codServ']){
+                        $ordenes_detalle->oportunidad_id = json_encode(['ordTaller' => $registra_cls['ordTaller'],'codAgencia'=>$registra_cls['codAgencia'],'placa'=>$registra_cls['placaVehiculo'],'codServ'=>$registra_cls['codServ']]);
+                        $ordenes_detalle->cita_fecha = Carbon::createFromFormat('d/m/y',$registra_cls['fechaCita']);
+                        $ordenes_detalle->s3s_codigo_seguimiento = $registra_cls['ordTaller'];
+                        $ordenes_detalle->s3s_codigo_estado_taller = $registra_cls['codEstOrdTaller'];
+                        $ordenes_detalle->save();
+                    }
+                }
+            }
+            dd($ordenes_detalles->detalleoportunidadcitas);
+        }else{
+            return response()->json(['error' => 'No se encontraron registros.'], 404);
+        }
+
     }
     public function s3spostdatacore_respuesta($codigo_seguimiento, Request $request){
         $codigo_seguimiento = GestionAgendado::where('codigo_seguimiento', $codigo_seguimiento)->first();

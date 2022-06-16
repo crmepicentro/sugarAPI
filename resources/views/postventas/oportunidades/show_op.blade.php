@@ -44,7 +44,7 @@
             <th>
                 GESTIÓN<br/>FUTURA
             </th>
-            <th style="background-color: #ffcaca40;">
+            <th style="background-color: #59596029;">
                 FECHA<br/>GESTIÓN
             </th>
             <th>Estado Global</th>
@@ -96,53 +96,57 @@
                 </td>
                 <td title="Gestionado Fecha Cita {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }}" style="background-color: #5959590f;">
                     {{ $oportunidad->cita_fecha <> null ?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('y-m-d'):'-' }}<br />
-                    <small>{{ \Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i'):'' }}</small>
+<!--                    <small>{{ \Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i'):'' }}</small>-->
                 </td>
                 <td title="Gestionado Fecha agendado {{ \Carbon\Carbon::parse($oportunidad->agendado_fecha)->diffForHumans() }}">
                     {{ $oportunidad->agendado_fecha <> null ?\Carbon\Carbon::create($oportunidad->agendado_fecha)->format('y-m-d'):'-' }}<br />
                     <small>{{ \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i'):'' }}</small>
                 </td>
-                <td title="Gestionado Fecha gestion {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}" style="background-color: #ffcaca40;" >
+                <td title="Gestionado Fecha gestion {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}" style="background-color: #5959600f;" >
                     {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
                     <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
                 </td>
                 <td>{{ __($oportunidad->gestion_tipo) }}</td>
-                @if($oportunidad->cita_fecha == null)
+                @if(in_array($oportunidad->gestion_tipo, ['nuevo','recordatorio','perdido','perdido_taller','cita_noshow']))
                     @php($contador_elementos ++)
-                <td>
-                    <div class="form-check">
-                        {{ Form::checkbox($oportunidad->claveunicaprincipal64."['cita']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal citKm",'id' => "id-cita$oportunidad->claveunicaprincipal"]) }}
-                    </div>
-                </td>
-                @php( $script_add .= "checkLine('id-cita$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',nuevacita$auto->id,$auto->id );" )
-                <td >
-                    <div class="row">
-                        <div class="col-6">
-                           {{--  <button type="button" class="btn btn-sm btn-info boton{{ $oportunidad->claveunicaprincipal }} pospont{{$oportunidad->claveunicaprincipal}}" >
-                                <i class="fa fa-clock"></i>
-                            </button>--}}
+                    <td>
+                        <div class="form-check">
+                            {{ Form::checkbox($oportunidad->claveunicaprincipal64."['cita']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal citKm",'id' => "id-cita$oportunidad->claveunicaprincipal"]) }}
                         </div>
-                        <div class="col-6 form-check">
-                            {{ Form::checkbox($oportunidad->claveunicaprincipal64."['recorda']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal recKm",'id' => "id-recorda$oportunidad->claveunicaprincipal"]) }}
+                    </td>
+                    @php( $script_add .= "checkLine('id-cita$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',nuevacita$auto->id,$auto->id );" )
+                    <td >
+                        <div class="row">
+                            <div class="col-6">
+                                {{--  <button type="button" class="btn btn-sm btn-info boton{{ $oportunidad->claveunicaprincipal }} pospont{{$oportunidad->claveunicaprincipal}}" >
+                                     <i class="fa fa-clock"></i>
+                                 </button>--}}
+                            </div>
+                            <div class="col-6 form-check">
+                                {{ Form::checkbox($oportunidad->claveunicaprincipal64."['recorda']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal recKm",'id' => "id-recorda$oportunidad->claveunicaprincipal"]) }}
+                            </div>
+                            @php( $script_add .= "checkLine('id-recorda$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',recordatorio$auto->id,$auto->id);" )
                         </div>
-                        @php( $script_add .= "checkLine('id-recorda$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',recordatorio$auto->id,$auto->id);" )
-                    </div>
-                </td>
-                <td>
-                    <div class="row">
-                        {{-- <div class="col-6">
-                            <button type="button" class="btn btn-sm btn-danger boton{{ $oportunidad->claveunicaprincipal }} perdiot{{$oportunidad->claveunicaprincipal}}" data-auto="{{ $auto->id }}">
-                                <i class="fa fa-rectangle-xmark"></i>
-                            </button>
-                        </div>--}}
-                        <div class="col-6 form-check">
-                            {{ Form::checkbox($oportunidad->claveunicaprincipal64."['perdida']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal perKm",'id' => "id-desistt$oportunidad->claveunicaprincipal"]) }}
+                    </td>
+                    <td>
+                        <div class="row">
+                            {{-- <div class="col-6">
+                                <button type="button" class="btn btn-sm btn-danger boton{{ $oportunidad->claveunicaprincipal }} perdiot{{$oportunidad->claveunicaprincipal}}" data-auto="{{ $auto->id }}">
+                                    <i class="fa fa-rectangle-xmark"></i>
+                                </button>
+                            </div>--}}
+                            <div class="col-6 form-check">
+                                {{ Form::checkbox($oportunidad->claveunicaprincipal64."['perdida']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal perKm",'id' => "id-desistt$oportunidad->claveunicaprincipal"]) }}
+                            </div>
+                            @php( $script_add .= "checkLine('id-desistt$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',desiste$auto->id,$auto->id);" )
                         </div>
-                        @php( $script_add .= "checkLine('id-desistt$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',desiste$auto->id,$auto->id);" )
-                    </div>
-                </td>
+                    </td>
                 @else
-                    <td colspan="3"> <strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
+                    @if($oportunidad->gestion_tipo =='cita')
+                        <td colspan="3"> <a href="#consulta_cita">Consulta estado </a></td>
+                    @else
+                        <td colspan="3"> <strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
+                    @endif
                 @endif
             </tr>
             @if($loop->last)
