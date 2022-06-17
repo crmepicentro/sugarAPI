@@ -122,9 +122,7 @@ class Servicios3sController extends Controller
         try{
             throw new \Exception('División por cero.');
             //dd( json_encode($getdata) );
-            Log::info(print_r(json_encode($getdata), true));
             $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
-            Log::error(print_r($response->json(), true));
             $respuesta = $response->json();
             $consulta_id = Str::uuid().'.txt';
             Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
@@ -157,7 +155,7 @@ class Servicios3sController extends Controller
                 $cita_borrada->save();
             }
             //$gestionAgendado->delete();
-            throw new \Exception('División por cero.');
+            throw new \Exception('No se pudo conectar al sistema S3S.');
         }
 
     }
