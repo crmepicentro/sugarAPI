@@ -10,6 +10,7 @@ use App\Models\AutoFactura;
 use App\Models\AutoUsuarioauto;
 use App\Models\DetalleGestionOportunidades;
 use App\Models\Factura;
+use App\Models\Gestion\GestionCita;
 use App\Models\GestionAgendado;
 use App\Models\Propietario;
 use App\Models\Usuarioauto;
@@ -118,26 +119,47 @@ class Servicios3sController extends Controller
     {
         $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/registrarOrdenTallerCL';
         $getdata = $gestionAgendado->citas3s;
-        //dd( json_encode($getdata) );
-        Log::info(print_r(json_encode($getdata), true));
-        $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
-        Log::error(print_r($response->json(), true));
-        $respuesta = $response->json();
-        $consulta_id = Str::uuid().'.txt';
-        Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
-        $ws_logs = Ws_logs::create([
-            'route' => 'registrarOrdenTallerCls/'.$url,
-            'datos_sugar_crm' => 'registrarOrdenTallerCL',
-            'datos_adicionales' => json_encode($getdata),
-            'response' => $consulta_id,
-            'remember_token' => md5(json_encode($respuesta)),
-            "environment" => get_connection(),
-            "source" => md5(json_encode($respuesta)),
-            'interaccion_id' => '-leido-',
-        ]);
-        $gestionAgendado->codigo_seguimiento_resp_s3s = $respuesta['codTransacion'];
-        $gestionAgendado->save();
-        return $gestionAgendado;
+        try{
+            throw new \Exception('División por cero.');
+            //dd( json_encode($getdata) );
+            Log::info(print_r(json_encode($getdata), true));
+            $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
+            Log::error(print_r($response->json(), true));
+            $respuesta = $response->json();
+            $consulta_id = Str::uuid().'.txt';
+            Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
+            $ws_logs = Ws_logs::create([
+                'route' => 'registrarOrdenTallerCls/'.$url,
+                'datos_sugar_crm' => 'registrarOrdenTallerCL',
+                'datos_adicionales' => json_encode($getdata),
+                'response' => $consulta_id,
+                'remember_token' => md5(json_encode($respuesta)),
+                "environment" => get_connection(),
+                "source" => md5(json_encode($respuesta)),
+                'interaccion_id' => '-leido-',
+            ]);
+            $gestionAgendado->codigo_seguimiento_resp_s3s = $respuesta['codTransacion'];
+            $gestionAgendado->save();
+            return $gestionAgendado;
+        }catch (\Exception $e) {
+            // borra la cita o gestion
+            $gestion = GestionAgendado::create([
+                'users_id' => auth()->user()->id,
+                'codigo_seguimiento' => Str::uuid(),
+            ]);
+            foreach ($gestionAgendado->detalleoportunidadcitas as $detalleoportunidadcita) {
+                Log::info("Entro aca2");
+                $cita_borrada = GestionCita::create([
+                    'detalle_gestion_oportunidad_id' => $detalleoportunidadcita->id,
+                    'gestion_agendado_id' => $gestion->id,
+                    'tipo_gestion' => 'borrar_cita'
+                ]);
+                $cita_borrada->save();
+            }
+            //$gestionAgendado->delete();
+            throw new \Exception('División por cero.');
+        }
+
     }
     public function conOrdCLsRecuperados($codAgencia,$placaVehiculo)
     {

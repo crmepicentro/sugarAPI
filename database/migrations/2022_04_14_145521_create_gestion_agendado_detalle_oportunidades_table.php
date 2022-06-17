@@ -21,7 +21,7 @@ class CreateGestionAgendadoDetalleOportunidadesTable extends Migration
             $table->unsignedBigInteger('gestion_agendado_id');
             $table->foreign('gestion_agendado_id','fk_gestion_agendados')->references('id')->on('pvt_gestion_agendados');
 
-            $table->enum('tipo_gestion',['cita','recordatorio','perdido']);
+            $table->enum('tipo_gestion',['cita','recordatorio','perdido','perdido_taller','cita_ok','cita_noshow','borrar_cita']);
             $table->integer('activo')->default(\App\Models\GestionAgendadoDetalleOportunidades::$ESTADO_ACTIVO);
 
             $table->integer('estado_s3s')->default(\App\Models\GestionAgendadoDetalleOportunidades::$ESTADO_INICIAL_S3S);

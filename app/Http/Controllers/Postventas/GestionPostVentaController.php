@@ -98,9 +98,14 @@ class GestionPostVentaController extends Controller
 
     }
     public function s3spostdatacore_registro(GestionAgendado $gestionAgendado, Auto $auto){
-        $registra_cls = Servicios3sController::registrarOrdenTallerCls($gestionAgendado);
-        return redirect()->route('postventa.s3spostdatacore_pantalla',['gestionAgendado' => $registra_cls, 'auto'=> $auto])
-            ->with('mensaje', 'Registro de postventas.');
+        try{
+            $registra_cls = Servicios3sController::registrarOrdenTallerCls($gestionAgendado);
+            return redirect()->route('postventa.s3spostdatacore_pantalla',['gestionAgendado' => $registra_cls, 'auto'=> $auto])
+                ->with('mensaje', 'Registro de postventas.');
+        }catch (\Exception $e){
+            return abort(403, 'Se dio error al registrar postventas.');
+        }
+
 
     }
     public function s3spostdatacore_pantalla(GestionAgendado $gestionAgendado, Auto $auto){
