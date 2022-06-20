@@ -464,7 +464,8 @@ class TicketsController extends BaseController
             'precio',
             'anioMax',
             'anioMin',
-            'combustible'
+            'combustible',
+            'campania'
         ];
 
         $validRequest = $request;
