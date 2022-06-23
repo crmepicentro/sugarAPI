@@ -165,7 +165,10 @@ class Servicios3sController extends Controller
             'codAgencia' => $codAgencia,
             'placaVehiculo' => $placaVehiculo,
         ];
+        Log::channel('log_consulta_bms')->info(print_r( ['url'=>$url, 'getdata' => json_encode($getdata) ] ,true ));
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url, $getdata);
+        Log::channel('log_consulta_bms')->info(print_r( $response->body(),true ));
+        Log::channel('log_consulta_bms')->info(print_r( $response->resolve(),true ));
         //dd($response,config('constants.pv_user_servicio'),config('constants.pv_pass_servicio'),$url,$getdata);
         $respuesta = $response->json();
         Log::error(print_r($respuesta,true));

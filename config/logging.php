@@ -71,6 +71,10 @@ return [
                 'port' => env('PAPERTRAIL_PORT'),
             ],
         ],
+        'log_consulta_bms' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel_consulta_bms.log'),
+        ],
 
         'stderr' => [
             'driver' => 'monolog',
