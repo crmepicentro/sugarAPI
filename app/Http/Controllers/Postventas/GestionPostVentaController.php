@@ -126,14 +126,16 @@ class GestionPostVentaController extends Controller
             $ordenes_detalle->save();
         }
     }
-    public function s3spostdatacore_consulta($codAgencia,$placaVehiculo){
+    public function s3spostdatacore_consulta($codAgencia,$placaVehiculo,$gestion){
 
         if (Cache::has($placaVehiculo)) {
             $registra_clss = Cache::get($placaVehiculo) ;
+
         }else{
             $registra_clss = Servicios3sController::conOrdCLsRecuperados($codAgencia,$placaVehiculo);
             Cache::put($placaVehiculo, $registra_clss, now()->addHours(12));
         }
+        $registra_clss = Servicios3sController::conOrdCLsRecuperados($codAgencia,$placaVehiculo);
         $datos_orden = $this->dar_orden_from_consulta($registra_clss);
         $ordenes_detalles = GestionAgendado::where('codigo_seguimiento', $datos_orden['idGestionSugar'])->first();
         $almenosundato =false;
@@ -225,5 +227,8 @@ class GestionPostVentaController extends Controller
                 $cita->save();
             }
         }
+    }
+    public function s3scancela_gestion(GestionAgendado $gestionAgendado){
+        dd($gestionAgendado);
     }
 }

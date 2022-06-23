@@ -32,6 +32,10 @@ class GestionAgendado extends Model
     {
         return $this->belongsToMany(DetalleGestionOportunidades::class, 'pvt_gestion_agendado_detalle_op', 'gestion_agendado_id', 'detalle_gestion_oportunidad_id');
     }
+    public function gestionagendadodetalleop()
+    {
+        return $this->hasMany(GestionAgendadoDetalleOportunidades::class, 'gestion_agendado_id', 'id');
+    }
     public function detalleoportunidadcitas()
     {
         return $this->belongsToMany(DetalleGestionOportunidades::class, 'pvt_gestion_agendado_detalle_op', 'gestion_agendado_id', 'detalle_gestion_oportunidad_id')

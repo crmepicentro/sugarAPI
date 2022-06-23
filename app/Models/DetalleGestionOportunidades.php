@@ -136,6 +136,21 @@ class DetalleGestionOportunidades extends Model
         ];
     }
 
+    public function getIdgestionAttribute()
+    {
+        if($this->id != null){
+            $dato = GestionAgendadoDetalleOportunidades::where('detalle_gestion_oportunidad_id', $this->id)->orderby('created_at','desc')->first();
+            if($dato != null){
+                return $dato->gestion_agendado_id;
+            }
+        }
+        $todos = DetalleGestionOportunidades::where('ordTaller', $this->ordTaller)->select('id')->get()->pluck('id')->toArray();
+        $dato = GestionAgendadoDetalleOportunidades::whereIn('detalle_gestion_oportunidad_id', $todos )->orderby('created_at','desc')->first();
+        if($dato != null){
+            return $dato->gestion_agendado_id;
+        }
+        return null;
+    }
     /**
      * Funcion solo para FUncion en Listado Auto Ordenes
      * @return mixed

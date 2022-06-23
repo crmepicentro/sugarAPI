@@ -142,13 +142,28 @@
                         </div>
                     </td>
                 @else
-                    @if($oportunidad->gestion_tipo =='cita')
+                    @if($oportunidad->gestion_tipo =='cita' && $oportunidad->s3s_codigo_seguimiento == null )
+                        @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
+                        <td colspan="3" class="proc_{{ $auto->placa }}{{ $gestion->codigo_seguimiento }}">
+                            {{ $gestion }}<br>
+                            <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', {{ $gestion->gestionagendadodetalleop[0]->agencia_cita }},'{{ $auto->placa }}')" >Consulta estado </a>
+                            {!! Form::open([
+                                    'method'=>'DELETE',
+                                    'route' => ['postventa.s3scancela_gestion', ['gestionAgendado'=>'11111111']],
+                                    'style' => 'display:inline'
+                                ]) !!}
+                            {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array(
+                   'type' => 'submit',
+                   'class' => 'btn btn-info btn-sm',
+                   'title' => 'Borrar Modelo',
+                   'onclick'=>'return confirm("Confirmar borrado de modelo?")'
+           )) !!}
 
-                        <td colspan="3" class="proc_{{ $auto->placa }}">
-                            <button type="button" class="btn btn-primary push" data-toggle="layout" data-action="header_loader_on">Start Header Loader</button>
-                            <a href="javascript: consultar_orden_con_placa({{19}},'{{ $auto->placa }}')" >Consulta estado </a></td>
+                            {!! Form::close() !!}
+                        </td>
                     @else
-                        <td colspan="3"> <strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
+                        @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first()->codigo_seguimiento)
+                        <td colspan="3"> {{ $gestion }}<br><strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
                     @endif
                 @endif
             </tr>

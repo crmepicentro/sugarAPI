@@ -159,13 +159,15 @@
         /** verica si laplaca tiene una orden creada
          *
          */
-        function consultar_orden_con_placa(agencia,placa, area_div){
+        function consultar_orden_con_placa(gestion,agencia,placa, area_div){
             //do stuff
-            var url_get_data = '{{ route('postventa.s3spostdatacore_consulta',['codAgencia'=>'codagencia__xxx7','placaVehiculo'=> 'placa__xxx8']) }}';
+            var url_get_data = '{{ route('postventa.s3spostdatacore_consulta',['codAgencia'=>'codagencia__xxx7','placaVehiculo'=> 'placa__xxx8','gestion'=>'gestion__xxx8']) }}';
             url_get_data = url_get_data.replace('codagencia__xxx7',agencia);
             url_get_data = url_get_data.replace('placa__xxx8',placa);
+            url_get_data = url_get_data.replace('gestion__xxx8',gestion);
+            console.log(url_get_data);
             //Dashmix.layout('header_loader_on');
-            $('.proc_'+placa).html('<i class="fa fa-4x fa-circle-notch fa-spin text-danger"></i>');
+            $('.proc_'+placa+gestion).html('<i class="fa fa-4x fa-circle-notch fa-spin text-danger"></i>');
             $.ajax({
                 url: url_get_data,
                 type:"GET",
@@ -190,6 +192,9 @@
                 }
             });
 
+        }
+        function cancelar_orden_con_placa(agencia,placa, area_div){
+            var url_get_data = '{{ route('postventa.s3scancela_gestion',['gestionAgendado'=>'codagencia__xxx7']) }}';
         }
 
         /**

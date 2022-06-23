@@ -120,8 +120,6 @@ class Servicios3sController extends Controller
         $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/registrarOrdenTallerCL';
         $getdata = $gestionAgendado->citas3s;
         try{
-            throw new \Exception('División por cero.');
-            //dd( json_encode($getdata) );
             $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
             $respuesta = $response->json();
             $consulta_id = Str::uuid().'.txt';
@@ -168,8 +166,9 @@ class Servicios3sController extends Controller
             'placaVehiculo' => $placaVehiculo,
         ];
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url, $getdata);
-
+        //dd($response,config('constants.pv_user_servicio'),config('constants.pv_pass_servicio'),$url,$getdata);
         $respuesta = $response->json();
+        Log::error(print_r($respuesta,true));
         return $respuesta;
     }
 
@@ -213,6 +212,7 @@ class Servicios3sController extends Controller
                 'codigo' => '-1',
             ]);
         }
+
         if (Cache::has($placa_vehiculo)) {
             return Response::make(Storage::disk('pv_data_cabe_pdf_auto')->get(Cache::get($placa_vehiculo)), 200, [
                 'Content-Type' => 'application/pdf',
