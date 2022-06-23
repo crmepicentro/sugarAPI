@@ -230,7 +230,7 @@ class GestionPostVentaController extends Controller
         }
     }
     public function s3scancela_gestion($detalle_gestion_oportunidad_id){
-       
+
         $gestion = GestionAgendado::create([
             'users_id' => auth()->user()->id,
             'codigo_seguimiento' => Str::uuid(),
@@ -242,6 +242,6 @@ class GestionPostVentaController extends Controller
             'tipo_gestion' => 'borrar_cita'
         ]);
         $cita_borrada->save();
-
+        return response()->json(['message' => 'Borrado'], 200);
     }
 }
