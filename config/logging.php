@@ -75,6 +75,10 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/laravel_consulta_bms.log'),
         ],
+        'log_consulta_ordenes' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel_consulta_ordens.log'),
+        ],
 
         'stderr' => [
             'driver' => 'monolog',

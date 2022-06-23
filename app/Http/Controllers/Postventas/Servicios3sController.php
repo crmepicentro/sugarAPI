@@ -120,7 +120,9 @@ class Servicios3sController extends Controller
         $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/registrarOrdenTallerCL';
         $getdata = $gestionAgendado->citas3s;
         try{
+            Log::channel('log_consulta_bms')->info(print_r( ['url'=>$url, 'getdata' => json_encode($getdata) ] ,true ));
             $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->post($url, $getdata);
+            Log::channel('log_consulta_bms')->info(print_r( $response->body(),true ));
             $respuesta = $response->json();
             $consulta_id = Str::uuid().'.txt';
             Storage::disk('pv_data_cabe')->put($consulta_id, json_encode($respuesta));
@@ -168,7 +170,6 @@ class Servicios3sController extends Controller
         Log::channel('log_consulta_bms')->info(print_r( ['url'=>$url, 'getdata' => json_encode($getdata) ] ,true ));
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url, $getdata);
         Log::channel('log_consulta_bms')->info(print_r( $response->body(),true ));
-        Log::channel('log_consulta_bms')->info(print_r( $response->resolve(),true ));
         //dd($response,config('constants.pv_user_servicio'),config('constants.pv_pass_servicio'),$url,$getdata);
         $respuesta = $response->json();
         Log::error(print_r($respuesta,true));
@@ -184,7 +185,9 @@ class Servicios3sController extends Controller
             'codOrdenTaller'    => $codOrdenTaller,
         ];
         $consulta_id = Str::uuid().'.txt';
+        Log::channel('log_consulta_ordenes')->info(print_r( ['url'=>$url, 'getdata' => json_encode($getdata) ] ,true ));
         $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url,$getdata);
+        Log::channel('log_consulta_ordenes')->info(print_r( $response->body(),true ));
         $respuesta = $response->json();
         Storage::disk('pv_data_cabe_deta')->put($consulta_id, json_encode($respuesta));
         $ws_logs = Ws_logs::create([
