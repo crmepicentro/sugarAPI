@@ -193,8 +193,34 @@
             });
 
         }
-        function cancelar_orden_con_placa(agencia,placa, area_div){
-            var url_get_data = '{{ route('postventa.s3scancela_gestion',['gestionAgendado'=>'codagencia__xxx7']) }}';
+        function cancelar_orden_id_gestion(detalle_gestion_oportunidad_id){
+            if(confirm("Confirma borrado de envio de gestion")){
+                var url_get_data = '{{ route('postventa.s3scancela_gestion',['detalle_gestion_oportunidad_id'=>'detalle_gestion_oportunidad_id__xxx13']) }}';
+                url_get_data = url_get_data.replace('detalle_gestion_oportunidad_id__xxx13',detalle_gestion_oportunidad_id);
+
+                $.ajax({
+                    url: url_get_data,
+                    type:"GET",
+                    data: null,
+                    success:function(response){
+                        console.log(response);
+                        if(response) {
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        alert('Error al enviar los datos.: '+JSON.stringify(error));
+                        console.error('Error Dfg90');
+                        if(error.status==404){
+                            alert('Se dio un error.');
+                            alert(error.responseText);
+                            location.reload()
+                        }
+                        console.error(error);
+                        location.reload()
+                    }
+                });
+            }
         }
 
         /**

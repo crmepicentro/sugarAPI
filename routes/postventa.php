@@ -21,7 +21,7 @@ Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}/{id_auto}',[P
 Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore_registro'])->name('postventa.s3spostdatacore');
 Route::get('/vehiculos/faces/jsp/consulta/masters/s3ssistemacore_registro/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'s3spostdatacore_pantalla'])->name('postventa.s3spostdatacore_pantalla');
 Route::get('/vehiculos/faces/jsp/consulta/masters/recupera_respuesta_s3ssistemacore/{codAgencia}/{placaVehiculo}/{gestion}',[GestionPostVentaController::class,'s3spostdatacore_consulta'])->name('postventa.s3spostdatacore_consulta');
-Route::delete('/vehiculos/faces/jsp/consulta/masters/cencela_reserva_s3ssistemacore/{gestionAgendado}',[GestionPostVentaController::class,'s3scancela_gestion'])->name('postventa.s3scancela_gestion');
+Route::get('/vehiculos/faces/jsp/consulta/masters/cencela_reserva_s3ssistemacore/{detalle_gestion_oportunidad_id}',[GestionPostVentaController::class,'s3scancela_gestion'])->name('postventa.s3scancela_gestion');
 Route::get('/vehiculos/faces/jsp/consulta/masters/respuesta_s3ssistemacore/{codigo_seguimiento}',[GestionPostVentaController::class,'s3spostdatacore_respuesta'])->name('postventa.s3spostdatacorerespuesta');
 
 Route::get('s3s_sistema', function ( \App\Http\Requests\Request $request) {

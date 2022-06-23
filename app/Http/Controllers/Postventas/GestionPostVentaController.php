@@ -11,6 +11,7 @@ use App\Models\GestionAgendado;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -228,7 +229,19 @@ class GestionPostVentaController extends Controller
             }
         }
     }
-    public function s3scancela_gestion(GestionAgendado $gestionAgendado){
-        dd($gestionAgendado);
+    public function s3scancela_gestion($detalle_gestion_oportunidad_id){
+       
+        $gestion = GestionAgendado::create([
+            'users_id' => auth()->user()->id,
+            'codigo_seguimiento' => Str::uuid(),
+        ]);
+        Log::info("Entro aca2");
+        $cita_borrada = GestionCita::create([
+            'detalle_gestion_oportunidad_id' => $detalle_gestion_oportunidad_id,
+            'gestion_agendado_id' => $gestion->id,
+            'tipo_gestion' => 'borrar_cita'
+        ]);
+        $cita_borrada->save();
+
     }
 }

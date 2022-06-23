@@ -147,19 +147,15 @@
                         <td colspan="3" class="proc_{{ $auto->placa }}{{ $gestion->codigo_seguimiento }}">
                             {{ $gestion }}<br>
                             <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', {{ $gestion->gestionagendadodetalleop[0]->agencia_cita }},'{{ $auto->placa }}')" >Consulta estado </a>
-                            {!! Form::open([
-                                    'method'=>'DELETE',
-                                    'route' => ['postventa.s3scancela_gestion', ['gestionAgendado'=>'11111111']],
-                                    'style' => 'display:inline'
-                                ]) !!}
+<br/>
                             {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array(
-                   'type' => 'submit',
+                   'type' => 'button',
                    'class' => 'btn btn-info btn-sm',
                    'title' => 'Borrar Modelo',
-                   'onclick'=>'return confirm("Confirmar borrado de modelo?")'
+                   'name' => 'formborrad'.$oportunidad->id.'.borrado',
+                   'onclick'=>'cancelar_orden_id_gestion('.$oportunidad->id.')',
            )) !!}
 
-                            {!! Form::close() !!}
                         </td>
                     @else
                         @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first()->codigo_seguimiento)
