@@ -14,6 +14,11 @@ use App\Models\TalksOpportunities;
 use App\Models\TalksTraffic;
 use App\Models\Traffic;
 use App\Models\Users;
+use App\Models\Avaluos;
+use App\Models\Strapi\Colors;
+use App\Models\Strapi\Brands;
+use App\Models\Strapi\Models;
+use App\Models\Strapi\Descriptions;
 
 class TalksController extends Controller
 {
@@ -64,10 +69,20 @@ class TalksController extends Controller
                 $opportunity->business_line = BusinessLine::where('id', $opportunity->cb_lineanegocio_id_c)->select('name')->first();
             }
 
-            $talksAppraisals = TalksAppraisals::where('cb_negociacion_cb_avaluoscb_negociacion_ida', $t->id)->pluck('cb_negociacion_cb_avaluoscb_avaluos_idb');
-            $t->appraisals = Appraisals::whereIn('id', $talksAppraisals)->where('deleted', 0)
-                ->selectRaw('id, name, estadotecnico, numavaluotecnico, CONVERT_TZ(date_entered,\'+00:00\',\'-05:00\') as convert_date_entered, CONVERT_TZ(fechaavaluotecnico,\'+00:00\',\'-05:00\') as fechaavaluotecnico, CONVERT_TZ(fechasolicitudtecnico,\'+00:00\',\'-05:00\') as fechasolicitudtecnico, tipo, preciocliente')
+            $talksAppraisals = TalksAppraisals::where('cbav_avaluoscrm_cb_negociacioncb_negociacion_ida', $t->id)->pluck('cbav_avaluoscrm_cb_negociacioncbav_avaluoscrm_idb');
+            $t->appraisals = Avaluos::whereIn('id', $talksAppraisals)->where('deleted', 0)
+                ->selectRaw('id, name,description, placa,                marca, modelo, 
+                modelo_descripcion,color,recorrido, tipo_recorrido,         
+                       precio_aprobado,estado_avaluo, fecha_aprobacion, observacion, comentario,assigned_user_id,CONVERT_TZ(date_entered,\'+00:00\',\'-05:00\') as convert_date_entered')
                 ->orderBy('date_entered', 'desc')->get();
+                foreach ($t->appraisals as $appraisal)
+                {
+                    $appraisal->user = Users::where('id', $appraisal->assigned_user_id)->select('first_name', 'last_name')->first();
+                    $appraisal->color = Colors::where('id', $appraisal->color)->select('name')->first();
+                    $appraisal->brand = Brands::where('id', $appraisal->marca)->select('name')->first();
+                    $appraisal->model = Models::where('id', $appraisal->modelo)->select('name')->first();
+                    $appraisal->description = Descriptions::where('id', $appraisal->modelo_descripcion)->select('description')->first();
+                }
         }
 
         return $data;
