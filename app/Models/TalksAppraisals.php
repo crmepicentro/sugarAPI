@@ -9,10 +9,10 @@ class TalksAppraisals extends Model
 {
     use HasFactory;
     protected $connection = 'sugar_dev';
-    protected $table = 'cb_negociacion_cb_avaluos_c';
+    protected $table = 'cbav_avaluoscrm_cb_negociacion_c';
     public $timestamps = false;
     public $incrementing = false;
-    protected $fillable = ['date_modified', 'deleted', 'cb_negociacion_cb_avaluoscb_negociacion_ida', 'cb_negociacion_cb_avaluoscb_avaluos_idb'];
+    protected $fillable = ['date_modified', 'deleted', 'cbav_avaluoscrm_cb_negociacioncb_negociacion_ida', 'cbav_avaluoscrm_cb_negociacioncbav_avaluoscrm_idb'];
     /**
      * @var mixed|string
      */
