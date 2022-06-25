@@ -16,14 +16,12 @@ class PersonaJuridicaController extends Controller
 
     public function create(Request $request)
     {
-        $compania = $request->query('compania');
+        $compania = $request->query("compania");
+        $tipoPersona = $request->query("persona");
         // return response()->json(['success' => $request], 200);
         try {
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
-            // $prueba = $solicitud->generarPDF();
-            // return response()->json(['success' => $prueba], 200);
-
             $solicitud->save();
         //empresa
             $empresa = $this->fillEmpresa($request);
@@ -45,10 +43,13 @@ class PersonaJuridicaController extends Controller
                     $patrimonio->save();
                 }
             }
+            return response()->json([
+                "success" => "Guardado exitoso",
+                "dowmload" => route("dowmload.solicitud.credito",[$compania, $tipoPersona, $solicitud->id_cotizacion])
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
-        return response()->json(['success' => 'Guardado exitoso'], 200);
     }
 
     private function fillSolicitud(Request $request)

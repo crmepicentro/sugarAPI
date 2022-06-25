@@ -14,66 +14,66 @@
 <!-- /*   Fin Cabecera   */ -->
 
 
-    <div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
-        <div class="bb-width-100 bb-text-19 bb-font-semibold bb-mb-15 bb-ml-3" >Datos Generales</div>
-        <table class="bb-width-100" cellspacing="0" cellpadding="0">
-            <tr>
-                <td colspan="3">
-                    <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Producto
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+    <div class="bb-width-100 bb-text-19 bb-font-semibold bb-mb-15 bb-ml-3" >Datos Generales</div>
+    <table class="bb-width-100" cellspacing="0" cellpadding="0">
+        <tr>
+            <td colspan="3">
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Producto
+                <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
+            </td>
+            <td>
+                <div class="bb-mb-10 bb-font-medium bb-text-13 bb-outline bb-p-7 bb-text-gray">ID de Cotización
+                    <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div>
+                </div>
+            </td>
+        </tr>
+
+        <tr >
+            <td>
+                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Valor de Producto
                     <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
-                </td>
-                <td>
-                    <div class="bb-mb-10 bb-font-medium bb-text-13 bb-outline bb-p-7 bb-text-gray">ID de Cotización
-                        <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div>
-                    </div>
-                </td>
-            </tr>
+            </td>
+            <td>
+                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Entrada
+                    <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div></td>
+            <td>
+                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Valor a financiar
+                <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
+            </td>
+            <td>
+                <table class="bb-width-100" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            <div class="bb-mb-10 bb-bg-gray  bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Plazo
+                            <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
+                        </td>
+                        <td align="center" valign="top" class="bb-font-medium bb-text-15 bb-mb-10">
+                            <div style="border: 1px solid gray; padding: 14px 0">
+                                meses
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-            <tr >
-                <td>
-                    <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Valor de Producto
-                        <br><div class="bb-text-black bb-mt-3 bb-text-15">100.000</div></div>
-                </td>
-                <td>
-                    <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Entrada
-                        <br><div class="bb-text-black bb-mt-3 bb-text-15">100.000</div></div></td>
-                <td>
-                    <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Valor a financiar
-                    <br><div class="bb-text-black bb-mt-3 bb-text-15">100.000</div></div>
-                </td>
-                <td>
-                    <table cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td>
-                                <div class="bb-mb-10 bb-bg-gray  bb-font-medium bb-p-7 bb-text-13 bb-text-gray">Plazo
-                                <br><div class="bb-text-black bb-mt-3 bb-text-15">100.000</div></div>
-                            </td>
-                            <td>
-                                <div >
-                                    meses
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-
-            <tr>
-                <td >
-                    <div class="bb-bg-gray bb-p-7 bb-mr-10 bb-font-medium bb-text-13 bb-text-gray">Fecha de solicitud
-                        <br><div class="bb-text-black bb-mt-3 bb-text-15">0987654321</div></div>
-                </td>
-                <td colspan="2">
-                    <div class="bb-font-medium bb-mr-10 bb-bg-gray bb-text-13 bb-p-7 bb-text-gray">Asesor
-                        <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
-                </td>
-                <td >
-                    <div class="bb-bg-gray bb-p-7 bb-mr-10 bb-font-medium bb-text-13 bb-text-gray">Agencia
-                        <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
-                </td>
-            </tr>
-        </table>
-    </div>
+        <tr>
+            <td >
+                <div class="bb-bg-gray bb-p-7 bb-mr-10 bb-font-medium bb-text-13 bb-text-gray">Fecha de solicitud
+                    <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
+            </td>
+            <td colspan="2">
+                <div class="bb-font-medium bb-mr-10 bb-bg-gray bb-text-13 bb-p-7 bb-text-gray">Asesor
+                    <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
+            </td>
+            <td >
+                <div class="bb-bg-gray bb-p-7 bb-mr-10 bb-font-medium bb-text-13 bb-text-gray">Agencia
+                    <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
+            </td>
+        </tr>
+    </table>
+</div>
 
 <!-- Formulario 2 -->
     <div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
@@ -141,7 +141,7 @@
     </div>
 
 <!-- Formulario 3 -->
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100" style="margin-bottom: 80px">
     <div class="bb-width-100 bb-text-19 bb-font-semibold bb-mb-15 bb-ml-3" >Datos de ubicación de domicilio</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
@@ -211,8 +211,10 @@
                                 <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div>
                             </div>
                         </td>
-                        <td>
-                            años
+                        <td align="center" style="width: 60px">
+                            <div style="border: 1px solid gray; padding: 15px 0">
+                                años
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -257,8 +259,10 @@
                                 <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div>
                             </div>
                         </td>
-                        <td>
-                            <div class="bb-mb-10">años</div>
+                        <td align="center" valign="top" style="width: 60px">
+                            <div style="border: 1px solid gray; padding: 16px 0">
+                                años
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -324,8 +328,10 @@
                                 <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div>
                             </div>
                         </td>
-                        <td>
-                            <div class="bb-mb-10">años</div>
+                        <td align="center" valign="top" style="width: 60px">
+                            <div style="border: 1px solid gray; padding: 16px 0">
+                                años
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -369,42 +375,42 @@
                     </tr>
                     <tr>
                         <td width="150px">
-                            <div class="bb-border-bt bb-font-medium bb-pb-5 bb-pl-3 bb-text-17 bb-text-black">Sueldo/Ventas mensuales</div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-medium bb-mr-10 bb-pb-5 bb-pl-3 bb-text-15 bb-text-black">Sueldo/Ventas mensuales</div>
                         </td>
                         <td >
-                            <div class=" bb-bg-gray bb-font-medium bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class=" bb-bg-gray bb-mb-10 bb-font-medium bb-width-100 bb-pd-10 bb-text-15 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-font-medium bb-pb-5 bb-pl-3 bb-text-17 bb-text-black">Otros ingresos</div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-medium bb-pb-5 bb-mr-10 bb-pl-3 bb-text-15 bb-text-black">Otros ingresos</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-font-medium bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-width-100 bb-text-15 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-pb-5 bb-text-17 bb-pl-3 bb-text-black bb-font-bold">Total ingresos</div>
+                            <div class="bb-border-bt bb-text-15 bb-mb-10 bb-mr-10 bb-text-black bb-font-bold">Total ingresos</div>
                         </td>
                         <td colspan="2"  >
-                            <div class="bb-font-medium bb-border-me bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class="bb-font-medium bb-mb-10 bb-border-me bb-text-15 bb-width-100 bb-pd-10 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt  bb-font-medium bb-pb-5 bb-pl-3 bb-text-17 bb-text-black">Sueldo del cónyugue</div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-medium bb-mr-10 bb-text-15 bb-text-black">Sueldo del cónyugue</div>
                         </td>
                         <td  >
-                            <div class="bb-font-medium bb-bg-gray bb-text-17 bb-pd-10 bb-text-black">$</div>
+                            <div class="bb-font-medium bb-mb-10 bb-bg-gray bb-text-15 bb-width-100 bb-pd-10 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-font-bold bb-pb-5 bb-pl-3 bb-text-17 bb-text-black"><span>Total ingreso familiar</span> </div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-bold bb-mr-10 bb-text-15 bb-text-black"><span>Total ingreso familiar</span> </div>
                         </td>
                         <td  >
-                            <div class="bb-border-me bb-font-medium bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class="bb-border-me bb-mb-10 bb-font-medium bb-text-15 bb-width-100 bb-pd-10 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -420,47 +426,47 @@
                 <table cellspacing="0" cellpadding="0">
                     <tr>
                         <td class="bb-title2" colspan="2">
-                            <div class="bb-width-100 bb-text-19 bb-font-semibold bb-mb-15" > Gastos / egresos mensuales </div>
+                            <div class="bb-width-100 bb-text-19 bb-mb-10 bb-font-semibold bb-mb-15" > Gastos / egresos mensuales </div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-font-medium bb-pb-5 bb-pl-3 bb-text-17 bb-text-black">Alimentación</div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-15 bb-text-black">Alimentación</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-font-medium bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-text-15 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-font-medium bb-pb-5 bb-pl-3 bb-text-17 bb-text-black">Arriendo / Vivienda</div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-15 bb-text-black">Arriendo / Vivienda</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-font-medium bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-text-15 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-font-medium bb-pb-5 bb-pl-3 bb-text-17 bb-text-black">Entidades bancarias</div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-15 bb-text-black">Entidades bancarias</div>
                         </td>
                         <td  >
-                            <div class="bb-border-me bb-font-medium bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class="bb-border-me bb-mb-10 bb-font-medium bb-pd-10 bb-text-15 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-font-medium bb-pb-5 bb-pl-3 bb-text-17 bb-text-black">Otros gastos</div>
+                            <div class="bb-border-bt bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-15 bb-text-black">Otros gastos</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-font-medium bb-pd-10 bb-text-17 bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-text-15 bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td  width="150px">
-                            <div class="bb-border-bt bb-font-bold bb-pb-5 bb-pl-3 bb-text-17 bb-text-black ">Total gastos / egresos</div>
+                            <div class="bb-border-bt bb-font-bold bb-pb-5 bb-pl-3 bb-text-15 bb-text-black ">Total gastos / egresos</div>
                         </td>
                         <td  >
-                            <div class="bb-border-me bb-font-medium bb-pd-10 bb-text-17 bb-text-black ">$</div>
+                            <div class="bb-border-me bb-font-medium bb-pd-10 bb-text-15 bb-text-black ">$</div>
                         </td>
                     </tr>
                 </table>
@@ -655,15 +661,49 @@
                     <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-13 bb-text-gray ">Ciudad
+                <div class="bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-13 bb-text-gray ">Ciudad
                     <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-text-13 bb-text-gray ">Teléfono
+                <div class="bb-bg-gray bb-font-medium bb-p-7 bb-text-13 bb-text-gray ">Teléfono
                     <br><div class="bb-text-black bb-mt-3 bb-text-15">Texto</div></div>
             </td>
         </tr>
     </table>
+</div>
+<div class="absolute bottom-0">
+    <table class="bb-width-100 bb-mb-60" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center">
+                <div class="bb-text-13 bb-font-semibold bb-bg-gray bb-p-7">
+                    DECLARACIÓN Y AUTORIZACIÓN DE CONSULTA DE BURÓ DE CRÉDITO:
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="bb-text-10 bb-px-10 bb-font-medium">
+                    Declaro (amos) y me (nos) responsabilizo (amos) de que toda la información contenida en esta solicitud es correcta. Así mismo para facilitar el proceso de mi solicitud de crédito, expresamente autorizo (amos) a Casabaca S.A., Importadora Tomebamba S.A., Comprasigma S.A., así como cualquier otra institución legalmente constituida del sistema financiero y no financiero que el cliente escoja para obtener su crédito,  mecanismos de compra de cartera o compra programada, para que obtenga(n) de cualquier fuente de información cuantas veces sean necesarias, referencias relativas a mi (nuestras) obligaciones incluida la Central de Riesgos y Burós de Información Crediticia autorizados para operar en el país, mis referencias personales y/o patrimoniales anteriores o posteriores a la suscripción de esta autorización, sea como deudor principal, codeudor o garante, sobre mi comportamiento crediticio, manejo de mi(s) cuenta(s), corriente(s), de ahorro, tarjetas de crédito, etc., y en general al cumplimiento de mis obligaciones y demás activos, pasivos, datos personales y/o patrimoniales, aplicables para uno o más de los servicios y productos que brindan las Instituciones del Sistema Financiero y no financiero, que sean compradores de cartera, según corresponda; así mismo autorizamos también a que se proporcione información a (de) sociedades de información crediticia autorizadas, burós de crédito o cualquier de naturaleza similar sobre operaciones de crédito y otras análogas que haya (amos) celebrado o celebre (emos); así también para que se realicen visitas domiciliarias, del negocio o empresa si fuera del caso.
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table class="bb-width-75 bb-mx-auto bb-mb-20" cellspacing="0" cellpadding="0">
+        <tr>
+            <td align="center" class="bb-width-250">
+                <div class="border-top bb-text-15 bb-font-medium">
+                    Firma
+                </div>
+            </td>
+            <td style="width: 50px"></td>
+            <td align="center" class="bb-width-250">
+                <div class="border-top bb-text-15 bb-font-medium">
+                    Firma Cónyuge
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="bb-bg-red bb-p-10"></div>
 </div>
 </body>
 </html>

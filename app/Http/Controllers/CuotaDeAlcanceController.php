@@ -58,11 +58,15 @@ class CuotaDeAlcanceController extends Controller
 
     public function deleteFile($idCuota, $id, $nombre)
     {
-        // $path='cutas-alcance/'.$nombre;
-        // Storage::delete($path);
-        CuotaArchivo::where('id', $id)
-                        ->where('id_cuota_alcance',$idCuota)
-                        ->update([ "borrado" => true ]);
-        return response()->json(['success' => 'Archivo borrado'], 200);
+        $path='cutas-alcance/'.$nombre;
+        try {
+            Storage::delete($path);
+            CuotaArchivo::where('id', $id)
+                            ->where('id_cuota_alcance',$idCuota)
+                            ->update([ "borrado" => true ]);
+            return response()->json(['success' => 'Archivo borrado'], 200);
+        } catch (\Exception $e) {
+            return response()->json(["error" => $e . " - Notifique a SUGAR CRM Casabaca"], 500);
+        }
     }
 }
