@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Postventas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auto;
+use App\Models\DetalleGestionOportunidades;
 use App\Models\Gestion\GestionCita;
 use App\Models\Gestion\GestionDesiste;
 use App\Models\Gestion\GestionRecordatorio;
@@ -113,12 +114,15 @@ class GestionPostVentaController extends Controller
         return view('postventas.gestion.simula_s3s', compact('gestionAgendado','auto'));;
     }
     public function dar_orden_from_consulta($registra_clss){
+        if($registra_clss == null ){
+            return ['codServ' => '', 'idGestionSugar' => '','ordTaller'=> '','codAgencia' => ''];
+        }
         if($registra_clss['nomMensaje'] == 'EXITO' &&  count($registra_clss['listaClsRecuperados']) >0) {
             foreach ($registra_clss['listaClsRecuperados'] as $registra_cls) {
-                return ['codServ' => $registra_cls['codServ'], 'idGestionSugar' => $registra_cls['idGestionSugar']];
+                return ['codServ' => $registra_cls['codServ'], 'idGestionSugar' => $registra_cls['idGestionSugar'] ,'ordTaller'=> $registra_cls['ordTaller'],'codAgencia' => $registra_cls['codAgencia'],'placaVehiculo'=> $registra_cls['placaVehiculo'], 'fechaCita' => Carbon::createFromFormat('d/m/y',$registra_cls['fechaCita']),  'codEstOrdTaller' => $registra_cls['codEstOrdTaller'] ];
             }
         }else{
-            return ['codServ' => '', 'idGestionSugar' => ''];
+            return ['codServ' => '', 'idGestionSugar' => '','ordTaller'=> '','codAgencia' => '','placaVehiculo' => '','fechaCita' => '', 'codEstOrdTaller' => ''];
         }
     }
     private function set_ordenorden_desiste($ordenes_detalles){
@@ -127,12 +131,44 @@ class GestionPostVentaController extends Controller
             $ordenes_detalle->save();
         }
     }
+    public function compararOrdenGestionvsSistema(GestionAgendado $gestionAgendado,$consultaApiDetalleCabecera_main ){
+        $consultas = Servicios3sController::consultaApiDetalleCabecera_main($consultaApiDetalleCabecera_main['codAgencia'],$consultaApiDetalleCabecera_main['ordTaller'])['listaOrdenTallerCL'];
+        $copia_detalles = (new \ArrayObject($gestionAgendado->detalleoportunidadcitas->toArray()))->getArrayCopy();
+        foreach ($consultas as $consutas3s ){
+            foreach ($copia_detalles as $copia_detalle){
+                $serv = new Servicios3sController();
+                if($serv->cancelar_gestion($copia_detalle['id'])){
+                    Log::error('GestionPostVentaController->compararOrdenGestionvsSistema error cancelando: detalle_gestion_oportunidad_id: '.$copia_detalle['id']);
+                }
+                if($consutas3s['codServ'] == $copia_detalle['codServ']){
+                    $ordenes_detalle_control = DetalleGestionOportunidades::where('oportunidad_id',
+                        json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$consultaApiDetalleCabecera_main['codServ']] )
+                    );
+                    if($ordenes_detalle_control->count() == 0){
+                        $ordenes_detalle = DetalleGestionOportunidades::where('id',$copia_detalle['id'])->firstorfail();
+                        $ordenes_detalle->oportunidad_id = json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$consultaApiDetalleCabecera_main['codServ']] );
+                        $ordenes_detalle->cita_fecha = $consultaApiDetalleCabecera_main['fechaCita'];
+                        $ordenes_detalle->s3s_codigo_seguimiento = $consultaApiDetalleCabecera_main['ordTaller'];
+                        $ordenes_detalle->s3s_codigo_estado_taller = $consultaApiDetalleCabecera_main['codEstOrdTaller'];
+                        $ordenes_detalle->save();
+                    }else{
+                        Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::compararOrdenGestionvsSistema", 'Error Repetido: [select * from pvt_detalle_gestion_oportunidades
+where oportunidad_id =]' => json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$consultaApiDetalleCabecera_main['codServ']] ) ] ,true ));
+                    }
+
+                }
+            }
+        }
+
+    }
     public function s3spostdatacore_consulta($codAgencia,$placaVehiculo,$gestion){
 
         $registra_clss = Servicios3sController::conOrdCLsRecuperados($codAgencia,$placaVehiculo);
-
         $datos_orden = $this->dar_orden_from_consulta($registra_clss);
         $ordenes_detalles = GestionAgendado::where('codigo_seguimiento', $datos_orden['idGestionSugar'])->first();
+
+        $this->compararOrdenGestionvsSistema($ordenes_detalles, $datos_orden);
+
         $almenosundato =false;
         if($registra_clss <> null && $registra_clss['nomMensaje'] == 'EXITO' &&  count($registra_clss['listaClsRecuperados']) >0){
             foreach ($registra_clss['listaClsRecuperados'] as $registra_cls){
@@ -224,18 +260,10 @@ class GestionPostVentaController extends Controller
         }
     }
     public function s3scancela_gestion($detalle_gestion_oportunidad_id){
-
-        $gestion = GestionAgendado::create([
-            'users_id' => auth()->user()->id,
-            'codigo_seguimiento' => Str::uuid(),
-        ]);
-        Log::info("Entro aca2");
-        $cita_borrada = GestionCita::create([
-            'detalle_gestion_oportunidad_id' => $detalle_gestion_oportunidad_id,
-            'gestion_agendado_id' => $gestion->id,
-            'tipo_gestion' => 'borrar_cita'
-        ]);
-        $cita_borrada->save();
-        return response()->json(['message' => 'Borrado'], 200);
+        $serv = new Servicios3sController();
+        if($serv->cancelar_gestion($detalle_gestion_oportunidad_id)){
+            return response()->json(['message' => 'Borrado'], 200);
+        }
+        return response()->json(['message' => 'Error en Borrado'], 404);
     }
 }

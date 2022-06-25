@@ -176,6 +176,25 @@ class Servicios3sController extends Controller
         return $respuesta;
     }
 
+    public function cancelar_gestion($detalle_gestion_oportunidad_id){
+        try {
+            $gestion = GestionAgendado::create([
+                'users_id' => auth()->user()->id,
+                'codigo_seguimiento' => Str::uuid(),
+            ]);
+            $cita_borrada = GestionCita::create([
+                'detalle_gestion_oportunidad_id' => $detalle_gestion_oportunidad_id,
+                'gestion_agendado_id' => $gestion->id,
+                'tipo_gestion' => 'borrar_cita'
+            ]);
+            $cita_borrada->save();
+            return true;
+        }catch ( \Exception $exception){
+            Log::channel('log_consulta_bms')->info(print_r( ['detalle_gestion_oportunidad_id'=>$detalle_gestion_oportunidad_id, 'error' => $exception ] ,true ));
+            return false;
+        }
+    }
+
     public function consultaApiDetalleCabecera_main( $codAgencial , $codOrdenTaller )
     {
         $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/consultaOrdenTallerCL';
