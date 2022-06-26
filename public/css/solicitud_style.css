@@ -277,15 +277,15 @@
     width: 90%;
 }
 
-.bb-text-19{
-    font-size: 19px;
+.bb-text-title{
+    font-size: 15px;
 }
 
-.bb-text-13{
-    font-size: 13px;
+.bb-text-label{
+    font-size: 10px;
 }
-.bb-text-15{
-    font-size: 15px;
+.bb-text-data{
+    font-size: 13px;
 }
 
 .bb-text-10{
@@ -397,7 +397,10 @@
     padding: 7px;
 }
 .bb-outline{
-    outline: 1px solid red;
+    outline: 1px solid #ED1B2F;
+}
+.bb-outline-blue{
+    outline: 1px solid #2D257D;
 }
 
 .w-full{

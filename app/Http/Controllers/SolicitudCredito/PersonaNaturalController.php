@@ -78,6 +78,8 @@ class PersonaNaturalController extends Controller
     {
         $pdf = PDF::loadView("solicitud.cbNatural");
         // $pdf = PDF::loadView("solicitud.cbJuridico");
+        // $pdf = PDF::loadView("solicitud.milNatural");
+        // $pdf = PDF::loadView("solicitud.milJuridica");
         return $pdf->stream("solicitud.pdf");
     }
 
