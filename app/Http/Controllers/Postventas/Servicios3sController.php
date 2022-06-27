@@ -146,7 +146,6 @@ class Servicios3sController extends Controller
                 'codigo_seguimiento' => Str::uuid(),
             ]);
             foreach ($gestionAgendado->detalleoportunidadcitas as $detalleoportunidadcita) {
-                Log::info("Entro aca2");
                 $cita_borrada = GestionCita::create([
                     'detalle_gestion_oportunidad_id' => $detalleoportunidadcita->id,
                     'gestion_agendado_id' => $gestion->id,

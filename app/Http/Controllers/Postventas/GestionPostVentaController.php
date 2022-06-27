@@ -133,13 +133,12 @@ class GestionPostVentaController extends Controller
     }
     public function compararOrdenGestionvsSistema(GestionAgendado $gestionAgendado,$consultaApiDetalleCabecera_main ){
         $consultas = Servicios3sController::consultaApiDetalleCabecera_main($consultaApiDetalleCabecera_main['codAgencia'],$consultaApiDetalleCabecera_main['ordTaller'])['listaOrdenTallerCL'];
-        $copia_detalles = (new \ArrayObject($gestionAgendado->detalleoportunidadcitas->toArray()))->getArrayCopy();
+        $copia_detalles = $gestionAgendado->detalleoportunidadcitas->toArray();
         foreach ($consultas as $consutas3s ){
             foreach ($copia_detalles as $copia_detalle){
-                $serv = new Servicios3sController();
-                if($serv->cancelar_gestion($copia_detalle['id'])){
-                    Log::error('GestionPostVentaController->compararOrdenGestionvsSistema error cancelando: detalle_gestion_oportunidad_id: '.$copia_detalle['id']);
-                }
+                $ordenes_detalle_del = DetalleGestionOportunidades::where('id',$copia_detalle['id'])->first();
+                $ordenes_detalle_del->s3s_codigo_estado_taller = -1;
+                $ordenes_detalle_del->save();
                 if($consutas3s['codServ'] == $copia_detalle['codServ']){
                     $ordenes_detalle_control = DetalleGestionOportunidades::where('oportunidad_id',
                         json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$consultaApiDetalleCabecera_main['codServ']] )

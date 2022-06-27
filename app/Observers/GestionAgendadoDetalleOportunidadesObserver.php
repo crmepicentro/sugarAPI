@@ -40,7 +40,6 @@ class GestionAgendadoDetalleOportunidadesObserver
     public function created(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)
     {
         //'nuevo','cita','recordatorio','perdido','perdido_taller','cita_ok','cita_noshow','borrar_cita'
-        Log::info($gestionAgendadoDetalleOportunidades->tipo_gestion);
         if ($gestionAgendadoDetalleOportunidades->tipo_gestion == 'borrar_cita') { // cuando se borra regresa a la oportunidad sin cita
             //Log::alert(print_r($gestionAgendadoDetalleOportunidades->detalleoportunidad, true));
             DetalleGestionOportunidades::where('id', $gestionAgendadoDetalleOportunidades->detalleoportunidad->id)
@@ -54,7 +53,6 @@ class GestionAgendadoDetalleOportunidadesObserver
                     'oportunidad_id' => null,
                     'cita_fecha' => null,
                 ]);
-            Log::info('borrar_cita');
         }elseif ($gestionAgendadoDetalleOportunidades->tipo_gestion == 'perdido') {
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->perdida_fecha = Carbon::now();
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->perdida_agente = 1;//auth()->user()->id,
@@ -62,18 +60,15 @@ class GestionAgendadoDetalleOportunidadesObserver
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_fecha = Carbon::now();
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_tipo = $gestionAgendadoDetalleOportunidades->tipo_gestion;
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->save();
-            Log::info('perdido');
         }elseif ($gestionAgendadoDetalleOportunidades->tipo_gestion == 'recordatorio') {
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_fecha = Carbon::now();
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->agendado_fecha = $gestionAgendadoDetalleOportunidades->fecha_agendamiento;
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_tipo = $gestionAgendadoDetalleOportunidades->tipo_gestion;
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->save();
-            Log::info('recordatorio');
         }else{
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_fecha = Carbon::now();
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->gestion_tipo = $gestionAgendadoDetalleOportunidades->tipo_gestion;
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->save();
-            Log::info('else');
         }
     }
 
