@@ -527,6 +527,7 @@ class Servicios3sController extends Controller
     }
     public function setSessionData($session ,$valor, Request $request){
         $request->session()->put($session, $valor);
+        Cache::put($session, $valor);
         return session($session);
     }
 }
