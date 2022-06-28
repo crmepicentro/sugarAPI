@@ -14,33 +14,33 @@
         <table cellspacing="0" class="bb-w-full bb-px-15">
             <tr>
                 <td class="bb-w-50">
-                   <div class="bb-font-black bb-mt-15 bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">Nombre: <span class="bb-font-book">{{ mb_convert_case($name, MB_CASE_UPPER, "UTF-8") }}</span></div></td>
+                   <div class="bb-font-black bb-mt-15  bb-line-h-1 bb-text-17 bb-text-blue">Nombre: <span class="bb-font-book">{{ mb_convert_case($name, MB_CASE_UPPER, "UTF-8") }}</span></div></td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mt-15 bb-mb-15 bb-line-h-1 bb-text-17 bb-text-blue">Marca: <span class="bb-font-book">{{  mb_convert_case($brand['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
+                    <div class="bb-font-black bb-mt-15  bb-line-h-1 bb-text-17 bb-text-blue">Marca: <span class="bb-font-book">{{  mb_convert_case($brand['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Modelo: <span class="bb-font-book">{{ mb_convert_case($model['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
+                    <div class="bb-font-black  bb-text-17 bb-line-h-1 bb-text-blue">Modelo: <span class="bb-font-book">{{ mb_convert_case($model['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Placa: <span class="bb-font-book">{{$plate}}</span></div>
+                    <div class="bb-font-black  bb-text-17 bb-line-h-1 bb-text-blue">Placa: <span class="bb-font-book">{{$plate}}</span></div>
                 </td>
             </tr>
             <tr>
                 <td class=" bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Descripción: <span class="bb-font-book">{{ mb_convert_case($description['description'], MB_CASE_UPPER, "UTF-8") }}</span></div>
+                    <div class="bb-font-black  bb-text-17 bb-line-h-1 bb-text-blue">Descripción: <span class="bb-font-book">{{ mb_convert_case($description['description'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Año: <span class="bb-font-book">{{$year}}</span></div>
+                    <div class="bb-font-black  bb-text-17 bb-line-h-1 bb-text-blue">Año: <span class="bb-font-book">{{$year}}</span></div>
                 </td>
             </tr>
             <tr>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Color: <span class="bb-font-book">{{ mb_convert_case($color['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
+                    <div class="bb-font-black  bb-text-17 bb-line-h-1 bb-text-blue">Color: <span class="bb-font-book">{{ mb_convert_case($color['name'], MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
                 <td class="bb-w-50">
-                    <div class="bb-font-black bb-mb-15 bb-text-17 bb-line-h-1 bb-text-blue">Kilometraje: <span class="bb-font-book">{{$mileage}} {{ mb_convert_case($unity, MB_CASE_UPPER, "UTF-8") }}</span></div>
+                    <div class="bb-font-black  bb-text-17 bb-line-h-1 bb-text-blue">Kilometraje: <span class="bb-font-book">{{$mileage}} {{ mb_convert_case($unity, MB_CASE_UPPER, "UTF-8") }}</span></div>
                 </td>
             </tr>
         </table>
@@ -53,7 +53,7 @@
               @foreach($checklist as $key => $item)
                 @if(($key % 2) == 0) <tr> @endif
                     <td class="bb-w-50">
-                        <div class="bb-font-black bb-mb-15 bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
+                        <div class="bb-font-black  bb-line-h-1 bb-mt-15 bb-text-17 bb-text-blue">
                             {{ mb_convert_case($item['description'], MB_CASE_TITLE, "UTF-8") }}: <span class="bb-font-book">{{$statusCheck[$item['option']]}}</span>
                         </div>
                     </td>
