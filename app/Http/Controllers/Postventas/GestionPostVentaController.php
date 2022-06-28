@@ -174,11 +174,25 @@ where oportunidad_id =]' => json_encode(['ordTaller' => $consultaApiDetalleCabec
                 foreach ($ordenes_detalles->detalleoportunidadcitas as $ordenes_detalle){
                     if($ordenes_detalle->codServ ==  $registra_cls['codServ']){
                         $almenosundato = true;
-                        $ordenes_detalle->oportunidad_id = json_encode(['ordTaller' => $registra_cls['ordTaller'],'codAgencia'=>$registra_cls['codAgencia'],'placa'=>$registra_cls['placaVehiculo'],'codServ'=>$registra_cls['codServ']]);
-                        $ordenes_detalle->cita_fecha = Carbon::createFromFormat('d/m/y',$registra_cls['fechaCita']);
-                        $ordenes_detalle->s3s_codigo_seguimiento = $registra_cls['ordTaller'];
-                        $ordenes_detalle->s3s_codigo_estado_taller = $registra_cls['codEstOrdTaller'];
-                        $ordenes_detalle->save();
+                        $ordenes_detalle_control = DetalleGestionOportunidades::where('oportunidad_id',
+                            json_encode(['ordTaller' => $registra_cls['ordTaller'], 'codAgencia' => $registra_cls['codAgencia'], 'placa' => $registra_cls['placaVehiculo'], 'codServ' => $registra_cls['codServ']])
+                        );
+                        if($ordenes_detalle_control->count() == 0) {
+                            $ordenes_detalle->oportunidad_id = json_encode(['ordTaller' => $registra_cls['ordTaller'], 'codAgencia' => $registra_cls['codAgencia'], 'placa' => $registra_cls['placaVehiculo'], 'codServ' => $registra_cls['codServ']]);
+                            $ordenes_detalle->cita_fecha = Carbon::createFromFormat('d/m/y', $registra_cls['fechaCita']);
+                            $ordenes_detalle->s3s_codigo_seguimiento = $registra_cls['ordTaller'];
+                            $ordenes_detalle->s3s_codigo_estado_taller = $registra_cls['codEstOrdTaller'];
+                            $ordenes_detalle->save();
+                        }else{
+                            Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::s3spostdatacore_consulta", 'Error Repetido: [select * from pvt_detalle_gestion_oportunidades where oportunidad_id =]' => json_encode(['ordTaller' => $registra_cls['ordTaller'], 'codAgencia' => $registra_cls['codAgencia'], 'placa' => $registra_cls['placaVehiculo'], 'codServ' => $registra_cls['codServ']]) ] ,true ));
+                            try {
+                                $rolback_ordenes_detalle_control = $ordenes_detalle_control->first();
+                                $rolback_ordenes_detalle_control->s3s_codigo_estado_taller = -3;
+                                $rolback_ordenes_detalle_control->save();
+                            }catch (\Exception $exception){
+                                Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::s3spostdatacore_consulta", 'Error FATAL' => $exception ] ,true ));
+                            }
+                        }
                     }
                 }
             }
