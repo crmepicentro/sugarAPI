@@ -120,7 +120,7 @@
                     <table class="bb-w-100" cellspacing="0">
                         <tr>
                             <td class="bb-w-50">
-                                <div style="padding: 9px" class="bb-pa-9 bb-font-black  bb-text-17 bb-text-white bb-radius-l-y bb-bg-blue bb-border bb-text-uppercase bb-text-center">BONO 1001CARROS.COM</div>
+                                <div style="padding: 9px;" class="bb-pa-9 bb-font-black  bb-text-17 bb-text-white bb-radius-l-y bb-bg-blue bb-border bb-text-uppercase bb-text-center">BONO 1001CARROS.COM</div>
                             </td>
                             <td class=" bb-w-50">
                                 <div class="bb-pd-20 bb-font-black bb-text-uppercase bb-radius-r-y bb-text-blue bb-border bb-text-center bb-text-20">
