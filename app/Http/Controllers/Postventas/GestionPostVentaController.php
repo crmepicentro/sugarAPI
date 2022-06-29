@@ -134,38 +134,66 @@ class GestionPostVentaController extends Controller
     public function compararOrdenGestionvsSistema(GestionAgendado $gestionAgendado,$consultaApiDetalleCabecera_main ){
         $consultas = Servicios3sController::consultaApiDetalleCabecera_main($consultaApiDetalleCabecera_main['codAgencia'],$consultaApiDetalleCabecera_main['ordTaller'])['listaOrdenTallerCL'];
         $copia_detalles = $gestionAgendado->detalleoportunidadcitas->toArray();
-        foreach ($consultas as $consutas3s ){
-            foreach ($copia_detalles as $copia_detalle){
-                $ordenes_detalle_del = DetalleGestionOportunidades::where('id',$copia_detalle['id'])->first();
-                $ordenes_detalle_del->s3s_codigo_estado_taller = -1;
-                $ordenes_detalle_del->save();
+        foreach ($copia_detalles as $copia_detalle){
+            $ordenes_detalle_del = DetalleGestionOportunidades::where('id',$copia_detalle['id'])->first();
+            $ide_oportunidad_id = json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$copia_detalle['codServ']] );
+            Log::emergency($copia_detalle['codServ']);
+            $ordenes_detalle_del->s3s_codigo_estado_taller = -1;
+            $ordenes_detalle_del->save();
+            foreach ($consultas as $consutas3s ){
                 if($consutas3s['codServ'] == $copia_detalle['codServ']){
-                    $ordenes_detalle_control = DetalleGestionOportunidades::where('oportunidad_id',
-                        json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$consultaApiDetalleCabecera_main['codServ']] )
-                    );
+                    $ordenes_detalle_control = DetalleGestionOportunidades::where('oportunidad_id',$ide_oportunidad_id);
+                    //dd($consutas3s,$copia_detalle['codServ'],$copia_detalle['id'],$ordenes_detalle_control->get(),DetalleGestionOportunidades::where('id',$copia_detalle['id'])->firstorfail());
                     if($ordenes_detalle_control->count() == 0){
                         $ordenes_detalle = DetalleGestionOportunidades::where('id',$copia_detalle['id'])->firstorfail();
-                        $ordenes_detalle->oportunidad_id = json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$consultaApiDetalleCabecera_main['codServ']] );
+                        $ordenes_detalle->oportunidad_id = $ide_oportunidad_id;
                         $ordenes_detalle->cita_fecha = $consultaApiDetalleCabecera_main['fechaCita'];
                         $ordenes_detalle->s3s_codigo_seguimiento = $consultaApiDetalleCabecera_main['ordTaller'];
                         $ordenes_detalle->s3s_codigo_estado_taller = $consultaApiDetalleCabecera_main['codEstOrdTaller'];
                         $ordenes_detalle->save();
+                        Log::alert('Entro: '.$copia_detalle['id']);
+                        Log::alert($ide_oportunidad_id);
+                        //dd($ordenes_detalle);
                     }else{
                         Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::compararOrdenGestionvsSistema", 'Error Repetido: [select * from pvt_detalle_gestion_oportunidades
-where oportunidad_id =]' => json_encode(['ordTaller' => $consultaApiDetalleCabecera_main['ordTaller'],'codAgencia'=>$consultaApiDetalleCabecera_main['codAgencia'],'placa'=>$consultaApiDetalleCabecera_main['placaVehiculo'],'codServ'=>$consultaApiDetalleCabecera_main['codServ']] ) ] ,true ));
+where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
                     }
-
+                    //dd('el visor',$ordenes_detalle_del);
+                }
+            }// fin foreach de consulta de lo q tenemos en s3s
+            //dd('error-llego sin validar',$ordenes_detalle_del);
+        }// fin foreach de lo q tiene la gestion
+        foreach ( $gestionAgendado->detalleoportunidadcitas as $quita_oportunidadeshuerfanas){
+            if($quita_oportunidadeshuerfanas->s3s_codigo_estado_taller == -1){
+                $serv = new Servicios3sController();
+                if($serv->cancelar_gestion($ordenes_detalle_del->id)){
+                    Log::error('GestionPostVentaController->compararOrdenGestionvsSistema error cancelando: detalle_gestion_oportunidad_id: '.$copia_detalle['id']);
                 }
             }
-        }
-
+        }        
     }
     public function s3spostdatacore_consulta($codAgencia,$placaVehiculo,$gestion){
 
         $registra_clss = Servicios3sController::conOrdCLsRecuperados($codAgencia,$placaVehiculo);
         $datos_orden = $this->dar_orden_from_consulta($registra_clss);
-        $ordenes_detalles = GestionAgendado::where('codigo_seguimiento', $datos_orden['idGestionSugar'])->first();
+        if($datos_orden['idGestionSugar'] == ""){
+            $gestiona = GestionAgendado::where('codigo_seguimiento',$gestion)->first();
+            $gestiona->consulta_orden = 'Orden-vacia:['.Carbon::now().'] No tiene datos en la orden que coincidan con las Oportunidades con placa: '.$placaVehiculo;
+            foreach ($gestiona->detalleoportunidadcitas as $detalleOportunidadesaBorrar){
+                $serv = new Servicios3sController();
+                if($serv->cancelar_gestion($detalleOportunidadesaBorrar->id)){
+                    Log::error('GestionPostVentaController->s3spostdatacore_consulta error cancelando: detalle_gestion_oportunidad_id: '.$detalleOportunidadesaBorrar->id.' la orden solicitando los datos: '.json_encode(['codAgencia' => $codAgencia , 'placaVehiculo' => $placaVehiculo]) );
+                }
+            }
+            $gestiona->save();
+            $gestiona->delete();
+            return response()->json(['message' => 'La orden en el S3S no tiene las oportunidades vinculadas'], 404);
+        }
 
+        $ordenes_detalles = GestionAgendado::where('codigo_seguimiento', $datos_orden['idGestionSugar'])->first();
+        if($ordenes_detalles == null){
+            return response()->json(['error' => 'No se encontraron registros, no existe: '.$datos_orden['idGestionSugar']], 404);
+        }
         $this->compararOrdenGestionvsSistema($ordenes_detalles, $datos_orden);
 
         $almenosundato =false;
@@ -173,18 +201,17 @@ where oportunidad_id =]' => json_encode(['ordTaller' => $consultaApiDetalleCabec
             foreach ($registra_clss['listaClsRecuperados'] as $registra_cls){
                 foreach ($ordenes_detalles->detalleoportunidadcitas as $ordenes_detalle){
                     if($ordenes_detalle->codServ ==  $registra_cls['codServ']){
+                        $id_oportunidad_id = json_encode(['ordTaller' => $registra_cls['ordTaller'], 'codAgencia' => $registra_cls['codAgencia'], 'placa' => $registra_cls['placaVehiculo'], 'codServ' => $ordenes_detalle->codServ]);
                         $almenosundato = true;
-                        $ordenes_detalle_control = DetalleGestionOportunidades::where('oportunidad_id',
-                            json_encode(['ordTaller' => $registra_cls['ordTaller'], 'codAgencia' => $registra_cls['codAgencia'], 'placa' => $registra_cls['placaVehiculo'], 'codServ' => $registra_cls['codServ']])
-                        );
+                        $ordenes_detalle_control = DetalleGestionOportunidades::where('oportunidad_id', $id_oportunidad_id );
                         if($ordenes_detalle_control->count() == 0) {
-                            $ordenes_detalle->oportunidad_id = json_encode(['ordTaller' => $registra_cls['ordTaller'], 'codAgencia' => $registra_cls['codAgencia'], 'placa' => $registra_cls['placaVehiculo'], 'codServ' => $registra_cls['codServ']]);
+                            $ordenes_detalle->oportunidad_id = $id_oportunidad_id;
                             $ordenes_detalle->cita_fecha = Carbon::createFromFormat('d/m/y', $registra_cls['fechaCita']);
                             $ordenes_detalle->s3s_codigo_seguimiento = $registra_cls['ordTaller'];
                             $ordenes_detalle->s3s_codigo_estado_taller = $registra_cls['codEstOrdTaller'];
                             $ordenes_detalle->save();
                         }else{
-                            Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::s3spostdatacore_consulta", 'Error Repetido: [select * from pvt_detalle_gestion_oportunidades where oportunidad_id =]' => json_encode(['ordTaller' => $registra_cls['ordTaller'], 'codAgencia' => $registra_cls['codAgencia'], 'placa' => $registra_cls['placaVehiculo'], 'codServ' => $registra_cls['codServ']]) ] ,true ));
+                            Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::s3spostdatacore_consulta", 'Error Repetido: [select * from pvt_detalle_gestion_oportunidades where oportunidad_id =]' => $id_oportunidad_id ] ,true ));
                             try {
                                 $rolback_ordenes_detalle_control = $ordenes_detalle_control->first();
                                 $rolback_ordenes_detalle_control->s3s_codigo_estado_taller = -3;

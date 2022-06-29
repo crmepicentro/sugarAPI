@@ -18,6 +18,7 @@ class  CreateGestionAgendadosTable extends Migration
             $table->unsignedBigInteger('users_id');
             $table->uuid('codigo_seguimiento')->notNullable();
             $table->string('codigo_seguimiento_resp_s3s')->nullable();
+            $table->string('consulta_orden')->default('ok');
             $table->timestamps();
             $table->softDeletes();
         });

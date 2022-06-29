@@ -20,6 +20,7 @@ class GestionAgendado extends Model
         'users_id',
         'codigo_seguimiento',
         'codigo_seguimiento_resp_s3s',
+        'consulta_orden'
     ];
     public function usuario()
     {
