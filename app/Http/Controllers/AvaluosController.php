@@ -75,7 +75,8 @@ class AvaluosController extends BaseController
 
     public function show(Request $request)
     {
-        $avaluos = Avaluos::getAvaluoByContact($request->contact_id_c);
+        //$avaluos = Avaluos::getAvaluoByContact($request->contact_id_c);
+        $avaluos = [];
         return response()->json([
             'avaluos' => $avaluos
         ]);
