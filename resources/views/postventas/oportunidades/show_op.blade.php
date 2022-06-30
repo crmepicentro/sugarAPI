@@ -144,20 +144,37 @@
                 @else
                     @if($oportunidad->gestion_tipo =='cita' && $oportunidad->s3s_codigo_seguimiento == null )
                         @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
-                        <td colspan="3" class="proc_{{ $auto->placa }}{{ $gestion->codigo_seguimiento }}">
-                            <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', {{ $gestion->gestionagendadodetalleop[0]->agencia_cita }},'{{ $auto->placa }}')" >Consulta estado </a>
-                            {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array(
-                   'type' => 'button',
-                   'class' => 'btn btn-info btn-sm',
-                   'title' => 'Borrar Modelo',
-                   'name' => 'formborrad'.$oportunidad->id.'.borrado',
-                   'onclick'=>'cancelar_orden_id_gestion('.$oportunidad->id.')',
-           )) !!}
+                        @if($gestion <> null)
+                            <td colspan="3" class="proc_{{ $auto->placa }}{{ $gestion->codigo_seguimiento }}">
+                                <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', {{ $gestion->gestionagendadodetalleop[0]->agencia_cita }},'{{ $auto->placa }}')" >Consulta estado </a>
+                                {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array(
+                                       'type' => 'button',
+                                       'class' => 'btn btn-info btn-sm',
+                                       'title' => 'Borrar Modelo',
+                                       'name' => 'formborrad'.$oportunidad->id.'.borrado',
+                                       'onclick'=>'cancelar_orden_id_gestion('.$oportunidad->id.')',
+                               )) !!}
 
-                        </td>
+                            </td>
+                        @else
+                            <td colspan="3" class="sin_orden{{ $oportunidad->id }}">
+                                {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array(
+                                       'type' => 'button',
+                                       'class' => 'btn btn-info btn-sm',
+                                       'title' => 'Borrar Modelo',
+                                       'name' => 'formborrad'.$oportunidad->id.'.borrado',
+                                       'onclick'=>'cancelar_orden_id_gestion('.$oportunidad->id.')',
+                               )) !!}
+                            </td>
+                        @endif
                     @else
                         @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first()->codigo_seguimiento)
-                        <td colspan="3"><strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
+                        <td colspan="2"><strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
+                        <td>
+                            <button type="button" class="btn btn-hero btn-warning act_{{ $oportunidad->s3s_codigo_seguimiento }}" onclick="actTodaOrden('{{ $oportunidad->s3s_codigo_seguimiento }}')">
+                                <i class="fa fa-repeat"></i>
+                            </button>
+                        </td>
                     @endif
                 @endif
             </tr>
