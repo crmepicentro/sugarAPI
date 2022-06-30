@@ -155,7 +155,7 @@ class GestionPostVentaController extends Controller
                         Log::alert($ide_oportunidad_id);
                         //dd($ordenes_detalle);
                     }else{
-                        Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::compararOrdenGestionvsSistema", 'Error Repetido: [select * from pvt_detalle_gestion_oportunidades
+                        Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::compararOrdenGestionvsSistema", 'Error Repetido Xcfgkolp: [select * from pvt_detalle_gestion_oportunidades
 where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
                     }
                     //dd('el visor',$ordenes_detalle_del);
@@ -164,13 +164,14 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
             //dd('error-llego sin validar',$ordenes_detalle_del);
         }// fin foreach de lo q tiene la gestion
         foreach ( $gestionAgendado->detalleoportunidadcitas as $quita_oportunidadeshuerfanas){
-            if($quita_oportunidadeshuerfanas->s3s_codigo_estado_taller == -1){
+            $quita_oportunidadeshuerfanas_nji = DetalleGestionOportunidades::where('id',$quita_oportunidadeshuerfanas->id)->first();
+            if($quita_oportunidadeshuerfanas_nji->s3s_codigo_estado_taller == -1){
                 $serv = new Servicios3sController();
-                if($serv->cancelar_gestion($ordenes_detalle_del->id)){
-                    Log::error('GestionPostVentaController->compararOrdenGestionvsSistema error cancelando: detalle_gestion_oportunidad_id: '.$copia_detalle['id']);
+                if($serv->cancelar_gestion($quita_oportunidadeshuerfanas_nji->id)){
+                    Log::error('GestionPostVentaController->compararOrdenGestionvsSistema error cancelando: detalle_gestion_oportunidad_id: '.$quita_oportunidadeshuerfanas_nji->id);
                 }
             }
-        }        
+        }
     }
     public function s3spostdatacore_consulta($codAgencia,$placaVehiculo,$gestion){
 
@@ -211,7 +212,7 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
                             $ordenes_detalle->s3s_codigo_estado_taller = $registra_cls['codEstOrdTaller'];
                             $ordenes_detalle->save();
                         }else{
-                            Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::s3spostdatacore_consulta", 'Error Repetido: [select * from pvt_detalle_gestion_oportunidades where oportunidad_id =]' => $id_oportunidad_id ] ,true ));
+                            Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::s3spostdatacore_consulta", 'Error Repetido tthgjopl2s: [select * from pvt_detalle_gestion_oportunidades where oportunidad_id =]' => $id_oportunidad_id ] ,true ));
                             try {
                                 $rolback_ordenes_detalle_control = $ordenes_detalle_control->first();
                                 $rolback_ordenes_detalle_control->s3s_codigo_estado_taller = -3;
