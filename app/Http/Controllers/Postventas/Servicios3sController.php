@@ -171,7 +171,6 @@ class Servicios3sController extends Controller
         Log::channel('log_consulta_bms')->info(print_r( $response->body(),true ));
         //dd($response,config('constants.pv_user_servicio'),config('constants.pv_pass_servicio'),$url,$getdata);
         $respuesta = $response->json();
-        Log::error(print_r($respuesta,true));
         return $respuesta;
     }
 
