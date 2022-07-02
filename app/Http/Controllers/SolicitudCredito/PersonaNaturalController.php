@@ -77,9 +77,9 @@ class PersonaNaturalController extends Controller
     public function pdfView()
     {
         $pdf = PDF::loadView("solicitud.cbNatural");
-        // $pdf = PDF::loadView("solicitud.cbJuridico");
+        $pdf = PDF::loadView("solicitud.cbJuridico");
         // $pdf = PDF::loadView("solicitud.milNatural");
-        // $pdf = PDF::loadView("solicitud.milJuridica");
+        $pdf = PDF::loadView("solicitud.milJuridica");
         return $pdf->stream("solicitud.pdf");
     }
 
@@ -105,8 +105,8 @@ class PersonaNaturalController extends Controller
                     "id_solicitud" => $idCotizacion,
                     "nombre" => $fileName,
                     "borrado" => 0
-                    ]
-                );
+                ]
+            );
             return response()->json(["success" => "Archivo subido"], 200);
         } catch (\Exception $e) {
             return response()->json(["error" => $e . " - Notifique a SUGAR CRM Casabaca"], 500);
@@ -162,6 +162,7 @@ class PersonaNaturalController extends Controller
         $solicitud->asesor = $res["asesor"];
         $solicitud->agencia = $res["agencia"];
         $solicitud->cedula_cliente = $request->cliente["cedula"];
+        $solicitud->financiamiento = $request->cliente["financiamiento"];
         return $solicitud;
     }
 
@@ -245,12 +246,14 @@ class PersonaNaturalController extends Controller
         $cliente->nombre_completo = $res["nombreCompleto"];
         $cliente->cedula = $res["cedula"];
         $cliente->pasaporte = $res["pasaporte"];
+        $cliente->nacionalidad = $res["nacionalida"];
         $cliente->ruc = $res["ruc"];
         $cliente->estado_civil = $res["estadoCivil"];
         $cliente->separacion_bienes = $res["separacionBienes"];
         $cliente->carga_familiar = $res["cargaFamiliar"];
         $cliente->cyg_nombre_completo = $res["cygNombreCompleto"];
         $cliente->cyg_cedula = $res["cygCedula"];
+        $cliente->cyg_nacionalidad = $res["cygNacionalida"];
         $cliente->provincia = $res["provincia"];
         $cliente->ciudad = $res["ciudad"];
         $cliente->calle_principal = $res["callePrincipal"];
@@ -274,6 +277,7 @@ class PersonaNaturalController extends Controller
         $cliente->otros_gastos = $res["otrosGastos"];
         $cliente->gastos_total = $res["gastosTotal"];
         $cliente->persona_tipo = $res["personaTipo"];
+        // $cliente->persona_tipo = $res["personaTipo"];
         return $cliente;
     }
 

@@ -14,46 +14,46 @@
 <!-- /*   Fin Cabecera   */ -->
 
 
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Datos Generales</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td colspan="2">
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">Producto
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Producto
                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td>
-                <div class="bb-mb-10 bb-mr-10 bb-font-medium bb-text-label bb-outline-blue bb-p-7 bb-text-gray">ID de Cotización
+                <div class="bb-mb-10 bb-mr-10 bb-font-medium bb-text-label bb-outline-blue bb-py-2 bb-px-5  bb-text-gray">ID de Cotización
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div>
                 </div>
             </td>
             <td>
-                <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">Tipo de credito
+                <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Tipo de credito
                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
 
         <tr >
             <td>
-                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Valor de Producto
+                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Valor de Producto
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td>
-                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Entrada
+                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Entrada
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div></td>
             <td>
-                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Valor a financiar
+                <div class="bb-mb-10 bb-bg-gray bb-mr-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Valor a financiar
                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td>
                 <table class="bb-width-100" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <div class="bb-mb-10 bb-bg-gray  bb-font-medium bb-p-7 bb-text-label bb-text-gray">Plazo
+                            <div class="bb-mb-10 bb-bg-gray  bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Plazo
                             <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                         </td>
                         <td align="center" valign="top" class="bb-font-medium bb-text-data bb-mb-10">
-                            <div style="border: 1px solid gray; padding: 12px 0">
+                            <div style="border: 1px solid gray; padding: 5.5px 0">
                                 meses
                             </div>
                         </td>
@@ -64,15 +64,15 @@
 
         <tr>
             <td >
-                <div class="bb-bg-gray bb-p-7 bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Fecha de solicitud
+                <div class="bb-bg-gray bb-py-2 bb-px-5  bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Fecha de solicitud
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td colspan="2">
-                <div class="bb-font-medium bb-mr-10 bb-bg-gray bb-text-label bb-p-7 bb-text-gray">Asesor
+                <div class="bb-font-medium bb-mr-10 bb-bg-gray bb-text-label bb-py-2 bb-px-5  bb-text-gray">Asesor
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-bg-gray bb-p-7 bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Agencia
+                <div class="bb-bg-gray bb-py-2 bb-px-5  bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Agencia
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
@@ -80,64 +80,64 @@
 </div>
 
 <!-- Formulario 2 -->
-    <div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+    <div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
         <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Datos personales del cliente</div>
         <table class="bb-width-100" cellspacing="0" cellpadding="0">
 
             <tr>
                 <td colspan="2" class="bb-width-100">
-                    <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-text-label bb-p-7 bb-text-gray ">Nombre completo
+                    <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-text-label bb-py-2 bb-px-5  bb-text-gray ">Nombre completo
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td>
-                    <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-text-label bb-p-7 bb-text-gray ">Nacionalidad
+                    <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-text-label bb-py-2 bb-px-5  bb-text-gray ">Nacionalidad
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
             </tr>
 
             <tr >
                 <td >
-                    <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">No. de cédula
+                    <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">No. de cédula
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td >
-                    <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">No. de pasaporte
+                    <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">No. de pasaporte
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td>
-                    <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">RUC
+                    <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">RUC
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <div class="bb-mb-10 bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-text-gray">Estado Civil
+                    <div class="bb-mb-10 bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Estado Civil
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td>
-                    <div class="bb-mb-10 bb-font-medium bb-bg-gray bb-text-label bb-p-7 bb-text-gray">Separación de bienes
+                    <div class="bb-mb-10 bb-font-medium bb-bg-gray bb-text-label bb-py-2 bb-px-5  bb-text-gray">Separación de bienes
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td>
-                    <div class="bb-mb-10 bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-text-gray">Cargas familiares
+                    <div class="bb-mb-10 bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Cargas familiares
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
             </tr>
 
             <tr>
                 <td colspan= "3">
-                    <div class="bb-mb-10 bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-text-gray">Nombre completo del cónyugue
+                    <div class="bb-mb-10 bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Nombre completo del cónyugue
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
             </tr>
             <tr>
                 <td >
-                    <div class="bb-bg-gray bb-mr-10 bb-p-7 bb-font-medium bb-text-label bb-text-gray">Nacionalidad
+                    <div class="bb-bg-gray bb-mr-10 bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Nacionalidad
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td>
-                    <div class="bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-text-gray">No. cédula del cónyugue
+                    <div class="bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">No. cédula del cónyugue
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
             </tr>
@@ -145,34 +145,34 @@
     </div>
 
 <!-- Formulario 3 -->
-<div class="bb-max-width bb-mx-auto bb-width-100">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Datos de ubicación de domicilio</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td>
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">Provincia
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Provincia
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">Ciudad
+                <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Ciudad
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
 
         <tr >
             <td>
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">Calle principal
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Calle principal
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
                 <table>
                     <tr>
                         <td>
-                            <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">No.
+                            <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">No.
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                         </td>
                         <td>
-                            <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">Calle secundaria
+                            <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Calle secundaria
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                         </td>
                     </tr>
@@ -182,41 +182,41 @@
 
         <tr>
             <td >
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-text-gray">Sector/Barrio
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Sector/Barrio
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td  >
-                <div class="bb-mb-10 bb-font-medium bb-bg-gray bb-text-label bb-p-7 bb-text-gray">No. teléfono fijo
+                <div class="bb-mb-10 bb-font-medium bb-bg-gray bb-text-label bb-py-2 bb-px-5  bb-text-gray">No. teléfono fijo
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
 
         <tr>
             <td colspan="1/2">
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-text-gray">No. de celular
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">No. de celular
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mb-10 bb-font-medium bb-bg-gray bb-text-label bb-p-7 bb-text-gray">Correo electrónico
+                <div class="bb-mb-10 bb-font-medium bb-bg-gray bb-text-label bb-py-2 bb-px-5  bb-text-gray">Correo electrónico
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
 
         <tr>
             <td >
-                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray">Su casa es
+                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Su casa es
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td  >
                 <table cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <div class="bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-op-4 bb-text-gray">Tiempo de residencia
+                            <div class="bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-op-4 bb-text-gray">Tiempo de residencia
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div>
                             </div>
                         </td>
                         <td align="center" style="width: 60px">
-                            <div style="border: 1px solid gray; padding: 12px 0">
+                            <div style="border: 1px solid gray; padding: 5.5px 0">
                                 años
                             </div>
                         </td>
@@ -228,12 +228,12 @@
 </div>
 
 <!-- Formulario 4 -->
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Datos de trabajo / actividad económica del cliente</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td>
-                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Situación Laboral
+                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Situación Laboral
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td></td>
@@ -241,30 +241,30 @@
 
         <tr >
             <td >
-                <div class="bb-bg-gray bb-mb-10 bb-mr-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Nombre de la empresa
+                <div class="bb-bg-gray bb-mb-10 bb-mr-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Nombre de la empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td  >
-                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Actividad de empresa
+                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Actividad de empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
 
         <tr>
             <td >
-                <div class="bb-bg-gray bb-mb-10 bb-p-7 bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Cargo
+                <div class="bb-bg-gray bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Cargo
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
                 <table class="w-full" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <div class="bb-bg-gray bb-mb-10 bb-p-7 bb-font-medium bb-text-label bb-text-gray">Tiempo de trabajo
+                            <div class="bb-bg-gray bb-mb-10 bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Tiempo de trabajo
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div>
                             </div>
                         </td>
                         <td align="center" valign="top" style="width: 60px">
-                            <div style="border: 1px solid gray; padding: 12px 0">
+                            <div style="border: 1px solid gray; padding: 5.5px 0">
                                 años
                             </div>
                         </td>
@@ -275,18 +275,18 @@
 
         <tr>
             <td >
-                <div class="bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-mr-10 bb-text-gray">Dirección empresa
+                <div class="bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-mr-10 bb-text-gray">Dirección empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
                 <table class="w-full" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-mr-10 bb-p-7 bb-text-gray">Teléfono
+                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-mr-10 bb-py-2 bb-px-5  bb-text-gray">Teléfono
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                         </td>
                         <td>
-                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-p-7 bb-text-gray">ext.
+                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-py-2 bb-px-5  bb-text-gray">ext.
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                         </td>
                     </tr>
@@ -297,12 +297,12 @@
     </table>
 </div>
 {{-- otro --}}
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Datos de trabajo / actividad económica del cónyugue</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td>
-                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Situación Laboral
+                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Situación Laboral
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td></td>
@@ -310,30 +310,30 @@
 
         <tr >
             <td >
-                <div class="bb-bg-gray bb-mb-10 bb-mr-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Nombre de la empresa
+                <div class="bb-bg-gray bb-mb-10 bb-mr-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Nombre de la empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td  >
-                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-p-7 bb-text-label bb-text-gray">Actividad de empresa
+                <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray">Actividad de empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
 
         <tr>
             <td >
-                <div class="bb-bg-gray bb-mb-10 bb-p-7 bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Cargo
+                <div class="bb-bg-gray bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-font-medium bb-text-label bb-text-gray">Cargo
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
                 <table class="w-full" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <div class="bb-bg-gray bb-mb-10 bb-p-7 bb-font-medium bb-text-label bb-text-gray">Tiempo de trabajo
+                            <div class="bb-bg-gray bb-mb-10 bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Tiempo de trabajo
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div>
                             </div>
                         </td>
                         <td align="center" valign="top" style="width: 60px">
-                            <div style="border: 1px solid gray; padding: 12px 0">
+                            <div style="border: 1px solid gray; padding: 5.5px 0">
                                 años
                             </div>
                         </td>
@@ -344,18 +344,18 @@
 
         <tr>
             <td >
-                <div class="bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-mr-10 bb-text-gray">Dirección empresa
+                <div class="bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-mr-10 bb-text-gray">Dirección empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
                 <table class="w-full" cellspacing="0" cellpadding="0">
                     <tr>
                         <td>
-                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-mr-10 bb-p-7 bb-text-gray">Teléfono
+                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-mr-10 bb-py-2 bb-px-5  bb-text-gray">Teléfono
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                         </td>
                         <td>
-                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-p-7 bb-text-gray">ext.
+                            <div class="bb-font-medium bb-bg-gray bb-text-label bb-py-2 bb-px-5  bb-text-gray">ext.
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                         </td>
                     </tr>
@@ -367,7 +367,7 @@
 </div>
 
 <!-- Formulario 5 -->
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td valign="top">
@@ -382,7 +382,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-mb-10 bb-font-medium  bb-pb-5 bb-pl-3 bb-text-data bb-text-black">Sueldo/Ventas mensuales</div>
                         </td>
                         <td >
-                            <div class=" bb-bg-gray bb-font-medium bb-width-100 bb-pd-10 bb-text-data bb-text-black">$</div>
+                            <div class=" bb-bg-gray bb-font-medium bb-width-100 bb-py-5 bb-px-5  bb-text-data bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -390,7 +390,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-font-medium bb-pb-5  bb-pl-3 bb-text-data bb-text-black">Otros ingresos</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-width-100 bb-text-data bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-5 bb-px-5  bb-width-100 bb-text-data bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -398,7 +398,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-text-data  bb-text-black bb-font-bold">Total ingresos</div>
                         </td>
                         <td colspan="2"  >
-                            <div class="bb-font-medium bb-mb-10 bb-border-me bb-text-data bb-width-100 bb-pd-10 bb-text-black">$</div>
+                            <div class="bb-font-medium bb-mb-10 bb-border-me bb-text-data bb-width-100 bb-py-5 bb-px-5  bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -406,7 +406,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-font-medium bb-text-data bb-text-black">Sueldo del cónyugue</div>
                         </td>
                         <td  >
-                            <div class="bb-font-medium bb-mb-10 bb-bg-gray bb-text-data bb-width-100 bb-pd-10 bb-text-black">$</div>
+                            <div class="bb-font-medium bb-mb-10 bb-bg-gray bb-text-data bb-width-100 bb-py-5 bb-px-5  bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -414,12 +414,12 @@
                             <div class="bb-border-bt bb-bb-blue bb-font-bold  bb-text-data bb-text-black"><span>Total ingreso familiar</span> </div>
                         </td>
                         <td  >
-                            <div class="bb-border-me bb-mb-10 bb-font-medium bb-text-data bb-width-100 bb-pd-10 bb-text-black">$</div>
+                            <div class="bb-border-me bb-mb-10 bb-font-medium bb-text-data bb-width-100 bb-py-5 bb-px-5  bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <div class="bb-bg-gray bb-p-7 bb-font-medium bb-text-label bb-text-gray">Descripción otros ingresos
+                            <div class="bb-bg-gray bb-py-2 bb-px-5  bb-font-medium bb-text-label bb-text-gray">Descripción otros ingresos
                                 <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div>
                             </div>
                         </td>
@@ -439,7 +439,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-data bb-text-black">Alimentación</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-text-data bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-5 bb-px-5  bb-text-data bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -447,7 +447,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-data bb-text-black">Arriendo / Vivienda</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-text-data bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-5 bb-px-5  bb-text-data bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -455,7 +455,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-data bb-text-black">Entidades bancarias</div>
                         </td>
                         <td  >
-                            <div class="bb-border-me bb-mb-10 bb-font-medium bb-pd-10 bb-text-data bb-text-black">$</div>
+                            <div class="bb-border-me bb-mb-10 bb-font-medium bb-py-5 bb-px-5  bb-text-data bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -463,7 +463,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-mb-10 bb-font-medium bb-pb-5 bb-pl-3 bb-text-data bb-text-black">Otros gastos</div>
                         </td>
                         <td  >
-                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-pd-10 bb-text-data bb-text-black">$</div>
+                            <div class="bb-bg-gray bb-mb-10 bb-font-medium bb-py-5 bb-px-5  bb-text-data bb-text-black">$</div>
                         </td>
                     </tr>
                     <tr>
@@ -471,7 +471,7 @@
                             <div class="bb-border-bt bb-bb-blue bb-font-bold bb-pb-5 bb-pl-3 bb-text-data bb-text-black ">Total gastos / egresos</div>
                         </td>
                         <td  >
-                            <div class="bb-border-me bb-font-medium bb-pd-10 bb-text-data bb-text-black ">$</div>
+                            <div class="bb-border-me bb-font-medium bb-py-5 bb-px-5  bb-text-data bb-text-black ">$</div>
                         </td>
                     </tr>
                 </table>
@@ -480,51 +480,51 @@
     </table>
 </div>
 <!-- Formulario 6 -->
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
 
     <div class="bb-max-width bb-width-100">
         <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Situación patrimonial</div>
         <table class="bb-width-100 bb-mb-10" cellspacing="0" cellpadding="0">
             <tr >
                 <td >
-                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Bienes/Inmuebles
+                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Bienes/Inmuebles
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td >
-                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Ciudad/Dirección
+                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Ciudad/Dirección
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td >
-                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Valor comercial
+                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Valor comercial
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td>
-                    <div class="bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Hipotecado
+                    <div class="bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Hipotecado
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
             </tr>
         </table>
 
-        <table class="bb-width-100 bb-mb-10" cellspacing="0" cellpadding="0">
+        <table class="bb-width-100 " cellspacing="0" cellpadding="0">
             <tr>
                 <td >
-                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Marca vehículo
+                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Marca vehículo
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td >
-                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Modelo
+                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Modelo
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td >
-                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Año
+                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Año
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td >
-                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Valor comercial
+                    <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Valor comercial
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
                 <td >
-                    <div class="bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Prendado
+                    <div class="bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Prendado
                         <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
                 </td>
             </tr>
@@ -534,143 +534,143 @@
 
 
 <!-- Formulario 7 -->
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Referencias bancarias</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td >
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Institución
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Institución
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Tipo de cuenta
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Tipo de cuenta
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">No. de cuenta
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">No. de cuenta
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Tipo de Tarjeta de crédito
+                <div class="bb-mb-10 bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Tipo de Tarjeta de crédito
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td ">
-                <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Emisor
+                <div class="bb-mb-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Emisor
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
         <tr>
             <td >
-                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Institución
+                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Institución
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Tipo de cuenta
+                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Tipo de cuenta
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">No. de cuenta
+                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">No. de cuenta
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Tipo de Tarjeta de crédito
+                <div class="bb-mr-10 bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Tipo de Tarjeta de crédito
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Emisor
+                <div class="bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Emisor
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
 
     </table>
 </div>
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Referencias: 1 familiar y 2 personales</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Nombre completo
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Nombre completo
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td  >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Relación con el cliente
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Relación con el cliente
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Ciudad
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Ciudad
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Teléfono
-                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
-            </td>
-        </tr>
-        <tr>
-            <td >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Nombre completo
-                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
-            </td>
-            <td >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Relación con el cliente
-                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
-            </td>
-            <td >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Ciudad
-                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
-            </td>
-            <td >
-                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Teléfono
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Teléfono
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
         <tr>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Nombre completo
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Nombre completo
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Relación con el cliente
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Relación con el cliente
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Ciudad
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Ciudad
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Teléfono
+                <div class= "bb-bg-gray bb-font-medium bb-mb-10 bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Teléfono
+                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Nombre completo
+                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
+            </td>
+            <td >
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Relación con el cliente
+                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
+            </td>
+            <td >
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Ciudad
+                    <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
+            </td>
+            <td >
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Teléfono
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
     </table>
 </div>
-<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-15">
+<div class="bb-max-width bb-mx-auto bb-width-100 bb-mb-10">
     <div class="bb-width-100 bb-text-title bb-font-semibold bb-mb-10" >Referencias comerciales</div>
     <table class="bb-width-100" cellspacing="0" cellpadding="0">
         <tr>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mb-10 bb-mr-10 bb-text-label bb-text-gray ">Empresa
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mb-10 bb-mr-10 bb-text-label bb-text-gray ">Empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mb-10 bb-mr-10 bb-text-label bb-text-gray ">Ciudad
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mb-10 bb-mr-10 bb-text-label bb-text-gray ">Ciudad
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mb-10 bb-text-label bb-text-gray ">Teléfono
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mb-10 bb-text-label bb-text-gray ">Teléfono
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
         <tr>
             <td >
-                <div class= "bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Empresa
+                <div class= "bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Empresa
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-bg-gray bb-font-medium bb-p-7 bb-mr-10 bb-text-label bb-text-gray ">Ciudad
+                <div class="bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-mr-10 bb-text-label bb-text-gray ">Ciudad
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
             <td >
-                <div class="bb-bg-gray bb-font-medium bb-p-7 bb-text-label bb-text-gray ">Teléfono
+                <div class="bb-bg-gray bb-font-medium bb-py-2 bb-px-5  bb-text-label bb-text-gray ">Teléfono
                     <br><div class="bb-text-black bb-mt-3 bb-text-data">Texto</div></div>
             </td>
         </tr>
@@ -680,7 +680,7 @@
     <table class="bb-width-100 bb-mb-60" cellspacing="0" cellpadding="0">
         <tr>
             <td align="center">
-                <div class="bb-text-label bb-font-semibold bb-bg-gray bb-p-7">
+                <div class="bb-text-label bb-font-semibold bb-bg-gray bb-py-2 bb-px-5 ">
                     DECLARACIÓN Y AUTORIZACIÓN DE CONSULTA DE BURÓ DE CRÉDITO:
                 </div>
             </td>
