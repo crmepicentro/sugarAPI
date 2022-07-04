@@ -7,10 +7,10 @@
             <th class="text-center">#</th>
             <th>Cliente</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Teléfono</th>
-            <th class="d-none d-sm-table-cell">RFM</th>
+<!--            <th class="d-none d-sm-table-cell">RFM</th>
             <th class="d-none d-sm-table-cell" >R</th>
             <th class="d-none d-sm-table-cell" >F</th>
-            <th class="d-none d-sm-table-cell" >M</th>
+            <th class="d-none d-sm-table-cell" >M</th>-->
             <th class="d-none d-sm-table-cell" >VHC-OR-OP</th>
             <th class="d-none d-sm-table-cell" >Fecha Facturación</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Fecha</th>
@@ -34,10 +34,10 @@
                     {!! ($lista_oportunidade->telefono_trabajo != '' )?"<br>".$lista_oportunidade->telefono_trabajo:"" !!}
                     {!! ($lista_oportunidade->telefono_celular != '' )?"<br>".$lista_oportunidade->telefono_celular:"" !!}
                 </td>
-                <td class="d-none d-sm-table-cell">{{ 'RFM' }}</td>
+<!--                <td class="d-none d-sm-table-cell">{{ 'RFM' }}</td>
                 <td class="d-none d-sm-table-cell">{{ 'R' }}</td>
                 <td class="d-none d-sm-table-cell">{{ 'F' }}</td>
-                <td class="d-none d-sm-table-cell">{{ 'M' }}</td>
+                <td class="d-none d-sm-table-cell">{{ 'M' }}</td>-->
                 <td class="d-none d-sm-table-cell" title="{{ $lista_oportunidade->cant_op_p }}">{{ $lista_oportunidade->cantidad_autos }}-{{ $lista_oportunidade->cantidad_ordenes }}-{{ $lista_oportunidade->cant_op_p }}</td>
                 <td class="d-none d-sm-table-cell">
                     @if($lista_oportunidade->ordFchaCierre != '')
