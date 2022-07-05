@@ -294,6 +294,35 @@
                 }
             });
         }
+        var windowObjectReference = null; // global variable
+
+
+        function actTodaOrden( codigo_seguimiento, gestion_agendado_id) {
+            $('.act_'+codigo_seguimiento).prop('disabled', true);
+            var url_get_data = '{{ route('postventa.seguimiento.estado_orden',['ordTaller'=>'ordTaller__xxx83','gestion_agendado_id'=>'gestion_agendado_id__xxx84']) }}';
+            url_get_data = url_get_data.replace('ordTaller__xxx83',codigo_seguimiento);
+            url_get_data = url_get_data.replace('gestion_agendado_id__xxx84',gestion_agendado_id);
+
+            if(windowObjectReference == null || windowObjectReference.closed)
+                /* if the pointer to the window object in memory does not exist
+                   or if such pointer exists but the window was closed */
+
+            {
+                windowObjectReference = window.open(url_get_data,
+                    "PromoteFirefoxWindowName", "resizable,scrollbars,status");
+                //recarga sitio implementar si se necesita
+                /* then create it. The new window will be created and
+                   will be brought on top of any other window. */
+            }
+            else
+            {
+                windowObjectReference.focus();
+                /* else the window reference must exist and the window
+                   is not closed; therefore, we can bring it back on top of any other
+                   window with the focus() method. There would be no need to re-create
+                   the window or to reload the referenced resource. */
+            };
+        }
 
         function bt_envioparcial(id,class_name){
             console.log(id);

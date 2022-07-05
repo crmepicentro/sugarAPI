@@ -91,7 +91,7 @@
 
     'sidebar-dark page-header-dark dark-mode'   Enable dark mode (light sidebar/header is not supported with dark mode)
 -->
-<div id="page-container" class="page-header-dark main-content-boxed page-footer-fixed">
+<div id="page-container" class="page-header-dark page-footer-fixed">
     <div id="page-loader" class="show"></div>
     <!-- Header -->
 

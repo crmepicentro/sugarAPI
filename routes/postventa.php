@@ -27,7 +27,7 @@ Route::get('/vehiculos/faces/jsp/consulta/masters/respuesta_s3ssistemacore/{codi
 Route::get('s3s_sistema', function ( \App\Http\Requests\Request $request) {
     dd($request);
 })->name('postventa.tests3s');
-Route::get('seguimiento_postventa/{ordTaller}', [SeguimientoPostVentasController::class,'verificarEstadoSeguimientoPostVentas'])->name('postventa.seguimiento.estado_orden');
+Route::get('seguimiento_postventa/{ordTaller}/{gestion_agendado_id}', [SeguimientoPostVentasController::class,'verificarEstadoSeguimientoPostVentas'])->name('postventa.seguimiento.estado_orden');
 
 
 

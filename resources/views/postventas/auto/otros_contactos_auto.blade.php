@@ -11,7 +11,7 @@
     <div class="block-content tab-content overflow-hidden">
         <div class="tab-pane fade fade-right active show overflow-auto" id="btabs-animated-slideright-home" role="tabpanel" aria-labelledby="btabs-animated-slideright-home-tab">
             <div class="overflow-scroll" style="height: 130px">
-                <ul class="list-group">
+                <ul class="list-group"><!--TODO Colocar como tabla.-->
                     @if(isset($propietario->autosgestion))
                         @foreach($propietario->autosgestion as $auto_particular)
                             @foreach($auto_particular->usuaariosautosunicos as $usuario)

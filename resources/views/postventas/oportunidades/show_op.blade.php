@@ -168,10 +168,10 @@
                             </td>
                         @endif
                     @else
-                        @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first()->codigo_seguimiento)
+                        @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
                         <td colspan="2"><strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
                         <td>
-                            <button type="button" class="btn btn-hero btn-warning act_{{ $oportunidad->s3s_codigo_seguimiento }}" onclick="actTodaOrden('{{ $oportunidad->s3s_codigo_seguimiento }}')">
+                            <button type="button" class="btn btn-hero btn-warning act_{{ $oportunidad->s3s_codigo_seguimiento }}" onclick="actTodaOrden('{{ $oportunidad->s3s_codigo_seguimiento }}','{{ $gestion->id }}')">
                                 <i class="fa fa-repeat"></i>
                             </button>
                         </td>

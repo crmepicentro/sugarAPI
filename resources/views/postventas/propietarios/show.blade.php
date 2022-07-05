@@ -13,7 +13,7 @@
         </div>
     </div>
 </div>
-<div class="col-12">
+<!--<div class="col-12">
     <div class="row g-sm block block-rounded">
         <div class="col-6 bg-body-dark">
             <div class="block-content">
@@ -27,7 +27,7 @@
 
         </div>
     </div>
-</div>
+</div>-->
 <div class="col-12">
     <div class="row g-sm block block-rounded">
         <div class="col-6 bg-body-dark">
@@ -47,7 +47,7 @@
     <div class="row g-sm block block-rounded">
         <div class="col-6 bg-body-dark">
             <div class="block-content">
-                <strong>MAIL | FONO</strong>
+                <strong>MAIL | FONO</strong><!--TODO cambiar dispociion o distribucion mas clara con mas espacio-->
             </div>
         </div>
         <div class="col-6">

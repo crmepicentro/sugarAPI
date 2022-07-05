@@ -119,6 +119,55 @@ class DetalleGestionOportunidades extends Model
             'codServ' => $this->codServ,
         ]));
     }
+    public function getNombreEstadoTaller(){
+        $codigo = $this->s3s_codigo_estado_taller;
+        switch ($codigo){
+            case 'AA':
+                return 'ORDENES DE CONCECIONARIOS';
+            case 'BB':
+                return 'ORDENES PARA AVALUOS (CB)';
+            case '00':
+                return 'COTIZACION';
+            case '09':
+                return 'ORDEN ANULADA';
+            case '10':
+                return 'ESPERA PARA RECEPCION';
+            case '20':
+                return 'ESPERA PARA SERVICIO';
+            case '25':
+                return 'RECEPCIÓN A DOMICILIO';
+            case '30':
+                return 'ASIGNADA AL TECNICO';
+            case '40':
+                return 'ESTA SIENDO ATENDIDO';
+            case '50':
+                return 'DETENIDO X NUEVO TRABAJO';
+            case '51':
+                return 'ESPERA DE PARTES';
+            case '52':
+                return 'ESPERA DE APROBACION';
+            case '53':
+                return 'BAJO SUBCONTRATO';
+            case '54':
+                return 'DETENIDO  X OTROS MOTIVOS';
+            case '55':
+                return 'FIN DE JORNADA';
+            case '56':
+                return 'ALMUERZO';
+            case '60':
+                return 'TAREA TERMINADA / INSPECCION';
+            case '63':
+                return 'EN ESPERA DE LAVADA';
+            case '66':
+                return 'VEHICULO LAVANDOSE';
+            case '70':
+                return 'PRE-FACTURA ASESOR';
+            case '80':
+                return 'ORDEN CERRADA';
+            case '83':
+                return 'EN ESPERA DE FACTURA';
+        }
+    }
     public function getClaveunicaprincipals3sAttribute($value)
     {
         return [
