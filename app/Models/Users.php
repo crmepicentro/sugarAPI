@@ -152,6 +152,34 @@ class Users extends Model
         return $users;
     }
 
+    public static function get_coordinadores($withEmail = true)
+    { 
+
+        $users = Users::where('status', 'Active')
+           ->where('users.deleted', 0)  
+           ->join('users_cstm', 'users.id', '=', 'users_cstm.id_c')
+           ->join('cb_agencias', 'users_cstm.cb_agencias_id_c', '=', 'cb_agencias.id')
+           ->where('cargo_c', 8)
+           /*->join('email_addr_bean_rel', 'email_addr_bean_rel.bean_id', '=', 'users.id')
+           ->join('email_addresses', 'email_addresses.id', '=', 'email_addr_bean_rel.email_address_id')
+           ->where('primary_address', 1)*/
+           ->with('lineas_negocio_user')
+           ->select('users.id', 'first_name', 'last_name', 'phone_mobile', 'user_name', 'cb_agencias.name as agencia','status')
+           ->get();
+
+           if($withEmail){
+               foreach ($users as $user){  
+                    $emailRel = EmailAddrBeanRel::where('bean_id', $user->id)->where('primary_address', 1)->first();
+                    if($emailRel){
+                        $userEmail = EmailAddreses::where('id', $emailRel->email_address_id)->first();
+                        $user->email = $userEmail->email_address;
+                    }                    
+               }
+           }
+
+        return $users;
+    }
+
     public static function get_user($user_name)
     {
        return Users::where('user_name',$user_name)

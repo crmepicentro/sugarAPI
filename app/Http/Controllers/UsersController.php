@@ -59,5 +59,10 @@ class UsersController extends BaseController
 
         return $this->response->collection($users, new UsersTransformer)->setStatusCode(200);
     }
+    public function getCoordinadores(RequestMediosAsesores $request)
+    {
+        $users = Users::get_coordinadores(true);
+        return $this->response->collection($users, new UsersTransformer)->setStatusCode(200);
+    }
 }
 
