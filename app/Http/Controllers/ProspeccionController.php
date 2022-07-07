@@ -719,7 +719,7 @@ class ProspeccionController extends BaseController
         $dataErrorWS = [
             "response" => json_encode($e->getMessage()),
             "environment" => get_connection(),
-            "source" => $user->fuente, 
+            "source" => $user->fuente,
         ];
         WsLog::storeAfter($ws_logs, $dataErrorWS);
     }
