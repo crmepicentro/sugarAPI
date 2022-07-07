@@ -158,6 +158,7 @@ class TicketsController extends BaseController
             }
 
             $dataTicket = $this->cleanDataTicket($user, $user_auth, $validateRequest);
+            //return $dataTicket;
             $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
 
             $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $user->usersCstm->cb_agencias_id_c);
@@ -465,7 +466,8 @@ class TicketsController extends BaseController
             'anioMax',
             'anioMin',
             'combustible',
-            'campania'
+            'campania',
+            'email'
         ];
 
         $validRequest = $request;
