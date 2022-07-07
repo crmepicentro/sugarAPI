@@ -35,7 +35,7 @@ class TicketRequest extends FormRequest
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
             'datosSugarCRM.telefono' => 'numeric',
-            //'datosSugarCRM.email' => 'required|email:rfc,dns',
+            'datosSugarCRM.email' => 'email:rfc,dns',
             'datosSugarCRM.linea_negocio' => 'required|numeric|in:1,2,3,4',
             'datosSugarCRM.asunto' => 'required_with_all:comentario_cliente',
             'datosSugarCRM.marca' => 'in:'.implode(",", get_marcas()),
