@@ -182,16 +182,19 @@ class TicketsController extends BaseController
 
             \DB::connection(get_connection())->commit();
 
-            if (!in_array($user_auth->fuente, $this->sourcesOmniChannel) && ($user_auth->tokenCan('environment:prod') || $user_auth->fuente == 'tests_source')) {
+            if(!in_array($user_auth->fuente, $this->sourcesOmniChannel) && ($user_auth->tokenCan('environment:prod') || $user_auth->fuente == 'tests_source'))
+            {
                 $ticketUpdate = Tickets::find($ticket->id);
                 if (isset($ticket->new)) {
                     $ticketUpdate->created_by = 1;
                 }
 
                 $ticketUpdate->modified_user_id = 1;
+
                 $ticketUpdate->save();
 
                 $dataInconcert = $this->getDataInconcert($request, $user_auth, $ticket);
+
                 $this->createTicketInconcert($dataInconcert);
             }
 
@@ -485,10 +488,13 @@ class TicketsController extends BaseController
 
     public function getDataInconcert($request, $user_auth, $ticket)
     {
+        $mail=null;
+        if(isset($request->datosSugarCRM['email'])){ $mail= $request->datosSugarCRM['email']; }
+
         return [
             "numero_identificacion" => $request->datosSugarCRM['numero_identificacion'],
             "tipo_identificacion" => $request->datosSugarCRM['tipo_identificacion'],
-            "email" => $request->datosSugarCRM['email'],
+            "email" => $mail,
             "firstname" => $request->datosSugarCRM['nombres'],
             "lastname" => $request->datosSugarCRM['apellidos'],
             "tipo_transaccion" => $request->datosSugarCRM['tipo_transaccion'],
