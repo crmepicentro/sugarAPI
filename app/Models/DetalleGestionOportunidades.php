@@ -119,7 +119,7 @@ class DetalleGestionOportunidades extends Model
             'codServ' => $this->codServ,
         ]));
     }
-    public function getNombreEstadoTaller(){
+    public function getNombreEstadoTallerAttribute(){
         $codigo = $this->s3s_codigo_estado_taller;
         switch ($codigo){
             case 'AA':

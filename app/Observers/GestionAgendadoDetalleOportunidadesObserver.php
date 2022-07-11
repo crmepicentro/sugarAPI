@@ -53,6 +53,13 @@ class GestionAgendadoDetalleOportunidadesObserver
                     'oportunidad_id' => null,
                     'cita_fecha' => null,
                 ]);
+        }elseif ($gestionAgendadoDetalleOportunidades->tipo_gestion == 'cita_ok') { // cuando se borra regresa a la oportunidad sin cita
+            //Log::alert(print_r($gestionAgendadoDetalleOportunidades->detalleoportunidad, true));
+            DetalleGestionOportunidades::where('id', $gestionAgendadoDetalleOportunidades->detalleoportunidad->id)
+                ->update([
+                    'gestion_tipo' => 'cita_ok',
+                    's3s_codigo_estado_taller' => $gestionAgendadoDetalleOportunidades->estado_s3s,
+                ]);
         }elseif ($gestionAgendadoDetalleOportunidades->tipo_gestion == 'perdido') {
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->perdida_fecha = Carbon::now();
             $gestionAgendadoDetalleOportunidades->detalleoportunidad->perdida_agente = 1;//auth()->user()->id,

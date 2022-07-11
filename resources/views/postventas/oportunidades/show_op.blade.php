@@ -106,7 +106,10 @@
                     {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
                     <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
                 </td>
-                <td>{{ __($oportunidad->gestion_tipo) }}</td>
+                <td>
+                    {{ __($oportunidad->gestion_tipo) }}
+                    {{ __($oportunidad->nombre_estado_taller) }}
+                </td>
                 @if(in_array($oportunidad->gestion_tipo, ['nuevo','recordatorio','perdido','perdido_taller','cita_noshow']))
                     @php($contador_elementos ++)
                     <td>

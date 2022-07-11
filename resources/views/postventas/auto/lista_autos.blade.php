@@ -299,7 +299,7 @@
 
         function actTodaOrden( codigo_seguimiento, gestion_agendado_id) {
             $('.act_'+codigo_seguimiento).prop('disabled', true);
-            var url_get_data = '{{ route('postventa.seguimiento.estado_orden',['ordTaller'=>'ordTaller__xxx83','gestion_agendado_id'=>'gestion_agendado_id__xxx84']) }}';
+            var url_get_data = '{{ route('postventa.seguimiento.estado_orden',['ordTaller'=>'ordTaller__xxx83','gestion_agendado_id'=>'gestion_agendado_id__xxx84', 'userid'=> Auth::user()->email]) }}';
             url_get_data = url_get_data.replace('ordTaller__xxx83',codigo_seguimiento);
             url_get_data = url_get_data.replace('gestion_agendado_id__xxx84',gestion_agendado_id);
 

@@ -5,9 +5,15 @@ namespace App\Http\Controllers\Postventas;
 use App\Http\Controllers\Controller;
 use App\Models\DetalleGestionOportunidades;
 use App\Models\GestionAgendado;
+use Illuminate\Support\Str;
 
 class SeguimientoPostVentasController extends Controller
 {
+    /** constructor  */
+    public function __construct()
+    {
+        $this->middleware(['sugarauth']);
+    }
     /**
      * verificar estado de seguimiento de post ventas
      *
@@ -22,10 +28,24 @@ class SeguimientoPostVentasController extends Controller
             if($orden_taller['estado'] == 'COMPLETO' || $orden_taller['estado'] == 'INCOMPLETO'){
                 $ordens = DetalleGestionOportunidades::where('s3s_codigo_seguimiento', $ordTaller)->get();
                 echo "<ul>";
+                $gestion = new GestionAgendado();
+                $gestion->users_id = auth()->user()->id;
+                $gestion->codigo_seguimiento = Str::uuid();
+
                 foreach ($ordens as $orden) {
                     foreach ($orden_taller['detalle'] as $detalle) {
                         if($detalle['codServ'] == $orden->codServ){
-                            dd('Compara ok', $detalle['codServ'] , $orden->codServ,'Otro',$orden_taller['header']['codEstOrdTaller'],$gestion);
+                            if($orden->s3s_codigo_estado_taller <> $orden_taller['header']['codEstOrdTaller']){
+                                $s3sGestion = new Servicios3sController();
+                                $s3sGestion->gestion_cambio_estado($orden->id,$gestion);
+                                //dd('cambio');
+                            }else{
+                                //ddd('no cambio',$ordTaller);
+                            }
+                            /*dd('Compara ok', $detalle['codServ'] , $orden->codServ,'Otro',$orden_taller['header']['codEstOrdTaller'],$gestion
+                            ,$orden->s3s_codigo_estado_taller
+                                ,$orden_taller['header']['codEstOrdTaller']
+                            );*/
                             $orden->s3s_codigo_estado_taller = $orden_taller['header']['codEstOrdTaller'];
                             $orden->save();
                         }
