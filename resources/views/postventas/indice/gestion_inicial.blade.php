@@ -72,7 +72,7 @@
                             && $detalle_gestion->s3s_codigo_estado_taller != ''
                             && $detalle_gestion->s3s_codigo_estado_taller>0
                             )
-                        <span class="btn rounded-pill btn-danger me-1 mb-3">
+                        <span class="btn btn-sm rounded-pill btn-outline-dark me-1 mb-3">
                             {{ __($detalle_gestion->nombre_estado_taller) }}
                             <span class="badge rounded-pill bg-info">{{ $detalle_gestion->contago }}</span>
                         </span>
