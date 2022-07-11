@@ -113,7 +113,15 @@
                 </td>
                 <td>
                     {{ __($oportunidad->gestion_tipo) }}
-                    {{ __($oportunidad->nombre_estado_taller) }}
+                    @if(
+                           $oportunidad->s3s_codigo_estado_taller != null
+                           && $oportunidad->s3s_codigo_estado_taller != ''
+                           && $oportunidad->s3s_codigo_estado_taller>0
+                           )
+                    <span class="btn btn-sm rounded-pill btn-outline-dark me-1 mb-3">
+                        {{ __($oportunidad->nombre_estado_taller) }}
+                    </span>
+                    @endif
                 </td>
                 @if(in_array($oportunidad->gestion_tipo, ['nuevo','recordatorio','perdido','perdido_taller','cita_noshow']))
                     @php($contador_elementos ++)
