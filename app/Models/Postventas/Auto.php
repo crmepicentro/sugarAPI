@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Postventas;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,7 +31,7 @@ class Auto extends Model
 
     public function propietario()
     {
-        return $this->belongsTo('App\Models\Propietario');
+        return $this->belongsTo('App\Models\Postventas\Propietario');
     }
     public function detalleGestionOportunidades()    {
         return $this->hasMany(DetalleGestionOportunidades::class, 'auto_id', 'id');

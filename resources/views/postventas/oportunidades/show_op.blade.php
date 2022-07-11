@@ -72,7 +72,8 @@
                     <strong title="{{ $oportunidad->nomOrdAsesor }}">{{ $oportunidad->codOrdAsesor }}</strong>
                 </td>
                 <td>
-                    <span title="{{ $oportunidad->ordFchaCierre }}">{{ \Carbon\Carbon::createFromFormat(config('constants.pv_dateFormat'),$oportunidad->ordFchaCierre)->locale('es')->format('d-M') }}</span>
+                    <span
+                        title="{{ $oportunidad->ordFchaCierre }}">{{ \Carbon\Carbon::createFromFormat(config('constants.pv_dateFormat'),$oportunidad->ordFchaCierre)->locale('es')->format('d-M') }}</span>
                 </td>
                 <td>
                     {{ $oportunidad->tipoServ }}
@@ -84,7 +85,7 @@
                     {{ $oportunidad->codServ }}
                 </td>
                 <td>
-                    {{ $oportunidad->descServ }}
+                {{ $oportunidad->descServ }}
                 <td>
                     {{ $oportunidad->cantidad }}
                 </td>
@@ -94,16 +95,20 @@
                 <td style="text-align: end">
                     {{ $oportunidad->cantidad * $oportunidad->cargosCobrar }}
                 </td>
-                <td title="Gestionado Fecha Cita {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }}" style="background-color: #5959590f;">
-                    {{ $oportunidad->cita_fecha <> null ?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('y-m-d'):'-' }}<br />
-<!--                    <small>{{ \Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i'):'' }}</small>-->
+                <td title="Gestionado Fecha Cita {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }}"
+                    style="background-color: #5959590f;">
+                    {{ $oportunidad->cita_fecha <> null ?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('y-m-d'):'-' }}
+                    <br/>
+                    <!--                    <small>{{ \Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i') != '00:00'?\Carbon\Carbon::create($oportunidad->cita_fecha)->format('H:i'):'' }}</small>-->
                 </td>
                 <td title="Gestionado Fecha agendado {{ \Carbon\Carbon::parse($oportunidad->agendado_fecha)->diffForHumans() }}">
-                    {{ $oportunidad->agendado_fecha <> null ?\Carbon\Carbon::create($oportunidad->agendado_fecha)->format('y-m-d'):'-' }}<br />
+                    {{ $oportunidad->agendado_fecha <> null ?\Carbon\Carbon::create($oportunidad->agendado_fecha)->format('y-m-d'):'-' }}
+                    <br/>
                     <small>{{ \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->agendado_fecha)->format('H:i'):'' }}</small>
                 </td>
-                <td title="Gestionado Fecha gestion {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}" style="background-color: #5959600f;" >
-                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br />
+                <td title="Gestionado Fecha gestion {{ \Carbon\Carbon::parse($oportunidad->gestion_fecha)->diffForHumans() }}"
+                    style="background-color: #5959600f;">
+                    {{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('y-m-d') }}<br/>
                     <small>{{ \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i') != '00:00'? \Carbon\Carbon::create($oportunidad->gestion_fecha)->format('H:i'):'' }}</small>
                 </td>
                 <td>
@@ -118,7 +123,7 @@
                         </div>
                     </td>
                     @php( $script_add .= "checkLine('id-cita$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',nuevacita$auto->id,$auto->id );" )
-                    <td >
+                    <td>
                         <div class="row">
                             <div class="col-6">
                                 {{--  <button type="button" class="btn btn-sm btn-info boton{{ $oportunidad->claveunicaprincipal }} pospont{{$oportunidad->claveunicaprincipal}}" >
@@ -146,10 +151,11 @@
                     </td>
                 @else
                     @if($oportunidad->gestion_tipo =='cita' && $oportunidad->s3s_codigo_seguimiento == null )
-                        @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
+                        @php( $gestion = \App\Models\Postventas\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
                         @if($gestion <> null)
                             <td colspan="3" class="proc_{{ $auto->placa }}{{ $gestion->codigo_seguimiento }}">
-                                <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', {{ $gestion->gestionagendadodetalleop[0]->agencia_cita }},'{{ $auto->placa }}')" >Consulta estado </a>
+                                <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', {{ $gestion->gestionagendadodetalleop[0]->agencia_cita }},'{{ $auto->placa }}')">Consulta
+                                    estado </a>
                                 {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array(
                                        'type' => 'button',
                                        'class' => 'btn btn-info btn-sm',
@@ -171,10 +177,14 @@
                             </td>
                         @endif
                     @else
-                        @php( $gestion = \App\Models\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
-                        <td colspan="2"><strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }} con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
+                        @php( $gestion = \App\Models\Postventas\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
+                        <td colspan="2">
+                            <strong>Gestionando {{ \Carbon\Carbon::parse($oportunidad->cita_fecha)->diffForHumans() }}
+                                con orden {{ $oportunidad->s3s_codigo_seguimiento }}</strong></td>
                         <td>
-                            <button type="button" class="btn btn-hero btn-warning act_{{ $oportunidad->s3s_codigo_seguimiento }}" onclick="actTodaOrden('{{ $oportunidad->s3s_codigo_seguimiento }}','{{ $gestion->id }}')">
+                            <button type="button"
+                                    class="btn btn-hero btn-warning act_{{ $oportunidad->s3s_codigo_seguimiento }}"
+                                    onclick="actTodaOrden('{{ $oportunidad->s3s_codigo_seguimiento }}','{{ $gestion->id }}')">
                                 <i class="fa fa-repeat"></i>
                             </button>
                         </td>
@@ -183,35 +193,43 @@
             </tr>
             @if($loop->last)
                 @if($contador_elementos > 0)
-                <tr>
-                    <td colspan="15">&nbsp;</td>
-                    <td>
-                        <button type="button" class="btn btn-hero btn-success ejecutaCita{{ $auto->id }}"  data-auto="{{ $auto->id }}" disabled onclick="bt_envioparcial({{ $auto->id }},'citKm')">
-                            <i class="fa fa-check"></i>
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-hero btn-info super_agenda_{{ $auto->id }}" data-auto="{{ $auto->id }}"  disabled onclick="bt_envioparcial({{ $auto->id }},'recKm')" >
-                            <i class="fa fa-clock"></i>
-                        </button>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-hero btn-danger super_perdida_{{ $auto->id }}" data-auto="{{ $auto->id }}"  disabled onclick="bt_envioparcial({{ $auto->id }},'perKm')">
-                            <i class="fa fa-rectangle-xmark"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="15">&nbsp;</td>
-                    <td colspan="3">
-                        <div class="row">
-                            <button type="submit" class="btn btn-success btn-info col-12 total_accion_{{ $auto->id }}"  data-auto="{{ $auto->id }}" data-porte="{{$contador_elementos}}" >
-                                <i class="fa fa-floppy-disk me-1"></i>
-                                Guardar Auto
+                    <tr>
+                        <td colspan="15">&nbsp;</td>
+                        <td>
+                            <button type="button" class="btn btn-hero btn-success ejecutaCita{{ $auto->id }}"
+                                    data-auto="{{ $auto->id }}" disabled
+                                    onclick="bt_envioparcial({{ $auto->id }},'citKm')">
+                                <i class="fa fa-check"></i>
                             </button>
-                        </div>
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-hero btn-info super_agenda_{{ $auto->id }}"
+                                    data-auto="{{ $auto->id }}" disabled
+                                    onclick="bt_envioparcial({{ $auto->id }},'recKm')">
+                                <i class="fa fa-clock"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-hero btn-danger super_perdida_{{ $auto->id }}"
+                                    data-auto="{{ $auto->id }}" disabled
+                                    onclick="bt_envioparcial({{ $auto->id }},'perKm')">
+                                <i class="fa fa-rectangle-xmark"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="15">&nbsp;</td>
+                        <td colspan="3">
+                            <div class="row">
+                                <button type="submit"
+                                        class="btn btn-success btn-info col-12 total_accion_{{ $auto->id }}"
+                                        data-auto="{{ $auto->id }}" data-porte="{{$contador_elementos}}">
+                                    <i class="fa fa-floppy-disk me-1"></i>
+                                    Guardar Auto
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                 @else
                     <tr>
                         <td colspan="12">&nbsp;</td>
@@ -232,11 +250,15 @@
             }
         </style>
     @endsection
-    @section('js_after') @parent
-    <script>
-        /**/{!! $script_add !!}/**/
-        $(function() { submitFomr('{{ $auto->id }}') });
-    </script>
+    @section('js_after')
+        @parent
+        <script>
+            /**/
+            {!! $script_add !!}/**/
+            $(function () {
+                submitFomr('{{ $auto->id }}')
+            });
+        </script>
     @endsection
 @else
     <h1>Sin Oportunidades</h1>

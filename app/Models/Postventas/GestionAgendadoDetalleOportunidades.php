@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Postventas;
 
 use App\Observers\GestionAgendadoDetalleOportunidadesObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

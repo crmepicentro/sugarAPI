@@ -2,13 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Auto;
 use App\Models\Conductor;
 use App\Models\ConductorAuto;
-use App\Models\DetalleGestionOportunidades;
+use App\Models\Postventas\Auto;
+use App\Models\Postventas\DetalleGestionOportunidades;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class DetalleGestionOportunidadesSeeder extends Seeder
 {

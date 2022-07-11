@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\AutoFactura;
+use App\Models\Postventas\AutoFactura;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AutoFacturaFactory extends Factory

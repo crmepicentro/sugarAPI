@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\DetalleGestionOportunidades;
 use App\Models\Gestion\GestionCita;
+use App\Models\Postventas\DetalleGestionOportunidades;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 

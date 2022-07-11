@@ -2,8 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionAgendado;
+use App\Models\Postventas\GestionAgendado;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

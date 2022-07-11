@@ -43,7 +43,7 @@
             <div class="mb-4">
                 @php($campo = 'search_oportunidades')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::select($campo."[]", \App\Models\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), request($campo),
+                {{ Form::select($campo."[]", \App\Models\Postventas\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), request($campo),
            ['class' => 'js-select2 form-select form-control col-12', 'style' => 'width:100%', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
             </div>
         </div>
@@ -58,7 +58,7 @@
             <div class="mb-4">
                 @php($campo = 'search_estados')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::select($campo, \App\Models\DetalleGestionOportunidades::daroestadoslist()->pluck('gestion_tipo','gestion_tipo'), request($campo),
+                {{ Form::select($campo, \App\Models\Postventas\DetalleGestionOportunidades::daroestadoslist()->pluck('gestion_tipo','gestion_tipo'), request($campo),
            ['class' => 'js-select2 form-select form-control col-12', 'style' => 'width:100%', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
             </div>
         </div>
@@ -68,7 +68,8 @@
             <div class="mb-4">
                 @php($campo = 'search_fechaGestion')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                <div class="input-daterange input-group" data-date-format="dd/mm/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                <div class="input-daterange input-group" data-date-format="dd/mm/yyyy" data-week-start="1"
+                     data-autoclose="true" data-today-highlight="true">
                     @php($campo = "search_fechaGestion_from")
                     {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo),
            'data-week-start'=>'1', 'data-autoclose'=>'true', 'data-today-highlight'=>'true'
@@ -85,8 +86,10 @@
             <div class="mb-4">
                 @php($campo = 'search_fechaFactura')
                 <div class="mb-4">
-                    {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }} <small>Fecha de Cierre</small>
-                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                    {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }} <small>Fecha de
+                        Cierre</small>
+                    <div class="input-daterange input-group" data-date-format="dd/mm/yyyy" data-week-start="1"
+                         data-autoclose="true" data-today-highlight="true">
                         @php($campo = "search_fechaFactura_from")
                         {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo),
                'data-week-start'=>'1', 'data-autoclose'=>'true', 'data-today-highlight'=>'true'
@@ -107,7 +110,8 @@
             <div class="mb-4">
                 @php($campo = 'search_fechacita')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                <div class="input-daterange input-group" data-date-format="dd/mm/yyyy" data-week-start="1" data-autoclose="true" data-today-highlight="true">
+                <div class="input-daterange input-group" data-date-format="dd/mm/yyyy" data-week-start="1"
+                     data-autoclose="true" data-today-highlight="true">
                     @php($campo = "search_fechacita_from")
                     {{ Form::text($campo, request($campo), ['class' => 'form-control', 'id' => $campo, 'placeholder' => __('fo.'.$campo),
            'data-week-start'=>'1', 'data-autoclose'=>'true', 'data-today-highlight'=>'true'
@@ -120,13 +124,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-6"><div class="mb-4"></div></div>
+        <div class="col-6">
+            <div class="mb-4"></div>
+        </div>
     </div>
 
     <div class="form-group row">
         <div class="col-1">
             <div class="mb-4">
-                <a type="reset" class="btn btn-secondary" href="{{ route('postventa.indice',['userid'=> Auth::user()->email]) }}">Reset</a>
+                <a type="reset" class="btn btn-secondary"
+                   href="{{ route('postventa.indice',['userid'=> Auth::user()->email]) }}">Reset</a>
             </div>
         </div>
         <div class="col-10">

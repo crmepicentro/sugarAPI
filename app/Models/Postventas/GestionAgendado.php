@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Postventas;
 
 use App\Models\Gestion\GestionCita;
+use App\Models\User;
 use App\Observers\GestionAgendadoObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

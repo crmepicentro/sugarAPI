@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Postventas;
 
 use App\Http\Controllers\Controller;
-use App\Models\Auto;
-use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionAgendadoDetalleOportunidades;
-use App\Models\Propietario;
+use App\Models\Postventas\Auto;
+use App\Models\Postventas\DetalleGestionOportunidades;
+use App\Models\Postventas\GestionAgendadoDetalleOportunidades;
+use App\Models\Postventas\Propietario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

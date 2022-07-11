@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Postventas;
 
 use App\Http\Controllers\Controller;
-use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionAgendado;
+use App\Models\Postventas\DetalleGestionOportunidades;
+use App\Models\Postventas\GestionAgendado;
 use Illuminate\Support\Str;
 
 class SeguimientoPostVentasController extends Controller

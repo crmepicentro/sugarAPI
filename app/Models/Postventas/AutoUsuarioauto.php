@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Postventas;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Usuarioauto extends Model
+class AutoUsuarioauto extends Model
 {
     use HasFactory , SoftDeletes;
 
     protected $connection = 'mysql';
-    protected $table = 'pvt_usuarioautos';
+    protected $table = 'pvt_auto_usuarioautos';
     protected $fillable = [
         'id',
-        'nomUsuarioVista',
-        'fonoCelUsuarioVisita',
-        'mailUsuarioVisita',
+        'autos_id',
+        'usuarioautos_id',
     ];
 }

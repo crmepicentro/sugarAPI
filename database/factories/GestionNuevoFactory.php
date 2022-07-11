@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\DetalleGestionOportunidades;
 use App\Models\Gestion\GestionCita;
+use App\Models\Postventas\DetalleGestionOportunidades;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GestionCitaFactory extends Factory

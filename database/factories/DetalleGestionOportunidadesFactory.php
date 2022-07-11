@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Auto;
-use App\Models\DetalleGestionOportunidades;
+use App\Models\Postventas\Auto;
+use App\Models\Postventas\DetalleGestionOportunidades;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class DetalleGestionOportunidadesFactory extends Factory

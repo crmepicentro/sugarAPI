@@ -2,10 +2,9 @@
 
 namespace App\Observers;
 
-use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionAgendadoDetalleOportunidades;
+use App\Models\Postventas\DetalleGestionOportunidades;
+use App\Models\Postventas\GestionAgendadoDetalleOportunidades;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class GestionAgendadoDetalleOportunidadesObserver
 {
@@ -29,7 +28,7 @@ class GestionAgendadoDetalleOportunidadesObserver
     /**
      * Handle the GestionAgendadoDetalleOportunidades "created" event.
      *
-     * @param  \App\Models\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
+     * @param  \App\Models\Postventas\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
      * @return void
      */
     public function creating(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)
@@ -82,7 +81,7 @@ class GestionAgendadoDetalleOportunidadesObserver
     /**
      * Handle the GestionAgendadoDetalleOportunidades "updated" event.
      *
-     * @param  \App\Models\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
+     * @param  \App\Models\Postventas\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
      * @return void
      */
     public function updating(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)
@@ -93,7 +92,7 @@ class GestionAgendadoDetalleOportunidadesObserver
     /**
      * Handle the GestionAgendadoDetalleOportunidades "deleted" event.
      *
-     * @param  \App\Models\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
+     * @param  \App\Models\Postventas\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
      * @return void
      */
     public function deleted(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)
@@ -104,7 +103,7 @@ class GestionAgendadoDetalleOportunidadesObserver
     /**
      * Handle the GestionAgendadoDetalleOportunidades "restored" event.
      *
-     * @param  \App\Models\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
+     * @param  \App\Models\Postventas\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
      * @return void
      */
     public function restored(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)
@@ -115,7 +114,7 @@ class GestionAgendadoDetalleOportunidadesObserver
     /**
      * Handle the GestionAgendadoDetalleOportunidades "force deleted" event.
      *
-     * @param  \App\Models\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
+     * @param  \App\Models\Postventas\GestionAgendadoDetalleOportunidades  $gestionAgendadoDetalleOportunidades
      * @return void
      */
     public function forceDeleted(GestionAgendadoDetalleOportunidades $gestionAgendadoDetalleOportunidades)

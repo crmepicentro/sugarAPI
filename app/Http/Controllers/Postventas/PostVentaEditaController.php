@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Postventas;
 
 use App\Http\Controllers\Controller;
-use App\Models\Auto;
-use App\Models\Propietario;
+use App\Models\Postventas\Auto;
+use App\Models\Postventas\Propietario;
 use Illuminate\Http\Request;
 
 class PostVentaEditaController extends Controller

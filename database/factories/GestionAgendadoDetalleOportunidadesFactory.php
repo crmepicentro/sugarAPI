@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionAgendado;
-use App\Models\GestionAgendadoDetalleOportunidades;
+use App\Models\Postventas\DetalleGestionOportunidades;
+use App\Models\Postventas\GestionAgendado;
+use App\Models\Postventas\GestionAgendadoDetalleOportunidades;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GestionAgendadoDetalleOportunidadesFactory extends Factory

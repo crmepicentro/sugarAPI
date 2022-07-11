@@ -2,7 +2,7 @@
 
 namespace App\Models\Gestion;
 
-use App\Models\GestionAgendadoDetalleOportunidades;
+use App\Models\Postventas\GestionAgendadoDetalleOportunidades;
 use App\Observers\GestionAgendadoDetalleOportunidadesObserver;
 use Illuminate\Database\Eloquent\Builder;
 

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Auto;
-use App\Models\DetalleGestionOportunidades;
-use App\Models\GestionAgendado;
-use App\Models\GestionAgendadoDetalleOportunidades;
+use App\Models\Postventas\Auto;
+use App\Models\Postventas\DetalleGestionOportunidades;
+use App\Models\Postventas\GestionAgendado;
+use App\Models\Postventas\GestionAgendadoDetalleOportunidades;
 use Illuminate\Database\Seeder;
 
 class GestionAgendadoSeeder extends Seeder

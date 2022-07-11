@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Auto;
 use App\Models\Conductor;
+use App\Models\Postventas\Auto;
 use Illuminate\Database\Seeder;
 
 class AutoSeeder extends Seeder

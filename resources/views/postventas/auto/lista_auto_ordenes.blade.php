@@ -33,7 +33,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach(\App\Models\DetalleGestionOportunidades::
+            @foreach(\App\Models\Postventas\DetalleGestionOportunidades::
         selectRaw('ordTaller, max(nomUsuarioVista) as nomUsuarioVista, max(codOrdAsesor) as codOrdAsesor,max(nomOrdAsesor) as nomOrdAsesor, max(ordFchaCierre) as ordFchaCierre, (sum(cantidad) * sum(cargosCobrar)) as monto, min(gestion_fecha) as primer_gestion, min(gestion_tipo) as primer_gestion_estado, min(agendado_fecha) as gestion_futura, max(gestion_tipo) as ultima_gestion_estado')
         ->where('auto_id', '=', $auto->id)
         ->agestionar()
@@ -61,14 +61,16 @@
                     <td>
                         @switch($oportunidad->primergestioestado)
                             @case('cita')
-                            <span class="badge rounded-pill bg-success" title="{{ \Carbon\Carbon::create($oportunidad->gestion_futura)->diffForHumans() }}">{{ __($oportunidad->primergestioestado) }}</span>
-                            @break
+                                <span class="badge rounded-pill bg-success"
+                                      title="{{ \Carbon\Carbon::create($oportunidad->gestion_futura)->diffForHumans() }}">{{ __($oportunidad->primergestioestado) }}</span>
+                                @break
                             @case('recordatorio')
-                            <span class="badge rounded-pill bg-primary" title="{{ \Carbon\Carbon::create($oportunidad->gestion_futura)->diffForHumans() }}">{{ __($oportunidad->primergestioestado) }}</span>
-                            @break
+                                <span class="badge rounded-pill bg-primary"
+                                      title="{{ \Carbon\Carbon::create($oportunidad->gestion_futura)->diffForHumans() }}">{{ __($oportunidad->primergestioestado) }}</span>
+                                @break
                             @case('perdido')
-                            <span class="badge rounded-pill bg-warning">{{ __($oportunidad->primergestioestado) }}</span>
-                            @break
+                                <span class="badge rounded-pill bg-warning">{{ __($oportunidad->primergestioestado) }}</span>
+                                @break
                         @endswitch
                         {{ __() }}
                     </td>
@@ -80,14 +82,14 @@
                         @foreach($oportunidad->gestionestados as $gestionestado)
                             @switch($gestionestado)
                                 @case('cita')
-                                <span class="badge rounded-pill bg-success" >{{ __($gestionestado) }}</span>
-                                @break
+                                    <span class="badge rounded-pill bg-success">{{ __($gestionestado) }}</span>
+                                    @break
                                 @case('recordatorio')
-                                <span class="badge rounded-pill bg-primary" >{{ __($gestionestado) }}</span>
-                                @break
+                                    <span class="badge rounded-pill bg-primary">{{ __($gestionestado) }}</span>
+                                    @break
                                 @case('perdido')
-                                <span class="badge rounded-pill bg-warning">{{ __($gestionestado) }}</span>
-                                @break
+                                    <span class="badge rounded-pill bg-warning">{{ __($gestionestado) }}</span>
+                                    @break
                             @endswitch
 
                         @endforeach
@@ -98,10 +100,12 @@
         </table>
     </div>
     <div class="col-12 order-0 col-sm-12 order-sm-0 col-md-1 order-md-1">
-        <a href="{{ route('postventa.edita_auto',[ 'id' => $propietario->id ,'id_auto'  => $auto->id ,'userid'=> Auth::user()->email]) }}"><i class="fa fa-pen-to-square"></i></a>
+        <a href="{{ route('postventa.edita_auto',[ 'id' => $propietario->id ,'id_auto'  => $auto->id ,'userid'=> Auth::user()->email]) }}"><i
+                    class="fa fa-pen-to-square"></i></a>
     </div>
     <div class="col-12 order-1 col-sm-12 order-sm-1 col-md-1 order-md-2">
-        <a href="{{ route('postventa.consultaHistorial_pdf', [ 'placa_vehiculo' => $auto->placa ,'userid'=> Auth::user()->email]) }}" target="_blank"><i class="fa fa-file-pdf"></i></a>
+        <a href="{{ route('postventa.consultaHistorial_pdf', [ 'placa_vehiculo' => $auto->placa ,'userid'=> Auth::user()->email]) }}"
+           target="_blank"><i class="fa fa-file-pdf"></i></a>
     </div>
 </div>
 

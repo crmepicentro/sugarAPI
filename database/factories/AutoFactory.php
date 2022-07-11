@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Auto;
-use App\Models\Propietario;
-use Carbon\Carbon;
+use App\Models\Postventas\Auto;
+use App\Models\Postventas\Propietario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

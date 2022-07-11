@@ -2,12 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Auto;
 use App\Models\Conductor;
 use App\Models\ConductorAuto;
+use App\Models\Postventas\Auto;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class ConductorAutoFactory extends Factory
 {

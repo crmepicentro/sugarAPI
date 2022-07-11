@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Propietario;
+use App\Models\Postventas\Propietario;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class PropietarioSeeder extends Seeder
 {

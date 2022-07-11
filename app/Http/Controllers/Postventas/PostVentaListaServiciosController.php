@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Postventas;
 
 use App\Http\Controllers\Controller;
-use App\Models\Propietario;
+use App\Models\Postventas\Propietario;
 use Illuminate\Http\Request;
 
 class PostVentaListaServiciosController extends Controller

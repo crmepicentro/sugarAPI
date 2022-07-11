@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\AutoUsuarioauto;
+use App\Models\Postventas\AutoUsuarioauto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AutoUsuarioautoFactory extends Factory
