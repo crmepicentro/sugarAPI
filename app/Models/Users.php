@@ -110,11 +110,13 @@ class Users extends Model
         LIMIT 1
         ');
     }
-    public static function getRandomAsesorBCAgenciaS3Sid($line_id, $position, $dias, $medio = 'all')
+    public static function getRandomAsesorBCAgenciaS3Sid($line_id, $position, $dias, $fuente = 'all')
     {
+        //return DB::connection(get_connection())->select('SELECT u.id  usuario, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos FROM users u');
+
         return DB::connection(get_connection())->select('
-        SELECT t.usuario,t.cuantos FROM (
-        SELECT u.id  usuario, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos FROM users u
+        SELECT t.usuario as id,t.user_name,t.cuantos FROM (
+        SELECT u.id usuario,u.user_name, countInteraccionesAsigFuente(u.id, '. $dias .', \''. $fuente. '\') cuantos FROM users u
         INNER JOIN users_cstm uc ON u.id=uc.id_c
         INNER JOIN cb_lineanegocio_users_c lu ON u.id=lu.cb_lineanegocio_usersusers_idb
         inner join cb_lineanegocio ln on lu.cb_lineanegocio_userscb_lineanegocio_ida = ln.id
@@ -125,6 +127,7 @@ class Users extends Model
         ORDER BY t.cuantos ASC
         LIMIT 1
         ');
+
     }
 
     public static function get_comercial_users($withEmail = true, $withBussinessLine = true, $medio = null)
