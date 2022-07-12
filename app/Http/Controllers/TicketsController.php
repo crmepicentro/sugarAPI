@@ -152,15 +152,19 @@ class TicketsController extends BaseController
 
             if (isset($request->datosSugarCRM['user_name'])) {
                 $user = Users::get_user($request->datosSugarCRM['user_name']);
+
             } else {
+
                 $positionBC = 6;
                 $pastDays = 2;
-                $medio = $request->datosSugarCRM['medio'];
-                $lineaId = $request->datosSugarCRM['linea_negocio'];
-                $userRandom = Users::getRandomAsesorBCAgenciaS3Sid($lineaId, $positionBC, $pastDays, $medio)[0];
-                $user = Users::find($userRandom->id);
-            }
 
+                $lineaId =$this->lineaApi[$request->datosSugarCRM['linea_negocio']];
+                $userRandom = Users::getRandomAsesorBCAgenciaS3Sid($lineaId, $positionBC, $pastDays)[0];
+
+                $user = Users::find($userRandom->id);
+
+            }
+            //return $validateRequest;
             $dataTicket = $this->cleanDataTicket($user, $user_auth, $validateRequest);
             //return $dataTicket;
             $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
