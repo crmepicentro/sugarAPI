@@ -58,6 +58,8 @@ class TicketsController extends BaseController
 {   /* esto se utiliza para evitar leer y enviar datos a inconcert */
     public $sourcesOmniChannel = ['inconcert', '1800', 'facebook', 'whatsapp', 'ticket_manual'];
 
+    public $lineaApi = array(1 => 'Postventa', 2 => '3', 3 => '6', 4 => '70');
+
     /**
      * Ticket - Interacción
      *
@@ -131,9 +133,9 @@ class TicketsController extends BaseController
         $get_user_auth = $this->obtenercrediales($request);
         $user_auth = $get_user_auth["auth"];
 
-        if(!$get_user_auth["registrolog"]){
-            if($get_user_auth["message"] != null){
-                return response()->json(["data"=>$get_user_auth["message"]])->setStatusCode(200);
+        if (!$get_user_auth["registrolog"]) {
+            if ($get_user_auth["message"] != null) {
+                return response()->json(["data" => $get_user_auth["message"]])->setStatusCode(200);
             }
         }
 
@@ -148,16 +150,23 @@ class TicketsController extends BaseController
                 $validateRequest["medio"] = get_medio_inconcert($user_auth->fuente, $request->datosSugarCRM["fuente_descripcion"]);
             }
 
-            if(isset($request->datosSugarCRM['user_name'])){
+            if (isset($request->datosSugarCRM['user_name'])) {
                 $user = Users::get_user($request->datosSugarCRM['user_name']);
-            }else{
-                $positionBC = 6;
-                $pastDays= 2;
-                $userRandom = Users::getRandomAsesor($positionBC, $pastDays)[0];
-                $user = Users::find($userRandom->id);
-            }
 
+            } else {
+
+                $positionBC = 6;
+                $pastDays = 2;
+
+                $lineaId =$this->lineaApi[$request->datosSugarCRM['linea_negocio']];
+                $userRandom = Users::getRandomAsesorBCAgenciaS3Sid($lineaId, $positionBC, $pastDays)[0];
+
+                $user = Users::find($userRandom->id);
+
+            }
+            //return $validateRequest;
             $dataTicket = $this->cleanDataTicket($user, $user_auth, $validateRequest);
+            //return $dataTicket;
             $ticket = $this->createUpdateTicket($dataTicket, $type_filter);
 
             $interactionClass = $this->createDataInteraction($dataTicket, $ticket->estado, $user->usersCstm->cb_agencias_id_c);
@@ -180,14 +189,16 @@ class TicketsController extends BaseController
             if(!in_array($user_auth->fuente, $this->sourcesOmniChannel) && ($user_auth->tokenCan('environment:prod') || $user_auth->fuente == 'tests_source'))
             {
                 $ticketUpdate = Tickets::find($ticket->id);
-                if(isset($ticket->new)){
+                if (isset($ticket->new)) {
                     $ticketUpdate->created_by = 1;
                 }
 
                 $ticketUpdate->modified_user_id = 1;
+
                 $ticketUpdate->save();
 
                 $dataInconcert = $this->getDataInconcert($request, $user_auth, $ticket);
+
                 $this->createTicketInconcert($dataInconcert);
             }
 
@@ -199,7 +210,8 @@ class TicketsController extends BaseController
         }
     }
 
-    public function getWsLog($duplicado){
+    public function getWsLog($duplicado)
+    {
         $ws_logs = new Ws_logs();
 
         $ws_logs->id = $duplicado->id;
@@ -465,7 +477,8 @@ class TicketsController extends BaseController
             'anioMax',
             'anioMin',
             'combustible',
-            'campania'
+            'campania',
+            'email'
         ];
 
         $validRequest = $request;
@@ -479,10 +492,13 @@ class TicketsController extends BaseController
 
     public function getDataInconcert($request, $user_auth, $ticket)
     {
+        $mail=null;
+        if(isset($request->datosSugarCRM['email'])){ $mail= $request->datosSugarCRM['email']; }
+
         return [
             "numero_identificacion" => $request->datosSugarCRM['numero_identificacion'],
             "tipo_identificacion" => $request->datosSugarCRM['tipo_identificacion'],
-            "email" => $request->datosSugarCRM['email'],
+            "email" => $mail,
             "firstname" => $request->datosSugarCRM['nombres'],
             "lastname" => $request->datosSugarCRM['apellidos'],
             "tipo_transaccion" => $request->datosSugarCRM['tipo_transaccion'],
@@ -1181,48 +1197,51 @@ class TicketsController extends BaseController
         WsLog::storeAfter($ws_logs, $dataErrorWS);
     }
 
-    public function obtenercrediales($request){
-        try{
+    public function obtenercrediales($request)
+    {
+        try {
             $user_auth = Auth::user();
             $reprocesoToken = [
                 //"48" => "api_prueba"
-                "49"=> "reproceso_automatico"
+                "49" => "reproceso_automatico"
             ];
             //para reprocesos
-            if(isset($reprocesoToken[$user_auth->id])) {
-                $obtenerCredenciales = $this->findDuplicate($request,true);
+            if (isset($reprocesoToken[$user_auth->id])) {
+                $obtenerCredenciales = $this->findDuplicate($request, true);
                 return $obtenerCredenciales;
-            }else{
-                $validarDuplicado = $this->findDuplicate($request,false);
+            } else {
+                $validarDuplicado = $this->findDuplicate($request, false);
                 return $validarDuplicado;
             }
 
-        }catch (Throwable $e) {
+        } catch (Throwable $e) {
             report($e);
             return response()->json($e->getMessage())->setStatusCode(500);
             return false;
         }
     }
+
     /*
      * @request = Trama de datos entrante
      * @estado = indica si se tiene que reprocesar o sera un ingreso nuevo
      * el token de reprocesos solo podra reprocesar datos que ya estan en el log NO nuevos
      */
-    public function findDuplicate($request,$estado){
+    public function findDuplicate($request, $estado)
+    {
         $duplicado = WsLog::getDuplicadoLog($request);
-        if($estado === false){
-            if($duplicado == true){
-                $datos = [ "auth"=>null, "registrolog"=>false, "message"=>"El ticket ya se encuentra registrado." ];
+        if ($estado === false) {
+            if ($duplicado == true) {
+                $datos = ["auth" => null, "registrolog" => false, "message" => "El ticket ya se encuentra registrado."];
                 return $datos;
-            }else{
+            } else {
                 $user = Auth::user();
-                $datos = [ "auth"=>$user, "registrolog"=>true, "message"=>null ];
+                $datos = ["auth" => $user, "registrolog" => true, "message" => null];
                 return $datos;
             }
-        }else{
-            $user = User::where('fuente',  $duplicado->source)->first();
+        } else {
+            $user = User::where('fuente', $duplicado->source)->first();
             //$wsLogdata = $this->getWsLog($duplicado);
-            $datos = [ "auth"=>$user, "registrolog"=>false, "message"=>null ];
+            $datos = ["auth" => $user, "registrolog" => false, "message" => null];
 
             return $datos;
         }

@@ -110,6 +110,25 @@ class Users extends Model
         LIMIT 1
         ');
     }
+    public static function getRandomAsesorBCAgenciaS3Sid($line_id, $position, $dias, $fuente = 'all')
+    {
+        //return DB::connection(get_connection())->select('SELECT u.id  usuario, countInteraccionesAsigMedio(u.id, '. $dias .', \''. $medio. '\') cuantos FROM users u');
+
+        return DB::connection(get_connection())->select('
+        SELECT t.usuario as id,t.user_name,t.cuantos FROM (
+        SELECT u.id usuario,u.user_name, countInteraccionesAsigFuente(u.id, '. $dias .', \''. $fuente. '\') cuantos FROM users u
+        INNER JOIN users_cstm uc ON u.id=uc.id_c
+        INNER JOIN cb_lineanegocio_users_c lu ON u.id=lu.cb_lineanegocio_usersusers_idb
+        inner join cb_lineanegocio ln on lu.cb_lineanegocio_userscb_lineanegocio_ida = ln.id
+        WHERE
+        u.status="Active" AND lu.deleted= 0  AND u.deleted= 0 AND uc.cargo_c='. $position .'
+        AND ln.s3s_id="'. $line_id .'"
+         )  AS t
+        ORDER BY t.cuantos ASC
+        LIMIT 1
+        ');
+
+    }
 
     public static function get_comercial_users($withEmail = true, $withBussinessLine = true, $medio = null)
     {
@@ -153,7 +172,8 @@ class Users extends Model
     }
 
     public static function get_coordinadores($withEmail = true)
-    { 
+    {
+
 
         $users = Users::where('users.deleted', 0)   
            ->join('users_cstm', 'users.id', '=', 'users_cstm.id_c')
@@ -164,12 +184,12 @@ class Users extends Model
            ->get();
 
            if($withEmail){
-               foreach ($users as $user){  
+               foreach ($users as $user){
                     $emailRel = EmailAddrBeanRel::where('bean_id', $user->id)->where('primary_address', 1)->first();
                     if($emailRel){
                         $userEmail = EmailAddreses::where('id', $emailRel->email_address_id)->first();
                         $user->email = $userEmail->email_address;
-                    }                    
+                    }
                }
            }
 
