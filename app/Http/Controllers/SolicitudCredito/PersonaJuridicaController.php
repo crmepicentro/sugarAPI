@@ -18,7 +18,6 @@ class PersonaJuridicaController extends Controller
     {
         $compania = $request->query("compania");
         $tipoPersona = $request->query("persona");
-        // return response()->json(['success' => $request], 200);
         try {
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
@@ -60,11 +59,12 @@ class PersonaJuridicaController extends Controller
         $solicitud->producto = $res['producto'];
         $solicitud->valor_producto = floatval($res['valorProducto']);
         $solicitud->entrada = floatval($res['entrada']);
-        $solicitud->valor_financiar = floatval($res['valoFinanciar']);
+        $solicitud->valor_financiar = floatval($res['valorFinanciar']);
         $solicitud->plazo = intval($res['plazo']);
         $solicitud->fecha_solicitud = Carbon::parse($res['fechaSolicitud']);
         $solicitud->asesor = $res['asesor'];
         $solicitud->agencia = $res['agencia'];
+        $solicitud->financiamiento = $res["financiamiento"];
         $solicitud->cedula_cliente = $request->cliente['cedula'];
         return $solicitud;
     }

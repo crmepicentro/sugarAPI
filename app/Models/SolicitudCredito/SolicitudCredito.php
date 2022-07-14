@@ -20,6 +20,7 @@ class SolicitudCredito extends Model
         'valor_producto',
         'entrada',
         'valor_financiar',
+        'financiamiento',
         'plazo',
         'fecha_solicitud',
         'asesor',

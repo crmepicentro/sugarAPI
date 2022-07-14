@@ -65,12 +65,12 @@ class PersonaNaturalController extends Controller
         if ($compania=="01" && $persona=="02") {
             $pdf = PDF::loadView("solicitud.cbJuridico");
         }
-        // if ($compania=="02" && $persona=="01") {
-        //     $pdf = PDF::loadView("solicitud.milNatural");
-        // }
-        // if ($compania=="02" && $persona=="02") {
-        //     $pdf = PDF::loadView("solicitud.milJuridica");
-        // }
+        if ($compania=="02" && $persona=="01") {
+            $pdf = PDF::loadView("solicitud.milNatural");
+        }
+        if ($compania=="02" && $persona=="02") {
+            $pdf = PDF::loadView("solicitud.milJuridica");
+        }
         return $pdf->stream("solicitud.pdf");
     }
 
@@ -79,7 +79,7 @@ class PersonaNaturalController extends Controller
         $pdf = PDF::loadView("solicitud.cbNatural");
         $pdf = PDF::loadView("solicitud.cbJuridico");
         // $pdf = PDF::loadView("solicitud.milNatural");
-        $pdf = PDF::loadView("solicitud.milJuridica");
+        // $pdf = PDF::loadView("solicitud.milJuridica");
         return $pdf->stream("solicitud.pdf");
     }
 
@@ -156,13 +156,13 @@ class PersonaNaturalController extends Controller
         $solicitud->producto = $res["producto"];
         $solicitud->valor_producto = floatval($res["valorProducto"]);
         $solicitud->entrada = floatval($res["entrada"]);
-        $solicitud->valor_financiar = floatval($res["valoFinanciar"]);
+        $solicitud->valor_financiar = floatval($res["valorFinanciar"]);
         $solicitud->plazo = intval($res["plazo"]);
         $solicitud->fecha_solicitud = Carbon::parse($res["fechaSolicitud"]);
         $solicitud->asesor = $res["asesor"];
         $solicitud->agencia = $res["agencia"];
         $solicitud->cedula_cliente = $request->cliente["cedula"];
-        $solicitud->financiamiento = $request->cliente["financiamiento"];
+        $solicitud->financiamiento = $res["financiamiento"];
         return $solicitud;
     }
 
@@ -246,14 +246,14 @@ class PersonaNaturalController extends Controller
         $cliente->nombre_completo = $res["nombreCompleto"];
         $cliente->cedula = $res["cedula"];
         $cliente->pasaporte = $res["pasaporte"];
-        $cliente->nacionalidad = $res["nacionalida"];
+        $cliente->nacionalidad = $res["nacionalidad"];
         $cliente->ruc = $res["ruc"];
         $cliente->estado_civil = $res["estadoCivil"];
         $cliente->separacion_bienes = $res["separacionBienes"];
         $cliente->carga_familiar = $res["cargaFamiliar"];
         $cliente->cyg_nombre_completo = $res["cygNombreCompleto"];
         $cliente->cyg_cedula = $res["cygCedula"];
-        $cliente->cyg_nacionalidad = $res["cygNacionalida"];
+        $cliente->cyg_nacionalidad = $res["cygNacionalidad"];
         $cliente->provincia = $res["provincia"];
         $cliente->ciudad = $res["ciudad"];
         $cliente->calle_principal = $res["callePrincipal"];
@@ -277,7 +277,6 @@ class PersonaNaturalController extends Controller
         $cliente->otros_gastos = $res["otrosGastos"];
         $cliente->gastos_total = $res["gastosTotal"];
         $cliente->persona_tipo = $res["personaTipo"];
-        // $cliente->persona_tipo = $res["personaTipo"];
         return $cliente;
     }
 
