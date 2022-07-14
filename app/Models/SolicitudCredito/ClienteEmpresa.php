@@ -10,7 +10,7 @@ class ClienteEmpresa extends Model
     use HasFactory;
     /*
         cambiar la conexion
-        */
+    */
     protected $connection = 'base_intermedia';
 
     protected $table='bb_solicitud_cliente_empresa';
