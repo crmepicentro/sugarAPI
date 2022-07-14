@@ -10,6 +10,7 @@ use App\Models\SolicitudCredito\SolicitudCliente;
 use App\Models\SolicitudCredito\SolicitudCredito;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PersonaJuridicaController extends Controller
 {
@@ -19,6 +20,7 @@ class PersonaJuridicaController extends Controller
         $compania = $request->query("compania");
         $tipoPersona = $request->query("persona");
         try {
+            DB::connection(get_connection())->beginTransaction();
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
             $solicitud->save();
@@ -42,11 +44,13 @@ class PersonaJuridicaController extends Controller
                     $patrimonio->save();
                 }
             }
+            DB::connection(get_connection())->commit();
             return response()->json([
                 "success" => "Guardado exitoso",
                 "dowmload" => route("dowmload.solicitud.credito",[$compania, $tipoPersona, $solicitud->id_cotizacion])
             ], 200);
         } catch (\Exception $e) {
+            DB::connection(get_connection())->rollBack();
             return response()->json(['error' => $e . ' - Notifique a SUGAR CRM Casabaca'], 500);
         }
     }

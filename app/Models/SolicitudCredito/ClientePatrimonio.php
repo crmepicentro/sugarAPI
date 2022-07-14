@@ -10,8 +10,8 @@ class ClientePatrimonio extends Model
     use HasFactory;
     /*
         cambiar la conexion
-        protected $connection = 'sugar_dev';
-    */
+        */
+    protected $connection = 'sugar_dev';
     protected $table='bb_solicitud_cliente_patrimonios';
     protected $fillable=[
         'bien_inmueble',

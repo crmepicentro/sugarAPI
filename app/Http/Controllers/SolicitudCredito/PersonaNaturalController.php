@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use PDF;
 
 class PersonaNaturalController extends Controller
@@ -24,6 +25,7 @@ class PersonaNaturalController extends Controller
         $tipoPersona = $request->query("persona");
         // return response()->json(["success" => $compania], 200);
         try {
+            DB::connection(get_connection())->beginTransaction();
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
             $solicitud->save();
@@ -46,11 +48,13 @@ class PersonaNaturalController extends Controller
                     $patrimonio->save();
                 }
             }
+            DB::connection(get_connection())->commit();
             return response()->json([
                 "success" => "Guardado exitoso",
                 "dowmload" => route("dowmload.solicitud.credito",[$compania, $tipoPersona, $solicitud->id_cotizacion])
             ], 200);
         } catch (\Exception $e) {
+            DB::connection(get_connection())->rollBack();
             return response()->json(["error" => $e . " - Notifique a SUGAR CRM"], 500);
         }
     }
@@ -90,6 +94,7 @@ class PersonaNaturalController extends Controller
         $tipo = $request->query("tipo");
         $path = "solicitudes-credito/solicitud-".$idCotizacion;
         try {
+            DB::connection(get_connection())->beginTransaction();
             $file = $request->file("file");
             $nombre = strtolower(str_replace(' ','_', $tipo));
             $extencion = $file->getClientOriginalExtension();
@@ -107,8 +112,10 @@ class PersonaNaturalController extends Controller
                     "borrado" => 0
                 ]
             );
+            DB::connection(get_connection())->commit();
             return response()->json(["success" => "Archivo subido"], 200);
         } catch (\Exception $e) {
+            DB::connection(get_connection())->rollBack();
             return response()->json(["error" => $e . " - Notifique a SUGAR CRM Casabaca"], 500);
         }
     }
@@ -120,22 +127,27 @@ class PersonaNaturalController extends Controller
         $nombre = $request->nombre;
         $path = "solicitudes-credito/solicitud-".$idCotizacion."/".$nombre;
         try {
+            DB::connection(get_connection())->beginTransaction();
             Storage::delete($path);
             SolicitudArchivo::where("id_solicitud", $idCotizacion)
                                 ->where("nombre", $nombre)
                                 ->update([ "borrado" => true ]);
+            DB::connection(get_connection())->commit();
             return response()->json([ "success" => "Archivo subido" ], 200);
         } catch (\Exception $e) {
+            DB::connection(get_connection())->rollBack();
             return response()->json(["error" => $e . " - Notifique a SUGAR CRM Casabaca"], 500);
         }
     }
 
     public function showFiles(Request $request)
     {
+        DB::connection(get_connection())->beginTransaction();
         $data = [];
         $idCotizacion = $request->idCotizacion;
         $files = SolicitudArchivo::where("id_solicitud", $idCotizacion)
                                     ->where("borrado", false)->get();
+        DB::connection(get_connection())->commit();
         foreach ($files as $file) {
             list($nombre, $extension) = explode(".", $file->nombre);
             $data[] = [

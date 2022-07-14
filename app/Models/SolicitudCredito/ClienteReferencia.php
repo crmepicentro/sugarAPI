@@ -10,8 +10,8 @@ class ClienteReferencia extends Model
     use HasFactory;
     /*
         cambiar la conexion
-        protected $connection = 'sugar_dev';
-    */
+        */
+    protected $connection = 'sugar_dev';
     protected $table='bb_solicitud_cliente_referencias';
     protected $fillable=[
         'institucion_1',
