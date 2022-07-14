@@ -11,7 +11,7 @@ class SolicitudArchivo extends Model
         /*
         cambiar la conexion
         */
-    protected $connection = 'sugar_dev';
+    protected $connection = 'base_intermedia';
     protected $table='bb_solicitud_archivos';
     protected $fillable=[
         'id_solicitud',

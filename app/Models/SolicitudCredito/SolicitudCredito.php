@@ -12,7 +12,7 @@ class SolicitudCredito extends Model
     /*
         cambiar la conexion
         */
-    protected $connection = 'sugar_dev';
+    protected $connection = 'base_intermedia';
     protected $table='bb_solicitud_credito';
     protected $fillable=[
         'id_cotizacion',

@@ -11,7 +11,7 @@ class ClientePatrimonio extends Model
     /*
         cambiar la conexion
         */
-    protected $connection = 'sugar_dev';
+    protected $connection = 'base_intermedia';
     protected $table='bb_solicitud_cliente_patrimonios';
     protected $fillable=[
         'bien_inmueble',
