@@ -1,25 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\SolicitudCredito;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\SolicitudCredito\ClienteEmpresa;
 use App\Models\SolicitudCredito\ClientePatrimonio;
 use App\Models\SolicitudCredito\ClienteReferencia;
 use App\Models\SolicitudCredito\SolicitudArchivo;
 use App\Models\SolicitudCredito\SolicitudCliente;
-use App\Models\SolicitudCredito\SolicitudCredito;
-use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
-use GrahamCampbell\ResultType\Success;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 use PDF;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
-class PersonaNaturalController extends Controller
+class SolicitudCredito extends Controller
 {
-
     public function create(Request $request)
     {
         $compania = $request->query("compania");
@@ -59,7 +54,6 @@ class PersonaNaturalController extends Controller
             return response()->json(["error" => $e . " - Notifique a SUGAR CRM"], 500);
         }
     }
-
     public function pdf(Request $request)
     {
         $compania = $request->compania;
@@ -85,10 +79,7 @@ class PersonaNaturalController extends Controller
         $pdf = PDF::loadView("solicitud.cbJuridico");
         // $pdf = PDF::loadView("solicitud.milNatural");
         // $pdf = PDF::loadView("solicitud.milJuridica");
-        return $pdf->stream("solicitud.pdf");
     }
-
-    // valiadar
     public function uploadFile(Request $request)
     {
         $idCotizacion = $request->query("idCotizacion");
@@ -178,7 +169,20 @@ class PersonaNaturalController extends Controller
         $solicitud->financiamiento = $res["financiamiento"];
         return $solicitud;
     }
-
+    public function fillPatrimonio($value)
+    {
+        $patrimonio = new ClientePatrimonio();
+        $patrimonio->bien_inmueble = $value["bienInmueble"];
+        $patrimonio->ciudad_direccion = $value["ciudadDireccion"];
+        $patrimonio->hipotecado = $value["hipotecado"];
+        $patrimonio->marca_vehiculo = $value["marcaVehiculo"];
+        $patrimonio->modelo_vehiculo = $value["modeloVehiculo"];
+        $patrimonio->anio = intval($value["anio"]);
+        $patrimonio->prendado = $value["prendado"];
+        $patrimonio->valor_comercial = floatval($value["valorComercial"]);
+        $patrimonio->patrimonio_tipo = $value["tipo"];
+        return $patrimonio;
+    }
     private function fillReferenciaNatural(Request $request)
     {
         $res = $request->referencia;
@@ -213,7 +217,41 @@ class PersonaNaturalController extends Controller
         $referencia->empresa_telefono_2 = $res["empresaTelefono2"];
         return $referencia;
     }
-
+    private function fillReferenciaJuridica(Request $request)
+    {
+        $res = $request->referencia;
+        $referencia = new ClienteReferencia();
+        $referencia->institucion_1 = $res['institucion1'];
+        $referencia->cuenta_tipo_1 = $res['cuentaTipo1'];
+        $referencia->no_cuenta_1 = $res['noCuenta1'];
+        $referencia->tarjeta_tipo_1 = $res['tarjetaTipo1'];
+        $referencia->banco_emisor_1 = $res['bancoEmisor1'];
+        $referencia->institucion_2 = $res['institucion2'];
+        $referencia->cuenta_tipo_2 = $res['cuentaTipo2'];
+        $referencia->no_cuenta_2 = $res['noCuenta2'];
+        $referencia->tarjeta_tipo_2 = $res['tarjetaTipo2'];
+        $referencia->banco_emisor_2 = $res['bancoEmisor2'];
+        $referencia->empresa_nombre_1 = $res['empresaNombre1'];
+        $referencia->empresa_ciudad_1 = $res['empresaCiudad1'];
+        $referencia->empresa_telefono_1 = $res['empresaTelefono1'];
+        $referencia->empresa_nombre_2 = $res['empresaNombre2'];
+        $referencia->empresa_ciudad_2 = $res['empresaCiudad2'];
+        $referencia->empresa_telefono_2 = $res['empresaTelefono2'];
+        $referencia->empresa_nombre_3 = $res['empresaNombre3'];
+        $referencia->empresa_ciudad_3 = $res['empresaCiudad3'];
+        $referencia->empresa_telefono_3 = $res['empresaTelefono3'];
+        $referencia->compra_nombre_completo = $res['compraNombreCompleto'];
+        $referencia->compra_correo = $res['compraCorreo'];
+        $referencia->compra_celular = $res['compraCelular'];
+        $referencia->compra_telefono = $res['compraTelefono'];
+        $referencia->compra_ext_telefono = $res['compraExtTelefono'];
+        $referencia->pago_nombre_completo = $res['pagoNombreCompleto'];
+        $referencia->pago_correo = $res['pagoCorreo'];
+        $referencia->pago_celular = $res['pagoCelular'];
+        $referencia->pago_telefono = $res['pagoTelefono'];
+        $referencia->pago_ext_telefono = $res['pagoExtTelefono'];
+        return $referencia;
+    }
     private function fillEmpresaNatural(Request $request)
     {
         $res = $request->empresa;
@@ -236,22 +274,58 @@ class PersonaNaturalController extends Controller
         $empresa->telefono = $res["telefono"];
         return $empresa;
     }
-
-    public function fillPatrimonio($value)
+    private function fillEmpresaJuridica(Request $request)
     {
-        $patrimonio = new ClientePatrimonio();
-        $patrimonio->bien_inmueble = $value["bienInmueble"];
-        $patrimonio->ciudad_direccion = $value["ciudadDireccion"];
-        $patrimonio->hipotecado = $value["hipotecado"];
-        $patrimonio->marca_vehiculo = $value["marcaVehiculo"];
-        $patrimonio->modelo_vehiculo = $value["modeloVehiculo"];
-        $patrimonio->anio = intval($value["anio"]);
-        $patrimonio->prendado = $value["prendado"];
-        $patrimonio->valor_comercial = floatval($value["valorComercial"]);
-        $patrimonio->patrimonio_tipo = $value["tipo"];
-        return $patrimonio;
+        $res = $request->empresa;
+        $empresa = new ClienteEmpresa();
+        $empresa->razon_social = $res['razonSocial'];
+        $empresa->actividad_economica = $res['actividadEconomica'];
+        $empresa->ruc = $res['ruc'];
+        $empresa->cosntitucion_anios = $res['cosntitucionAnios'];
+        $empresa->cosntitucion_meses = $res['cosntitucionMeses'];
+        $empresa->provincia = $res['provincia'];
+        $empresa->ciudad = $res['ciudad'];
+        $empresa->calle_principal = $res['callePrincipal'];
+        $empresa->calle_secundaria = $res['calleSecundaria'];
+        $empresa->no_casa = $res['noCasa'];
+        $empresa->sector = $res['sector'];
+        $empresa->telefono = $res['telefono'];
+        $empresa->celular = $res['celular'];
+        $empresa->correo = $res['correo'];
+        $empresa->instalaciones = $res['instalaciones'];
+        $empresa->sucursales = $res['sucursales'];
+        $empresa->total_pasivos = $res['totalPasivos'];
+        $empresa->total_activos = $res['totalActivos'];
+        $empresa->total_patrimonio = $res['totalPatrimonio'];
+        return $empresa;
     }
-
+    private function fillClienteJuridica(Request $request)
+    {
+        $res = $request->cliente;
+        $cliente = new SolicitudCliente();
+        $cliente->nombre_completo = $res['nombreCompleto'];
+        $cliente->cedula = $res['cedula'];
+        $cliente->pasaporte = $res['pasaporte'];
+        $cliente->ruc = $res['ruc'];
+        $cliente->estado_civil = $res['estadoCivil'];
+        $cliente->separacion_bienes = $res['separacionBienes'];
+        $cliente->carga_familiar = $res['cargaFamiliar'];
+        $cliente->cyg_nombre_completo = $res['cygNombreCompleto'];
+        $cliente->cyg_cedula = $res['cygCedula'];
+        $cliente->provincia = $res['provincia'];
+        $cliente->ciudad = $res['ciudad'];
+        $cliente->calle_principal = $res['callePrincipal'];
+        $cliente->calle_secundaria = $res['calleSecundaria'];
+        $cliente->no_casa = $res['noCasa'];
+        $cliente->sector = $res['sector'];
+        $cliente->telefono = $res['telefono'];
+        $cliente->celular = $res['celular'];
+        $cliente->correo = $res['correo'];
+        $cliente->casa_tipo = $res['casaTipo'];
+        $cliente->tiempo_residencia = $res['tiempoResidencia'];
+        $cliente->persona_tipo = $res['personaTipo'];
+        return $cliente;
+    }
     private function fillClienteNatural(Request $request)
     {
         $res = $request->cliente;
@@ -292,5 +366,4 @@ class PersonaNaturalController extends Controller
         $cliente->persona_tipo = $res["personaTipo"];
         return $cliente;
     }
-
 }
