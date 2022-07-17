@@ -73,7 +73,7 @@ class PersonaJuridicaController extends Controller
         return $solicitud;
     }
 
-    private function fillReferencia(Request $request)
+    private function fillReferenciaJuridica(Request $request)
     {
         $res = $request->referencia;
         $referencia = new ClienteReferencia();
@@ -109,7 +109,9 @@ class PersonaJuridicaController extends Controller
         return $referencia;
     }
 
-    private function fillEmpresa(Request $request)
+
+
+    private function fillEmpresaJuridica(Request $request)
     {
         $res = $request->empresa;
         $empresa = new ClienteEmpresa();
@@ -150,7 +152,7 @@ class PersonaJuridicaController extends Controller
         return $patrimonio;
     }
 
-    private function fillCliente(Request $request)
+    private function fillClienteJuridica(Request $request)
     {
         $res = $request->cliente;
         $cliente = new SolicitudCliente();

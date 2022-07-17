@@ -69,6 +69,8 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
 
     //Solicitud de Credito
+    $api->post('SolicitudCredito/crear/', 'App\Http\Controllers\SolicitudCreditoController@create');
+
     $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
     $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
     $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
