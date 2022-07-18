@@ -34,7 +34,7 @@ class CreateCuotaAlcancesTable extends Migration
             $table->double('saldo_financiar')->nullable();
             $table->double('intereses')->nullable();
             $table->double('saldo_financiado')->nullable();
-            $table->integer('num_cuotas')->nullable();
+            $table->integer('no_cuotas')->nullable();
             $table->double('cuota')->nullable();
             $table->string('tipo_pago')->nullable();
             $table->boolean('tarjeta_credito')->nullable();
@@ -94,7 +94,7 @@ class CreateCuotaAlcancesTable extends Migration
             $table->string('rc_descripcion_ubicacion_4')->nullable();
             $table->double('rc_valor_comercial_4')->nullable();
             $table->double('rc_valor_deuda_4')->nullable();
-            $table->double('rc_total_bienes_4')->nullable();
+            $table->double('rc_total_bienes')->nullable();
             $table->string('rp_nombres_1')->nullable();
             $table->string('rp_apellidos_1')->nullable();
             $table->string('rp_provincia_1')->nullable();
