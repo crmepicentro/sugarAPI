@@ -68,6 +68,24 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
 
     $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
     $api->get('coordinadores', 'App\Http\Controllers\UsersController@getCoordinadores');
+
+    //Solicitud de Credito
+    $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
+    $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
+    $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
+
+    $api->get('files-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@showFiles');
+    $api->get('getCiudades/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@ciudades');
+    $api->get('getProvincias/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@provincias');
+    $api->get('getNacionalidades/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@nacionalidades');
+
+    $api->delete('delete-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@deleteFile');
+
+    //Cuota de alcance
+    $api->post('upload-cuota/', 'App\Http\Controllers\CuotaDeAlcanceController@uploadFile');
+    $api->get('getFilesCuota/{idCuota}', 'App\Http\Controllers\CuotaDeAlcanceController@showFiles');
+    $api->delete('deleteFileCuota/{idCuota}/{id}/{nombre}', 'App\Http\Controllers\CuotaDeAlcanceController@deleteFile')->name('delete.file.cuota');
+
 });
 
 $api->version('v1', function ($api) {

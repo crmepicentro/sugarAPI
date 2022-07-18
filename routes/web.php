@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthSugarController;
 use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\AvaluosController;
-
+use App\Http\Controllers\SolicitudCredito\PersonaNaturalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +45,20 @@ Route::middleware([UserAuth::class])->group(function () {
     Route::post('sugarUserBlocked', [SugarUserBlocked::class, 'store']);
     Route::get('sugarUserBlocked', [SugarUserBlocked::class, 'index']);
     Route::get('listComercialUsers', [SugarUserBlocked::class, 'listComercialUsers']);
+
 });
+Route::get('solicitudCredito/dowmload/{compania}/{persona}/{idCotizacion}/', [PersonaNaturalController::class , 'pdf'])->name('dowmload.solicitud.credito');
+Route::get('solicitudCredito/file/{idCotizacion}/{nombre}/',function ($idCotizacion, $nombre){
+    $path = storage_path( "app/solicitudes-credito/solicitud-{$idCotizacion}/{$nombre}");
+    return response()->file($path);
+})->name('file.solicitud.credito');
+//temporak
+Route::get('pdf', [PersonaNaturalController::class , 'pdfView'])->name('dowmload.solicitud.credito');
+
+Route::get('cuotaAlcance/file/{nombre}/',function ($nombre){
+    $path = storage_path( "app/cuotas-alcance/{$nombre}");
+    return response()->file($path);
+})->name('file.cuota.alcance');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
