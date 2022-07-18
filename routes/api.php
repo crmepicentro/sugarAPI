@@ -69,13 +69,10 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
 
     //Solicitud de Credito
-    $api->post('SolicitudCredito/crear/', 'App\Http\Controllers\SolicitudCreditoController@create');
-    $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCreditoController@uploadFile');
-    $api->delete('delete-solicitud/', 'App\Http\Controllers\SolicitudCreditoController@deleteFile');
+    $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
+    $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
+    $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
 
-    // $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
-    // $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
-    // $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
     $api->get('files-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@showFiles');
 
     $api->get('getCiudades/', 'App\Http\Controllers\GetProvinciasCiudades@ciudades');

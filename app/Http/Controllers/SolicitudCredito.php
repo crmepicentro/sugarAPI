@@ -7,14 +7,13 @@ use App\Models\SolicitudCredito\ClientePatrimonio;
 use App\Models\SolicitudCredito\ClienteReferencia;
 use App\Models\SolicitudCredito\SolicitudArchivo;
 use App\Models\SolicitudCredito\SolicitudCliente;
-use App\Models\SolicitudCredito\SolicitudCredito;
 use Carbon\Carbon;
 use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class SolicitudCreditoController extends Controller
+class SolicitudCredito extends Controller
 {
     public function create(Request $request)
     {
@@ -26,32 +25,17 @@ class SolicitudCreditoController extends Controller
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
             $solicitud->save();
-            if ($tipoPersona == 01) {
-                //empresa
-                $empresa = $this->fillEmpresaNatural($request);
-                $empresa->save();
-                //referencia
-                $referencia = $this->fillReferenciaNatural($request);
-                $referencia->save();
-                //cliente
-                $cliente = $this->fillClienteNatural($request);
-                $cliente->empresa_id = $empresa->id;
-                $cliente->referencias_id = $referencia->id;
-                $cliente->save();
-            }
-            if ($tipoPersona == 02) {
-                //empresa
-                $empresa = $this->fillEmpresaJuridica($request);
-                $empresa->save();
-                //referencia
-                $referencia = $this->fillReferenciaJuridica($request);
-                $referencia->save();
-                //cliente
-                $cliente = $this->fillClienteJuridica($request);
-                $cliente->empresa_id = $empresa->id;
-                $cliente->referencias_id = $referencia->id;
-                $cliente->save();
-            }
+        //empresa
+            $empresa = $this->fillEmpresa($request);
+            $empresa_id = $empresa->save();
+        //referencia
+            $referencia = $this->fillReferencia($request);
+            $referencias_id = $referencia->save();
+        //cliente
+            $cliente = $this->fillCliente($request);
+            $cliente->empresa_id = $empresa->id;
+            $cliente->referencias_id = $referencia->id;
+            $cliente->save();
             // patrimonio
             if ($request->patrimonios != null) {
                 foreach ($request->patrimonios as $key => $value) {
