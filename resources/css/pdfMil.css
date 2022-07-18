@@ -1,0 +1,236 @@
+*{
+    padding: 0;
+    margin: 0;
+
+}
+
+@font-face {
+    font-family: 'MarkProBlack_1';
+    src: url('../fonts/MarkProBlack_1.eot');
+    src: url('../fonts/MarkProBlack_1.eot') format('embedded-opentype'),
+         url('../fonts/MarkProBlack_1.woff2') format('woff2'),
+         url('../fonts/MarkProBlack_1.woff') format('woff'),
+         url('../fonts/MarkProBlack_1.ttf') format('truetype'),
+         url('../fonts/MarkProBlack_1.svg#MarkProBlack_1') format('svg');
+         font-weight: normal;
+         font-style: normal;
+}
+
+@font-face {
+    font-family: 'MarkProBlackItalic';
+    src: url('../fonts/MarkProBlackItalic.eot');
+    src: url('../fonts/MarkProBlackItalic.eot') format('embedded-opentype'),
+         url('../fonts/MarkProBlackItalic.woff2') format('woff2'),
+         url('../fonts/MarkProBlackItalic.woff') format('woff'),
+         url('../fonts/MarkProBlackItalic.ttf') format('truetype'),
+         url('../fonts/MarkProBlackItalic.svg#MarkProBlackItalic') format('svg');
+         font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MarkProBook';
+    src: url('../fonts/MarkProBook.eot');
+    src: url('../fonts/MarkProBook.eot') format('embedded-opentype'),
+         url('../fonts/MarkProBook.woff2') format('woff2'),
+         url('../fonts/MarkProBook.woff') format('woff'),
+         url('../fonts/MarkProBook.ttf') format('truetype'),
+         url('../fonts/MarkProBook.svg#MarkProBook') format('svg');
+         font-weight: normal;
+    font-style: normal;
+}
+
+
+
+.bb-mx-auto{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bb-w-full{
+    width: 100%;
+}
+
+
+.bb-w-85{
+    width: 85%;
+}
+
+.bb-mb-30{
+    margin-bottom: 30px;
+}
+
+
+
+.bb-px-15{
+    padding:0 15px;
+}
+.bb-mt-15{
+    margin-top: 15px;
+}
+.bb-mb-15{
+    margin-bottom: 15px;
+}
+.bb-line-h-1{
+    line-height: 1;
+}
+.bb-w-50{
+    width: 50%;
+}
+
+.bb-border{
+    border: 2px solid #293172;
+}
+
+.bb-radius{
+    border-radius: 20px;
+}
+
+.bb-radius-l-{
+    border-radius: 20px 20px 0 0;
+}
+.bb-radius-b-x{
+    border-radius: 0 0 20px 20px;
+}
+
+.bb-radius-t-x{
+    border-radius: 20px 20px 0 0;
+}
+
+.bb-radius-l-y{
+    border-radius: 20px 0 0 20px ;
+}
+.bb-radius-r-y{
+    border-radius: 0 20px 20px 0px;
+}
+
+.bb-border-15{
+    border-radius: 15px 0 0 15px;
+}
+.bb-py-5{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.bb-px-5{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.bb-py-10{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.bb-pl-none{
+    padding-left: 0;
+}
+.bb-pr-none{
+    padding-right: 0;
+}
+
+.bb-font-book{
+    font-family: "MarkProBook" ;
+}
+
+
+.bb-font-blackitalic{
+    font-family: "MarkProBlackItalic";
+}
+
+.bb-font-black{
+    font-family: "MarkProBlack_1";
+}
+
+.bb-text-17{
+    font-size: 17px;
+}
+
+.bb-text-12{
+    font-size: 12px;
+}
+.bb-text-blue{
+    color: #293172;
+}
+
+.bb-text-white{
+    color: white;
+}
+
+
+.bb-bg-blue{
+    background-color: #293172;
+}
+
+.bb-text-center{
+    text-align: center;
+}
+
+.bb-text-25{
+    font-size: 25px;
+}
+
+.bb-text-20{
+    font-size: 20px;
+}
+
+.bb-relative{
+    position: relative;
+}
+
+.bb-absolute{
+    position: absolute;
+}
+
+.bb-position-custom{
+    top: auto;
+    left: auto;
+    right: 55px;
+    bottom: 5px;
+}
+
+.bb-text-35{
+    font-size: 35px;
+}
+
+.bb-ml-30{
+    margin-left: 30px;
+}
+
+.bb-ml-15{
+    margin-left: 15px;
+}
+
+.bb-text-uppercase{
+    text-transform: uppercase;
+}
+
+.bb-lh-0{
+    line-height: 0;
+}
+
+.bb-pd-20{
+    padding: 20px;
+}
+
+.bb-float-l{
+    display: inline;
+    float: left;
+}
+
+.bb-bg-yellow{
+    background-color: #FFC000;
+}
+.bb-border-yellow{
+    border:2px solid #FFC000;
+}
+
+.bb-pa-11{
+    padding: 11px;
+}
+
+.bb-py-22{
+    padding: 22px;
+}
+
+.bb-bottom-0{
+    bottom: 0;
+}

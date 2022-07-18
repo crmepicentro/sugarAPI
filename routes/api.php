@@ -60,37 +60,14 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->put('coupons/', 'App\Http\Controllers\CouponsController@update');
     $api->post('coupons/validate', 'App\Http\Controllers\CouponsController@validateCoupon');
     $api->post('c2cOmnichannel', 'App\Http\Controllers\OmnichannelController@sendToOmnichannel');
-    $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
+    $api->get('pdf/{id}/{compania?}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
     $api->post('sendEmail', 'App\Http\Controllers\EmailController@sendMeetingAsesor');
-    $api->get('pdf/{id}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
+    $api->get('pdf/{id}/{compania?}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
 
     $api->post('getCreditoDataBook', 'App\Http\Controllers\FieldsCedulaDataBook@dataBook');
 
     $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
-
-    //Solicitud de Credito
-    $api->post('SolicitudCredito/crear/', 'App\Http\Controllers\SolicitudCreditoController@create');
-    $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCreditoController@uploadFile');
-    $api->delete('delete-solicitud/', 'App\Http\Controllers\SolicitudCreditoController@deleteFile');
-
-    // $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
-    // $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
-    // $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
-    $api->get('files-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@showFiles');
-
-    $api->get('getCiudades/', 'App\Http\Controllers\GetProvinciasCiudades@ciudades');
-    $api->get('getProvincias/', 'App\Http\Controllers\GetProvinciasCiudades@provincias');
-    $api->get('getNacionalidades/', 'App\Http\Controllers\GetProvinciasCiudades@nacionalidades');
-
-    // $api->delete('delete-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@deleteFile');
-
-    //Cuota de alcance
-    $api->post('upload-cuota/', 'App\Http\Controllers\CuotaDeAlcanceController@uploadFile');
-    $api->get('getFilesCuota/{idCuota}', 'App\Http\Controllers\CuotaDeAlcanceController@showFiles');
-    $api->delete('deleteFileCuota/{idCuota}/{id}/{nombre}', 'App\Http\Controllers\CuotaDeAlcanceController@deleteFile')->name('delete.file.cuota');
-
-    $api->post('cuota-alcance/crear/', 'App\Http\Controllers\CuotaDeAlcanceController@create');
-
+    $api->get('coordinadores', 'App\Http\Controllers\UsersController@getCoordinadores');
 });
 
 $api->version('v1', function ($api) {

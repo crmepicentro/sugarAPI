@@ -41,9 +41,9 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
             'fuente' => 'required',
-            'fuente_id' => 'required|exists:App\Models\Fuente,id',
+            'fuente_id' => 'required',
             'medios' => 'required',
-            'compania' => 'required|exists:App\Models\Companies,id'
+            'compania' => 'required'
         ]);
 
         if($validator->fails())
@@ -70,8 +70,10 @@ class AuthController extends Controller
     /**
      * Crear un token de usuario
      *
+     * @bodyParam  autorizador email required El email del usuario autorizador. Example: mart_admin@hotmail.com
      * @bodyParam  email email required El email del usuario. Example: mart@hotmail.com
-     * @bodyParam  password string required Example:Hol@MunD0
+     * @bodyParam  password string required El password del usuario Example:Hol@MunD0
+     * @bodyParam  environment string required Valores válidos: dev, prod Example:dev
      *
      * @response  200 {
      *  "status_code": "200",

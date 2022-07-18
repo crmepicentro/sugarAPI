@@ -30,13 +30,12 @@ class TicketRequest extends FormRequest
         $user_auth = Auth::user();
 
         $validations = [
-            'datosSugarCRM.numero_identificacion' => 'required',
             'datosSugarCRM.tipo_identificacion' => 'required_with_all:datosSugarCRM.numero_identificacion|in:C,P,R',
             'datosSugarCRM.nombres' => 'required',
             'datosSugarCRM.apellidos' => 'required',
             'datosSugarCRM.celular' => 'required|numeric',
             'datosSugarCRM.telefono' => 'numeric',
-            'datosSugarCRM.email' => 'required|email:rfc,dns',
+            'datosSugarCRM.email' => 'email:rfc,dns',
             'datosSugarCRM.linea_negocio' => 'required|numeric|in:1,2,3,4',
             'datosSugarCRM.asunto' => 'required_with_all:comentario_cliente',
             'datosSugarCRM.marca' => 'in:'.implode(",", get_marcas()),
@@ -66,6 +65,7 @@ class TicketRequest extends FormRequest
           $validations['datosSugarCRM.combustible'] = 'required|in:gasolina,diesel';
         }
 
+
         return $validations;
     }
 
@@ -74,7 +74,7 @@ class TicketRequest extends FormRequest
         return [
             'datosSugarCRM.id_interaccion_inconcert.required' => 'El id de inconcert es requerido',
             'datosSugarCRM.fuente_descripcion.required' => 'Nombre del formulario es requerido',
-            'datosSugarCRM.numero_identificacion.required' => 'Identificación es requerida',
+            /*'datosSugarCRM.numero_identificacion.required' => 'Identificación es requerida',*/
             'datosSugarCRM.numero_identificacion.min' => 'Identificación debe tener al menos 10 caracteres',
             'datosSugarCRM.asunto.required_with_all' => 'Asunto es requerido si existe comentario del cliente',
             'datosSugarCRM.tipo_identificacion.required_with_all' => 'Tipo de identificación es requerida para el número de identificación',
@@ -84,7 +84,7 @@ class TicketRequest extends FormRequest
             'datosSugarCRM.estado.required' => 'Estado es requerido',
             'datosSugarCRM.estado.numeric' => 'Estado debe ser numérico',
             'datosSugarCRM.estado.in' => 'Estado no contiene un valor válido, valores válidos: 1(Nuevo),2(No Contesta), 4(En Gestión), 5(Convertir a Prospecto), 7(Cerrado)',
-            'datosSugarCRM.email.email' => 'Email debe ser un email válido',
+            //'datosSugarCRM.email.email' => 'Email debe ser un email válido',
             'datosSugarCRM.celular.numeric' => 'Celular debe ser numérico',
             'datosSugarCRM.telefono.numeric' => 'Celular debe ser numérico',
             'datosSugarCRM.linea_negocio.numeric' => 'Linea de Negocio debe ser numérico',

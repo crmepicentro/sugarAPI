@@ -8,6 +8,9 @@ use App\Models\CheckListAvaluo;
 use App\Models\Imagenes;
 use App\Models\Imagenes_Avaluo;
 use App\Models\TrafficAvaluos;
+use App\Models\TalksTraffic;
+use App\Models\TalksCstm;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -111,6 +114,7 @@ class CreateAvaluoTest extends TestCase
 
         $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
+        dd($content);
 
         $response->assertStatus(200);
         $this->assertNotNull($content->data->avaluo_id);
@@ -284,10 +288,12 @@ class CreateAvaluoTest extends TestCase
                     ]
                 ]
             ], 200)
-        ]);
+        ]); 
 
         $response = $this->json('POST', $this->baseUrl . 'createUpdateAvaluo', $this->dataAvaluo);
         $content = json_decode($response->content());
+
+        
 
         $traffic = TrafficAvaluos::where('cba_avaluos_cb_traficocontrolcba_avaluos_idb', $content->data->avaluo_id)
             ->where('cba_avaluos_cb_traficocontrolcb_traficocontrol_ida',$this->dataAvaluo["traffic"])
@@ -308,5 +314,14 @@ class CreateAvaluoTest extends TestCase
         $response->assertStatus(422);
         $this->assertEquals('Coordinador inválido en Sugar', $content->errors->coordinator[0]);
         $this->assertEquals('Contacto es inválido en Sugar', $content->errors->contact[0]);
+    }
+    public function test_should_get_negociation_data()
+    {
+        $idtrafic='4595b3a9-c75e-a42d-14bb-623b9bb5336d';
+        $negociationId = TalksTraffic::where('cb_negociacion_cb_traficocontrolcb_traficocontrol_idb', $idtrafic)->pluck('cb_negociacion_cb_traficocontrolcb_negociacion_ida')->first();                      
+        
+        $negociation=TalksCstm::find($negociationId);
+        $negociation->estado_toma_c='N';
+        $negociation->save();
     }
 }

@@ -5,6 +5,8 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\TalksTraffic;
 use App\Models\Avaluos;
+use App\Models\TalksCstm;
+
 
 class AvaluoClass
 {
@@ -67,11 +69,28 @@ class AvaluoClass
         $avaluo->observacion = $this->observacion;
         $avaluo->comentario = $this->comentario;
         $avaluo->save();
+        
         if (is_null($this->id)) {
             $avaluo->traffic()->attach($idtrafic, ['id' => createdID(), 'date_modified' => Carbon::now()]);
-            $talk = TalksTraffic::where('cb_negociacion_cb_traficocontrolcb_traficocontrol_idb', $idtrafic)->pluck('cb_negociacion_cb_traficocontrolcb_negociacion_ida')->first();
-            $avaluo->talk()->attach($talk, ['id' => createdID(), 'date_modified' => Carbon::now()]);
-        }
+            $negociationId = TalksTraffic::where('cb_negociacion_cb_traficocontrolcb_traficocontrol_idb', $idtrafic)->pluck('cb_negociacion_cb_traficocontrolcb_negociacion_ida')->first();
+            $avaluo->talk()->attach($negociationId, ['id' => createdID(), 'date_modified' => Carbon::now()]);     
+            $negociation=TalksCstm::find($negociationId);
+            $negociation->estado_toma_c='N';
+            $negociation->save();
+        }else{
+            $negociationId = TalksTraffic::where('cb_negociacion_cb_traficocontrolcb_traficocontrol_idb', $idtrafic)->pluck('cb_negociacion_cb_traficocontrolcb_negociacion_ida')->first();
+            $negociation=TalksCstm::find($negociationId);
+            if (isset($negociation->estado_toma_c)){
+                if($negociation->estado_toma_c=='N' or empty($negociation->estado_toma_c)){
+                    $negociation->estado_toma_c='P';
+                    $negociation->save();
+                }            
+            }
+            
+        }      
+        
+        
+
         return $avaluo;
     }
 }
