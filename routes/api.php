@@ -70,17 +70,19 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
 
     //Solicitud de Credito
     $api->post('SolicitudCredito/crear/', 'App\Http\Controllers\SolicitudCreditoController@create');
+    $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCreditoController@uploadFile');
+    $api->delete('delete-solicitud/', 'App\Http\Controllers\SolicitudCreditoController@deleteFile');
 
-    $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
-    $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
-    $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
+    // $api->post('creditoPersonaNatural/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@create');
+    // $api->post('creditoPersonaJuridica/', 'App\Http\Controllers\SolicitudCredito\PersonaJuridicaController@create');
+    // $api->post('upload-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@uploadFile');
 
     $api->get('files-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@showFiles');
-    $api->get('getCiudades/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@ciudades');
-    $api->get('getProvincias/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@provincias');
-    $api->get('getNacionalidades/', 'App\Http\Controllers\SolicitudCredito\GetProvinciasCiudades@nacionalidades');
+    $api->get('getCiudades/', 'App\Http\Controllers\GetProvinciasCiudades@ciudades');
+    $api->get('getProvincias/', 'App\Http\Controllers\GetProvinciasCiudades@provincias');
+    $api->get('getNacionalidades/', 'App\Http\Controllers\GetProvinciasCiudades@nacionalidades');
 
-    $api->delete('delete-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@deleteFile');
+    // $api->delete('delete-solicitud/', 'App\Http\Controllers\SolicitudCredito\PersonaNaturalController@deleteFile');
 
     //Cuota de alcance
     $api->post('upload-cuota/', 'App\Http\Controllers\CuotaDeAlcanceController@uploadFile');

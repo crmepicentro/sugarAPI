@@ -141,7 +141,7 @@ class SolicitudCreditoController extends Controller
                                 ->where("nombre", $nombre)
                                 ->update([ "borrado" => true ]);
             DB::connection(get_connection())->commit();
-            return response()->json([ "success" => "Archivo subido" ], 200);
+            return response()->json([ "success" => "Archivo eliminado" ], 200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
             return response()->json(["error" => $e . " - Notifique a SUGAR CRM Casabaca"], 500);
