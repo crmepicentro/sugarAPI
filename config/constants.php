@@ -28,6 +28,8 @@ return [
     'pv_pass_servicio' => env('PV_PASS_SERVICIO'),
     //config('constants.pv_url_servicio')
     'pv_url_servicio' => env('PV_URL_SERVICIO'),
+    //config('constants.pv_sin_stock')
+    'pv_sin_stock' => env('PV_SIN_STOCK'),
 
 
 ];

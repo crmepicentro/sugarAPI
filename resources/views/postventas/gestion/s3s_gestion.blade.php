@@ -1,5 +1,6 @@
 @include('postventas.gestion.finaliza_gestion',[ 'autorefresca' => false])
 <script>
+    if(windowObjectReference)
     var windowObjectReference = null; // global variable
 
     function openFFPromotionPopup() {

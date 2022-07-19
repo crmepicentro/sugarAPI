@@ -1,6 +1,42 @@
 @php( $script_add = "")
 @php($contador_elementos = 0)
 @if($auto->detalleGestionOportunidadesagestionar->count() > 0)
+    {{ Form::open(['route' => ['postventa.add_oportunidades',['userid'=> Auth::user()->email]] , 'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_add_oportunidades'.$auto->id]) }}
+    <div class="mb-4">
+        <div class="input-group">
+            {!! Form::button('<i class="fa fa-square-plus me-1"></i> Aumentar', array(
+                                        'type' => 'submit',
+                                        'class' => 'btn btn-primary',
+                                        'title' => 'Enviar dato',
+                                        'onclick'=>'return confirm("Aumentar Codigo?")'
+                                )) !!}
+            @php($campo = 'search_codigos_op')
+            {{ Form::text($campo, request($campo), ['class' => "form-control srco_op_$auto->id", 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+            <button type="button" class="btn btn-alt-info" onclick="buscar_opLps3('{{ "srco_op_$auto->id" }}')">
+                Buscar <i class="fa fa-magnifying-glass-plus"></i>
+            </button>
+        </div>
+    </div>
+    {{ Form::close() }}
+    <div id="buscar_List_Lps3{{ $auto->id }}"></div>
+    <script>
+        function buscar_opLps3(campo_b_op){
+            var url_get_data = '{{ route('postventa.buscar_oportunidades_add',['search_codigos_op'=>'search_codigos_op__xxxA',]) }}';
+            var valor_bus = $('.'+campo_b_op).val();
+            url_get_data = url_get_data.replace('search_codigos_op__xxxA',valor_bus);
+            $.ajax( {
+                method: "GET",
+                url: url_get_data,
+            } )
+                .done(function() {
+                    alert( "success" );
+                })
+                .fail(function() {
+                    alert( "error" );
+                });
+        }
+    </script>
+
     {{ Form::open(['route' => ['postventa.gestion',['userid'=> Auth::user()->email]] , 'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_master'.$auto->id]) }}
     <table class="table table-hover table-vcenter" style="width: 100%">
         <thead>
@@ -73,7 +109,7 @@
                 </td>
                 <td>
                     <span
-                        title="{{ $oportunidad->ordFchaCierre }}">{{ \Carbon\Carbon::createFromFormat(config('constants.pv_dateFormat'),$oportunidad->ordFchaCierre)->locale('es')->format('d-M') }}</span>
+                        title="{{ $oportunidad->ordFchaCierre }}">{{ ($oportunidad->ordFchaCierre != null)?\Carbon\Carbon::createFromFormat(config('constants.pv_dateFormat'),$oportunidad->ordFchaCierre)->locale('es')->format('d-M'):'---' }}</span>
                 </td>
                 <td>
                     {{ $oportunidad->tipoServ }}
@@ -124,6 +160,7 @@
                     @endif
                 </td>
                 @if(in_array($oportunidad->gestion_tipo, ['nuevo','recordatorio','perdido','perdido_taller','cita_noshow']))
+                    @if($oportunidad->stockavalible)
                     @php($contador_elementos ++)
                     <td>
                         <div class="form-check">
@@ -157,12 +194,16 @@
                             @php( $script_add .= "checkLine('id-desistt$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',desiste$auto->id,$auto->id);" )
                         </div>
                     </td>
+                    @else
+                        <td colspan="3">Sin Stock</td>
+                    @endif
+
                 @else
                     @if($oportunidad->gestion_tipo =='cita' && $oportunidad->s3s_codigo_seguimiento == null )
                         @php( $gestion = \App\Models\Postventas\GestionAgendado::where('id',$oportunidad->Idgestion)->first())
                         @if($gestion <> null)
                             <td colspan="3" class="proc_{{ $auto->placa }}{{ $gestion->codigo_seguimiento }}">
-                                <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', {{ $gestion->gestionagendadodetalleop[0]->agencia_cita }},'{{ $auto->placa }}')">Consulta
+                                <a href="javascript: consultar_orden_con_placa('{{ $gestion->codigo_seguimiento }}', '{{ $gestion->gestionagendadodetalleop[0]->agencia_cita }}','{{ $auto->placa }}')">Consulta
                                     estado </a>
                                 {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', array(
                                        'type' => 'button',

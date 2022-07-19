@@ -80,18 +80,18 @@ class GestionAgendado extends Model
             ->first();
         $detalle_original = $this->detalleoportunidadcitas->pluck('claveunicaprincipals3svariable')->toArray();
         $nuevo_detalle = [];
+
         foreach ($detalle_original as $key => $value) {
-            $nuevo_detalle[] = array_replace($value,array('codAgencia' => $as_auto->agencia_cita));
+            $nuevo_detalle[] = $value;
         }
+
         $repuesta_data = [
             'placaVehiculo' => $as_auto->placa,
             'idEmpresa' => config('constants.pv_empresa'),
             'usuarioCrea' => Auth::user()->name,
             'ciPropietario' => $as_auto->propietario->cedula,
-            'codAgencia' => $as_auto->agencia_cita,
             'gestionComentario' => $as_auto->observacion_cita,
             'gestionId' => $as_auto->codigo_seguimiento,
-            'ordTallerRef'=> '',
             'oportunidades'=>$nuevo_detalle,
         ];
         return $repuesta_data;

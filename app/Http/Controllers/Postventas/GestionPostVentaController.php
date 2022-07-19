@@ -117,7 +117,13 @@ class GestionPostVentaController extends Controller
             return ['codServ' => '', 'idGestionSugar' => '','ordTaller'=> '','codAgencia' => ''];
         }
         if($registra_clss['nomMensaje'] == 'EXITO' &&  count($registra_clss['listaClsRecuperados']) >0) {
+            //https://sugarapi.local/vehiculos/faces/jsp/consulta/masters/recupera_respuesta_s3ssistemacore/[-vacio-]/PDQ1136/7ca4624d-47de-4099-bbd9-ba9ca742c6d6
             foreach ($registra_clss['listaClsRecuperados'] as $registra_cls) {
+                if( count($registra_cls) <= 0){
+                    Log::channel('log_consulta_bms')->error(print_r( ['Clase'=>"GestionPostVentaController::dar_orden_from_consulta", 'Mensaje_xp7yu' => 'No tiene datos la consulta','Dato'=> $registra_clss] ,true ));
+                    dd($registra_clss);
+                    return abort(430, '(Error pk87: La consulta no tiene productos vinculados');
+                }
                 return ['codServ' => $registra_cls['codServ'], 'idGestionSugar' => $registra_cls['idGestionSugar'] ,'ordTaller'=> $registra_cls['ordTaller'],'codAgencia' => $registra_cls['codAgencia'],'placaVehiculo'=> $registra_cls['placaVehiculo'], 'fechaCita' => Carbon::createFromFormat('d/m/y',$registra_cls['fechaCita']),  'codEstOrdTaller' => $registra_cls['codEstOrdTaller'] ];
             }
         }else{
@@ -305,5 +311,14 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
             return response()->json(['message' => 'Borrado'], 200);
         }
         return response()->json(['message' => 'Error en Borrado'], 404);
+    }
+    public function add_oportunidades(Request $request){
+
+    }
+    public function buscar_oportunidades_add(Request $request){
+        $request->validate([
+            'search_codigos_op' => 'required',
+        ]);
+
     }
 }

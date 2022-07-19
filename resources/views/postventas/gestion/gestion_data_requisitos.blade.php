@@ -4,22 +4,11 @@
     @if(!empty($nuevacitas))
         <h3><i class="fa fa-info-circle"></i>Cita S3S</h3>
         <p>
-            {{ Form::select('nuevacitas', [
-                '---' => 'Escoja una opción...',
-                '03' => 'SERVICIO NORTE',
-                '12' => 'CUMBAYA',
-                '19' => '19 - SUR',
-                '15' => 'GRANADOS',
-                '18' => 'CONDADO',
-                '23' => 'SANTO DOMINGO',
-                '14' => 'LOS CHILLOS',
-                '07' => 'CARRION',
-                '20' => 'COCA',
-            ], null, ['class' => 'form-control', 'style' => 'width: 100%', 'data-placeholder' => 'Escoja Uno..','id' => 'nuevacitas']) }}
-        <div class="mb-4">
-            <label class="form-label" for="comentario_nuevacita">Comentario</label>
-            <textarea class="form-control" id="comentario_nuevacita" name="comentario_nuevacita" rows="4" placeholder="Comentario.."></textarea>
-        </div>
+            {{ Form::hidden('nuevacitas', '[-vacio-]') }}
+            <div class="mb-4">
+                <label class="form-label" for="comentario_nuevacita">Comentario</label>
+                <textarea class="form-control" id="comentario_nuevacita" name="comentario_nuevacita" rows="4" placeholder="Comentario.."></textarea>
+            </div>
         </p>
     @endif
     @foreach($nuevacitas as $nuevacita)

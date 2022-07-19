@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Postventas;
 use App\Http\Controllers\Controller;
 use App\Jobs\CargaFacturasDetalleDia;
 use App\Jobs\CargaFacturasDia;
+use App\Jobs\ChequearStock;
 use App\Models\Gestion\GestionCita;
 use App\Models\Postventas\Auto;
 use App\Models\Postventas\AutoFactura;
@@ -163,7 +164,7 @@ class Servicios3sController extends Controller
         $url = config('constants.pv_url_servicio') . '/casabacaWebservices/restOrdenTaller/conOrdCLsRecuperados';
         $getdata = [
             'idEmpresa' => config('constants.pv_empresa'),
-            'codAgencia' => $codAgencia,
+            // 'codAgencia' => $codAgencia,
             'placaVehiculo' => $placaVehiculo,
         ];
         Log::channel('log_consulta_bms')->info(print_r( ['url'=>$url, 'getdata' => json_encode($getdata) ] ,true ));
@@ -543,5 +544,27 @@ class Servicios3sController extends Controller
         $request->session()->put($session, $valor);
         Cache::put($session, $valor);
         return session($session);
+    }
+    public function consultaStock( $codRepuesto, $franquicia )
+    {
+        $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/conStockRepuestos';
+        $getdata = [
+            'idEmpresa'     => config('constants.pv_empresa'),
+            'codRepuesto'   => $codRepuesto,
+            'franquicia'    => $franquicia,
+        ];
+        $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url,$getdata);
+        $respuesta = $response->json();
+        return $respuesta;
+    }
+    public function consultaStockBulk( )
+    {
+        $vericastkkers = DetalleGestionOportunidades::agestionar()->where('tipoServ','R')->get();
+        $contador = 0;
+        foreach ($vericastkkers as $vericastkker){
+            ChequearStock::dispatch($vericastkker,auth()->user())->onQueue('VerificaStock');
+            $contador++;
+        }
+        return response()->json(['mensaje' => 'Se ha procesado '.$contador.' datos.' ], 202);
     }
 }

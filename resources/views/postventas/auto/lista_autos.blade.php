@@ -294,6 +294,7 @@
                 }
             });
         }
+        if(windowObjectReference)
         var windowObjectReference = null; // global variable
 
 
