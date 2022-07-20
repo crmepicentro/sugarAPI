@@ -16,6 +16,7 @@ Route::get('/sessionData/{session}/{valor}', [Servicios3sController::class, 'set
 Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_data',[GestionPostVentaController::class,'gestions3s'])->name('postventa.gestion');// actualizar cambio en VerifyCsrfToken
 Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/add_oportunidades',[GestionPostVentaController::class,'add_oportunidades'])->name('postventa.add_oportunidades');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/buscar_oportunidades_add',[GestionPostVentaController::class,'buscar_oportunidades_add'])->name('postventa.buscar_oportunidades_add');
+Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/buscar_oportunidades_add/{uuid}',[GestionPostVentaController::class,'save_buscar_oportunidades_add'])->name('postventa.save_buscar_oportunidades_add');
 Route::post('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/gestion_final/{gestionAgendado}/{auto}',[GestionPostVentaController::class,'gestion_do_final'])->name('postventa.gestion_do_final');// actualizar cambio en VerifyCsrfToken
 Route::get('/vehiculos/faces/jsp/consulta/masters/list.jsp',[PostVentaIndiceController::class,'indice'])->name('postventa.indice');
 Route::get('/vehiculos/faces/jsp/consulta/masters/detalle.jsp/{id}',[PostVentaListaServiciosController::class,'index'])->name('postventa.edita');

@@ -1,7 +1,7 @@
 @php( $script_add = "")
 @php($contador_elementos = 0)
 @if($auto->detalleGestionOportunidadesagestionar->count() > 0)
-    {{ Form::open(['route' => ['postventa.add_oportunidades',['userid'=> Auth::user()->email]] , 'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_add_oportunidades'.$auto->id]) }}
+    {{ Form::open(['route' => ['postventa.add_oportunidades',['userid'=> Auth::user()->email]] , 'method' => 'POST' , 'id' => 'form_add_oportunidades'.$auto->id]) }}
     <div class="mb-4">
         <div class="input-group">
             {!! Form::button('<i class="fa fa-square-plus me-1"></i> Aumentar', array(
@@ -24,9 +24,9 @@
             var windowObjectReference = null; // global variable
 
         function buscar_opLps3(campo_b_op) {
-            var url_get_data = '{{ route('postventa.buscar_oportunidades_add',['userid'=> Auth::user()->email,'search_codigos_op'=>'search_codigos_op__xxxA']) }}';
+            var url_get_data = '{{ base64_encode(route('postventa.buscar_oportunidades_add',['auto_id' => $auto->id,'userid'=> Auth::user()->email,'search_codigos_op'=>'search_codigos_op__xxxA'])) }}';
             var valor_bus = $('.'+campo_b_op).val();
-            url_get_data = url_get_data.replace('search_codigos_op__xxxA',valor_bus);
+            url_get_data = window.atob( url_get_data ).replace('search_codigos_op__xxxA',valor_bus);
 
             if(windowObjectReference == null || windowObjectReference.closed)
                 /* if the pointer to the window object in memory does not exist
@@ -35,7 +35,6 @@
             {
                 windowObjectReference = window.open(url_get_data,
                     "PromoteFirefoxWindowName", "resizable,scrollbars,status");
-                recargasitio_sobresscrito();
                 /* then create it. The new window will be created and
                    will be brought on top of any other window. */
             }

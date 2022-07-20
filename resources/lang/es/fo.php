@@ -37,6 +37,7 @@ return [
     'search_fechacita_to' => 'Fecha Hasta',
 
     'search_codigos_op' => 'Código',
+    'stock_a_aumentar' => 'Stock',
 
 
 ];

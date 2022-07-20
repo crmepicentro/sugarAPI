@@ -318,5 +318,13 @@ class DetalleGestionOportunidades extends Model
     {
         return $query->where('facturado','N')->groupby('gestion_tipo','gestion_tipo')->select('gestion_tipo','gestion_tipo')->get();
     }
+    public static function getUltimoAddWeb($clave){
+        $ultimo = DetalleGestionOportunidades::where('ordTaller', 'like', "$clave%")->orderBy('id','desc')->first();
+        if($ultimo == null){
+            return "$clave"."1";
+        }
+        $New_valor = str_replace($clave,'',$ultimo->ordTaller);
+        return "$clave".(intval($New_valor)+1);
+    }
 }
 

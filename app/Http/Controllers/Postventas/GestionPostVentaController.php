@@ -9,8 +9,11 @@ use App\Models\Gestion\GestionRecordatorio;
 use App\Models\Postventas\Auto;
 use App\Models\Postventas\DetalleGestionOportunidades;
 use App\Models\Postventas\GestionAgendado;
+use App\Models\Postventas\StockRepuestos;
+use App\Models\Ws_logs;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -317,6 +320,84 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
     }
     public function buscar_oportunidades_add(Request $request){
         $request_total = $request->all();
-        return view('postventas.buscador.index', compact('request_total',));
+        $dato_a_buscars = $this->buscar_oportunidad($request->search_codigos_op);
+        $auto_id = $request->auto_id;
+        return view('postventas.buscador.index', compact('request_total','dato_a_buscars','auto_id'));
+    }
+    public function buscar_oportunidad($dato_a_buscar){
+        $dato_b = StockRepuestos::
+            Join((new DetalleGestionOportunidades())->getTable(), function ($join) {
+                $join->on('pvt_detalle_gestion_oportunidades.codServ', '=', 'pvt_stock_repuestos.codigoRepuesto')
+                    ->On('pvt_detalle_gestion_oportunidades.franquicia', '=', 'pvt_stock_repuestos.franquicia');
+            })->activo()
+            ->selectRaw('descServ,codigoRepuesto,SUM(cantExistencia) AS cantExistencia_total')
+            ->where('codServ','like',"%$dato_a_buscar%")
+            ->orWhere('descServ','like',"%$dato_a_buscar%")
+            ->groupBy('descServ')
+            ->groupBy('codigoRepuesto')
+            ->get();
+        return $dato_b;
+    }
+    public function save_buscar_oportunidades_add(Request $request){
+        $request->validate([
+            'stock_a_aumentar' => 'required|numeric|min:0.0001',
+            'auto_id' => 'required|numeric',
+            'maximo_a' => 'required|numeric',
+            'codServ' => 'required',
+            'descServ' => 'required',
+        ]);
+        $request->validate([
+            'stock_a_aumentar' => 'required|numeric|max:'.$request->maximo_a,
+        ]);
+
+
+
+        $servicios3sController = new Servicios3sController();
+
+        $ws_logs = new Ws_logs();
+        $ws_logs->route = 'Creado manualmente';
+        $ws_logs->datos_sugar_crm = json_encode($request->all());
+        $ws_logs->datos_adicionales = json_encode([]);
+        $ws_logs->save();
+
+        $auto = Auto::where('id',$request->auto_id)->firstOrfail();
+
+        $s3sdato_detalle =[];
+        $s3sdato_detalle['codAgencia'] = 'WEB';
+        $s3sdato_detalle['ordTaller'] = DetalleGestionOportunidades::getUltimoAddWeb('WE');
+        $s3sdato_detalle['codServ'] = $request->codServ;
+        $s3sdato_detalle['descServ'] = $request->descServ;
+        $s3sdato_detalle['cantidad'] = $request->stock_a_aumentar;
+
+        $s3sdato_detalle['tipoCL'] = 'W';
+        $s3sdato_detalle['facturado'] = 'N';
+
+        $s3sdato_detalle['tipoServ']  = 'd33' ;
+        $s3sdato_detalle['franquicia'] = 'M';
+        $s3sdato_detalle['cargosCobrar'] = 0;
+
+        $s3sdato_detalle['nomAgencia'] = 'WEB_CRM';
+
+        $s3sdato =[];
+        $s3sdato['kmVehiculo'] = '0';
+        $s3sdato['kmRelVehiculo'] = 0;
+        $s3sdato['ordFechaCita'] = '';
+        $s3sdato['ordFechaCrea'] = '';
+        $s3sdato['ordFchaCierre'] = Carbon::now()->format(config('constants.pv_dateFormat'));
+        $s3sdato['codOrdAsesor'] = '';
+        $s3sdato['nomOrdAsesor'] = Auth::user()->name;
+
+        $s3sdato['codEstOrdTaller'] = 90 ;
+        $s3sdato['codCliFactura'] = '';
+        $s3sdato['nomUsuarioVista'] = '';
+
+
+
+        //dd($s3sdato,$s3sdato_detalle, $auto, $ws_logs);
+
+        $respuesta = $servicios3sController->guardar_detalle_orden($s3sdato,$s3sdato_detalle, $auto, $ws_logs);
+
+        return view('postventas.buscador.save', compact('respuesta'));
+
     }
 }
