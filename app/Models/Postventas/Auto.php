@@ -39,6 +39,31 @@ class Auto extends Model
     public function detalleGestionOportunidadesagestionar()    {
         return $this->hasMany(DetalleGestionOportunidades::class, 'auto_id', 'id')->agestionar();
     }
+    public function getStockdeautoAttribute() {
+        $query_d =  $this->hasMany(DetalleGestionOportunidades::class, 'auto_id', 'id')->agestionar()
+            ->Leftjoin((new StockRepuestos())->getTable(), function ($join) {
+                $join->on('pvt_detalle_gestion_oportunidades.codServ', '=', 'pvt_stock_repuestos.codigoRepuesto')
+                    ->On('pvt_detalle_gestion_oportunidades.franquicia', '=', 'pvt_stock_repuestos.franquicia');
+            })->selectRaw("pvt_detalle_gestion_oportunidades.auto_id,
+       pvt_detalle_gestion_oportunidades.franquicia,
+       pvt_detalle_gestion_oportunidades.codServ,
+       pvt_detalle_gestion_oportunidades.tipoServ,
+       SUM(pvt_detalle_gestion_oportunidades.cantidad) AS cantidad_reqerida,
+       IF( pvt_detalle_gestion_oportunidades.tipoServ = 'R', SUM(pvt_stock_repuestos.cantExistencia),SUM(pvt_detalle_gestion_oportunidades.cantidad) ) AS cantidad_disponible")
+            ->groupby('pvt_detalle_gestion_oportunidades.codServ')
+            ->groupby('pvt_detalle_gestion_oportunidades.franquicia')
+            ->groupby('pvt_detalle_gestion_oportunidades.cantidad')
+            ->groupby('pvt_detalle_gestion_oportunidades.tipoServ')
+            ->groupby('pvt_detalle_gestion_oportunidades.auto_id')
+        ;
+        $total_necesario = 0;
+        $total_existente = 0;
+        foreach($query_d->get() as $stock){
+            $total_necesario += $stock->cantidad_reqerida;
+            $total_existente += min($stock->cantidad_reqerida,$stock->cantidad_disponible);
+        }
+        return ['stock_necesario' => $total_necesario , 'stock_existente' =>$total_existente ];
+    }
     /**
      * Dar usuarios de auto
      */

@@ -20,22 +20,36 @@
     {{ Form::close() }}
     <div id="buscar_List_Lps3{{ $auto->id }}"></div>
     <script>
-        function buscar_opLps3(campo_b_op){
-            var url_get_data = '{{ route('postventa.buscar_oportunidades_add',['search_codigos_op'=>'search_codigos_op__xxxA',]) }}';
+        if(windowObjectReference)
+            var windowObjectReference = null; // global variable
+
+        function buscar_opLps3(campo_b_op) {
+            var url_get_data = '{{ route('postventa.buscar_oportunidades_add',['userid'=> Auth::user()->email,'search_codigos_op'=>'search_codigos_op__xxxA']) }}';
             var valor_bus = $('.'+campo_b_op).val();
             url_get_data = url_get_data.replace('search_codigos_op__xxxA',valor_bus);
-            $.ajax( {
-                method: "GET",
-                url: url_get_data,
-            } )
-                .done(function() {
-                    alert( "success" );
-                })
-                .fail(function() {
-                    alert( "error" );
-                });
+
+            if(windowObjectReference == null || windowObjectReference.closed)
+                /* if the pointer to the window object in memory does not exist
+                   or if such pointer exists but the window was closed */
+
+            {
+                windowObjectReference = window.open(url_get_data,
+                    "PromoteFirefoxWindowName", "resizable,scrollbars,status");
+                recargasitio_sobresscrito();
+                /* then create it. The new window will be created and
+                   will be brought on top of any other window. */
+            }
+            else
+            {
+                windowObjectReference.focus();
+                /* else the window reference must exist and the window
+                   is not closed; therefore, we can bring it back on top of any other
+                   window with the focus() method. There would be no need to re-create
+                   the window or to reload the referenced resource. */
+            };
         }
     </script>
+
 
     {{ Form::open(['route' => ['postventa.gestion',['userid'=> Auth::user()->email]] , 'method' => 'POST' , 'target' =>'_blank', 'id' => 'form_master'.$auto->id]) }}
     <table class="table table-hover table-vcenter" style="width: 100%">

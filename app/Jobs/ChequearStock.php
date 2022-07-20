@@ -38,6 +38,7 @@ class ChequearStock implements ShouldQueue
     public function handle()
     {
         Auth::loginUsingId($this->user->id);
-        echo print_r($this->detalleGestionOportunidades->stockavalible,true);
+        //echo print_r($this->detalleGestionOportunidades->stockavalible,true);
+        $this->detalleGestionOportunidades->stockavalible;
     }
 }

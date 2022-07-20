@@ -316,9 +316,7 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
 
     }
     public function buscar_oportunidades_add(Request $request){
-        $request->validate([
-            'search_codigos_op' => 'required',
-        ]);
-
+        $request_total = $request->all();
+        return view('postventas.buscador.index', compact('request_total',));
     }
 }

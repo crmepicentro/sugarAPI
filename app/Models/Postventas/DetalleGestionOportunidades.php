@@ -84,6 +84,13 @@ class DetalleGestionOportunidades extends Model
     {
         return md5("{$this->codAgencia}|{$this->ordTaller}|{$this->codServ}");
     }
+    public function stock_repuestos()    {
+        return $this->hasMany(StockRepuestos::class, 'codigoRepuesto', 'codServ')->activo();
+    }
+    public function getDescservtotalAttribute($value)
+    {
+        return "{$this->codServ}|{$this->descServ}";
+    }
 
     /**
      * Filtro de detalle oporunidades para gestionar.
@@ -251,7 +258,42 @@ class DetalleGestionOportunidades extends Model
         return [];
         //return 'Sin Gestion';
     }
+    public function verificaStokSoft(DetalleGestionOportunidades  $detalleGestionOportunidades){
+        $existe_stock = StockRepuestos::where('codigoRepuesto', $detalleGestionOportunidades->codServ)->activo();
+        if($existe_stock->count() == 0 ){
+            $servicios3sdrl =  new Servicios3sController();
+            $respstock = $servicios3sdrl->consultaStock($detalleGestionOportunidades->codServ,$detalleGestionOportunidades->franquicia);
+            if($respstock['nomMensaje'] == 'ERROR'){
+                StockRepuestos::create([
+                    'users_id'  => auth()->user()->id,
+                    'franquicia' => $detalleGestionOportunidades->franquicia,
+                    'bodega' => config('constants.pv_sin_stock'),
+                    'codigoRepuesto'  => $detalleGestionOportunidades->codServ,
+                    'cantExistencia'  => 0,
+                    'available_at' => Carbon::now()->addHour(12),
+                ]);
+                return false;
+            }
+            $tiene_stock = false;
+            foreach ($respstock['listaStockRepuestos'] as $stockactual){
+                StockRepuestos::create([
+                    'users_id'  => auth()->user()->id,
+                    'franquicia' => $stockactual['franquicia'],
+                    'bodega' => $stockactual['bodega'],
+                    'codigoRepuesto'  => $stockactual['codigoRepuesto'],
+                    'cantExistencia'  => $stockactual['cantExistencia'],
+                    'available_at' => Carbon::now()->addHour(12),
+                ]);
+                $tiene_stock = true;
+            }
+            return $tiene_stock;
+        }
+        return true;
+    }
     public function getStockavalibleAttribute(){
+        return $this->getStockavaliblehardAttribute();
+    }
+    public function getStockavaliblesoftAttribute(){
         //hacer analisis de producto relativo.
         switch ($this->tipoServ) {
             case 'M':
@@ -259,40 +301,13 @@ class DetalleGestionOportunidades extends Model
             case 'P':
                 return true;
             case 'R':
-                $existe_stock = StockRepuestos::where('detalle_gestion_oportunidad_id', $this->id)->activo();
-                if($existe_stock->count() == 0 ){
-                    $servicios3sdrl =  new Servicios3sController();
-                    $respstock = $servicios3sdrl->consultaStock($this->codServ,$this->franquicia);
-                    if($respstock['nomMensaje'] == 'ERROR'){
-                        StockRepuestos::create([
-                            'users_id'  => auth()->user()->id,
-                            'detalle_gestion_oportunidad_id' => $this->id,
-                            'franquicia' => $this->franquicia,
-                            'bodega' => config('constants.pv_sin_stock'),
-                            'codigoRepuesto'  => $this->codServ,
-                            'cantExistencia'  => 0,
-                            'available_at' => Carbon::now()->addHour(12),
-                        ]);
-                        return false;
-                    }
-                    $tiene_stock = false;
-                    foreach ($respstock['listaStockRepuestos'] as $stockactual){
-                        StockRepuestos::create([
-                            'users_id'  => auth()->user()->id,
-                            'detalle_gestion_oportunidad_id' => $this->id,
-                            'franquicia' => $stockactual['franquicia'],
-                            'bodega' => $stockactual['bodega'],
-                            'codigoRepuesto'  => $stockactual['codigoRepuesto'],
-                            'cantExistencia'  => $stockactual['cantExistencia'],
-                            'available_at' => Carbon::now()->addHour(12),
-                        ]);
-                        $tiene_stock = true;
-                    }
-                    return $tiene_stock;
-                }
-                return true;
+            return $this->verificaStokSoft($this);
         }
         return true;
+    }
+    public function getStockavaliblehardAttribute(){
+        StockRepuestos::where('codigoRepuesto', '=',$this->codServ)->delete();
+        return $this->getStockavaliblesoftAttribute();
     }
     public function scopeDaroportunidadeslist($query)
     {

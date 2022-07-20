@@ -14,6 +14,7 @@ use App\Models\Postventas\DetalleGestionOportunidades;
 use App\Models\Postventas\Factura;
 use App\Models\Postventas\GestionAgendado;
 use App\Models\Postventas\Propietario;
+use App\Models\Postventas\StockRepuestos;
 use App\Models\Postventas\Usuarioauto;
 use App\Models\Ws_logs;
 use Carbon\Carbon;
@@ -559,6 +560,7 @@ class Servicios3sController extends Controller
     }
     public function consultaStockBulk( )
     {
+        StockRepuestos::query()->delete();
         $vericastkkers = DetalleGestionOportunidades::agestionar()->where('tipoServ','R')->get();
         $contador = 0;
         foreach ($vericastkkers as $vericastkker){

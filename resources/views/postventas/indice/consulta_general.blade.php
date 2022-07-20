@@ -43,7 +43,7 @@
             <div class="mb-4">
                 @php($campo = 'search_oportunidades')
                 {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label']) }}
-                {{ Form::select($campo."[]", \App\Models\Postventas\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descServ','codServ'), request($campo),
+                {{ Form::select($campo."[]", \App\Models\Postventas\DetalleGestionOportunidades::daroportunidadeslist()->pluck('descservtotal','codServ'), request($campo),
            ['class' => 'js-select2 form-select form-control col-12', 'style' => 'width:100%', 'data-placeholder' => __('fo.'.$campo),'id' => $campo,'multiple']) }}
             </div>
         </div>

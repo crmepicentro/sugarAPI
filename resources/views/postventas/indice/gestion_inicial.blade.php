@@ -15,7 +15,7 @@
             <th class="d-none d-sm-table-cell" >Fecha Facturación</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Fecha</th>
             <!--<th class="d-none d-sm-table-cell" style="width: 15%;">1er Gestión Estado</th>-->
-            <th style="width: 15%;"><i class="fa fa-play"></i></th>
+            <th><i class="fa fa-play"></i></th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Fecha</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Cita Fecha</th>
             <th class="d-none d-sm-table-cell" style="width: 15%;">Gestión Futura Estado</th>
@@ -55,7 +55,12 @@
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_v2 }}</td>
                 <!--                        <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->primer_gestion_estado_v2 }}</td>-->
                 <td><a href="{{ route('postventa.edita', ['id' => $lista_oportunidade->id_p,'userid'=> Auth::user()->email]) }}" >
-                        <i class="fa fa-play"></i>
+                        @php( $stock = \App\Models\Postventas\Auto::where('id',$lista_oportunidade->id)->first()->stockdeauto )
+                        @if($stock['stock_necesario']-$stock['stock_existente'] <= 0)
+                            <i class="fa fa-circle-play"></i>
+                        @else
+                            <i class="fa fa-circle-half-stroke"></i>
+                        @endif
                     </a>
                 </td>
                 <td class="d-none d-sm-table-cell">{{ $lista_oportunidade->agendado_fecha }}</td>

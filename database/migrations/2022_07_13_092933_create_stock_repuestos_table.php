@@ -17,8 +17,6 @@ class CreateStockRepuestosTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('users_id');
-            $table->unsignedBigInteger('detalle_gestion_oportunidad_id');
-            $table->foreign('detalle_gestion_oportunidad_id','fk_stock_existencias')->references('id')->on('pvt_detalle_gestion_oportunidades');
 
             $table->string('franquicia');
             $table->string('bodega',10);
