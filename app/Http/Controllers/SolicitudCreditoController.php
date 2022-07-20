@@ -7,13 +7,14 @@ use App\Models\SolicitudCredito\ClientePatrimonio;
 use App\Models\SolicitudCredito\ClienteReferencia;
 use App\Models\SolicitudCredito\SolicitudArchivo;
 use App\Models\SolicitudCredito\SolicitudCliente;
+use App\Models\SolicitudCredito\SolicitudCredito;
 use Carbon\Carbon;
 use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class SolicitudCredito extends Controller
+class SolicitudCreditoController extends Controller
 {
     public function create(Request $request)
     {
@@ -25,17 +26,32 @@ class SolicitudCredito extends Controller
             //solicitudCredito
             $solicitud = $this->fillSolicitud($request);
             $solicitud->save();
-        //empresa
-            $empresa = $this->fillEmpresa($request);
-            $empresa_id = $empresa->save();
-        //referencia
-            $referencia = $this->fillReferencia($request);
-            $referencias_id = $referencia->save();
-        //cliente
-            $cliente = $this->fillCliente($request);
-            $cliente->empresa_id = $empresa->id;
-            $cliente->referencias_id = $referencia->id;
-            $cliente->save();
+            if ($tipoPersona == '01') {
+                //empresa
+                $empresa = $this->fillEmpresaNatural($request);
+                $empresa->save();
+                //referencia
+                $referencia = $this->fillReferenciaNatural($request);
+                $referencia->save();
+                //clienteN
+                $cliente = $this->fillClienteNatural($request);
+                $cliente->empresa_id = $empresa->id;
+                $cliente->referencias_id = $referencia->id;
+                $cliente->save();
+            }
+            if ($tipoPersona == '02') {
+                //empresa
+                $empresa = $this->fillEmpresaJuridica($request);
+                $empresa->save();
+                //referencia
+                $referencia = $this->fillReferenciaJuridica($request);
+                $referencia->save();
+                //cliente
+                $cliente = $this->fillClienteJuridica($request);
+                $cliente->empresa_id = $empresa->id;
+                $cliente->referencias_id = $referencia->id;
+                $cliente->save();
+            }
             // patrimonio
             if ($request->patrimonios != null) {
                 foreach ($request->patrimonios as $key => $value) {
@@ -47,7 +63,7 @@ class SolicitudCredito extends Controller
             DB::connection(get_connection())->commit();
             return response()->json([
                 "success" => "Guardado exitoso",
-                "dowmload" => route("dowmload.solicitud.credito",[$compania, $tipoPersona, $solicitud->id_cotizacion])
+                "dowmload" => route("solicitud.file", [strval($solicitud->id_cotizacion), strval($compania), strval($tipoPersona)])
             ], 200);
         } catch (\Exception $e) {
             DB::connection(get_connection())->rollBack();
@@ -58,19 +74,20 @@ class SolicitudCredito extends Controller
     {
         $compania = $request->compania;
         $persona = $request->persona;
-        if ($compania=="01" && $persona=="01") {
+        $solicitud = $request->solicitud;
+        if ($compania=="3" && $persona=="01") {
             $pdf = PDF::loadView("solicitud.cbNatural");
         }
-        if ($compania=="01" && $persona=="02") {
+        if ($compania=="3" && $persona=="02") {
             $pdf = PDF::loadView("solicitud.cbJuridico");
         }
-        if ($compania=="02" && $persona=="01") {
+        if ($compania=="6" && $persona=="01") {
             $pdf = PDF::loadView("solicitud.milNatural");
         }
-        if ($compania=="02" && $persona=="02") {
+        if ($compania=="6" && $persona=="02") {
             $pdf = PDF::loadView("solicitud.milJuridica");
         }
-        return $pdf->stream("solicitud.pdf");
+        return $pdf->stream("solicitud-{$solicitud}.pdf");
     }
 
     public function pdfView()
@@ -162,7 +179,7 @@ class SolicitudCredito extends Controller
         $solicitud->entrada = floatval($res["entrada"]);
         $solicitud->valor_financiar = floatval($res["valorFinanciar"]);
         $solicitud->plazo = intval($res["plazo"]);
-        $solicitud->fecha_solicitud = Carbon::parse($res["fechaSolicitud"]);
+        $solicitud->fecha_solicitud = $res["fechaSolicitud"] != null ? Carbon::parse($res["fechaSolicitud"]) : $res["fechaSolicitud"];
         $solicitud->asesor = $res["asesor"];
         $solicitud->agencia = $res["agencia"];
         $solicitud->cedula_cliente = $request->cliente["cedula"];
