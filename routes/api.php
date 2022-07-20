@@ -64,7 +64,7 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->post('sendEmail', 'App\Http\Controllers\EmailController@sendMeetingAsesor');
     $api->get('pdf/{id}/{compania?}', 'App\Http\Controllers\AvaluosController@pdf')->name('appraisalPDF');
 
-    $api->post('getCreditoDataBook', 'App\Http\Controllers\FieldsCedulaDataBook@dataBook');
+    $api->get('getCreditoDataBook', 'App\Http\Controllers\FieldsCedulaDataBook@dataBook');
 
     $api->get('correo/{id}', 'App\Http\Controllers\AvaluosController@correo');
     $api->get('coordinadores', 'App\Http\Controllers\UsersController@getCoordinadores');
