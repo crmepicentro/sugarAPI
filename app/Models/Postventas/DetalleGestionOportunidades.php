@@ -263,7 +263,8 @@ class DetalleGestionOportunidades extends Model
         if($existe_stock->count() == 0 ){
             $servicios3sdrl =  new Servicios3sController();
             $respstock = $servicios3sdrl->consultaStock($detalleGestionOportunidades->codServ,$detalleGestionOportunidades->franquicia);
-            if($respstock['nomMensaje'] == 'ERROR'){
+
+            if($respstock['nomMensaje'] == 'ERROR' ||  count($respstock['listaStockRepuestos']) ==0){
                 StockRepuestos::create([
                     'users_id'  => auth()->user()->id,
                     'franquicia' => $detalleGestionOportunidades->franquicia,
