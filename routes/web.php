@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthSugarController;
 use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\AvaluosController;
-use App\Http\Controllers\SolicitudCredito\PersonaNaturalController;
+use App\Http\Controllers\SolicitudCreditoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,13 +47,10 @@ Route::middleware([UserAuth::class])->group(function () {
     Route::get('listComercialUsers', [SugarUserBlocked::class, 'listComercialUsers']);
 
 });
-Route::get('solicitudCredito/dowmload/{compania}/{persona}/{idCotizacion}/', [PersonaNaturalController::class , 'pdf'])->name('dowmload.solicitud.credito');
-Route::get('solicitudCredito/file/{idCotizacion}/{nombre}/',function ($idCotizacion, $nombre){
-    $path = storage_path( "app/solicitudes-credito/solicitud-{$idCotizacion}/{$nombre}");
-    return response()->file($path);
-})->name('file.solicitud.credito');
+
+Route::get('solicitudCredito/file/dowmload/{idCotizacion}/{compania}/{persona}/', [SolicitudCreditoController::class , 'pdf'])->name('solicitud.file');
 //temporak
-Route::get('pdf', [PersonaNaturalController::class , 'pdfView'])->name('dowmload.solicitud.credito');
+Route::get('pdf', [SolicitudCreditoController::class , 'pdfView']);
 
 Route::get('cuotaAlcance/file/{nombre}/',function ($nombre){
     $path = storage_path( "app/cuotas-alcance/{$nombre}");
