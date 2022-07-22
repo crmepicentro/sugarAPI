@@ -315,9 +315,6 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
         }
         return response()->json(['message' => 'Error en Borrado'], 404);
     }
-    public function add_oportunidades(Request $request){
-
-    }
     public function buscar_oportunidades_add(Request $request){
         $request_total = $request->all();
         $dato_a_buscars = $this->buscar_oportunidad($request->search_codigos_op);

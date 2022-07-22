@@ -1,20 +1,18 @@
 @php( $script_add = "")
 @php($contador_elementos = 0)
 @if($auto->detalleGestionOportunidadesagestionar->count() > 0)
-    {{ Form::open(['route' => ['postventa.add_oportunidades',['userid'=> Auth::user()->email]] , 'method' => 'POST' , 'id' => 'form_add_oportunidades'.$auto->id]) }}
+    {{ Form::open(['route' => ['postventa.buscar_oportunidades_add',['auto_id' => $auto->id,'userid'=> Auth::user()->email]] , 'method' => 'POST' , 'id' => 'form_add_oportunidades'.$auto->id]) }}
     <div class="mb-4">
         <div class="input-group">
-            {!! Form::button('<i class="fa fa-square-plus me-1"></i> Aumentar', array(
+
+            @php($campo = 'search_codigos_op')
+            {{ Form::text($campo, request($campo), ['class' => "form-control srco_op_$auto->id", 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
+            {!! Form::button('Buscar <i class="fa fa-magnifying-glass-plus"></i>', array(
                                         'type' => 'submit',
                                         'class' => 'btn btn-primary',
                                         'title' => 'Enviar dato',
-                                        'onclick'=>'return confirm("Aumentar Codigo?")'
+                                        'onclick'=>"buscar_opLps3('srco_op_$auto->id');return false"
                                 )) !!}
-            @php($campo = 'search_codigos_op')
-            {{ Form::text($campo, request($campo), ['class' => "form-control srco_op_$auto->id", 'id' => $campo, 'placeholder' => __('fo.'.$campo)]) }}
-            <button type="button" class="btn btn-alt-info" onclick="buscar_opLps3('{{ "srco_op_$auto->id" }}')">
-                Buscar <i class="fa fa-magnifying-glass-plus"></i>
-            </button>
         </div>
     </div>
     {{ Form::close() }}
