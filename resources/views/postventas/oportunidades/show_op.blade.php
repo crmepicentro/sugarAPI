@@ -206,7 +206,20 @@
                         </div>
                     </td>
                     @else
-                        <td colspan="3">Sin Stock</td>
+                        <td colspan="2">Sin Stock</td>
+                        <td>
+                            <div class="row">
+                                {{-- <div class="col-6">
+                                    <button type="button" class="btn btn-sm btn-danger boton{{ $oportunidad->claveunicaprincipal }} perdiot{{$oportunidad->claveunicaprincipal}}" data-auto="{{ $auto->id }}">
+                                        <i class="fa fa-rectangle-xmark"></i>
+                                    </button>
+                                </div>--}}
+                                <div class="col-6 form-check">
+                                    {{ Form::checkbox($oportunidad->claveunicaprincipal64."['perdida']",$oportunidad->claveunicaprincipaljson,false,['class' => "form-check-input boton$oportunidad->claveunicaprincipal perKm",'id' => "id-desistt$oportunidad->claveunicaprincipal"]) }}
+                                </div>
+                                @php( $script_add .= "checkLine('id-desistt$oportunidad->claveunicaprincipal','boton$oportunidad->claveunicaprincipal','.pospont$oportunidad->claveunicaprincipal;.perdiot$oportunidad->claveunicaprincipal','$oportunidad->claveunicaprincipal64',desiste$auto->id,$auto->id);" )
+                            </div>
+                        </td>
                     @endif
 
                 @else
