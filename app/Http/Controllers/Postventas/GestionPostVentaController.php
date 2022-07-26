@@ -140,7 +140,20 @@ class GestionPostVentaController extends Controller
         }
     }
     public function compararOrdenGestionvsSistema(GestionAgendado $gestionAgendado,$consultaApiDetalleCabecera_main ){
-        $consultas = Servicios3sController::consultaApiDetalleCabecera_main($consultaApiDetalleCabecera_main['codAgencia'],$consultaApiDetalleCabecera_main['ordTaller'])['listaOrdenTallerCL'];
+
+        $consutas3s = Servicios3sController::consultaApiDetalleCabecera_main($consultaApiDetalleCabecera_main['codAgencia'],$consultaApiDetalleCabecera_main['ordTaller']);
+        if($consutas3s['nomMensaje'] == "ERROR"){
+            Log::error(print_r([
+                'Mensaje' => 'No hay orden creada por BMS: ',
+                'Datos' => [
+                    'Servicio:' => 'Servicios3sController::consultaApiDetalleCabecera_main',
+                    'codAgencial' => $consultaApiDetalleCabecera_main['codAgencia'],
+                    'codOrdenTaller' => $consultaApiDetalleCabecera_main['ordTaller'],
+                ]
+            ],true));
+            return false;
+        }
+        $consultas = $consutas3s['listaOrdenTallerCL'];
         $copia_detalles = $gestionAgendado->detalleoportunidadcitas->toArray();
         foreach ($copia_detalles as $copia_detalle){
             $ordenes_detalle_del = DetalleGestionOportunidades::where('id',$copia_detalle['id'])->first();
@@ -322,18 +335,24 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
         return view('postventas.buscador.index', compact('request_total','dato_a_buscars','auto_id'));
     }
     public function buscar_oportunidad($dato_a_buscar){
+        //$servis3s = new Servicios3sController();
+        $busqueda = new Servicios3sController();
+        $resultBusqueda = $busqueda->buscarTarea($dato_a_buscar);
+        //dd($resultBusqueda);
+
         $dato_b = StockRepuestos::
             Join((new DetalleGestionOportunidades())->getTable(), function ($join) {
                 $join->on('pvt_detalle_gestion_oportunidades.codServ', '=', 'pvt_stock_repuestos.codigoRepuesto')
                     ->On('pvt_detalle_gestion_oportunidades.franquicia', '=', 'pvt_stock_repuestos.franquicia');
             })->activo()
-            ->selectRaw('descServ,codigoRepuesto,SUM(cantExistencia) AS cantExistencia_total')
+            ->selectRaw('descServ,codigoRepuesto,SUM(cantExistencia) AS cantExistencia_total, "R" as tipo_kjp ,"---" as claseSer_kjp, 23 as precio_kjp')
             ->where('codServ','like',"%$dato_a_buscar%")
             ->orWhere('descServ','like',"%$dato_a_buscar%")
             ->groupBy('descServ')
             ->groupBy('codigoRepuesto')
-            ->get();
-        return $dato_b;
+            ->get()->toArray();
+        //dd($dato_b);
+        return $resultBusqueda+$dato_b;
     }
     public function save_buscar_oportunidades_add(Request $request){
         $request->validate([
@@ -342,6 +361,7 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
             'maximo_a' => 'required|numeric',
             'codServ' => 'required',
             'descServ' => 'required',
+            'tipo_kjp' => 'required',
         ]);
         $request->validate([
             'stock_a_aumentar' => 'required|numeric|max:'.$request->maximo_a,
@@ -366,11 +386,11 @@ where oportunidad_id =]' => $ide_oportunidad_id ] ,true ));
         $s3sdato_detalle['descServ'] = $request->descServ;
         $s3sdato_detalle['cantidad'] = $request->stock_a_aumentar;
 
-        $s3sdato_detalle['tipoCL'] = 'W';
+        $s3sdato_detalle['tipoCL'] = 'NR';
         $s3sdato_detalle['facturado'] = 'N';
 
-        $s3sdato_detalle['tipoServ']  = 'd33' ;
-        $s3sdato_detalle['franquicia'] = 'M';
+        $s3sdato_detalle['tipoServ']  = $request->tipo_kjp ; // es R o M segun servicio
+        $s3sdato_detalle['franquicia'] = 'NR';
         $s3sdato_detalle['cargosCobrar'] = 0;
 
         $s3sdato_detalle['nomAgencia'] = 'WEB_CRM';

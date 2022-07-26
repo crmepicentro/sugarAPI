@@ -27,6 +27,12 @@
                     Codigo
                 </th>
                 <th>
+                    Tipo
+                </th>
+                <th>
+                    $
+                </th>
+                <th>
                     Maximo
                 </th>
                 <th colspan="2">
@@ -39,21 +45,25 @@
                 @php( $unico = uniqid() )
                 {{ Form::open(['route' => ['postventa.save_buscar_oportunidades_add',['uuid'=>$unico,'userid'=> Auth::user()->email]] , 'method' => 'POST' , 'id' => 'form_add_oportunidades'.$unico]) }}
                 <tr>
-                    <td>{{ $dato_a_buscar->descServ }}</td>
-                    <td>{{ $dato_a_buscar->codigoRepuesto }}</td>
-                    <td>{{ $dato_a_buscar->cantExistencia_total }}</td>
+                    <td>{{ $dato_a_buscar["descServ"] }}</td>
+                    <td>{{ $dato_a_buscar["codigoRepuesto"] }}</td>
+                    <td>{{ $dato_a_buscar["tipo_kjp"] }}/{{ $dato_a_buscar["claseSer_kjp"] }}</td>
+                    <td>{{ $dato_a_buscar["precio_kjp"] }}</td>
+                    <td>{{ $dato_a_buscar["cantExistencia_total"] }}</td>
                     <td>
                         @php($campo = 'name[]')
                         {{ Form::hidden($campo, $unico) }}
                         @php($campo = 'maximo_a')
-                        {{ Form::hidden($campo, $dato_a_buscar->cantExistencia_total) }}
+                        {{ Form::hidden($campo, $dato_a_buscar["cantExistencia_total"]) }}
                         @php($campo = 'auto_id')
                         {{ Form::hidden($campo, $auto_id) }}
+                        @php($campo = 'tipo_kjp')
+                        {{ Form::hidden($campo, $dato_a_buscar['tipo_kjp']) }}
 
                         @php($campo = 'codServ')
-                        {{ Form::hidden($campo, $dato_a_buscar->codigoRepuesto) }}
+                        {{ Form::hidden($campo, $dato_a_buscar["codigoRepuesto"]) }}
                         @php($campo = 'descServ')
-                        {{ Form::hidden($campo, $dato_a_buscar->descServ) }}
+                        {{ Form::hidden($campo, $dato_a_buscar["descServ"]) }}
 
                         @php($campo = 'stock_a_aumentar')
                         {{ Form::label($campo, __('fo.'.$campo), ['class' => 'form-label visually-hidden']) }}
@@ -61,7 +71,7 @@
                         'class' => 'form-control',
                         'id' => $campo,
                         'placeholder' => __('fo.'.$campo) ,
-                        'max' => $dato_a_buscar->cantExistencia_total,
+                        'max' => $dato_a_buscar["cantExistencia_total"],
                         'min' => 0,
                         'step' => "0.01",
                         ]) }}

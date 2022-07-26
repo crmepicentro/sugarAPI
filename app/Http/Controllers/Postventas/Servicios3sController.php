@@ -569,4 +569,32 @@ class Servicios3sController extends Controller
         }
         return response()->json(['mensaje' => 'Se ha procesado '.$contador.' datos.' ], 202);
     }
+    public function buscarTarea( $conServiTareas )
+    {
+        $url = config('constants.pv_url_servicio').'/casabacaWebservices/restOrdenTaller/conServiTareas';
+        $getdata = [
+            'idEmpresa'         => config('constants.pv_empresa'),
+            'cadBusqueda'    => $conServiTareas,
+        ];
+        Log::channel('log_consulta_ordenes')->info(print_r( ['url'=>$url, 'getdata' => json_encode($getdata) ] ,true ));
+        $response = Http::withBasicAuth(config('constants.pv_user_servicio'), config('constants.pv_pass_servicio'))->get($url,$getdata);
+        Log::channel('log_consulta_ordenes')->info(print_r( $response->body(),true ));
+        $respuesta = $response->json();
+        if($respuesta['nomMensaje'] == "EXITO"){
+            $respuesta_data = [];
+            foreach ($respuesta['listaServiTareasDisponibles'] as $data){
+                $respuesta_data[] = [
+                    'tipo_kjp' => 'M',
+                    'descServ' => $data['descServ'],
+                    'codigoRepuesto' => $data['codServ'],
+                    'cantExistencia_total' => 100,
+                    'claseSer_kjp' => $data['claseSer'],
+                    'precio_kjp' => $data['precio'],
+                ];
+            }
+            return  $respuesta_data;
+        }else{
+            return [];
+        }
+    }
 }
