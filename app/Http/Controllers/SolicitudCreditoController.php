@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 use App\Models\SolicitudCredito\ClienteEmpresa;
 use App\Models\SolicitudCredito\ClientePatrimonio;
 use App\Models\SolicitudCredito\ClienteReferencia;
@@ -10,9 +14,6 @@ use App\Models\SolicitudCredito\SolicitudCliente;
 use App\Models\SolicitudCredito\SolicitudCredito;
 use Carbon\Carbon;
 use PDF;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class SolicitudCreditoController extends Controller
 {
@@ -21,53 +22,61 @@ class SolicitudCreditoController extends Controller
         $compania = $request->query("compania");
         $tipoPersona = $request->query("persona");
         // return response()->json(["success" => $compania], 200);
+        // try {
+        //     DB::connection(get_connection())->beginTransaction();
+        //     //solicitudCredito
+        //     $solicitud = $this->fillSolicitud($request);
+        //     $solicitud->save();
+        //     if ($tipoPersona == '01') {
+        //         //empresa
+        //         $empresa = $this->fillEmpresaNatural($request);
+        //         $empresa->save();
+        //         //referencia
+        //         $referencia = $this->fillReferenciaNatural($request);
+        //         $referencia->save();
+        //         //clienteN
+        //         $cliente = $this->fillClienteNatural($request);
+        //         $cliente->empresa_id = $empresa->id;
+        //         $cliente->referencias_id = $referencia->id;
+        //         $cliente->save();
+        //     }
+        //     if ($tipoPersona == '02') {
+        //         //empresa
+        //         $empresa = $this->fillEmpresaJuridica($request);
+        //         $empresa->save();
+        //         //referencia
+        //         $referencia = $this->fillReferenciaJuridica($request);
+        //         $referencia->save();
+        //         //cliente
+        //         $cliente = $this->fillClienteJuridica($request);
+        //         $cliente->empresa_id = $empresa->id;
+        //         $cliente->referencias_id = $referencia->id;
+        //         $cliente->save();
+        //     }
+        //     // patrimonio
+        //     if ($request->patrimonios != null) {
+        //         foreach ($request->patrimonios as $key => $value) {
+        //             $patrimonio = $this->fillPatrimonio($value);
+        //             $patrimonio->cliente_id = $cliente->id_cotizacion;
+        //             $patrimonio->save();
+        //         }
+        //     }
+        //     DB::connection(get_connection())->commit();
+        //     return response()->json([
+        //         "success" => "Guardado exitoso",
+        //         "dowmload" => route("solicitud.file", [strval($solicitud->id_cotizacion), strval($compania), strval($tipoPersona)])
+        //     ], 200);
+        // } catch (\Exception $e) {
+        //     DB::connection(get_connection())->rollBack();
+        //     return response()->json(["error" => $e . " - Notifique a SUGAR CRM"], 500);
+        // }
         try {
-            DB::connection(get_connection())->beginTransaction();
-            //solicitudCredito
-            $solicitud = $this->fillSolicitud($request);
-            $solicitud->save();
-            if ($tipoPersona == '01') {
-                //empresa
-                $empresa = $this->fillEmpresaNatural($request);
-                $empresa->save();
-                //referencia
-                $referencia = $this->fillReferenciaNatural($request);
-                $referencia->save();
-                //clienteN
-                $cliente = $this->fillClienteNatural($request);
-                $cliente->empresa_id = $empresa->id;
-                $cliente->referencias_id = $referencia->id;
-                $cliente->save();
-            }
-            if ($tipoPersona == '02') {
-                //empresa
-                $empresa = $this->fillEmpresaJuridica($request);
-                $empresa->save();
-                //referencia
-                $referencia = $this->fillReferenciaJuridica($request);
-                $referencia->save();
-                //cliente
-                $cliente = $this->fillClienteJuridica($request);
-                $cliente->empresa_id = $empresa->id;
-                $cliente->referencias_id = $referencia->id;
-                $cliente->save();
-            }
-            // patrimonio
-            if ($request->patrimonios != null) {
-                foreach ($request->patrimonios as $key => $value) {
-                    $patrimonio = $this->fillPatrimonio($value);
-                    $patrimonio->cliente_id = $cliente->id_cotizacion;
-                    $patrimonio->save();
-                }
-            }
-            DB::connection(get_connection())->commit();
+            $res = $this->conexionProveedor();
             return response()->json([
-                "success" => "Guardado exitoso",
-                "dowmload" => route("solicitud.file", [strval($solicitud->id_cotizacion), strval($compania), strval($tipoPersona)])
+                "success" => $res
             ], 200);
-        } catch (\Exception $e) {
-            DB::connection(get_connection())->rollBack();
-            return response()->json(["error" => $e . " - Notifique a SUGAR CRM"], 500);
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
     public function pdf(Request $request)
@@ -382,5 +391,180 @@ class SolicitudCreditoController extends Controller
         $cliente->gastos_total = $res["gastosTotal"];
         $cliente->persona_tipo = $res["personaTipo"];
         return $cliente;
+    }
+    private function conexionProveedor()
+    {
+        $data = [
+            "tipo_cliente"=> "PERSONA NATURAL",
+            "cotizacion_referencia"=> "11695",
+            "cliente_tipoDocumento"=> "CEDULA",
+            "cliente_documentoIdentificacion"=> "1716562226",
+            "cliente_nombres"=> "MARIA ISABEL",
+            "cliente_apellidos"=> "PAZMI\u00d1O ROSERO",
+            "vehiculo_precioContado"=> "25890.00",
+            "vehiculo_valorEntrada"=> "25890.00",
+            "vehiculo_plazo"=> 0,
+            "variables"=> [
+                "cotizacion_linea"=> "NUEVOS",
+                "concesionario_uid"=> "01",
+                "cotizacion_potencialidad"=> "A",
+                "cotizacion_tipoSolicitante"=> "Deudor",
+                "cotizacion_tipoFinanciacion"=> "FINANMOTROS S.A. CONSORCIO",
+                "cotizacion_fechaSolicitud"=> "2022-04-27",
+                "garantia_vendedorCedula"=> "1720076551",
+                "garantia_vendedorNombres"=> "CRISTIAN GEOVANNY",
+                "garantia_vendedorApellidos"=> "CAYO FARINANGO",
+                "garantia_vendedorCorreo"=> "cgcayo@suzukiecuador.com",
+                "no_cia"=> "SZK DEL ECUADOR S.A.",
+                "cliente_genero"=> "FEMENINO",
+                "cliente_estadoCivil"=> "CASADO\/A",
+                "cliente_nacionalidad"=> "ECUATORIANA",
+                "cliente_fechaNacimiento"=> "1987-12-14",
+                "cliente_provincia"=> "PICHINCHA",
+                "cliente_canton"=> "QUITO",
+                "cliente_parroquia"=> "NAY\u00d3N",
+                "cliente_callePrincipal"=> "LEONARDO TEJADA Y CAMINO ANTIGUO A NAYON",
+                "cliente_tiempoResidenciaAnios"=> "",
+                "cliente_tipoVivienda"=> "PROPIA HIPOTECADA",
+                "cliente_telefonoFijo"=> "021123564",
+                "cliente_cargasFamiliares"=> "0",
+                "cliente_separacionBienes"=> "",
+                "cliente_celular"=> "0968947319",
+                "cliente_email"=> "isabelguerrar@gmail.com",
+                "cliente_nivelInstruccion"=> "",
+                "cliente_origenIngresosProfesion"=> "",
+                "cliente_origenIngresos"=> "",
+                "cotizacion_observacion"=> "",
+                "cliente_TieneDiscapacidad"=> "N",
+                "cliente_origenIngresosLugarTrabajo"=> "INNOVA CONSTRUCTORES ",
+                "cliente_origenIngresosActividadEconomica"=> "Empleado Privado",
+                "cliente_ActEcoDependienteAniosTrabajo"=> "",
+                "cliente_ActEcoDependienteCargo"=> "directora de obra ",
+                "cliente_ActEcoIndependienteDescripcionLineaNegocio"=> "",
+                "cliente_origenIngresosProvincia"=> "PICHINCHA",
+                "cliente_origenIngresosCanton"=> "",
+                "cliente_origenIngresosParroquia"=> "",
+                "cliente_origenIngresosCallePrincipal"=> "QUITO",
+                "cliente_origenIngresosNumeroCasa"=> "",
+                "cliente_origenIngresosTelefono"=> "958735195",
+                "cliente_origenIngresosRelacionLaboral"=> "FIJO",
+                "cliente_origenIngresosTipoLocal"=> "",
+                "cliente_origenIngresosNumeroTrabajadores"=> "0",
+                "cliente_origenIngresosObligadoContabilidad"=> "",
+                "clienteConyugue_documentoIdentificacion"=> "1724263296",
+                "clienteConyugue_apellidos"=> "",
+                "clienteConyugue_nombres"=> "JAIME MIGUEL ANDRADE MI\u00d1O",
+                "clienteConyugue_fechaNacimiento"=> "",
+                "clienteConyugue_origenIngresos"=> "",
+                "clienteConyugue_otrosIngresos"=> "0.00",
+                "clienteConyugue_totalIngresos"=> "1500.00",
+                "clienteConyugue_origenIngresosLugarTrabajo"=> "EMPRESA DISE\u00d1O GRAFICO",
+                "clienteConyugue_ActEcoDependienteCargo"=> "PROPIETARIO DE NEGOCIOS",
+                "clienteConyugue_origenIngresosCallePrincipal"=> "QUITO",
+                "clienteConyugue_origenIngresosActividadEconomica"=> "Empleado Privado",
+                "clienteConyugue_ActEcoDependienteAniosTrabajo"=> "",
+                "clienteConyugue_nacionalidad"=> "ECUATORIANA",
+                "clienteConyugue_origenIngresosProvincia"=> "PICHINCHA",
+                "clienteConyugue_origenIngresosCanton"=> "QUITO",
+                "clienteConyugue_origenIngresosRelacionLaboral"=> "",
+                "clienteConyugue_origenIngresosNumeroCasa"=> "",
+                "clienteConyugue_origenIngresosTelefono"=> "095873579",
+                "vehiculo_marca"=> "SUZUKI",
+                "vehiculo_modelo"=> "VITARA GL PLUS AC 1.6 5P 4X2 TM",
+                "garantia_clase"=> "JEEP",
+                "garantia_subclase"=> "JEEP",
+                "garantia_color"=> "BLANCO",
+                "garantia_motor"=> "NA",
+                "vehiculo_anio"=> "2023",
+                "vehiculo_placa"=> "",
+                "garantia_chasis"=> "",
+                "vehiculo_uso"=> "PARTICULAR",
+                "garantia_vendedorAnterior_nombre1"=> "CRISTIAN GEOVANNY",
+                "garantia_vendedorAnterior_apellidoPaterno"=> "CAYO",
+                "garantia_vendedorAnterior_identificacion"=> "1720076551",
+                "garantia_vendedorAnterior_precio"=> "",
+                "vehiculo_producto"=> "N",
+                "vehiculo_wsAccesorios"=> "267.86",
+                "vehiculo_wsDescuento"=> "0.00",
+                "vehiculo_valor"=> "22848.20",
+                "vehiculo_valorFinanciar"=> "0.00",
+                "vehiculo_cuota"=> "0.00",
+                "cliente_infFinancieraDepSueldoMensual"=> "3000.00",
+                "cliente_infFinancieraDepSueldoConyuge"=> "1500.00",
+                "cliente_infFinancieraDepOtrosIngresos"=> "0.00",
+                "cliente_infFinancieraDepTotalIngresos"=> "3000.00",
+                "cliente_infFinancieraDepGastosFamiliares"=> "300.00",
+                "cliente_infFinancieraDepCuotasTarjetas"=> "0.00",
+                "cliente_infFinancieraDepCuotasPrestamos"=> "0.00",
+                "cliente_infFinancieraDepTotalEgresos"=> "900.00",
+                "cliente_infFinancieraGastosAlquiler"=> "0.00",
+                "cliente_infFinancieraGastosAlimentacion"=> "600.00",
+                "cliente_infFinancieraIndepTotalVentas"=> "3000.00",
+                "cliente_infFinancieraIndepHonorariosProfesionales"=> "0.00",
+                "cliente_infFinancieraIndepOtrosIngresos"=> "0.00",
+                "cliente_infFinancieraIndepTotalIngresos"=> "3000.00",
+                "cliente_infFinancieraIndepGastosFamiliares"=> "900.00",
+                "cliente_infFinancieraIndepOtrosGastos"=> "300.00",
+                "cliente_infFinancieraIndepGastosNegocio"=> "0.00",
+                "cliente_infFinancieraIndepCuotasTarjetas"=> "0.00",
+                "cliente_infFinancieraIndepCuotasPrestamos"=> "0.00",
+                "cliente_infFinancieraIndepTotalEgresos"=> "300.00",
+                "cliente_infFinancieraActEntrada"=> "0.00",
+                "cliente_infFinancieraActInversiones"=> "0.00",
+                "cliente_infFinancieraActInmuebles"=> "0.00",
+                "cliente_infFinancieraActOtrosVehiculos"=> "0.00",
+                "cliente_infFinancieraActTotalInventario"=> "0.00",
+                "cliente_infFinancieraActOtrosActivos"=> "0.00",
+                "cliente_infFinancieraActTotalActivos"=> "200000.00",
+                "cliente_infFinancieraPavPrestamos"=> "0.00",
+                "cliente_infFinancieraPavTarjetasCredito"=> "0.00",
+                "cliente_infFinancieraPavOtrasObligaciones"=> "0.00",
+                "cliente_infFinancieraPavTotalPasivos"=> "25000.00",
+                "cliente_infFinancieraPatrimonio"=> "175000.00",
+                "cliente_infFinancieraOrigenFondo"=> "AHORROS, VENTA DE USADO",
+                "cliente_infFinancieraDestinoFondo"=> "VEH. NUEVOS SUZUKI"
+            ],
+            "bienesVehiculos"=> [],
+            "bienesInmuebles"=> [],
+            "cliente_grdReferenciasPersonales"=> [
+                [
+                    "cliente_referNombre"=> "PAZMI\u00d1O ROSERO MARIA ISABEL PAZMI\u00d1O ROSERO",
+                    "cliente_referTelefono"=> "021223568",
+                    "cliente_referCelular"=> ""
+                ]
+            ],
+            "cliente_grdReferenciasBancarias"=> [
+                [
+                    "cliente_referInstitucionFinanciera"=> "",
+                    "cliente_referTipoCuenta"=> "",
+                    "cliente_referNumeroCuenta"=> ""
+                ]
+            ],
+            "cliente_grdReferenciasTarjetas"=> [
+                [
+                    "cliente_referTarjetaCredito"=> "N\/A",
+                    "cliente_referNumeroTarjeta"=> "N\/A",
+                    "bancoEmisor"=> ""
+                ]
+            ],
+            "cliente_grdReferenciasFamiliares"=> [],
+            "cliente_grdReferenciasComerciales"=> [
+                [
+                    "cliente_referEstablecimiento"=> "",
+                    "ciudadComercial"=> "",
+                    "telefonoComercial"=> ""
+                ]
+            ]
+        ];
+        $response = Http::withOptions([
+            'strict'          => false,
+            'referer'         => false,
+            'protocols'       => ['http', 'https'],
+            'track_redirects' => false,
+            'verify' => false
+        ])
+            ->withToken('Bearer 80|KF4CeMPHuit3vnAqAUd5ODcS8LGDIgj4Mei9f9at')
+            ->post('https://credito.app.epicentro-digital.com/casabaca_test/api/recibirSolicitud', $data);
+        return $response->body();
     }
 }
