@@ -1107,8 +1107,16 @@ class TicketsController extends BaseController
     {
 
         //\DB::connection(get_connection())->beginTransaction();
+        $get_user_auth = $this->obtenercrediales($request);
+        $user_auth = $get_user_auth["auth"];
 
-        $user_auth = Auth::user();
+        if (!$get_user_auth["registrolog"]) {
+            if ($get_user_auth["message"] != null) {
+                return response()->json(["data" => $get_user_auth["message"]])->setStatusCode(200);
+            }
+        }
+
+        //$user_auth = Auth::user();
         $ws_logs = WsLog::storeBefore($request, 'api/landing_ticket');
         try {
             \DB::connection(get_connection())->beginTransaction();
